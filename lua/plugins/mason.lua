@@ -6,7 +6,6 @@ return {
       require("mason").setup()
     end,
   },
-  -- Mason-LSPConfig for managing LSP installations and configurations
   {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
@@ -41,34 +40,85 @@ return {
             },
           })
         end,
+
+        -- Enhanced Clangd configuration for STM32/Embedded Development
+        ["clangd"] = function()
+          local lspconfig = require("lspconfig")
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+          lspconfig.clangd.setup({
+            cmd = { "clangd" },
+            filetypes = { "c", "cpp", "objc", "objcpp" },
+            root_dir = lspconfig.util.root_pattern(
+              "compile_commands.json", -- Preferred for clangd
+              ".git",
+              "Makefile",
+              "compile_flags.txt",
+              ".ccls",
+              ".svn"
+            ),
+            init_options = {
+              client = {
+                snippetSupport = true, -- Enable snippet support
+              },
+              index = {
+                threads = 0, -- Use all available cores
+                onChange = true, -- Re-index on file changes
+              },
+              compilationDatabaseDirectory = "build", -- Override default if necessary
+              diagnostics = {
+                onChange = 50, -- Reduce diagnostics delay
+              },
+            },
+            capabilities = capabilities,
+            on_attach = function(client, bufnr)
+              -- Keymaps for LSP functions
+              vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to Definition" })
+              vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover Documentation" })
+              vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = bufnr, desc = "Rename Symbol" })
+              vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "Code Action" })
+
+              -- Auto-format on save if the server supports it
+              if client.server_capabilities.documentFormattingProvider then
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                  buffer = bufnr,
+                  callback = function()
+                    vim.lsp.buf.format({ async = false })
+                  end,
+                })
+              end
+
+              -- Debugging log
+              print("clangd attached to buffer " .. bufnr)
+
+              -- Optional: Create a .ccls config file for project-specific settings
+              vim.api.nvim_create_user_command('CreateCclsConfig', function()
+                local config = {
+                  clang = {
+                    extraArgs = {
+                      "-I/path/to/your/includes",
+                      "-mcpu=cortex-m4",
+                      "-mthumb",
+                      "/development/toolchains/gcc-linaro-7.4.1-2019.02-x86_64_aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc"
+                    }
+                  }
+                }
+
+                -- Write .ccls file
+                local file = io.open(".ccls", "w")
+                if file then
+                  file:write(vim.fn.json_encode(config))
+                  file:close()
+                  print("Created .ccls config file")
+                else
+                  print("Failed to create .ccls config file")
+                end
+              end, {})
+            end,
+          })
+        end,
       })
     end,
-  },
-  -- Null-LS for formatting and linting
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    config = function()
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          null_ls.builtins.formatting.stylua,
-          null_ls.builtins.diagnostics.shellcheck,
-          null_ls.builtins.formatting.shfmt,
-          null_ls.builtins.formatting.prettier,
-        },
-      })
-    end,
-  },
-  -- Mason-Null-LS for managing Null-LS formatters and linters
-  {
-    "jay-babu/mason-null-ls.nvim",
-    dependencies = { "williamboman/mason.nvim", "jose-elias-alvarez/null-ls.nvim" },
-    config = function()
-      require("mason-null-ls").setup({
-        ensure_installed = { "stylua", "shellcheck", "shfmt", "prettier" },
-        automatic_installation = true,
-      })
-    end,
-  },
+  }
 }
 
