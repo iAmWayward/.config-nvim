@@ -1,5 +1,6 @@
 --tree 
 vim.keymap.set("n", "<leader>o", ":Neotree toggle<CR>", { desc = "Open NvimTree" })
+vim.api.nvim_set_keymap('n', '<leader>gd', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true })
 
 -- telecsope
 
