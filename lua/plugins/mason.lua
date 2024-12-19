@@ -10,18 +10,30 @@ return {
     "williamboman/mason-lspconfig.nvim",
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
-      require("mason-lspconfig").setup({
+      vim.opt.tabstop = 4 -- Number of spaces that a <Tab> in the file counts for
+      vim.opt.shiftwidth = 4
+      vim.opt.expandtab = true
+      vim.opt.softtabstop = 4 -- Number of spaces that a <Tab> in the file counts for
+	require("mason-lspconfig").setup({
         ensure_installed = {
           "clangd", "lua_ls", "pyright", "bashls", "tailwindcss", "html",
           "eslint", "vimls",
         },
       })
 
-      -- Use setup_handlers for streamlined LSP setup
       require("mason-lspconfig").setup_handlers({
         -- Default handler for servers with no specific configuration
         function(server_name)
-          require("lspconfig")[server_name].setup({})
+          require("lspconfig")[server_name].setup({
+            settings = {
+              -- Disable formatting on save for all LSP servers by default
+              ["*"] = {
+                format = {
+                  enable = false
+                }
+              }
+            }
+          })
         end,
 
         -- Custom configurations for specific servers
@@ -72,6 +84,8 @@ return {
             },
             capabilities = capabilities,
             on_attach = function(client, bufnr)
+              client.server_capabilities.documentFormattingProvider = false
+
               -- Keymaps for LSP functions
               vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = bufnr, desc = "Go to Definition" })
               vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Hover Documentation" })
