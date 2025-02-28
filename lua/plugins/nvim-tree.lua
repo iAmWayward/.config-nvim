@@ -33,6 +33,7 @@ return {
       popup_border_style = "rounded",
       enable_git_status = true,
       enable_diagnostics = false,
+      shared_tree_across_tabs = true,
       default_component_configs = {
         indent = {
           indent_size = 2,
@@ -58,7 +59,7 @@ return {
       window = {
         mappings = {
           ["<cr>"] = "open", -- Focus the file
-          ["<Space>"] = "toggle_preview",--"open_split", --toggle_preview Show file without focusing
+          ["<Space>"] = "toggle_preview", --["<A-j>"] = "toggle_preview",--"open_split", --toggle_preview Show file without focusing
           ["l"] = "open",
           ["C"] = "close_node",
         },
@@ -72,12 +73,41 @@ return {
       },
     })
 
-    -- Keybindings
-    vim.api.nvim_set_keymap("n", "<leader><Space>", ":Neotree toggle current<cr>", { noremap = true, silent = true }) -- reveal_force_cwd
-    vim.api.nvim_set_keymap("n", "|", ":Neotree reveal<cr>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "gd", ":Neotree float reveal_file=<cfile> reveal_force_cwd<cr>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>b", ":Neotree toggle show buffers right<cr>", { noremap = true, silent = true })
-    vim.api.nvim_set_keymap("n", "<leader>s", ":Neotree float git_status<cr>", { noremap = true, silent = true })
-  end,
+-- Keybindings
+vim.keymap.set("n", "<leader><Space>", "<cmd>Neotree toggle current<cr>", {
+  desc = "Toggle Neo-tree (current)",
+  silent = true,
+})
+
+vim.keymap.set("n", "T", "<cmd>Neotree open_tab_drop<cr>", {
+  desc = "Open a new tab without focusing it.",
+  silent = true,
+})
+
+vim.keymap.set("n", "|", "<cmd>Neotree reveal<cr>", {
+  desc = "Reveal file in Neo-tree",
+  silent = true,
+})
+
+vim.keymap.set("n", "gd", "<cmd>Neotree float reveal_file=<cfile> reveal_force_cwd<cr>", {
+  desc = "Reveal file in floating Neo-tree (force cwd)",
+  silent = true,
+})
+
+vim.keymap.set("n", "<leader>b", "<cmd>Neotree toggle show buffers right<cr>", {
+  desc = "Toggle buffer list in Neo-tree (right)",
+  silent = true,
+})
+
+vim.keymap.set("n", "<leader>s", "<cmd>Neotree float git_status<cr>", {
+  desc = "Open git status in floating Neo-tree",
+  silent = true,
+})
+
+vim.keymap.set("n", "<leader>o", "<cmd>Neotree toggle<cr>", {
+  desc = "Toggle Neo-tree (filesystem)",
+  silent = true,
+})
+end,
 }
 

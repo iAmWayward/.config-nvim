@@ -48,7 +48,7 @@ return {
       disable = {},  -- optional, list of language that will be disabled
     -- [options]
   },
-      highlight = { enable = true, additional_vim_regex_highlighting = false },
+      highlight = { enable = true, additional_vim_regex_highlighting = false }, -- default vim highlight. Disable it in treesitter and enable it here if it's buggy.
       highlight_definitions = { enable = true },
       indent = { enable = false },
       incremental_selection = { enable = true },
