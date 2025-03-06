@@ -62,6 +62,8 @@ return {
           ["<Space>"] = "toggle_preview", --["<A-j>"] = "toggle_preview",--"open_split", --toggle_preview Show file without focusing
           ["l"] = "open",
           ["C"] = "close_node",
+          ["t"] = "open_tab_drop",
+          ["T"] = "open_tab_stay"
         },
       },
       filesystem = {
@@ -71,6 +73,12 @@ return {
 	},
         hijack_netrw_behavior = "open_default",
       },
+     commands = {
+        open_tab_stay = function(state)
+            require("neo-tree.sources.filesystem.commands").open_tabnew(state)
+            vim.cmd("wincmd p") -- Return to previous window
+        end,
+     },
     })
 
 -- Keybindings
@@ -79,10 +87,6 @@ vim.keymap.set("n", "<leader><Space>", "<cmd>Neotree toggle current<cr>", {
   silent = true,
 })
 
-vim.keymap.set("n", "T", "<cmd>Neotree open_tab_drop<cr>", {
-  desc = "Open a new tab without focusing it.",
-  silent = true,
-})
 
 vim.keymap.set("n", "|", "<cmd>Neotree reveal<cr>", {
   desc = "Reveal file in Neo-tree",
