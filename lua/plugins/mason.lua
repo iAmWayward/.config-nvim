@@ -24,7 +24,9 @@ return {
       require("mason-lspconfig").setup_handlers({
         -- Default handler for servers with no specific configuration
         function(server_name)
+          local capabilities = require("cmp_nvim_lsp").default_capabilities()
           require("lspconfig")[server_name].setup({
+            capabilities = capabilities,
             settings = {
               -- Disable formatting on save for all LSP servers by default
               ["*"] = {
