@@ -26,8 +26,6 @@ vim.cmd [[
 
 vim.opt.termguicolors = true
 
-vim.keymap.set('n', '<leader>PageUp', '<cmd>tabnext<CR>', { desc = 'Next tab', silent = true })
-vim.keymap.set('n', '<leader>PageDown', '<cmd>tabprevious<CR>', { desc = 'Previous tab', silent = true })
 --[[ require("bufferline").setup{} ]]
 
 
