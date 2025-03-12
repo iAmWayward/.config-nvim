@@ -7,20 +7,6 @@ local M = {}
 -- Set up base keybinds
 function M.set_base()
     -- nvim Telescope Keybinds (file/text finder)
-    vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = "Find Files" })
-    vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = "Live Grep" })
-    vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = "Find Buffers" })
-    vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = "Help Tags" })
-
-    -- File Tree Keybindings
-    vim.keymap.set("n", "<leader>o", ":Neotree toggle current reveal_force_cwd<CR>", { desc = "Open NvimTree" })
-
-    vim.keymap.set("n", "<leader><Space>", "<cmd>Neotree toggle current<cr>", {
-        desc = "Toggle Neo-tree (current)",
-        silent = true,
-    })
-
-
     vim.keymap.set("n", "|", "<cmd>Neotree reveal<cr>", {
         desc = "Reveal file in Neo-tree",
         silent = true,
@@ -31,7 +17,7 @@ function M.set_base()
         silent = true,
     })
 
-    vim.keymap.set("n", "<leader>b", "<cmd>Neotree toggle show buffers right<cr>", {
+    vim.keymap.set("n", "<leader>B", "<cmd>Neotree toggle show buffers right<cr>", {
         desc = "Toggle buffer list in Neo-tree (right)",
         silent = true,
     })
@@ -52,6 +38,7 @@ function M.set_base()
     vim.keymap.set('n', '<M-PageDown>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer', silent = true })
     vim.keymap.set('n', '<leader>q', '<cmd>bp|bd #<CR>', { desc = 'Close current buffer', silent = true })
     --[[ vim.keymap.set('n', '<leader>q', '<cmd>bd<CR>', { desc = 'Close current buffer', silent = true }) ]]
+    --[[ vim.keymap.set("n", "<leader>", "toggle_preview", { desc = "test one" }) ]]
 end
 
 function M.telescope_setup()
@@ -62,25 +49,30 @@ function M.telescope_setup()
     vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = "Help Tags" })
 end
 
-function M.tree_setup(bufnr)
-    local map = function(mode, lhs, rhs, desc)
-        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
-    end
-
-    -- Define Neo-tree specific mappings
-    map("n", "<CR>", "open", "Open File")
-    map("n", "<Space>", "toggle_preview", "Toggle Preview")
-    map("n", "l", "open", "Expand Folder")
-    map("n", "C", "close_node", "Close Folder")
-    map("n", "t", "open_tab_drop", "Open in Tab (Drop)")
-    map("n", "T", "open_tab_stay", "Open in Tab (Stay)")
+function M.get_tree_mappings()
+    return {
+        ["<CR>"] = "open",
+        ["p"] = "toggle_preview",
+        ["<leader><space>"] = "toggle_preview",
+        ["l"] = "open",
+        ["C"] = "close_node",
+        ["t"] = "open_tab_drop",
+        ["T"] = "open_tab_stay",
+    }
 end
 
-function M.debugger_setup()
-    vim.keymap.set('n', '<M-PageUp>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer', silent = true })
-    vim.keymap.set('n', '<M-PageDown>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer', silent = true })
-    vim.keymap.set('n', '<leader>q', '<cmd>bp|bd #<CR>', { desc = 'Close current buffer', silent = true })
-    --[[ vim.keymap.set('n', '<leader>q', '<cmd>bd<CR>', { desc = 'Close current buffer', silent = true }) ]]
+function M.debugger_setup(dap)
+    -- Use the passed dap instance instead of requiring it
+    vim.keymap.set("n", "<F5>", dap.continue, { desc = "Start/Continue Debugging" })
+    vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Step Over" })
+    vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Step Into" })
+    vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Step Out" })
+    vim.keymap.set("n", "<Leader>b", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
+    vim.keymap.set("n", "<Leader>B", function()
+        dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+    end, { desc = "Set Conditional Breakpoint" })
+    vim.keymap.set("n", "<Leader>dr", dap.repl.open, { desc = "Open REPL" })
+    vim.keymap.set("n", "<Leader>dl", dap.run_last, { desc = "Run Last Debug Session" })
 end
 
 -- Special setup required for LSP bindings.

@@ -23,12 +23,12 @@ return {
         },
     },
     config = function()
-        vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-        vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-        vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+        vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+        vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+        vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
         vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
-        local keymaps = require("config.keymaps")
 
+        -- Don't call tree_setup here, it will be called in the event handler
         require("neo-tree").setup({
             close_if_last_window = true,
             popup_border_style = "rounded",
@@ -39,26 +39,26 @@ return {
                 indent = {
                     indent_size = 2,
                     with_markers = true,
-                    expander_collapsed = "",
-                    expander_expanded = "",
+                    expander_collapsed = "",
+                    expander_expanded = "",
                 },
                 icon = {
-                    folder_closed = "",
-                    folder_open = "",
+                    folder_closed = "",
+                    folder_open = "",
                     folder_empty = "󰜌",
                     default = "*",
                 },
                 git_status = {
                     symbols = {
                         added = "✚",
-                        modified = "",
+                        modified = "",
                         deleted = "✖",
                         renamed = "󰁕",
                     },
                 },
             },
             window = {
-                mappings = {},
+                mappings = require("config.keymaps").get_tree_mappings(),
             },
             filesystem = {
                 follow_current_file = {
@@ -73,14 +73,6 @@ return {
                     vim.cmd("wincmd p") -- Return to previous window
                 end,
             },
-            event_handlers = {
-                {
-                    event = "neo_tree_buffer_enter",
-                    handler = function(args)
-                        keymaps.tree_setup(args.buf) -- Apply keymaps when Neo-tree opens
-                    end
-                }
-            }
         })
     end,
 }

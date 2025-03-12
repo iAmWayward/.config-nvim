@@ -5,7 +5,6 @@ require("config.lazy")
 require("config.keymaps").set_base()
 require("config.keymaps").mason_setup()
 require("config.keymaps").telescope_setup()
-require("config.keymaps").debugger_setup()
 
 
 vim.cmd [[

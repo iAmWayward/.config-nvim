@@ -13,6 +13,7 @@ return {
                     local dap = require("dap")
                     local dapui = require("dapui")
 
+
                     -- Setup dapui
                     dapui.setup()
 
@@ -42,9 +43,7 @@ return {
         },
         config = function()
             local dap = require("dap")
-
-            -- Keybindings for DAP
-            require("config.keymaps").debugger_setup() -- Load keymaps from config/keymaps.lua
+            require("config.keymaps").debugger_setup(dap)
 
             -- Example Adapter for gdb (adjust for embedded development)
             dap.adapters.gdb = {
