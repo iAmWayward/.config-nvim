@@ -93,7 +93,7 @@ vim.keymap.set("n", "|", "<cmd>Neotree reveal<cr>", {
   silent = true,
 })
 
-vim.keymap.set("n", "gd", "<cmd>Neotree float reveal_file=<cfile> reveal_force_cwd<cr>", {
+vim.keymap.set("n", "rf", "<cmd>Neotree float reveal_file=<cfile> reveal_force_cwd<cr>", {
   desc = "Reveal file in floating Neo-tree (force cwd)",
   silent = true,
 })

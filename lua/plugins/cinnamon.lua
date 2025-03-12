@@ -11,7 +11,7 @@ return {
         options = {
             mode = "window",
             easing = "quadratic",
-            -- duration_multiplier = .75,
+            duration_multiplier = .75,
         },
     },
     -- change default options here
