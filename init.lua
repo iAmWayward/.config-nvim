@@ -8,7 +8,7 @@ require("config.keymaps").telescope_setup()
 
 
 vim.cmd [[
-  colorscheme tokyonight-night
+  " colorscheme tokyonight-night
   hi Normal guibg=NONE
   hi SignColumn guibg=NONE
   hi FloatBorder guibg=NONE
