@@ -1,17 +1,12 @@
 --tree
-vim.keymap.set("n", "<leader>o", ":Neotree toggle current reveal_force_cwd<CR>", { desc = "Open NvimTree" })
 
--- telecsope
-
-
--- Set leader keys
 
 require("config.lazy")
+require("config.keymaps").set_base()
+require("config.keymaps").mason_setup()
+require("config.keymaps").telescope_setup()
+require("config.keymaps").debugger_setup()
 
-vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = "Find Files" })
-vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = "Live Grep" })
-vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = "Find Buffers" })
-vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = "Help Tags" })
 
 vim.cmd [[
   colorscheme tokyonight-night
