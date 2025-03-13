@@ -25,9 +25,9 @@ return {
         {
           name = "Gruvbox Dark",
           colorscheme = "gruvbox",
-          before = [[
+          before = [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
   ]],
-          after = [[
+          after = [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
           ]],
         },
         {
@@ -35,8 +35,11 @@ return {
           colorscheme = "catppuccin",
           opts = { transparent_background = true }, -- This should be fine
           before = [[
-            vim.g.catppuccin_transparent = true
+            require("catppuccin").setup({
+              transparent_background = true,
+            })
           ]],
+          after = [[vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })]],
         },
         {
           name = "Ayu",
@@ -48,6 +51,7 @@ return {
               vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
               vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
               vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
+              vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
           ]],
         },
       },
