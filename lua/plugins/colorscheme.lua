@@ -45,7 +45,7 @@ return {
           }
         end,
       })
-      vim.cmd("colorscheme ayu")
+      --[[ vim.cmd("colorscheme ayu") ]]
     end,
   },
   {
@@ -94,7 +94,7 @@ return {
             information = { "undercurl" },
           },
         },
-        navic = { enabled = true, custom_bg = "lualine" },
+        navic = { enabled = true, custom_bg = "NONE" }, -- lualine
         neotest = true,
         neotree = true,
         noice = true,
@@ -108,7 +108,7 @@ return {
       },
     },
     config = function()
-      vim.cmd("colorscheme catppuccin")
+      --[[ vim.cmd("colorscheme catppuccin") ]]
     end,
     specs = {
       {
@@ -148,8 +148,11 @@ return {
       require("lualine").setup({
         options = {
           theme = "auto",
-          component_separators = "",
-          section_separators = "",
+          component_separators = { left = "", right = "" },
+          section_separators = { left = "", right = "" },
+          disabled_filetypes = {},
+          always_divide_middle = true,
+          globalstatus = true,
         },
       })
     end,
