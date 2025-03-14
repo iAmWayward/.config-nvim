@@ -36,18 +36,21 @@ return {
   },
   config = function()
     require('nvim-treesitter.configs').setup({
-      ensure_installed = { 
-        "git_config", "gitcommit", "gitignore", "git_rebase", "gitattributes", 
-        "cpp", "c", "make", "python", "lua", "luadoc", "html", "css", "rust", 
-        "bash", "cmake", "comment", "csv", "desktop", "dockerfile", "doxygen", 
-        "fish", "editorconfig", "markdown", "markdown_inline", "ssh_config", 
-        "tsx", "typescript", "javascript", "ini", "vim", "xml", "yaml", "http", "jsdoc" 
+      ensure_installed = {
+        "git_config", "gitcommit", "gitignore", "git_rebase", "gitattributes",
+        "cpp", "c", "make", "python", "lua", "luadoc", "html", "css", "rust",
+        "bash", "cmake", "comment", "csv", "desktop", "dockerfile", "doxygen",
+        "fish", "editorconfig", "markdown", "markdown_inline", "ssh_config",
+        "tsx", "typescript", "javascript", "ini", "vim", "xml", "yaml", "http", "jsdoc"
       },
+      sync_install = false,
+      auto_install = true,
+      ignore_install = {},
+      modules = {},
       matchup = {
-      enable = true,              -- mandatory, false will disable the whole extension
-      disable = {},  -- optional, list of language that will be disabled
-    -- [options]
-  },
+        enable = true,                                                          -- mandatory, false will disable the whole extension
+        disable = {},                                                           -- optional, list of language that will be disabled
+      },
       highlight = { enable = true, additional_vim_regex_highlighting = false }, -- default vim highlight. Disable it in treesitter and enable it here if it's buggy.
       highlight_definitions = { enable = true },
       indent = { enable = false },
@@ -67,4 +70,3 @@ return {
     }
   end
 }
-
