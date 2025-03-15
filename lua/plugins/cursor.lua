@@ -2,17 +2,32 @@ return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   lazy = false,
-  version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+  version = false,                        -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
   opts = {
-    -- add any opts here
-    -- for example
-    provider = "openai",
-    openai = {
-      endpoint = "https://api.openai.com/v1",
-      model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-      timeout = 30000, -- timeout in milliseconds
-      temperature = 0, -- adjust if needed
-      max_tokens = 4096,
+    provider = "ollama",                  -- Set the default provider here
+    ollama = {
+      endpoint = "http://10.0.194:11434", -- Note that there is no /v1 at the end.
+      model = "gemma2:27b",
+    },
+    --[[ model = "llama3.3", ]]
+    vendors = {
+      --[[ openai = { ]]
+      --[[   endpoint = "https://api.openai.com/v1/chat/completions", ]]
+      --[[   model = "gpt-4o",                -- Specify your desired OpenAI model ]]
+      --[[   api_key_name = "OPENAI_API_KEY", -- Environment variable for OpenAI API key ]]
+      --[[   parse_curl_args = function(opts, code_opts) ]]
+      --[[      ]]
+      --[[     -- Function to parse cURL arguments for OpenAI ]]
+      --[[   end, ]]
+      --[[ }, ]]
+      --[[ ollama = { ]]
+      --[[   endpoint = "http://localhost:11434/", ]]
+      --[[   model = "deepseek-r1:32b",       -- Specify your desired Ollama model ]]
+      --[[   api_key_name = "OLLAMA_API_KEY", -- Environment variable for Ollama API key ]]
+      --[[ parse_curl_args = function(opts, code_opts) ]]
+      --[[   -- Function to parse cURL arguments for Ollama ]]
+      --[[ end, ]]
+      --[[ }, ]]
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -22,13 +37,14 @@ return {
     "stevearc/dressing.nvim",
     "nvim-lua/plenary.nvim",
     "MunifTanjim/nui.nvim",
+    "nvim-treesitter/nvim-treesitter",
     --- The below dependencies are optional,
-    "echasnovski/mini.pick", -- for file_selector provider mini.pick
+    "echasnovski/mini.pick",         -- for file_selector provider mini.pick
     "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-    "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-    "ibhagwan/fzf-lua", -- for file_selector provider fzf
-    "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-    "zbirenbaum/copilot.lua", -- for providers='copilot'
+    "hrsh7th/nvim-cmp",              -- autocompletion for avante commands and mentions
+    "ibhagwan/fzf-lua",              -- for file_selector provider fzf
+    "nvim-tree/nvim-web-devicons",   -- or echasnovski/mini.icons
+    "zbirenbaum/copilot.lua",        -- for providers='copilot'
     {
       -- support for image pasting
       "HakonHarnes/img-clip.nvim",

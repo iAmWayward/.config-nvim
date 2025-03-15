@@ -2,6 +2,7 @@ return {
   'akinsho/bufferline.nvim',
   version = "*",
   dependencies = 'nvim-tree/nvim-web-devicons',
+  --[[ 'nvim-neo-tree/neo-tree.nvim', ]]
   config = function()
     local function get_bufferline_highlights()
       local colorscheme = vim.g.colors_name or ""
