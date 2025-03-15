@@ -1,26 +1,30 @@
 return {
+	-- Mason for package management
 	{
 		"williamboman/mason.nvim",
 		config = function()
 			require("mason").setup()
 		end,
 	},
+
+	-- Mason LSP setup
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
 		config = function()
-			-- Set up capabilities with nvim-cmp
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-			-- Common on_attach function for all LSP servers
+			-- Unified on_attach function
 			local on_attach = function(client, bufnr)
-				require("config.keymaps").mason_setup(bufnr) -- Load keymaps from config/keymaps.lua
+				require("config.keymaps").mason_setup(bufnr)
 
-				-- Auto-format on save if supported
 				if client.supports_method("textDocument/formatting") then
+					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = augroup,
 						buffer = bufnr,
-						callback = function() vim.lsp.buf.format { async = false } end
+						callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
 					})
 				end
 			end
@@ -61,37 +65,36 @@ return {
 						},
 					})
 				end,
+			})
+		end,
+	},
 
-				["ts_ls"] = function()
-					require("lspconfig").ts_ls.setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = {
-							typescript = {
-								updateImportsOnFileMove = { enabled = "always" },
-								suggest = {
-									completeFunctionCalls = true,
-								},
-								vtsls = {
-									enableMoveToFileCodeAction = true,
-									autoUseWorkspaceTsdk = true,
-									experimental = {
-										completion = {
-											enableServerSideFuzzyMatch = true,
-										},
-									},
-								},
-								inlayHints = {
-									includeInlayParameterNameHints = "all",
-									includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-									includeInlayFunctionParameterTypeHints = true,
-									includeInlayVariableTypeHints = true,
-									includeInlayPropertyDeclarationTypeHints = true,
-									includeInlayFunctionLikeReturnTypeHints = true,
-								},
-							},
-						},
-					})
+	-- None-LS (null-ls) for formatting
+	{
+		"jay-babu/mason-null-ls.nvim",
+		dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
+		config = function()
+			require("mason-null-ls").setup({
+				ensure_installed = { "prettierd" }, -- Install Prettierd via Mason
+				automatic_installation = true,
+			})
+
+			local null_ls = require("null-ls")
+			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+			null_ls.setup({
+				sources = {
+					null_ls.builtins.formatting.prettierd,
+				},
+				on_attach = function(client, bufnr)
+					if client.supports_method("textDocument/formatting") then
+						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = augroup,
+							buffer = bufnr,
+							callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
+						})
+					end
 				end,
 			})
 		end,
