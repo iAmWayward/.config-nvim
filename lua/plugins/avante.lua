@@ -11,23 +11,14 @@ return {
     },
     --[[ model = "llama3.3", ]]
     vendors = {
-      --[[ openai = { ]]
-      --[[   endpoint = "https://api.openai.com/v1/chat/completions", ]]
-      --[[   model = "gpt-4o",                -- Specify your desired OpenAI model ]]
-      --[[   api_key_name = "OPENAI_API_KEY", -- Environment variable for OpenAI API key ]]
-      --[[   parse_curl_args = function(opts, code_opts) ]]
-      --[[      ]]
-      --[[     -- Function to parse cURL arguments for OpenAI ]]
-      --[[   end, ]]
-      --[[ }, ]]
-      --[[ ollama = { ]]
-      --[[   endpoint = "http://localhost:11434/", ]]
-      --[[   model = "deepseek-r1:32b",       -- Specify your desired Ollama model ]]
-      --[[   api_key_name = "OLLAMA_API_KEY", -- Environment variable for Ollama API key ]]
-      --[[ parse_curl_args = function(opts, code_opts) ]]
-      --[[   -- Function to parse cURL arguments for Ollama ]]
-      --[[ end, ]]
-      --[[ }, ]]
+      openai = {
+        endpoint = "https://api.openai.com/v1/chat/completions",
+        model = "gpt-4o",                -- Specify your desired OpenAI model
+        api_key_name = "OPENAI_API_KEY", -- Environment variable for OpenAI API key
+        parse_curl_args = function()
+          -- Function to parse cURL arguments for OpenAI
+        end,
+      },
     },
   },
   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
@@ -63,7 +54,6 @@ return {
       },
     },
     {
-      -- Make sure to set this up properly if you have lazy=true
       'MeanderingProgrammer/render-markdown.nvim',
       opts = {
         file_types = { "markdown", "Avante" },

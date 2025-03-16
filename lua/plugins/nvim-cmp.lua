@@ -2,16 +2,17 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp", -- LSP completion
-      "hrsh7th/cmp-buffer",   -- Buffer completion
-      "hrsh7th/cmp-path",     -- Path completion
-      "hrsh7th/cmp-cmdline",  -- Command-line completion
-      "L3MON4D3/LuaSnip",     -- Snippets
+      "hrsh7th/cmp-nvim-lsp",     -- LSP completion
+      "hrsh7th/cmp-buffer",       -- Buffer completion
+      "hrsh7th/cmp-path",         -- Path completion
+      "hrsh7th/cmp-cmdline",      -- Command-line completion
+      "L3MON4D3/LuaSnip",         -- Snippets
       "saadparwaiz1/cmp_luasnip", -- LuaSnip completion source
-      "onsails/lspkind.nvim", -- VS Code-like pictograms
+      "onsails/lspkind.nvim",     -- VS Code-like pictograms
     },
     config = function()
       local cmp = require("cmp")
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
       local luasnip = require("luasnip")
       local lspkind = require("lspkind") -- Icon support
 
@@ -38,8 +39,8 @@ return {
         }),
         formatting = {
           format = lspkind.cmp_format({
-            mode = "symbol_text", -- Show text alongside symbols
-            maxwidth = 50,        -- Truncate entries
+            mode = "symbol_text",  -- Show text alongside symbols
+            maxwidth = 50,         -- Truncate entries
             ellipsis_char = "...", -- Ellipsis for long entries
           }),
         },
@@ -65,9 +66,12 @@ return {
         }),
       })
 
+      cmp.event:on(
+        'confirm_done',
+        cmp_autopairs.on_confirm_done()
+      )
       -- Load VSCode-style snippets
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
 }
-

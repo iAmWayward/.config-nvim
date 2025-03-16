@@ -10,8 +10,8 @@ return {
             local U = require("Comment.utils")
             local ts_utils = require("ts_context_commentstring.utils")
             local ts_internal = require("ts_context_commentstring.internal")
-
             local location = nil
+
             if ctx.ctype == U.ctype.block then
               location = ts_utils.get_cursor_location()
             elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
@@ -20,7 +20,7 @@ return {
 
             return ts_internal.calculate_commentstring({
               key = ctx.ctype == U.ctype.line and "__default" or "__multiline",
-              location = location,
+              location = ts_utils.get_visual_start_location() or { 0, 0 }
             })
           end,
         })
@@ -55,8 +55,27 @@ return {
       highlight_definitions = { enable = true },
       indent = { enable = false },
       incremental_selection = { enable = true },
+      autotag = { enable = true }, -- Enable auto-tagging for HTML, JSX, etc.
+      rainbow = { enable = true }, -- Enable rainbow delimiters
     })
   end,
+
+  require('nvim-ts-autotag').setup({
+    opts = {
+      -- Defaults
+      enable_close = true,         -- Auto close tags
+      enable_rename = true,        -- Auto rename pairs of tags
+      enable_close_on_slash = true -- Auto close on trailing </
+    },
+    -- Also override individual filetype configs, these take priority.
+    -- Empty by default, useful if one of the "opts" global settings
+    -- doesn't work well in a specific filetype
+    per_filetype = {
+      --[[ ["html"] = { ]]
+      --[[   enable_close = false ]]
+      --[[ } ]]
+    }
+  }),
 
   init = function()
     local rainbow_delimiters = require 'rainbow-delimiters'

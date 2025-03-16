@@ -2,7 +2,7 @@
 require("config.lazy")
 require("config.keymaps").set_base()
 require("config.keymaps").mason_setup()
---[[ require("config.keymaps").telescope_setup() ]]
+require("config.keymaps").telescope_setup()
 
 vim.defer_fn(function()
   vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
