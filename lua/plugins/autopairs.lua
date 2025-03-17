@@ -46,5 +46,24 @@ return {
     config = function()
       require("nvim-ts-autotag").setup()
     end,
+  },
+  {
+    "hat0uma/doxygen-previewer.nvim",
+    opts = {},
+    dependencies = { "hat0uma/prelive.nvim" },
+    update_on_save = true,
+    cmd = {
+      "DoxygenOpen",
+      "DoxygenUpdate",
+      "DoxygenStop",
+      "DoxygenLog",
+      "DoxygenTempDoxyfileOpen"
+    },
+  },
+  {
+    "shortcuts/no-neck-pain.nvim",
+    version = "*"
   }
 }
+
+-- https://github.com/hat0uma/prelive.nvim#Configuration

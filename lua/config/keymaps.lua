@@ -11,6 +11,26 @@ function M.set_base()
     silent = true,
   })
 
+  vim.keymap.set("n", "<leader>nnp", "<cmd>NoNeckPain<cr>", {
+    desc = "Toggle No Neck Pain",
+    silent = true,
+  })
+
+  vim.keymap.set("n", "<leader>nwu", "<cmd>NoNeckPainWidthUp<cr>", {
+    desc = "Increase No Neck Pain Width",
+    silent = true,
+  })
+
+  vim.keymap.set("n", "<leader>nwd", "<cmd>NoNeckPainWidthDown<cr>", {
+    desc = "Decrease No Neck Pain Width",
+    silent = true,
+  })
+
+  vim.keymap.set("n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", {
+    desc = "Increase No Neck Pain Width",
+    silent = true,
+  })
+
   vim.keymap.set("n", "<Leader>nf", function()
     require("neogen").generate({ type = "func" })
   end, { noremap = true, silent = true, desc = "Generate function doc" })
