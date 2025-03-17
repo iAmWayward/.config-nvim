@@ -212,51 +212,51 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
             },
           },
         },
-      },
-      strategies = {
-        chat = {
-          adapter = "copilot",
-          roles = {
-            user = "olimorris",
-          },
-          keymaps = {
-            send = {
-              modes = {
-                i = { "<C-CR>", "<C-s>" },
-              },
+        -- },
+        strategies = {
+          chat = {
+            adapter = "copilot",
+            roles = {
+              user = "olimorris",
             },
-            completion = {
-              modes = {
-                i = "<C-x>",
+            keymaps = {
+              send = {
+                modes = {
+                  i = { "<C-CR>", "<C-s>" },
+                },
               },
-            },
-          },
-          slash_commands = {
-            ["buffer"] = {
-              opts = {
-                provider = "snacks",
-                keymaps = {
-                  modes = {
-                    i = "<C-b>",
-                  },
+              completion = {
+                modes = {
+                  i = "<C-x>",
                 },
               },
             },
-            ["help"] = {
-              opts = {
-                provider = "snacks",
-                max_lines = 1000,
+            slash_commands = {
+              ["buffer"] = {
+                opts = {
+                  provider = "snacks",
+                  keymaps = {
+                    modes = {
+                      i = "<C-b>",
+                    },
+                  },
+                },
               },
-            },
-            ["file"] = {
-              opts = {
-                provider = "snacks",
+              ["help"] = {
+                opts = {
+                  provider = "snacks",
+                  max_lines = 1000,
+                },
               },
-            },
-            ["symbols"] = {
-              opts = {
-                provider = "snacks",
+              ["file"] = {
+                opts = {
+                  provider = "snacks",
+                },
               },
+              --[[ ["symbols"] = { ]]
+              --[[   opts = { ]]
+              --[[     provider = "snacks", ]]
+              --[[   }, ]]
             },
           },
           tools = {
@@ -283,40 +283,40 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
           provider = "mini_diff",
         },
       },
-      opts = {
-        log_level = "DEBUG",
-      },
+      --[[ opts = { ]]
+      --[[   log_level = "DEBUG", ]]
+      --[[ }, ]]
     },
     init = function()
       vim.cmd([[cab cc CodeCompanion]])
-      require("legendary").keymaps({
-        {
-          itemgroup = "CodeCompanion",
-          icon = "",
-          description = "Use the power of AI...",
-          keymaps = {
-            {
-              "<C-a>",
-              "<cmd>CodeCompanionActions<CR>",
-              description = "Open the action palette",
-              mode = { "n", "v" },
-            },
-            {
-              "<LocalLeader>a",
-              "<cmd>CodeCompanionChat Toggle<CR>",
-              description = "Toggle a chat buffer",
-              mode = { "n", "v" },
-            },
-            {
-              "ga",
-              "<cmd>CodeCompanionChat Add<CR>",
-              description = "Add selected text to a chat buffer",
-              mode = { "n", "v" },
-            },
-          },
-        },
-      })
-      require("plugins.codecompanion.spinner"):init()
+      --[[ require("legendary").keymaps({ ]]
+      --[[   { ]]
+      --[[     itemgroup = "CodeCompanion", ]]
+      --[[     icon = "", ]]
+      --[[     description = "Use the power of AI...", ]]
+      --[[     keymaps = { ]]
+      --[[       { ]]
+      --[[         "<C-a>", ]]
+      --[[         "<cmd>CodeCompanionActions<CR>", ]]
+      --[[         description = "Open the action palette", ]]
+      --[[         mode = { "n", "v" }, ]]
+      --[[       }, ]]
+      --[[       { ]]
+      --[[         "<LocalLeader>a", ]]
+      --[[         "<cmd>CodeCompanionChat Toggle<CR>", ]]
+      --[[         description = "Toggle a chat buffer", ]]
+      --[[         mode = { "n", "v" }, ]]
+      --[[       }, ]]
+      --[[       { ]]
+      --[[         "ga", ]]
+      --[[         "<cmd>CodeCompanionChat Add<CR>", ]]
+      --[[         description = "Add selected text to a chat buffer", ]]
+      --[[         mode = { "n", "v" }, ]]
+      --[[       }, ]]
+      --[[     }, ]]
+      --[[   }, ]]
+      --[[ }) ]]
+      --[[ require("plugins.codecompanion.spinner"):init() ]]
     end,
   },
   {
