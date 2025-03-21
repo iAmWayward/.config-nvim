@@ -2,25 +2,30 @@ return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",     -- LSP completion
-      "hrsh7th/cmp-buffer",       -- Buffer completion
-      "hrsh7th/cmp-path",         -- Path completion
-      "hrsh7th/cmp-cmdline",      -- Command-line completion
-      "L3MON4D3/LuaSnip",         -- Snippets
-      "saadparwaiz1/cmp_luasnip", -- LuaSnip completion source
-      "onsails/lspkind.nvim",     -- VS Code-like pictograms
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "onsails/lspkind.nvim",
+      "windwp/nvim-autopairs",
     },
     config = function()
       local cmp = require("cmp")
-      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
       local luasnip = require("luasnip")
-      local lspkind = require("lspkind") -- Icon support
+      local lspkind = require("lspkind")
 
-      -- Set up nvim-cmp
+      -- Initialize autopairs FIRST
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+      require("nvim-autopairs").setup({})
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+      -- Rest of your cmp setup
       cmp.setup({
         snippet = {
           expand = function(args)
-            luasnip.lsp_expand(args.body) -- LuaSnip snippet expansion
+            luasnip.lsp_expand(args.body)
           end,
         },
         mapping = cmp.mapping.preset.insert({
@@ -28,49 +33,62 @@ return {
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept selected item
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
         }),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "luasnip" },
+          { name = "codecompanion" }
         }, {
           { name = "buffer" },
           { name = "path" },
         }),
         formatting = {
           format = lspkind.cmp_format({
-            mode = "symbol_text",  -- Show text alongside symbols
-            maxwidth = 50,         -- Truncate entries
-            ellipsis_char = "...", -- Ellipsis for long entries
+            mode = "symbol",
+            maxwidth = 50,
+            ellipsis_char = "...",
+            show_labeldetails = true,
           }),
         },
         experimental = {
-          ghost_text = true, -- Show preview of selected completion
+          ghost_text = true,
         },
       })
 
-      -- Set up cmdline completion
+      -- Cmdline setup
       cmp.setup.cmdline("/", {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
+        sources = { { name = "buffer" } },
+        {
+          "declancm/cinnamon.nvim",
+          version = "*", -- use latest release
+          opts = {
+            keymaps = {
+              basic = true,
+              extra = true,
+            },
+
+            -- Only scroll the window
+            options = {
+              mode = "window",
+              easing = "linear",
+              duration_multiplier = .75,
+            },
+          },
+          -- change default options here
+        }
       })
 
       cmp.setup.cmdline(":", {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
+        sources = cmp.config.sources(
+          { { name = "path" } },
+          { { name = "cmdline" } }
+        ),
       })
 
-      cmp.event:on(
-        'confirm_done',
-        cmp_autopairs.on_confirm_done()
-      )
-      -- Load VSCode-style snippets
+      -- Load snippets
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },

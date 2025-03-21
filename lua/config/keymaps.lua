@@ -7,7 +7,7 @@ local opts = { noremap = true, silent = true }
 -- Set up base keybinds
 function M.set_base()
   vim.keymap.set("n", "<leader>T", "<cmd>Themery<cr>", {
-    desc = "Reveal file in Neo-tree",
+    desc = "Change theme",
     silent = true,
   })
 
@@ -27,7 +27,7 @@ function M.set_base()
   })
 
   vim.keymap.set("n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", {
-    desc = "Increase No Neck Pain Width",
+    desc = "Toggle No Neck Pain Scratchpad",
     silent = true,
   })
 

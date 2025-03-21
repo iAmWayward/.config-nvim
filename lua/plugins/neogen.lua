@@ -1,5 +1,18 @@
 return {
   {
+    "hat0uma/doxygen-previewer.nvim",
+    opts = {},
+    dependencies = { "hat0uma/prelive.nvim" },
+    update_on_save = true,
+    cmd = {
+      "DoxygenOpen",
+      "DoxygenUpdate",
+      "DoxygenStop",
+      "DoxygenLog",
+      "DoxygenTempDoxyfileOpen"
+    },
+  },
+  {
     "danymat/neogen",
     config = function()
       require("neogen").setup({

@@ -8,6 +8,9 @@ return {
     },
   },
   {
+    "github/copilot.vim"
+  },
+  {
     "olimorris/codecompanion.nvim",
     config = true,
     dependencies = {
@@ -17,18 +20,18 @@ return {
     },
     opts = {
       adapters = {
-        anthropic = function()
-          return require("codecompanion.adapters").extend("anthropic", {
-            env = {
-              api_key = "cmd:op read op://personal/Anthropic_API/credential --no-newline",
-            },
-          })
-        end,
+        -- anthropic = function()
+        --   return require("codecompanion.adapters").extend("anthropic", {
+        --     env = {
+        --       api_key = "cmd:op read op://personal/Anthropic_API/credential --no-newline",
+        --     },
+        --   })
+        -- end,
         copilot = function()
           return require("codecompanion.adapters").extend("copilot", {
             schema = {
               model = {
-                default = "claude-3.7-sonnet",
+                default = "gpt-4o",
               },
             },
           })
@@ -81,7 +84,7 @@ return {
       prompt_library = {
         ["NextJS Expert"] = {
           strategy = "chat",
-          description = "Write typesafe NextJS React code.",
+          description = "Write typesafe NextJS 15.2 React code.",
           opts = {
             index = 11,
             is_slash_cmd = false,
@@ -215,7 +218,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
         -- },
         strategies = {
           chat = {
-            adapter = "copilot",
+            adapter = "openai",
             roles = {
               user = "olimorris",
             },
@@ -268,7 +271,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
             },
           },
         },
-        inline = { adapter = "copilot" },
+        inline = { adapter = "openai" },
       },
       display = {
         action_palette = {
@@ -289,34 +292,58 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
     },
     init = function()
       vim.cmd([[cab cc CodeCompanion]])
-      --[[ require("legendary").keymaps({ ]]
-      --[[   { ]]
-      --[[     itemgroup = "CodeCompanion", ]]
-      --[[     icon = "", ]]
-      --[[     description = "Use the power of AI...", ]]
-      --[[     keymaps = { ]]
-      --[[       { ]]
-      --[[         "<C-a>", ]]
-      --[[         "<cmd>CodeCompanionActions<CR>", ]]
-      --[[         description = "Open the action palette", ]]
-      --[[         mode = { "n", "v" }, ]]
-      --[[       }, ]]
-      --[[       { ]]
-      --[[         "<LocalLeader>a", ]]
-      --[[         "<cmd>CodeCompanionChat Toggle<CR>", ]]
-      --[[         description = "Toggle a chat buffer", ]]
-      --[[         mode = { "n", "v" }, ]]
-      --[[       }, ]]
-      --[[       { ]]
-      --[[         "ga", ]]
-      --[[         "<cmd>CodeCompanionChat Add<CR>", ]]
-      --[[         description = "Add selected text to a chat buffer", ]]
-      --[[         mode = { "n", "v" }, ]]
-      --[[       }, ]]
-      --[[     }, ]]
-      --[[   }, ]]
-      --[[ }) ]]
-      --[[ require("plugins.codecompanion.spinner"):init() ]]
+      require("legendary").keymaps({
+        {
+          itemgroup = "CodeCompanion",
+          icon = "",
+          description = "Use the power of AI...",
+          keymaps = {
+            {
+              "<C-a>",
+              "<cmd>CodeCompanionActions<CR>",
+              description = "Open the action palette",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>aa",
+              "<cmd>CodeCompanionChat Toggle<CR>",
+              description = "Toggle a chat buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>ac",
+              "<cmd>CodeCompanionChat Add<CR>",
+              description = "Add selected text to a chat buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>ad",
+              "<cmd>CodeCompanionDiff<CR>",
+              description = "Diff the current buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>as",
+              "<cmd>CodeCompanionSettings<CR>",
+              description = "Open the settings buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>at",
+              "<cmd>CodeCompanionToggle<CR>",
+              description = "Toggle CodeCompanion",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>ae",
+              "<cmd>CodeCompanion<CR>",
+              description = "CodeCompanion to edit the file directly",
+              mode = { "n", "v" },
+            },
+          },
+        },
+      })
+      require("plugins.codecompanion.spinner"):init()
     end,
   },
   {
