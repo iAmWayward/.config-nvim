@@ -24,3 +24,5 @@ vim.cmd("highlight StatusLineNC guibg=NONE ctermbg=NONE")
 vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
+
+vim.api.nvim_set_option("clipboard", "unnamed")

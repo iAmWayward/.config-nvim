@@ -11,6 +11,11 @@ function M.set_base()
     silent = true,
   })
 
+  -- Copy/paste from system clipboard
+  vim.keymap.set({ 'n', 'x' }, 'cp', '"+y')
+  vim.keymap.set({ 'n', 'x' }, 'cv', '"+p')
+  -- Delete without changing the registers
+
   vim.keymap.set("n", "<leader>nnp", "<cmd>NoNeckPain<cr>", {
     desc = "Toggle No Neck Pain",
     silent = true,
