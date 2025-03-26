@@ -12,10 +12,10 @@ vim.defer_fn(function()
   vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE" })
 end, 100)
 
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
-vim.opt.expandtab = true
-vim.opt.softtabstop = 2
+-- vim.opt.tabstop = 2
+-- vim.opt.shiftwidth = 2
+-- vim.opt.expandtab = true
+-- vim.opt.softtabstop = 2
 
 vim.cmd("highlight Normal guibg=NONE ctermbg=NONE")
 vim.cmd("highlight StatusLine guibg=NONE ctermbg=NONE")

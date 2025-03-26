@@ -26,6 +26,7 @@ return {
             -- Dashboard setup
             require('dashboard').setup({
                 theme = 'hyper', -- Ensure theme is explicitly set
+                disable_at_vimenter = true,
                 config = {
                     header = generate_header(),
                     week_header = {
