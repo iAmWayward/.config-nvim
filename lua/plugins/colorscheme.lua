@@ -1,30 +1,33 @@
 return {
+  { "xiyaowong/transparent.nvim" },
+  {"daschw/leaf.nvim",
+      config = function()
+      require("leaf").setup({
+        theme = "dark",
+        contrast = "high",
+      })
+    end,
+},
+  {"Tsuzat/NeoSolarized.nvim",
+    style = "dark",
+    terminal_colors = true,
+  },
+  -- {"kartikp10/noctis.nvim",
+  --   requires = { 'rktjmp/lush.nvim' }
+  -- },
   {
     "folke/tokyonight.nvim",
     opts = {
       style = "night",
       transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-        statusline = "transparent",
-        statuslinenc = "transparent",
-
-      },
+      -- styles = {
+      --   sidebars = "transparent",
+      --   floats = "transparent",
+      --   statusline = "transparent",
+      --   statuslinenc = "transparent",
+      --
+      -- },
     },
-    config = function()
-      require("tokyonight").setup({
-        style = "night",
-        transparent = true,
-        styles = {
-          sidebars = "transparent",
-          floats = "transparent",
-          statusline = "transparent",
-          statuslinenc = "transparent",
-          StatusLineNC = "transparent",
-        },
-      })
-    end,
   },
   {
     "Shatur/neovim-ayu",
@@ -35,28 +38,28 @@ return {
     config = function()
       require("ayu").setup({
         mirage = true,
-        overrides = function()
-          return {
-            Normal = { bg = "NONE" },
-            NormalNC = { bg = "NONE" },
-            SignColumn = { bg = "NONE" },
-            Folded = { bg = "NONE" },
-            VertSplit = { bg = "NONE" },
-          }
-        end,
+        -- overrides = function()
+        --   return {
+  --     Normal = { bg = "NONE" },
+        --     NormalNC = { bg = "NONE" },
+        --     SignColumn = { bg = "NONE" },
+        --     Folded = { bg = "NONE" },
+        --     VertSplit = { bg = "NONE" },
+        --   }
+        -- end,
       })
     end,
   },
   {
     "ellisonleao/gruvbox.nvim",
     lazy = true,
-    opts = {
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
-    },
+    -- opts = {
+    --   transparent = true,
+    --   styles = {
+    --     sidebars = "transparent",
+    --     floats = "transparent",
+    --   },
+    -- },
     config = function()
     end,
   },
@@ -104,7 +107,7 @@ return {
         treesitter_context = true,
         which_key = true,
       },
-      [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" }) ]],
+      -- [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" }) ]],
     },
     config = function()
       --[[ vim.cmd("colorscheme catppuccin") ]]

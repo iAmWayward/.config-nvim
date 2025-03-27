@@ -14,59 +14,41 @@ return {
               vim.g.tokyonight_dark_sidebar = false
               vim.g.tokyonight_dark_float = false
               ]],
-          after = [[
-              vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
-              ]],
         },
         {
           name = "Gruvbox Dark",
           colorscheme = "gruvbox",
-          before = [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-  ]],
-          after = [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-          ]],
         },
         {
           name = "Catppuccin",
           colorscheme = "catppuccin",
-          opts = { transparent_background = true }, -- This should be fine
+          opts = { transparent_background = true },
           before = [[
             require("catppuccin").setup({
               transparent_background = true,
             })
           ]],
-          after = [[vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })]],
+        },
+         {
+          name = "Leaf",
+          colorscheme = "leaf",
+        },
+        -- {
+        --   name = "Noctis",
+        --   colorscheme = "noctis",
+        -- },
+         {
+          name = "Neo Solarized",
+          colorscheme = "NeoSolarized",
         },
         {
           name = "Ayu",
           colorscheme = "ayu",
-          before = [[
-            vim.g.ayu_mirage = true
-          ]],
-          after = [[
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-          ]],
+          before = [[ vim.g.ayu_mirage = true ]],
         },
       },
       livePreview = true,
-      globalBefore = [[              vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })]],
-      globalAfter = [[              vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
-  ]],
+      globalAfter = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
     })
   end
 }
