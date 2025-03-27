@@ -80,8 +80,8 @@ return {
 					})
 				end,
 
-				["tsserver"] = function()
-					require("lspconfig").tsserver.setup({
+				["ts_ls"] = function()
+					require("lspconfig").ts_ls.setup({
 						capabilities = capabilities,
 						on_attach = on_attach,
 						root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", ".git"),

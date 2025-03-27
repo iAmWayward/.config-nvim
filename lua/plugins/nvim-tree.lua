@@ -50,12 +50,12 @@ return {
         enable_diagnostics = false,
         shared_tree_across_tabs = true,
         default_component_configs = {
-          indent = {
-            indent_size = 2,
-            with_markers = true,
-            expander_collapsed = "",
-            expander_expanded = "",
-          },
+          -- indent = {
+          --   indent_size = 2,
+          --   with_markers = true,
+          --   expander_collapsed = "",
+          --   expander_expanded = "",
+          -- },
           icon = {
             folder_closed = "",
             folder_open = "",
