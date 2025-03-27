@@ -65,6 +65,28 @@ return {
 						},
 					})
 				end,
+				["clangd"] = function()
+					require("lspconfig").clangd.setup({
+						capabilities = capabilities,
+						on_attach = on_attach,
+						cmd = {
+							"clangd",
+							"--background-index",
+							"--clang-tidy",
+							"--completion-style=detailed",
+							-- "--header-insertion=iwyu",
+							"--suggest-missing-includes",
+						},
+					})
+				end,
+
+				["tsserver"] = function()
+					require("lspconfig").tsserver.setup({
+						capabilities = capabilities,
+						on_attach = on_attach,
+						root_dir = require("lspconfig").util.root_pattern("package.json", "tsconfig.json", ".git"),
+					})
+				end,
 			})
 		end,
 	},
