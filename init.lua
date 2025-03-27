@@ -17,6 +17,8 @@ require('transparent').clear_prefix('BufferLine')
 -- require('transparent').clear_prefix('lualine')
 require('transparent').clear_prefix('NeoTree')
 
+
+
 require("config.keymaps").set_base()
 require("config.keymaps").mason_setup()
 require("config.keymaps").telescope_setup()

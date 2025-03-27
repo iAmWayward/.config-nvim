@@ -48,6 +48,7 @@ return {
         },
       },
       livePreview = true,
+      globalBefore = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
       globalAfter = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
     })
   end

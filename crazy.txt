@@ -47,28 +47,28 @@ return {
   dependencies = 'nvim-tree/nvim-web-devicons',
   --[[ 'nvim-neo-tree/neo-tree.nvim', ]]
   config = function()
-    local function get_bufferline_highlights()
-      local colorscheme = vim.g.colors_name or ""
-      if colorscheme:find("catppuccin") then
-        return require("catppuccin.groups.integrations.bufferline").get()
-      end
-      -- Add checks for other themes here if they provide bufferline integrations
-
-      -- Fallback styling if no integration is found
-      return {
-        background = { bg = "NONE" },
-        buffer_selected = { bold = true, italic = false },
-        buffer_visible = { bg = "NONE" },
-        fill = { bg = "NONE" },
-        separator = { bg = "NONE" },
-        separator_selected = { bg = "NONE" },
-        separator_visible = { bg = "NONE" },
-        indicator_selected = { bg = "NONE" },
-        modified = { bg = "NONE" },
-        modified_selected = { bg = "NONE" },
-        modified_visible = { bg = "NONE" },
-      }
-    end
+    -- local function get_bufferline_highlights()
+    --   local colorscheme = vim.g.colors_name or ""
+    --   if colorscheme:find("catppuccin") then
+    --     return require("catppuccin.groups.integrations.bufferline").get()
+    --   end
+    --   -- Add checks for other themes here if they provide bufferline integrations
+    --
+    --   -- Fallback styling if no integration is found
+    --   return {
+    --     background = { bg = "NONE" },
+    --     buffer_selected = { bold = true, italic = false },
+    --     buffer_visible = { bg = "NONE" },
+    --     fill = { bg = "NONE" },
+    --     separator = { bg = "NONE" },
+    --     separator_selected = { bg = "NONE" },
+    --     separator_visible = { bg = "NONE" },
+    --     indicator_selected = { bg = "NONE" },
+    --     modified = { bg = "NONE" },
+    --     modified_selected = { bg = "NONE" },
+    --     modified_visible = { bg = "NONE" },
+    --   }
+    -- end
 
     -- Initial setup
     require("bufferline").setup({
@@ -86,16 +86,16 @@ return {
             separator = true
           }
         },
-        highlights = get_bufferline_highlights(),
+        -- highlights = get_bufferline_highlights(),
       },
     })
 
     -- Auto-update bufferline when colorscheme changes
-    vim.api.nvim_create_autocmd("ColorScheme", {
-      callback = function()
-        require("bufferline").setup({ options = { highlights = get_bufferline_highlights() } })
-      end,
-    })
+    -- vim.api.nvim_create_autocmd("ColorScheme", {
+    --   callback = function()
+    --     require("bufferline").setup({ options = { highlights = get_bufferline_highlights() } })
+    --   end,
+    -- })
   end,
 }
 return {
@@ -462,32 +462,35 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
   },
 }
 return {
+  { "xiyaowong/transparent.nvim" },
+  {"daschw/leaf.nvim",
+      config = function()
+      require("leaf").setup({
+        theme = "dark",
+        contrast = "high",
+      })
+    end,
+},
+  {"Tsuzat/NeoSolarized.nvim",
+    style = "dark",
+    terminal_colors = true,
+  },
+  -- {"kartikp10/noctis.nvim",
+  --   requires = { 'rktjmp/lush.nvim' }
+  -- },
   {
     "folke/tokyonight.nvim",
     opts = {
       style = "night",
       transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-        statusline = "transparent",
-        statuslinenc = "transparent",
-
-      },
+      -- styles = {
+      --   sidebars = "transparent",
+      --   floats = "transparent",
+      --   statusline = "transparent",
+      --   statuslinenc = "transparent",
+      --
+      -- },
     },
-    config = function()
-      require("tokyonight").setup({
-        style = "night",
-        transparent = true,
-        styles = {
-          sidebars = "transparent",
-          floats = "transparent",
-          statusline = "transparent",
-          statuslinenc = "transparent",
-          StatusLineNC = "transparent",
-        },
-      })
-    end,
   },
   {
     "Shatur/neovim-ayu",
@@ -498,28 +501,28 @@ return {
     config = function()
       require("ayu").setup({
         mirage = true,
-        overrides = function()
-          return {
-            Normal = { bg = "NONE" },
-            NormalNC = { bg = "NONE" },
-            SignColumn = { bg = "NONE" },
-            Folded = { bg = "NONE" },
-            VertSplit = { bg = "NONE" },
-          }
-        end,
+        -- overrides = function()
+        --   return {
+  --     Normal = { bg = "NONE" },
+        --     NormalNC = { bg = "NONE" },
+        --     SignColumn = { bg = "NONE" },
+        --     Folded = { bg = "NONE" },
+        --     VertSplit = { bg = "NONE" },
+        --   }
+        -- end,
       })
     end,
   },
   {
     "ellisonleao/gruvbox.nvim",
     lazy = true,
-    opts = {
-      transparent = true,
-      styles = {
-        sidebars = "transparent",
-        floats = "transparent",
-      },
-    },
+    -- opts = {
+    --   transparent = true,
+    --   styles = {
+    --     sidebars = "transparent",
+    --     floats = "transparent",
+    --   },
+    -- },
     config = function()
     end,
   },
@@ -567,7 +570,7 @@ return {
         treesitter_context = true,
         which_key = true,
       },
-      [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" }) ]],
+      -- [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" }) ]],
     },
     config = function()
       --[[ vim.cmd("colorscheme catppuccin") ]]
@@ -634,6 +637,7 @@ return {
             -- Dashboard setup
             require('dashboard').setup({
                 theme = 'hyper', -- Ensure theme is explicitly set
+                disable_at_vimenter = true,
                 config = {
                     header = generate_header(),
                     week_header = {
@@ -801,15 +805,15 @@ return {
 			-- Unified on_attach function
 			local on_attach = function(client, bufnr)
 				require("config.keymaps").mason_setup(bufnr)
-
-				if client.supports_method("textDocument/formatting") then
-					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						group = augroup,
-						buffer = bufnr,
-						callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
-					})
-				end
+				--
+				-- if client.supports_method("textDocument/formatting") then
+				-- 	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+				-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+				-- 		group = augroup,
+				-- 		buffer = bufnr,
+				-- 		callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
+				-- 	})
+				-- end
 			end
 
 			require("mason-lspconfig").setup({
@@ -1457,59 +1461,41 @@ return {
               vim.g.tokyonight_dark_sidebar = false
               vim.g.tokyonight_dark_float = false
               ]],
-          after = [[
-              vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
-              ]],
         },
         {
           name = "Gruvbox Dark",
           colorscheme = "gruvbox",
-          before = [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-  ]],
-          after = [[ vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-          ]],
         },
         {
           name = "Catppuccin",
           colorscheme = "catppuccin",
-          opts = { transparent_background = true }, -- This should be fine
+          opts = { transparent_background = true },
           before = [[
             require("catppuccin").setup({
               transparent_background = true,
             })
           ]],
-          after = [[vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })]],
+        },
+         {
+          name = "Leaf",
+          colorscheme = "leaf",
+        },
+        -- {
+        --   name = "Noctis",
+        --   colorscheme = "noctis",
+        -- },
+         {
+          name = "Neo Solarized",
+          colorscheme = "NeoSolarized",
         },
         {
           name = "Ayu",
           colorscheme = "ayu",
-          before = [[
-            vim.g.ayu_mirage = true
-          ]],
-          after = [[
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
-          ]],
+          before = [[ vim.g.ayu_mirage = true ]],
         },
       },
       livePreview = true,
-      globalBefore = [[              vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })]],
-      globalAfter = [[              vim.api.nvim_set_hl(0, "LineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "CursorLineNr", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_b_normal", { bg = "NONE" })
-              vim.api.nvim_set_hl(0, "lualine_a_normal", { bg = "NONE" })
-  ]],
+      globalAfter = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
     })
   end
 }
