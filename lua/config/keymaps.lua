@@ -40,6 +40,10 @@ function M.set_base()
     require("neogen").generate({ type = "func" })
   end, { noremap = true, silent = true, desc = "Generate function doc" })
 
+  vim.keymap.set("n", "<Leader>nc", function()
+    require("neogen").generate({ type = "class" })
+  end, { noremap = true, silent = true, desc = "Generate class doc" })
+
   -- nvim Telescope Keybinds (file/text finder)
   vim.keymap.set("n", "|", "<cmd>Neotree reveal<cr>", {
     desc = "Reveal file in Neo-tree",
