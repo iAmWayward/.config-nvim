@@ -1,6 +1,6 @@
 -- init.lua
 require("config.lazy")
-
+vim.o.cmdheight = 0 
 -- Setup transparent since it's required for visual effects
 require('transparent').setup({
   extra_groups = {
