@@ -135,6 +135,13 @@ return {
         --[[   { mode = 'n', '<Leader>dl', function() require('dap').run_last() end, desc = 'Run Last Debug Session' }, ]]
       })
     end,
-  }
+  },
+  {
+    "folke/which-key.nvim",
+    config = function()
+      require("which-key").setup {}
+    end,
+  },
+
   -- lazy = true, -- Optionally load it only when required
 }

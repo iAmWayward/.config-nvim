@@ -1,14 +1,16 @@
 return {
   { "xiyaowong/transparent.nvim" },
-  {"daschw/leaf.nvim",
-      config = function()
+  {
+    "daschw/leaf.nvim",
+    config = function()
       require("leaf").setup({
         theme = "dark",
         contrast = "high",
       })
     end,
-},
-  {"Tsuzat/NeoSolarized.nvim",
+  },
+  {
+    "Tsuzat/NeoSolarized.nvim",
     style = "dark",
     terminal_colors = true,
   },
@@ -40,7 +42,7 @@ return {
         mirage = true,
         -- overrides = function()
         --   return {
-  --     Normal = { bg = "NONE" },
+        --     Normal = { bg = "NONE" },
         --     NormalNC = { bg = "NONE" },
         --     SignColumn = { bg = "NONE" },
         --     Folded = { bg = "NONE" },
@@ -126,23 +128,58 @@ return {
     },
   },
   {
-    "nvim-lualine/lualine.nvim",
+    "zaldih/themery.nvim",
+    lazy = false,
     config = function()
-      require("lualine").setup({
-        options = {
-          diagnostics = "nvim_lsp",
-          indicator = {
-            icon = '▎',
-            style = 'icon',
+      require("themery").setup({
+        themes = {
+          {
+            name = "Tokyo Night",
+            colorscheme = "tokyonight",
+            before = [[
+              vim.g.tokyonight_style = "night"
+              vim.g.tokyonight_transparent = true
+              vim.g.tokyonight_transparent_sidebar = true
+              vim.g.tokyonight_dark_sidebar = false
+              vim.g.tokyonight_dark_float = false
+              ]],
           },
-          theme = "auto",
-          --[[ component_separators = { left = "", right = "" }, ]]
-          --[[ section_separators = { left = "", right = "" }, ]]
-          disabled_filetypes = {},
-          always_divide_middle = true,
-          globalstatus = true,
+          {
+            name = "Gruvbox Dark",
+            colorscheme = "gruvbox",
+          },
+          {
+            name = "Catppuccin",
+            colorscheme = "catppuccin",
+            opts = { transparent_background = true },
+            before = [[
+            require("catppuccin").setup({
+              transparent_background = true,
+            })
+          ]],
+          },
+          {
+            name = "Leaf",
+            colorscheme = "leaf",
+          },
+          -- {
+          --   name = "Noctis",
+          --   colorscheme = "noctis",
+          -- },
+          {
+            name = "Neo Solarized",
+            colorscheme = "NeoSolarized",
+          },
+          {
+            name = "Ayu",
+            colorscheme = "ayu",
+            before = [[ vim.g.ayu_mirage = true ]],
+          },
         },
+        livePreview = true,
+        globalBefore = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
+        globalAfter = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
       })
-    end,
-  },
+    end
+  }
 }

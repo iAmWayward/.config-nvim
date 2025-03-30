@@ -7,9 +7,9 @@ return {
       cmd = "VectorCode", -- if you're lazy-loading VectorCode
     },
   },
-  {
-    "github/copilot.vim"
-  },
+  -- {
+  --   "github/copilot.vim"
+  -- },
   {
     "olimorris/codecompanion.nvim",
     config = true,
@@ -27,15 +27,15 @@ return {
         --     },
         --   })
         -- end,
-        copilot = function()
-          return require("codecompanion.adapters").extend("copilot", {
-            schema = {
-              model = {
-                default = "gpt-4o",
-              },
-            },
-          })
-        end,
+        -- copilot = function()
+        --   return require("codecompanion.adapters").extend("copilot", {
+        --     schema = {
+        --       model = {
+        --         default = "gpt-4o",
+        --       },
+        --     },
+        --   })
+        -- end,
         deepseek = function()
           return require("codecompanion.adapters").extend("deepseek", {
             env = {
@@ -218,9 +218,9 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
         -- },
         strategies = {
           chat = {
-            adapter = "openai",
+            adapter = "ollama",
             roles = {
-              user = "olimorris",
+              user = "Wayward",
             },
             keymaps = {
               send = {
@@ -271,7 +271,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
             },
           },
         },
-        inline = { adapter = "openai" },
+        inline = { adapter = "ollama" },
       },
       display = {
         action_palette = {
