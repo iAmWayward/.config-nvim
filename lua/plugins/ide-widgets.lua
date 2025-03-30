@@ -12,11 +12,11 @@ return
       indent = { enabled = false },
       input = { enabled = true },
       picker = { enabled = true },
-      notifier = { enabled = true },
+      notifier = { enabled = false },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = false },
-      statuscolumn = { enabled = true },
+      statuscolumn = { enabled = false },
       words = { enabled = true },
     },
   },
@@ -103,6 +103,9 @@ return
         suppress_on_insert = false,
         ignore_done_already = false,
         ignore_empty_message = false,
+        integration = {
+          lualine = true
+        },
         clear_on_detach = function(client_id)
           local client = vim.lsp.get_client_by_id(client_id)
           return client and client.name or nil

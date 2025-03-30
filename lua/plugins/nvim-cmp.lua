@@ -58,7 +58,7 @@ return {
             },
         })
 
-        -- Cmdline setup for search ('/') 
+        -- Cmdline setup for search ('/')
         cmp.setup.cmdline("/", {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {

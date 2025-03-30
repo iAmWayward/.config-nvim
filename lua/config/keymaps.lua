@@ -76,8 +76,6 @@ function M.set_base()
   vim.keymap.set('n', '<M-PageDown>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer', silent = true })
   vim.keymap.set('n', '<leader>q', '<cmd>bp|bd #<CR>', { desc = 'Close current buffer', silent = true })
   vim.api.nvim_set_keymap("n", "<Leader>ng", ":lua require('neogen').generate()<CR>", opts)
-  --[[ vim.keymap.set('n', '<leader>q', '<cmd>bd<CR>', { desc = 'Close current buffer', silent = true }) ]]
-  --[[ vim.keymap.set("n", "<leader>", "toggle_preview", { desc = "test one" }) ]]
 end
 
 function M.telescope_setup()
