@@ -101,7 +101,7 @@ return
     opts = {
       progress = {
         suppress_on_insert = false,
-        ignore_done_already = false,
+        ignore_done_already = true,
         ignore_empty_message = false,
         integration = {
           lualine = true
