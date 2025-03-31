@@ -1,5 +1,26 @@
 return
 {
+  -- {
+  --   "j-hui/fidget.nvim",
+  --   opts = {
+  --     progress = {
+  --       ignore_empty_message = false,
+  --       clear_on_detach = function(client_id)
+  --         local client = vim.lsp.get_client_by_id(client_id)
+  --         return client and client.name or nil
+  --       end,
+  --       -- notification_group = function(msg)
+  --       --   return msg.lsp_client.name
+  --       -- end,
+  --     },
+  --     -- integration = {
+  --     --   lualine = true
+  --     -- },
+  --     notification = {
+  --       override_vim_notify = true, -- Automatically override vim.notify() with Fidget
+  --     },
+  --   },
+  -- },
   {
     "folke/snacks.nvim",
     priority = 1000,
@@ -12,7 +33,7 @@ return
       indent = { enabled = false },
       input = { enabled = true },
       picker = { enabled = true },
-      notifier = { enabled = false },
+      notifier = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = false },
@@ -30,7 +51,7 @@ return
       "MunifTanjim/nui.nvim",
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
+      -- "rcarriga/nvim-notify",
     }
   },
   {
@@ -96,25 +117,4 @@ return
       })
     end,
   },
-  {
-    "j-hui/fidget.nvim",
-    opts = {
-      progress = {
-        suppress_on_insert = false,
-        ignore_done_already = true,
-        ignore_empty_message = false,
-        integration = {
-          lualine = true
-        },
-        clear_on_detach = function(client_id)
-          local client = vim.lsp.get_client_by_id(client_id)
-          return client and client.name or nil
-        end,
-        notification_group = function(msg)
-          return msg.lsp_client.name
-        end,
-      },
-    },
-  }
-
 }

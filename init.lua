@@ -1,11 +1,11 @@
 -- init.lua
 require("config.lazy")
-vim.o.cmdheight = 0 
+vim.o.cmdheight = 0
 -- Setup transparent since it's required for visual effects
 require('transparent').setup({
   extra_groups = {
     "NormalFloat",     -- Required for floating windows
-    "NvimTreeNormal",  -- If you're using nvim-tree
+    -- "NvimTreeNormal",  -- If you're using nvim-tree
     "NeoTreeNormal",   -- If you're using neo-tree
     "TelescopeNormal", -- For telescope
     "BufferLineFill",  -- For bufferline background
