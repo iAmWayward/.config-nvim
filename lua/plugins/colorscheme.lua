@@ -1,7 +1,74 @@
 return {
-  { "xiyaowong/transparent.nvim" },
+  {
+    "xiyaowong/transparent.nvim",
+    priority = 1001, -- Higher priority to load earlier
+    config = function()
+      require('transparent').setup({
+        extra_groups = {
+          "NormalFloat",     -- Required for floating windows
+          "NeoTreeNormal",   -- If you're using neo-tree
+          "TelescopeNormal", -- For telescope
+          "BufferLineFill",  -- For bufferline background
+          "NeoTreeNormalNC",
+          "lualine_c_normal",
+          "lualine_c_visual",
+          "lualine_c_editing",
+          "lualine_c_command",
+          "BufferLineNormal",
+          "BufferLineSelected",
+          "BufferLineVisual",
+          "BufferLineClose",
+          "BufferLineTab",
+          "BufferLineTabClose",
+          "DropBarMenu",
+          "DropBarMenuCurrentContext",
+          "DropBarCurrentContext",
+          "NeoTreeCursorLine",
+          "TabLineSel",
+        },
+        groups = {
+          "Normal",
+          "NormalNC",
+          "Comment",
+          "Constant",
+          "Special",
+          "Identifier",
+          "Statement",
+          "PreProc",
+          "Type",
+          "Underlined",
+          "Todo",
+          "String",
+          "Function",
+          "Conditional",
+          "Repeat",
+          "Operator",
+          "Structure",
+          "LineNr",
+          "NonText",
+          "SignColumn",
+          "CursorLine",
+          "CursorLineNr",
+          "EndOfBuffer",
+          "WinSeparator",
+          -- "StatusLine",
+          -- "StatusLineNC",
+        },
+        exclude_groups = {
+          -- "NormalFloat",
+          -- "FloatBorder",
+          -- "Term*",
+          -- "winblend",
+          -- "lualine",
+          "Notify",
+          "NotifyBackground",
+        },
+      })
+    end
+  },
   {
     "daschw/leaf.nvim",
+    priority = 1000, -- Higher priority to load earlier
     config = function()
       require("leaf").setup({
         theme = "dark",
@@ -13,6 +80,14 @@ return {
     "Tsuzat/NeoSolarized.nvim",
     style = "dark",
     terminal_colors = true,
+    opts = {
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+        statusline = "transparent",
+        statuslinenc = "transparent",
+      },
+    }
   },
   -- {"kartikp10/noctis.nvim",
   --   requires = { 'rktjmp/lush.nvim' }
@@ -22,13 +97,6 @@ return {
     opts = {
       style = "night",
       transparent = true,
-      -- styles = {
-      --   sidebars = "transparent",
-      --   floats = "transparent",
-      --   statusline = "transparent",
-      --   statuslinenc = "transparent",
-      --
-      -- },
     },
   },
   {
@@ -39,27 +107,24 @@ return {
     },
     config = function()
       require("ayu").setup({
-        mirage = true,
-        -- overrides = function()
-        --   return {
-        --     Normal = { bg = "NONE" },
-        --     NormalNC = { bg = "NONE" },
-        --     SignColumn = { bg = "NONE" },
-        --     Folded = { bg = "NONE" },
-        --     VertSplit = { bg = "NONE" },
-        --   }
-        -- end,
+        mirage = false,
+        overrides = function()
+          return {
+            NormalNC = { bg = "NONE" },
+            SignColumn = { bg = "NONE" },
+            Folded = { bg = "NONE" },
+            VertSplit = { bg = "NONE" },
+          }
+        end,
       })
     end,
   },
   {
     "ellisonleao/gruvbox.nvim",
-    lazy = true,
+    -- lazy = true,
     -- opts = {
     --   transparent = true,
     --   styles = {
-    --     sidebars = "transparent",
-    --     floats = "transparent",
     --   },
     -- },
     config = function()
@@ -67,7 +132,7 @@ return {
   },
   {
     "catppuccin/nvim",
-    lazy = true,
+    -- lazy = true,
     name = "catppuccin",
     opts = {
       transparent = true,
@@ -145,10 +210,6 @@ return {
               ]],
           },
           {
-            name = "Gruvbox Dark",
-            colorscheme = "gruvbox",
-          },
-          {
             name = "Catppuccin",
             colorscheme = "catppuccin",
             opts = { transparent_background = true },
@@ -157,6 +218,10 @@ return {
               transparent_background = true,
             })
           ]],
+          },
+          {
+            name = "Gruvbox Dark",
+            colorscheme = "gruvbox",
           },
           {
             name = "Leaf",
@@ -174,11 +239,25 @@ return {
             name = "Ayu",
             colorscheme = "ayu",
             before = [[ vim.g.ayu_mirage = true ]],
+            after = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
+            overrides = function()
+              return {
+                Normal = { bg = "NONE" },
+                NormalNC = { bg = "NONE" },
+                -- lualine_c_normal = { bg = "NONE" },
+                -- StatusLine = { bg = "NONE" },
+                -- Add other groups as needed
+              }
+            end
           },
         },
         livePreview = true,
-        globalBefore = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
-        globalAfter = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
+        globalBefore = [[  require('transparent').clear_prefix('lualine')
+require('transparent').clear_prefix('NeoTree')
+]],
+        globalAfter = [[ require('transparent').clear_prefix('lualine')
+require('transparent').clear_prefix('NeoTree')
+-- ]],
       })
     end
   }

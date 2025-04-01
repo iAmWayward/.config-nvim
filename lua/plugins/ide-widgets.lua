@@ -1,57 +1,31 @@
 return
 {
-  -- {
-  --   "j-hui/fidget.nvim",
-  --   opts = {
-  --     progress = {
-  --       ignore_empty_message = false,
-  --       clear_on_detach = function(client_id)
-  --         local client = vim.lsp.get_client_by_id(client_id)
-  --         return client and client.name or nil
-  --       end,
-  --       -- notification_group = function(msg)
-  --       --   return msg.lsp_client.name
-  --       -- end,
-  --     },
-  --     -- integration = {
-  --     --   lualine = true
-  --     -- },
-  --     notification = {
-  --       override_vim_notify = true, -- Automatically override vim.notify() with Fidget
-  --     },
-  --   },
-  -- },
   {
-    "folke/snacks.nvim",
-    priority = 1000,
-    lazy = false,
-    ---@type snacks.Config
-    opts = {
-      bigfile = { enabled = true },
-      dashboard = { enabled = false },
-      explorer = { enabled = false },
-      indent = { enabled = false },
-      input = { enabled = true },
-      picker = { enabled = true },
-      notifier = { enabled = true },
-      quickfile = { enabled = true },
-      scope = { enabled = true },
-      scroll = { enabled = false },
-      statuscolumn = { enabled = false },
-      words = { enabled = true },
-    },
+    "rcarriga/nvim-notify"
   },
   {
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
-      -- add any options here
+      -- Added noice.nvim configuration
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      presets = {
+        bottom_search = false,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = false,
+      }
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      -- "rcarriga/nvim-notify",
+      "rcarriga/nvim-notify",
     }
   },
   {
@@ -117,4 +91,24 @@ return
       })
     end,
   },
+  -- {
+  --   "folke/snacks.nvim",
+  --   priority = 1000,
+  --   lazy = false,
+  --   ---@type snacks.Config
+  --   opts = {
+  --     bigfile = { enabled = true },
+  --     dashboard = { enabled = false },
+  --     explorer = { enabled = false },
+  --     indent = { enabled = false },
+  --     input = { enabled = true },
+  --     picker = { enabled = true },
+  --     notifier = { enabled = true },
+  --     quickfile = { enabled = true },
+  --     scope = { enabled = true },
+  --     scroll = { enabled = false },
+  --     statuscolumn = { enabled = false },
+  --     words = { enabled = true },
+  --   },
+  -- },
 }
