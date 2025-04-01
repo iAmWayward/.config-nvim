@@ -5,7 +5,7 @@ return {
     config = function()
       require('transparent').setup({
         extra_groups = {
-          "NormalFloat",     -- Required for floating windows
+          -- "NormalFloat",     -- Required for floating windows
           "NeoTreeNormal",   -- If you're using neo-tree
           "TelescopeNormal", -- For telescope
           "BufferLineFill",  -- For bufferline background
@@ -59,7 +59,7 @@ return {
           -- "FloatBorder",
           -- "Term*",
           -- "winblend",
-          -- "lualine",
+          "lualine",
           "Notify",
           "NotifyBackground",
         },
@@ -242,8 +242,8 @@ return {
             after = [[ vim.api.nvim_set_hl(0, "lualine_c_normal", { bg = "NONE" }) ]],
             overrides = function()
               return {
-                Normal = { bg = "NONE" },
-                NormalNC = { bg = "NONE" },
+                -- Normal = { bg = "NONE" },
+                -- NormalNC = { bg = "NONE" },
                 -- lualine_c_normal = { bg = "NONE" },
                 -- StatusLine = { bg = "NONE" },
                 -- Add other groups as needed
@@ -252,10 +252,10 @@ return {
           },
         },
         livePreview = true,
-        globalBefore = [[  require('transparent').clear_prefix('lualine')
+        globalBefore = [[
 require('transparent').clear_prefix('NeoTree')
 ]],
-        globalAfter = [[ require('transparent').clear_prefix('lualine')
+        globalAfter = [[
 require('transparent').clear_prefix('NeoTree')
 -- ]],
       })

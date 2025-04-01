@@ -6,8 +6,12 @@ require("notify").setup({
 })
 
 -- Clear prefixes for plugins
-require('transparent').clear_prefix('lualine')
+-- require('transparent').clear_prefix('lualine')
 require('transparent').clear_prefix('NeoTree')
+require('transparent').clear_prefix('DropBar')
+require('transparent').clear_prefix('Dropbar')
+require('transparent').clear_prefix('Bufferline')
+require('transparent').clear_prefix('BufferLine')
 --
 require("config.keymaps").set_base()
 require("config.keymaps").mason_setup()
