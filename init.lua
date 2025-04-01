@@ -14,8 +14,11 @@ require('transparent').setup({
 
 -- Clear prefixes for plugins
 require('transparent').clear_prefix('BufferLine')
--- require('transparent').clear_prefix('lualine')
+require('transparent').clear_prefix('lualine_c')
 require('transparent').clear_prefix('NeoTree')
+require('transparent').clear_prefix('bg')
+require('transparent').clear_prefix('DropBar')
+require('transparent').clear_prefix('dropbar')
 
 
 

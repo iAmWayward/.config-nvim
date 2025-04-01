@@ -28,7 +28,7 @@ return {
                 key = ctx.ctype == U.ctype.line and "__default" or "__multiline",
                 location = location,
               })
-            end, -- [Keep your existing hook configuration here]
+            end,
           })
         end,
       },
