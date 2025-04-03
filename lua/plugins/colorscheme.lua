@@ -14,6 +14,8 @@ return {
     style = "dark",
     terminal_colors = true,
   },
+  { "EdenEast/nightfox.nvim" },
+  { "sainnhe/edge" },
   -- {"kartikp10/noctis.nvim",
   --   requires = { 'rktjmp/lush.nvim' }
   -- },

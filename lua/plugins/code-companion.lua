@@ -237,7 +237,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
             slash_commands = {
               ["buffer"] = {
                 opts = {
-                  provider = "snacks",
+                  --[[ provider = "snacks", ]]
                   keymaps = {
                     modes = {
                       i = "<C-b>",
@@ -247,13 +247,13 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
               },
               ["help"] = {
                 opts = {
-                  provider = "snacks",
+                  --[[ provider = "snacks", ]]
                   max_lines = 1000,
                 },
               },
               ["file"] = {
                 opts = {
-                  provider = "snacks",
+                  --[[ provider = "snacks", ]]
                 },
               },
               --[[ ["symbols"] = { ]]

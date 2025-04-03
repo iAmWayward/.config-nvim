@@ -18,7 +18,7 @@ return {
       -- Initial setup
       require("bufferline").setup({
         options = {
-           separator_style = "slant", -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
+           separator_style = "thick", -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
           diagnostics = "nvim_lsp",
           indicator = {
             icon = '▎',
@@ -35,7 +35,7 @@ return {
           -- highlights = get_bufferline_highlights(),
           highlights = {
             fill = {
-              bg = "NONE"
+              --[[ bg = "NONE" ]]
             }
           }
         },
