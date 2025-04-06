@@ -1,5 +1,23 @@
 return {
-  { "xiyaowong/transparent.nvim" },
+  {
+    "xiyaowong/transparent.nvim",
+    lazy = true,
+    config = function()
+      require('transparent').setup({
+        extra_groups = {
+          "NormalFloat",     -- Required for floating windows
+          "NeoTreeNormal",   -- If you're using neo-tree
+          "TelescopeNormal", -- For telescope
+          "BufferLineFill",  -- For bufferline background
+          "DropBarNormal",
+          "DropBarNormalNC",
+          "DropBarMenuNormal",
+          "DropBarMenuNormalNC"
+
+        },
+      })
+    end,
+  },
   {
     "daschw/leaf.nvim",
     config = function()
@@ -57,13 +75,13 @@ return {
   {
     "ellisonleao/gruvbox.nvim",
     lazy = true,
-    -- opts = {
-    --   transparent = true,
-    --   styles = {
-    --     sidebars = "transparent",
-    --     floats = "transparent",
-    --   },
-    -- },
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+    },
     config = function()
     end,
   },
@@ -176,6 +194,14 @@ return {
             name = "Ayu",
             colorscheme = "ayu",
             before = [[ vim.g.ayu_mirage = true ]],
+          },
+          {
+            name = "Edge",
+            colorscheme = "edge",
+          },
+          {
+            name = "Nightfox",
+            colorscheme = "nightfox",
           },
         },
         livePreview = true,
