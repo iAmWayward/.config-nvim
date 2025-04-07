@@ -148,7 +148,7 @@ return {
           }),
         },
         on_attach = function(client, bufnr)
-          -- We'll let the unified LSP on_attach handle the formatting setup
+          -- let the unified LSP on_attach handle the formatting setup
         end,
         on_init = function(new_client, _)
           new_client.offset_encoding = 'utf-16'

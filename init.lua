@@ -1,4 +1,3 @@
-
 require("config.lazy")
 vim.o.cmdheight = 0
 -- Setup transparent since it's required for visual effects
@@ -23,6 +22,7 @@ require('transparent').clear_prefix('dropbar')
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
+
 
 
 require("config.keymaps").set_base()
