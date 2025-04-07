@@ -1,27 +1,5 @@
 return
 {
-  -- {
-  --   "j-hui/fidget.nvim",
-  --   opts = {
-  --     progress = {
-  --       ignore_empty_message = false,
-  --       clear_on_detach = function(client_id)
-  --         local client = vim.lsp.get_client_by_id(client_id)
-  --         return client and client.name or nil
-  --       end,
-  --       -- notification_group = function(msg)
-  --       --   return msg.lsp_client.name
-  --       -- end,
-  --     },
-  --     -- integration = {
-  --     --   lualine = true
-  --     -- },
-  --     notification = {
-  --       override_vim_notify = true, -- Automatically override vim.notify() with Fidget
-  --     },
-  --   },
-  -- },
-  --[[ }, ]]
   {
     "folke/noice.nvim",
     event = "VeryLazy",
