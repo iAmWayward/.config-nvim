@@ -19,7 +19,9 @@ return {
       local on_attach = function(client, bufnr)
         require("config.keymaps").mason_setup(bufnr)
 
-        if client.supports_method("textDocument/formatting") then
+        -- Skip formatting for C/H files
+        local filetype = vim.bo[bufnr].filetype
+        if client.supports_method("textDocument/formatting") and filetype ~= "c" and filetype ~= "h" then
           vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
           vim.api.nvim_create_autocmd("BufWritePre", {
             group = augroup,
@@ -103,7 +105,18 @@ return {
     dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
     config = function()
       require("mason-null-ls").setup({
-        ensure_installed = { "prettierd" },
+        ensure_installed = {
+          "prettierd",
+          "stylua",
+          "ruff",
+          "shfmt",
+          "fixjson",
+          "mdformat",
+          "markdownlint",
+          "yamlfix",
+          "cmake_format",
+          "dprint"
+        },
         automatic_installation = true,
       })
 
@@ -112,22 +125,30 @@ return {
 
       null_ls.setup({
         sources = {
+          -- Web
           null_ls.builtins.formatting.prettierd,
+          null_ls.builtins.formatting.dprint,
+
+          null_ls.builtins.formatting.ruff,    -- Python
+          null_ls.builtins.formatting.stylua,  -- Lua
+          null_ls.builtins.formatting.shfmt,   -- Shell scripts
+          null_ls.builtins.formatting.fixjson, -- JSON
+
+          -- Markdown
+          null_ls.builtins.formatting.mdformat,
+          null_ls.builtins.diagnostics.markdownlint,
+
+
+          null_ls.builtins.formatting.yamlfix, -- YAML
+          null_ls.builtins.diagnostics.tsc,
+
+          -- CMake
+          null_ls.builtins.formatting.cmake_format.with({
+            command = "cmake_format"
+          }),
         },
         on_attach = function(client, bufnr)
-          local filetype = vim.bo[bufnr].filetype
-          if filetype == "c" or filetype == "h" then
-            return
-          end
-
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = augroup,
-              buffer = bufnr,
-              callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
-            })
-          end
+          -- We'll let the unified LSP on_attach handle the formatting setup
         end,
         on_init = function(new_client, _)
           new_client.offset_encoding = 'utf-16'
