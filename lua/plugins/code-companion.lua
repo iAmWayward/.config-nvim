@@ -67,19 +67,12 @@ return {
             schema = {
               model = {
                 default = function()
-                  return "gpt-4o"
+                  return "gpt-o1-mini"
                 end,
               },
             },
           })
         end,
-        --[[ xai = function() ]]
-        --[[   return require("codecompanion.adapters").extend("xai", { ]]
-        --[[     env = { ]]
-        --[[       api_key = "cmd:op read op://personal/xAI_API/credential --no-newline", ]]
-        --[[     }, ]]
-        --[[   }) ]]
-        --[[ end, ]]
       },
       prompt_library = {
         ["NextJS Expert"] = {
@@ -271,7 +264,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
             },
           },
         },
-        inline = { adapter = "ollama" },
+        inline = { adapter = "openai" } -- { adapter = "ollama" },
       },
       display = {
         action_palette = {
@@ -279,7 +272,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
         },
         chat = {
           -- show_references = true,
-          -- show_header_separator = false,
+          show_header_separator = true,
           -- show_settings = false,
         },
         diff = {

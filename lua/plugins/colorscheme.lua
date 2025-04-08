@@ -5,15 +5,22 @@ return {
     config = function()
       require('transparent').setup({
         extra_groups = {
-          "NormalFloat",     -- Required for floating windows
+          --[[ "NormalFloat",     -- Required for floating windows ]]
           "NeoTreeNormal",   -- If you're using neo-tree
           "TelescopeNormal", -- For telescope
           "BufferLineFill",  -- For bufferline background
           "DropBarNormal",
           "DropBarNormalNC",
           "DropBarMenuNormal",
-          "DropBarMenuNormalNC"
-
+          "DropBarMenuNormalNC",
+          "BufferLine",
+          "Bufferline",
+          "dropbar",
+          "DropBar"
+        },
+        exclude_groups = {
+          "NotifyBackground",
+          "NormalFloat"
         },
       })
     end,
@@ -89,6 +96,7 @@ return {
     "catppuccin/nvim",
     lazy = true,
     name = "catppuccin",
+    flavour = "mocha",
     opts = {
       transparent = true,
       integrations = {
