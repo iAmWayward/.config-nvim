@@ -5,6 +5,15 @@ return {
     priority = 10000,
     lazy = false,
     dependencies = { "kkharji/sqlite.lua" },
+    extensions = {
+      which_key = {
+        auto_register = true,
+        --[[ mappings = require("config.keymaps").mappings, ]]
+        opts = {},
+        do_binding = false, -- Let legendary handle binding
+        use_groups = true,
+      }
+    },
     keys = {
       {
         "<C-p>",
