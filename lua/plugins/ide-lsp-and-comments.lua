@@ -466,5 +466,48 @@ return {
       -- Load snippets
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
+  },
+  {
+    'nvimdev/lspsaga.nvim',
+    config = function()
+      require('lspsaga').setup({
+        -- Custom configuration
+        symbol_in_winbar = {
+          enable = true,
+          separator = '  ',
+        },
+        ui = {
+          title = true,
+          border = 'rounded',
+          actionfix = '',
+          expand = '',
+          collapse = '',
+          code_action = '💡',
+          diagnostic = '🐞',
+          colors = {
+            normal_bg = '#022746',
+          },
+        },
+        lightbulb = {
+          enable = true,
+          sign = true,
+          virtual_text = false,
+        },
+        diagnostic = {
+          show_code_action = true,
+          show_source = true,
+          jump_num_shortcut = true,
+          keys = {
+            exec_action = 'o',
+            quit = 'q',
+          },
+        },
+      })
+    end,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
+      'folke/trouble.nvim',
+    }
   }
 }

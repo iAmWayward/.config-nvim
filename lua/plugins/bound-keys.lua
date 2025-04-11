@@ -6,6 +6,7 @@ return {
     lazy = false,
     dependencies = { "kkharji/sqlite.lua" },
     extensions = {
+      lazy_nvim = true,
       which_key = {
         auto_register = true,
         opts = {},
@@ -24,9 +25,17 @@ return {
     },
     config = function()
       local legendary = require("legendary")
-      -- Register your keybindings with Legendary
-      legendary.keymaps({
-      })
+
+      -- Load your external keymaps file and register the keymaps
+      require("config.keymaps").set_base()
+
+      -- Optionally, if you also want Legendary to handle or list these keymaps
+      -- you could collect them into a table and then pass them to legendary.keymaps.
+      --
+      -- For example, if your keymaps module returned a table of legendary-style key definitions:
+      --
+      -- local keymaps = require("keymaps").keybinds
+      -- legendary.keymaps(keymaps)
     end,
   },
   {

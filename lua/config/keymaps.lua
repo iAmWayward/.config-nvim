@@ -118,19 +118,31 @@ function M.mason_setup(bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
+
   -- LSP keymaps (buffer-local)
   if bufnr then
-    map('n', 'gd', vim.lsp.buf.definition, 'Go to Definition')
-    map('n', 'K', vim.lsp.buf.hover, 'Hover Documentation')
-    map('n', '<leader>rn', vim.lsp.buf.rename, 'Rename Symbol')
-    map('n', '<leader>ca', vim.lsp.buf.code_action, 'Code Action')
-    map('n', 'gr', vim.lsp.buf.references, 'Find References')
+    -- Enhanced LSP Saga keymaps
+    map('n', 'gh', '<cmd>Lspsaga lsp_finder<CR>', 'LSP Finder')
+    map('n', 'K', '<cmd>Lspsaga hover_doc<CR>', 'Hover Documentation')
+    map('n', 'gd', '<cmd>Lspsaga peek_definition<CR>', 'Peek Definition')
+    map('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', 'Code Action')
+    map('n', '<leader>rn', '<cmd>Lspsaga rename<CR>', 'Rename Symbol')
+    map('n', '<leader>o', '<cmd>Lspsaga outline<CR>', 'Toggle Outline')
+
+    -- Preserved native LSP functionality
     map('n', 'gi', vim.lsp.buf.implementation, 'Go to Implementation')
+    map('n', 'gr', vim.lsp.buf.references, 'Find References')
     map('n', '<leader>sh', vim.lsp.buf.signature_help, 'Signature Help')
-    map('n', '[d', vim.diagnostic.goto_prev, 'Previous Diagnostic')
-    map('n', ']d', vim.diagnostic.goto_next, 'Next Diagnostic')
-    map('n', '<leader>e', vim.diagnostic.open_float, 'Show Diagnostic')
+
+    -- Enhanced diagnostics with Saga
+    map('n', '[d', '<cmd>Lspsaga diagnostic_jump_prev<CR>', 'Previous Diagnostic')
+    map('n', ']d', '<cmd>Lspsaga diagnostic_jump_next<CR>', 'Next Diagnostic')
+    map('n', '<leader>e', '<cmd>Lspsaga show_line_diagnostics<CR>', 'Show Line Diagnostic')
+
+    -- Optional: Native fallbacks
     map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, 'Format Code')
+    map('n', 'gD', vim.lsp.buf.declaration, 'Go to Declaration')
+    map('n', '<leader>ws', vim.lsp.buf.workspace_symbol, 'Workspace Symbol')
   end
 end
 
