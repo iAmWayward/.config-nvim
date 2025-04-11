@@ -127,7 +127,7 @@ function M.mason_setup(bufnr)
     map('n', 'gd', '<cmd>Lspsaga peek_definition<CR>', 'Peek Definition')
     map('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', 'Code Action')
     map('n', '<leader>rn', '<cmd>Lspsaga rename<CR>', 'Rename Symbol')
-    map('n', '<leader>o', '<cmd>Lspsaga outline<CR>', 'Toggle Outline')
+    map('n', '<leader>O', '<cmd>Lspsaga outline<CR>', 'Toggle Outline')
 
     -- Preserved native LSP functionality
     map('n', 'gi', vim.lsp.buf.implementation, 'Go to Implementation')
