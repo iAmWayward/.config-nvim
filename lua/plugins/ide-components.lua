@@ -19,9 +19,7 @@ return {
         if colorscheme:find("catppuccin") then
           return require("catppuccin.groups.integrations.bufferline").get()
         end
-        -- Add checks for other themes here if they provide bufferline integrations
-
-        -- Fallback styling if no integration is found
+        -- Fallback styling
         return {
           background = { bg = "NONE" },
           buffer_selected = { bold = true, italic = false },
@@ -36,11 +34,12 @@ return {
           modified_visible = { bg = "NONE" },
         }
       end
-      -- Initial setup
+
+      -- Initial setup with highlights at the top level
       require("bufferline").setup({
-        highlights = require("catppuccin.groups.integrations.bufferline").get(),
+        highlights = get_bufferline_highlights(), -- Top-level key
         options = {
-          separator_style = "thick", -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
+          separator_style = "thick",
           diagnostics = "nvim_lsp",
           indicator = {
             icon = '▎',
@@ -54,19 +53,15 @@ return {
               separator = true
             }
           },
-          highlights = get_bufferline_highlights(),
-          vim.api.nvim_create_autocmd("ColorScheme", {
-            callback = function()
-              require("bufferline").setup({ options = { highlights = get_bufferline_highlights() } })
-            end,
-          })
-
-          -- require('transparent').clear_prefix('BufferLine')   --[[ 'nvim-neo-tree/neo-tree.nvim', ]]
-          -- highlights = get_bufferline_highlights(),
-          --          highlights = {
-          --          fill = {
-          --          bg = "NONE"
+          -- Remove 'highlights' from here
         }
+      })
+
+      -- Autocmd outside the setup to handle colorscheme changes
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        callback = function()
+          require("bufferline").setup({ highlights = get_bufferline_highlights() })
+        end,
       })
     end,
   },
