@@ -53,16 +53,15 @@ return {
               separator = true
             }
           },
-          -- Remove 'highlights' from here
         }
       })
 
-      -- Autocmd outside the setup to handle colorscheme changes
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        callback = function()
-          require("bufferline").setup({ highlights = get_bufferline_highlights() })
-        end,
-      })
+      --[[ -- Autocmd outside the setup to handle colorscheme changes ]]
+      --[[ vim.api.nvim_create_autocmd("ColorScheme", { ]]
+      --[[   callback = function() ]]
+      --[[     require("bufferline").setup({ highlights = get_bufferline_highlights() }) ]]
+      --[[   end, ]]
+      --[[ }) ]]
     end,
   },
   {
