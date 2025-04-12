@@ -1,70 +1,29 @@
 return {
   {
     "xiyaowong/transparent.nvim",
-    priority = 1001, -- Higher priority to load earlier
+    lazy = true,
     config = function()
       require('transparent').setup({
         extra_groups = {
-          -- "NormalFloat",     -- Required for floating windows
+          --[[ "NormalFloat",     -- Required for floating windows ]]
           "NeoTreeNormal",   -- If you're using neo-tree
           "TelescopeNormal", -- For telescope
           "BufferLineFill",  -- For bufferline background
-          "NeoTreeNormalNC",
-          "lualine_c_normal",
-          "lualine_c_visual",
-          "lualine_c_editing",
-          "lualine_c_command",
-          "BufferLineNormal",
-          "BufferLineSelected",
-          "BufferLineVisual",
-          "BufferLineClose",
-          "BufferLineTab",
-          "BufferLineTabClose",
-          "DropBarMenu",
-          "DropBarMenuCurrentContext",
-          "DropBarCurrentContext",
-          "NeoTreeCursorLine",
-          "TabLineSel",
-        },
-        groups = {
-          "Normal",
-          "NormalNC",
-          "Comment",
-          "Constant",
-          "Special",
-          "Identifier",
-          "Statement",
-          "PreProc",
-          "Type",
-          "Underlined",
-          "Todo",
-          "String",
-          "Function",
-          "Conditional",
-          "Repeat",
-          "Operator",
-          "Structure",
-          "LineNr",
-          "NonText",
-          "SignColumn",
-          "CursorLine",
-          "CursorLineNr",
-          "EndOfBuffer",
-          "WinSeparator",
-          -- "StatusLine",
-          -- "StatusLineNC",
+          "DropBarNormal",
+          "DropBarNormalNC",
+          "DropBarMenuNormal",
+          "DropBarMenuNormalNC",
+          "BufferLine",
+          "Bufferline",
+          "dropbar",
+          "DropBar"
         },
         exclude_groups = {
-          -- "NormalFloat",
-          -- "FloatBorder",
-          -- "Term*",
-          -- "winblend",
-          "lualine",
-          "Notify",
           "NotifyBackground",
+          "NormalFloat"
         },
       })
-    end
+    end,
   },
   {
     "daschw/leaf.nvim",
@@ -89,6 +48,8 @@ return {
       },
     }
   },
+  { "EdenEast/nightfox.nvim" },
+  { "sainnhe/edge" },
   -- {"kartikp10/noctis.nvim",
   --   requires = { 'rktjmp/lush.nvim' }
   -- },
@@ -121,12 +82,14 @@ return {
   },
   {
     "ellisonleao/gruvbox.nvim",
-    -- lazy = true,
-    -- opts = {
-    --   transparent = true,
-    --   styles = {
-    --   },
-    -- },
+    lazy = true,
+    opts = {
+      transparent = true,
+      styles = {
+        sidebars = "transparent",
+        floats = "transparent",
+      },
+    },
     config = function()
     end,
   },
@@ -134,6 +97,7 @@ return {
     "catppuccin/nvim",
     -- lazy = true,
     name = "catppuccin",
+    flavour = "mocha",
     opts = {
       transparent = true,
       integrations = {
@@ -249,6 +213,14 @@ return {
                 -- Add other groups as needed
               }
             end
+          },
+          {
+            name = "Edge",
+            colorscheme = "edge",
+          },
+          {
+            name = "Nightfox",
+            colorscheme = "nightfox",
           },
         },
         livePreview = true,

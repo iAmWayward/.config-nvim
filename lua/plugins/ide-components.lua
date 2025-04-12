@@ -40,6 +40,7 @@ return {
       require("bufferline").setup({
         highlights = require("catppuccin.groups.integrations.bufferline").get(),
         options = {
+          separator_style = "thick", -- "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
           diagnostics = "nvim_lsp",
           indicator = {
             icon = '▎',
@@ -61,7 +62,11 @@ return {
           })
 
           -- require('transparent').clear_prefix('BufferLine')   --[[ 'nvim-neo-tree/neo-tree.nvim', ]]
-        },
+          -- highlights = get_bufferline_highlights(),
+          --          highlights = {
+          --          fill = {
+          --          bg = "NONE"
+        }
       })
     end,
   },
