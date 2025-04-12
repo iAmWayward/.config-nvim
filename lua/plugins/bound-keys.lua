@@ -29,6 +29,8 @@ return {
       -- Load your external keymaps file and register the keymaps
       require("config.keymaps").set_base()
 
+      require("config.keymaps").mason_setup()
+      require("config.keymaps").telescope_setup()
       -- Optionally, if you also want Legendary to handle or list these keymaps
       -- you could collect them into a table and then pass them to legendary.keymaps.
       --

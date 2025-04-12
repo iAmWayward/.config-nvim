@@ -38,5 +38,4 @@ vim.cmd("highlight NotifyBackground guibg=#000000")
 
 
 require("config.keymaps").set_base()
-require("config.keymaps").mason_setup()
-require("config.keymaps").telescope_setup()
+

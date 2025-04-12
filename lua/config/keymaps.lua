@@ -125,6 +125,7 @@ function M.mason_setup(bufnr)
     map('n', 'gh', '<cmd>Lspsaga lsp_finder<CR>', 'LSP Finder')
     map('n', 'K', '<cmd>Lspsaga hover_doc<CR>', 'Hover Documentation')
     map('n', 'gd', '<cmd>Lspsaga peek_definition<CR>', 'Peek Definition')
+    map('n', 'gD', '<cmd>vim.lsp.buf.definition<CR>', 'Go to Definition')
     map('n', '<leader>ca', '<cmd>Lspsaga code_action<CR>', 'Code Action')
     map('n', '<leader>rn', '<cmd>Lspsaga rename<CR>', 'Rename Symbol')
     map('n', '<leader>O', '<cmd>Lspsaga outline<CR>', 'Toggle Outline')
@@ -141,7 +142,6 @@ function M.mason_setup(bufnr)
 
     -- Optional: Native fallbacks
     map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, 'Format Code')
-    map('n', 'gD', vim.lsp.buf.declaration, 'Go to Declaration')
     map('n', '<leader>ws', vim.lsp.buf.workspace_symbol, 'Workspace Symbol')
   end
 end
