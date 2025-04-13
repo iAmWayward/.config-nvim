@@ -74,7 +74,7 @@ return {
               capabilities,
               positionEncodings = { "utf-16", "utf-32" },
             },
-            -- This instead if you dont need encodings merged for codecompanion.
+            -- Use this instead if you dont need encodings merged for codecompanion.
             --[[ require("lspconfig").clangd.setup({ ]]
             --[[   capabilities = vim.tbl_deep_extend('force', capabilities, { -- Fix merge ]]
             --[[     positionEncodings = { "utf-16", "utf-32" }, ]]
@@ -125,8 +125,6 @@ return {
       })
 
       local null_ls = require("null-ls")
-      --[[ local augroup = vim.api.nvim_create_augroup("LspFormatting", {}) ]]
-
       null_ls.setup({
         sources = {
           -- Web
@@ -151,9 +149,7 @@ return {
             command = "cmake_format"
           }),
         },
-        --[[ on_attach = function(_client, bufnr) ]]
-        --[[   -- let the unified LSP on_attach handle the formatting setup ]]
-        --[[ end, ]]
+        -- Make sure there aren't multiple encodings.
         on_init = function(new_client, _)
           new_client.offset_encoding = 'utf-16'
         end,
@@ -189,25 +185,9 @@ return {
         --[[ mouse_delay = 1000, ]]
       })
 
-      -- Keymaps
-
-      require("config.keymaps").hover_setup()
-      -- vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" })
-      -- vim.keymap.set("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" })
-      -- vim.keymap.set("n", "<C-p>", function()
-      --   require("hover").hover_switch("previous")
-      -- end, { desc = "hover.nvim (previous source)" })
-      --
-      -- vim.keymap.set("n", "<C-n>", function()
-      --   require("hover").hover_switch("previous")
-      -- end, { desc = "hover.nvim (next source)" })
-
-      -- Mouse support
-      --[[   vim.keymap.set("n", "<MouseMove>", require("hover").hover_mouse, { desc = "hover.nvim (mouse)" }) ]]
-      --[[   vim.o.mousemoveevent = true ]]
+      require("config.keymaps").hover_setup() -- Keymaps
     end,
   },
-
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -217,7 +197,6 @@ return {
       "rrethy/nvim-treesitter-endwise",
       "windwp/nvim-autopairs",
       "abecodes/tabout.nvim",
-
       {
         "numToStr/Comment.nvim",
         config = function()
@@ -420,8 +399,6 @@ return {
     end,
     dependencies = "nvim-treesitter/nvim-treesitter",
     keys = {
-      -- { "<Leader>ng",  "<cmd>Neogen<CR>", desc = "Generate documentation" },
-      -- { "<Leader>ngc", "<cmd>Neogen<CR>", desc = "Generate documentation" },
     },
   },
   {
