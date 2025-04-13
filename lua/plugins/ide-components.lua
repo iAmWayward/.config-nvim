@@ -39,7 +39,8 @@ return {
       require("bufferline").setup({
         highlights = get_bufferline_highlights(), -- Top-level key
         options = {
-          separator_style = "thick",
+          themable = true,
+          separator_style = "thin",
           diagnostics = "nvim_lsp",
           indicator = {
             icon = '▎',
@@ -53,6 +54,23 @@ return {
               separator = true
             }
           },
+          color_icons = true,
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' }
+          },
+          sort_by = 'relative_directory',
+          diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            return "(" .. count .. ")"
+          end,
+          -- name_formatter = function(buf)  -- buf contains:
+          -- name               -- | str        | the basename of the active file
+          -- path               -- | str        | the full path of the active file
+          -- bufnr               | int        | the number of the active buffer
+          -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
+          -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
+          -- end,
         }
       })
 
@@ -76,7 +94,7 @@ return {
 
       {
         's1n7ax/nvim-window-picker',
-        version = '2.*',
+        version = '*',
         config = function()
           require 'window-picker'.setup({
             filter_rules = {
@@ -102,7 +120,7 @@ return {
         close_if_last_window = true,
         popup_border_style = "rounded",
         enable_git_status = true,
-        enable_diagnostics = false,
+        enable_diagnostics = true,
         shared_tree_across_tabs = true,
         default_component_configs = {
           -- indent = {

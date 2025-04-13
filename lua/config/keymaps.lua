@@ -12,8 +12,8 @@ function M.set_base()
   })
 
   -- Copy/paste from system clipboard
-  vim.keymap.set({ 'n', 'x' }, 'cp', '"+y')
-  vim.keymap.set({ 'n', 'x' }, 'cv', '"+p')
+  vim.keymap.set({ 'n', 'x' }, '<leader>cp', '"+y', { desc = "Copy to system clipboard", })
+  vim.keymap.set({ 'n', 'x' }, '<leader>cv', '"+p', { desc = "Paste from system clipboard", })
   -- Delete without changing the registers
 
   vim.keymap.set("n", "<leader>nnp", "<cmd>NoNeckPain<cr>", {
