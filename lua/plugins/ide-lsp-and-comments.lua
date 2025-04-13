@@ -6,7 +6,6 @@ return {
       require("mason").setup()
     end,
   },
-
   -- Mason LSP setup
   {
     "williamboman/mason-lspconfig.nvim",
@@ -75,6 +74,11 @@ return {
               capabilities,
               positionEncodings = { "utf-16", "utf-32" },
             },
+            -- This instead if you dont need encodings merged for codecompanion.
+            --[[ require("lspconfig").clangd.setup({ ]]
+            --[[   capabilities = vim.tbl_deep_extend('force', capabilities, { -- Fix merge ]]
+            --[[     positionEncodings = { "utf-16", "utf-32" }, ]]
+            --[[   }), ]]
             on_attach = on_attach,
             cmd = {
               "clangd",
@@ -147,23 +151,21 @@ return {
             command = "cmake_format"
           }),
         },
-        on_attach = function(client, bufnr)
-          -- let the unified LSP on_attach handle the formatting setup
-        end,
+        --[[ on_attach = function(_client, bufnr) ]]
+        --[[   -- let the unified LSP on_attach handle the formatting setup ]]
+        --[[ end, ]]
         on_init = function(new_client, _)
           new_client.offset_encoding = 'utf-16'
         end,
       })
     end,
   },
-
-  -- Hover.nvim configuration
   {
     "lewis6991/hover.nvim",
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
       require("hover").setup({
-        init = function()
+        init = function(client, bufnr) -- Add parameters here
           require("hover.providers.lsp")
           -- Uncomment any additional providers you want to use:
           -- require('hover.providers.gh')
@@ -193,8 +195,9 @@ return {
       vim.keymap.set("n", "<C-p>", function()
         require("hover").hover_switch("previous")
       end, { desc = "hover.nvim (previous source)" })
+
       vim.keymap.set("n", "<C-n>", function()
-        require("hover").hover_switch("next")
+        require("hover").hover_switch("previous")
       end, { desc = "hover.nvim (next source)" })
 
       -- Mouse support
@@ -202,6 +205,7 @@ return {
       --[[   vim.o.mousemoveevent = true ]]
     end,
   },
+
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -211,28 +215,11 @@ return {
       "rrethy/nvim-treesitter-endwise",
       "windwp/nvim-autopairs",
       "abecodes/tabout.nvim",
+
       {
         "numToStr/Comment.nvim",
         config = function()
-          require('Comment').setup({
-            pre_hook = function(ctx)
-              local U = require("Comment.utils")
-              local ts_utils = require("ts_context_commentstring.utils")
-              local ts_internal = require("ts_context_commentstring.internal")
-
-              local location = nil
-              if ctx.ctype == U.ctype.block then
-                location = ts_utils.get_cursor_location()
-              elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
-                location = ts_utils.get_visual_start_location()
-              end
-
-              return ts_internal.calculate_commentstring({
-                key = ctx.ctype == U.ctype.line and "__default" or "__multiline",
-                location = location,
-              })
-            end,
-          })
+          require('Comment').setup()
         end,
       },
       {
@@ -436,6 +423,12 @@ return {
     },
   },
   {
+    "folke/trouble.nvim",
+    config = function()
+      require("trouble").setup()
+    end
+  },
+  {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
@@ -472,7 +465,11 @@ return {
           {
             { name = "nvim_lsp" },
             { name = "luasnip" },
-            { name = "codecompanion" }
+            { name = "codecompanion" },
+            {
+              name = "lazydev",
+              group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+            }
           },
           {
             { name = "buffer" },
@@ -520,7 +517,7 @@ return {
         -- Custom configuration
         symbol_in_winbar = {
           enable = true,
-          separator = '  ',
+          separator = '   ',
         },
         ui = {
           title = true,
