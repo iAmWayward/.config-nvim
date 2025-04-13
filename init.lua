@@ -16,6 +16,7 @@ require('transparent').clear_prefix('BufferLine')
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
+vim.o.signcolumn = "yes"
 
 vim.api.nvim_create_augroup("NotifyBackgroundFix", { clear = true })
 vim.api.nvim_create_autocmd("ColorScheme", {
