@@ -1,6 +1,35 @@
 return {
   -- Mason for package management
   {
+    "rcarriga/nvim-notify"
+  },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      presets = {
+        bottom_search = false,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false,
+        lsp_doc_border = false,
+      }
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    }
+  },
+  {
     "williamboman/mason.nvim",
     config = function()
       require("mason").setup()
@@ -13,7 +42,7 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-      
+
       -- Unified on_attach function
       local on_attach = function(client, bufnr)
         -- require("config.keymaps").mason_setup(bufnr)
@@ -489,6 +518,85 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
     end,
   },
+  -- Core DAP Plugin
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "mrjones2014/legendary.nvim",
+      {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+
+          "nvim-neotest/nvim-nio",
+        },
+        config = function()
+          local dap = require("dap")
+          local dapui = require("dapui")
+
+
+          -- Setup dapui
+          dapui.setup()
+
+          -- Open/Close dapui automatically on debugging events
+          dap.listeners.after.event_initialized["dapui_config"] = function()
+            dapui.open()
+          end
+          dap.listeners.before.event_terminated["dapui_config"] = function()
+            dapui.close()
+          end
+          dap.listeners.before.event_exited["dapui_config"] = function()
+            dapui.close()
+          end
+        end,
+      },
+      -- DAP Virtual Text Plugin
+      {
+        "theHamsta/nvim-dap-virtual-text",
+        config = function()
+          require("nvim-dap-virtual-text").setup {
+            commented = true,             -- Add comments for better readability
+            enabled = true,
+            enable_commands = true
+          }
+        end,
+      },
+    },
+    config = function()
+      local dap = require("dap")
+      local keymaps = require("config.keymaps")
+      require('legendary').keymaps(keymaps.dap_mappings(dap))
+
+      -- Example Adapter for gdb (adjust for embedded development)
+      dap.adapters.gdb = {
+        type = "executable",
+        command = "arm-none-eabi-gdb",         -- Replace with your gdb executable
+        name = "gdb",
+      }
+
+      dap.configurations.c = {
+        {
+          name = "Launch",
+          type = "gdb",
+          request = "launch",
+          program = "${workspaceFolder}/build/your_binary.elf",           -- Replace with your ELF path
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          runInTerminal = false,
+          setupCommands = {
+            {
+              text = "-enable-pretty-printing",               -- Pretty-printing for better debugging output
+              description = "Enable pretty printing",
+              ignoreFailures = false,
+            },
+          },
+        },
+      }
+
+      dap.configurations.cpp = dap.configurations.c
+      dap.configurations.rust = dap.configurations.c
+    end,
+  },
+
   {
     'nvimdev/lspsaga.nvim',
     config = function()

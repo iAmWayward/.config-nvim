@@ -54,5 +54,66 @@ return {
 
       -- see below for full list of options 👇
     },
-  }
+  },
+  {
+    'Bekaboo/dropbar.nvim',
+    -- optional, but required for fuzzy finder support
+    dependencies = {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      build = 'make'
+    },
+    config = function()
+      -- require("config.keymaps").dropbar_setup() -- Keymaps
+    end
+
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    config = function()
+      require("lualine").setup({
+        options = {
+          diagnostics = "nvim_lsp",
+          indicator = {
+            icon = '▎',
+            style = 'icon',
+          },
+          theme = "auto",
+          section_separators = { left = '', right = '' },
+          -- component_separators = { left = '', right = '' },
+          component_separators = { left = "", right = "" },
+          --[[ section_separators = { left = "", right = "" }, ]]
+          disabled_filetypes = {},
+          always_divide_middle = true,
+          globalstatus = true,
+        },
+        sections = {
+          lualine_a = {
+            {
+              'mode',
+              separator = { left = '' }
+            },
+            -- right_padding = 4
+          },
+          lualine_b = { 'branch', 'diff', 'diagnostics' },
+          lualine_c = {},
+          lualine_x = { 'filesize', 'encoding', 'fileformat' },
+          lualine_y = { 'progress', 'location' },
+          lualine_z = {
+            {
+              'filetype',
+              separator = { right = '' }
+            },
+          },
+        },
+        inactive_sections = {
+          lualine_a = { 'branch', 'diff', 'diagnostics' },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {}
+        },
+      })
+    end,
+  },
 }

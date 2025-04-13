@@ -8,10 +8,8 @@ require("notify").setup({
 -- Clear prefixes for plugins
 require('transparent').clear_prefix('lualine_c')
 require('transparent').clear_prefix('NeoTree')
-require('transparent').clear_prefix('DropBar')
-require('transparent').clear_prefix('Dropbar')
-require('transparent').clear_prefix('Bufferline')
-require('transparent').clear_prefix('BufferLine')
+-- require('transparent').clear_prefix('DropBar')
+-- require('transparent').clear_prefix('Bufferline')
 
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
@@ -30,6 +28,3 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 
 -- Also set it right away if a colorscheme is already loaded
 vim.cmd("highlight NotifyBackground guibg=#000000")
-
-
--- require("cofig.keymaps").set_base()
