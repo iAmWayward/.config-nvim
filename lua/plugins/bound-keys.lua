@@ -1,47 +1,54 @@
 return {
-  "nvim-lua/plenary.nvim",        -- Required dependency for many plugins. Super useful Lua functions
+  "nvim-lua/plenary.nvim",
   {
-    "mrjones2014/legendary.nvim", -- A command palette for keymaps, commands and autocmds
-    -- priority = 10000,
+    "mrjones2014/legendary.nvim",
     lazy = true,
-    dependencies = { "kkharji/sqlite.lua" },
-    extensions = {
-      lazy_nvim = true,
-      which_key = {
-        auto_register = true,
-        opts = {},
-        do_binding = false, -- Let legendary handle binding
-        use_groups = true,
-      }
+    dependencies = {
+      "kkharji/sqlite.lua",
+      "folke/which-key.nvim",
     },
     keys = {
-      {
-        "<C-p>",
-        function()
-          require("legendary").find()
-        end,
-        desc = "Open Legendary",
-      },
+      { '<C-p>', '<cmd>Legendary<cr>', desc = 'Open Command Palette' },
     },
     config = function()
-      local legendary = require("legendary")
+      require('legendary').setup({
+        include_builtin = true,
+        include_legendary_cmds = true,
+        extensions = {
+          which_key = {
+            auto_register = true,
+            do_binding = false,
+            use_groups = true,
+          }
+        }
+      })
 
-      -- Load your external keymaps file and register the keymaps
-      require("config.keymaps").set_base()
+      -- Load all regular keymaps
+      local keymaps = require('config.keymaps')
+      require('legendary').keymaps(keymaps.items)
 
-      require("config.keymaps").mason_setup()
-      require("config.keymaps").telescope_setup()
-      -- Optionally, if you also want Legendary to handle or list these keymaps
-      -- you could collect them into a table and then pass them to legendary.keymaps.
-      --
-      -- For example, if your keymaps module returned a table of legendary-style key definitions:
-      -- local keymaps = require("keymaps").keybinds
-    end,
+      -- Setup LSP keymaps when attaching to buffers
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local bufnr = args.buf
+          local lsp_maps = require('config.keymaps').lsp_mappings(bufnr)
+          require('legendary').keymaps(lsp_maps)
+        end
+      })
+    end
   },
   {
     "folke/which-key.nvim",
-    config = function()
-      require("which-key").setup {}
+    init = function()
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
     end,
+    config = function()
+      require('which-key').setup({
+        win = {
+          border = 'single',
+        }
+      })
+    end
   },
 }

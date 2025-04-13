@@ -3,11 +3,12 @@ return {
     {
         "mfussenegger/nvim-dap",
         dependencies = {
-            -- DAP UI Plugin
+            "mrjones2014/legendary.nvim",
             {
                 "rcarriga/nvim-dap-ui",
                 dependencies = {
-                    "nvim-neotest/nvim-nio", -- Add nvim-nio as a dependency
+
+                    "nvim-neotest/nvim-nio",
                 },
                 config = function()
                     local dap = require("dap")
@@ -43,7 +44,8 @@ return {
         },
         config = function()
             local dap = require("dap")
-            require("config.keymaps").debugger_setup(dap)
+            local keymaps = require("config.keymaps")
+            require('legendary').keymaps(keymaps.dap_mappings(dap))
 
             -- Example Adapter for gdb (adjust for embedded development)
             dap.adapters.gdb = {

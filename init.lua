@@ -32,4 +32,4 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 vim.cmd("highlight NotifyBackground guibg=#000000")
 
 
-require("config.keymaps").set_base()
+-- require("cofig.keymaps").set_base()

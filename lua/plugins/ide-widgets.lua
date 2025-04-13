@@ -37,7 +37,7 @@ return
       build = 'make'
     },
     config = function()
-      require("config.keymaps").dropbar_setup() -- Keymaps
+      -- require("config.keymaps").dropbar_setup() -- Keymaps
     end
 
   },

@@ -140,7 +140,7 @@ return {
           },
         },
         window = {
-          mappings = require("config.keymaps").get_tree_mappings(),
+          -- mappings = require("config.keymaps").get_tree_mappings(),
         },
         filesystem = {
           follow_current_file = {

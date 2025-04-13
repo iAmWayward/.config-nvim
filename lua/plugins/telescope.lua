@@ -8,7 +8,7 @@ return {
             vim.api.nvim_create_autocmd("User", {
                 pattern = "TelescopeFindPre",
                 callback = function()
-                    require("config.keymaps").telescope_setup()
+                    -- require("config.keymaps").telescope_setup()
                 end,
             })
         end,

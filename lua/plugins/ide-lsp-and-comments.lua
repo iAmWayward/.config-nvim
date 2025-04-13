@@ -13,10 +13,10 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
+      
       -- Unified on_attach function
       local on_attach = function(client, bufnr)
-        require("config.keymaps").mason_setup(bufnr)
+        -- require("config.keymaps").mason_setup(bufnr)
 
         -- Skip formatting for C/H files
         local filetype = vim.bo[bufnr].filetype
@@ -185,7 +185,7 @@ return {
         --[[ mouse_delay = 1000, ]]
       })
 
-      require("config.keymaps").hover_setup() -- Keymaps
+      -- require("config.keymaps").hover_setup() -- Keymaps
     end,
   },
   {
