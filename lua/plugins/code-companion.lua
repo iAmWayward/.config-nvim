@@ -1,12 +1,4 @@
 return {
-  {
-    "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
-    {
-      "Davidyz/VectorCode",
-      dependencies = { "nvim-lua/plenary.nvim" },
-      cmd = "VectorCode", -- if you're lazy-loading VectorCode
-    },
-  },
   -- {
   --   "github/copilot.vim"
   -- },
