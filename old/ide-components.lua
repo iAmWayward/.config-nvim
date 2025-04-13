@@ -15,7 +15,7 @@ return {
   },
   {
     "nvim-telescope/telescope-fzf-native.nvim",
-    build = "make",     -- correct for lazy.nvim
+    build = "make", -- correct for lazy.nvim
   },
   {
     "antosha417/nvim-lsp-file-operations",

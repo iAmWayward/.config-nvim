@@ -1,4 +1,25 @@
 return {
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    -- If you want to lazy load on keys:
+    config = function()
+      require("telescope").setup()
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "TelescopeFindPre",
+        callback = function()
+          -- require("config.keymaps").telescope_setup()
+        end,
+      })
+    end,
+  },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make", -- correct for lazy.nvim
+  },
+  {
+    "rcarriga/nvim-notify"
+  },
   -- Mason for package management
   {
     "ahmedkhalf/project.nvim",
@@ -32,8 +53,8 @@ return {
       -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
       -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
       -- refer to `:h file-pattern` for more examples
-      "BufReadPre /home/george/Documents/Obsidian Vault/*.md",
-      "BufNewFile /home/george/Documents/Obsidian Vault/*.md",
+      "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Obsidian Vault/*.md",
+      "BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
     },
     dependencies = {
       -- Required.
@@ -116,11 +137,6 @@ return {
         },
       })
     end,
-  },
-
-
-  {
-    "rcarriga/nvim-notify"
   },
   {
     "folke/noice.nvim",
@@ -406,6 +422,353 @@ return {
       })
     end,
   },
+  -- {
+  --   "github/copilot.vim"
+  -- },
+  {
+    "olimorris/codecompanion.nvim",
+    config = true,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "j-hui/fidget.nvim",
+    },
+    opts = {
+      adapters = {
+        -- anthropic = function()
+        --   return require("codecompanion.adapters").extend("anthropic", {
+        --     env = {
+        --       api_key = "cmd:op read op://personal/Anthropic_API/credential --no-newline",
+        --     },
+        --   })
+        -- end,
+        -- copilot = function()
+        --   return require("codecompanion.adapters").extend("copilot", {
+        --     schema = {
+        --       model = {
+        --         default = "gpt-4o",
+        --       },
+        --     },
+        --   })
+        -- end,
+        deepseek = function()
+          return require("codecompanion.adapters").extend("deepseek", {
+            env = {
+              api_key = "cmd:op read op://personal/DeepSeek_API/credential --no-newline",
+            },
+          })
+        end,
+        --[[ gemini = function() ]]
+        --[[   return require("codecompanion.adapters").extend("gemini", { ]]
+        --[[     env = { ]]
+        --[[       api_key = "cmd:op read op://personal/Gemini_API/credential --no-newline", ]]
+        --[[     }, ]]
+        --[[   }) ]]
+        --[[ end, ]]
+        ollama = function()
+          return require("codecompanion.adapters").extend("ollama", {
+            schema = {
+              num_ctx = {
+                default = 20000,
+              },
+            },
+          })
+        end,
+        openai = function()
+          return require("codecompanion.adapters").extend("openai", {
+            env = {
+              api_key = "cmd:op read op://personal/OpenAI_API/credential --no-newline",
+            },
+            schema = {
+              model = {
+                default = function()
+                  return "gpt-o1-mini"
+                end,
+              },
+            },
+          })
+        end,
+      },
+      prompt_library = {
+        ["NextJS Expert"] = {
+          strategy = "chat",
+          description = "Write typesafe NextJS 15.2 React code.",
+          opts = {
+            index = 11,
+            is_slash_cmd = false,
+            auto_submit = false,
+            short_name = "docs",
+          },
+          references = {
+            {
+              type = "file",
+              path = {
+                "next.config.ts",
+                --[[ "doc/.vitepress/config.mjs", ]]
+                --[[ "lua/codecompanion/config.lua", ]]
+                "README.md",
+              },
+            },
+          },
+          prompts = {
+            {
+              role = "user",
+              content =
+              [[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
+
+I'm sharing my vitepress config file so you have the context of how the documentation website is structured in the `sidebar` section of that file.
+
+I'm also sharing my `config.lua` file which I'm mapping to the `configuration` section of the sidebar.
+]],
+            },
+          },
+        },
+        ["Test workflow"] = {
+          strategy = "workflow",
+          description = "Use a workflow to test the plugin",
+          opts = {
+            index = 4,
+          },
+          prompts = {
+            {
+              {
+                role = "user",
+                content =
+                "Generate a Python class for managing a book library with methods for adding, removing, and searching books",
+                opts = {
+                  auto_submit = false,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Write unit tests for the library class you just created",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Create a TypeScript interface for a complex e-commerce shopping cart system",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Write a recursive algorithm to balance a binary search tree in Java",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Generate a comprehensive regex pattern to validate email addresses with explanations",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Create a Rust struct and implementation for a thread-safe message queue",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Write a GitHub Actions workflow file for CI/CD with multiple stages",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Create SQL queries for a complex database schema with joins across 4 tables",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Write a Lua configuration for Neovim with custom keybindings and plugins",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+            {
+              {
+                role = "user",
+                content = "Generate documentation in JSDoc format for a complex JavaScript API client",
+                opts = {
+                  auto_submit = true,
+                },
+              },
+            },
+          },
+        },
+        -- },
+        strategies = {
+          chat = {
+            adapter = "ollama",
+            roles = {
+              user = "Wayward",
+            },
+            keymaps = {
+              send = {
+                modes = {
+                  i = { "<C-CR>", "<C-s>" },
+                },
+              },
+              completion = {
+                modes = {
+                  i = "<C-x>",
+                },
+              },
+            },
+            slash_commands = {
+              ["buffer"] = {
+                opts = {
+                  --[[ provider = "snacks", ]]
+                  keymaps = {
+                    modes = {
+                      i = "<C-b>",
+                    },
+                  },
+                },
+              },
+              ["help"] = {
+                opts = {
+                  --[[ provider = "snacks", ]]
+                  max_lines = 1000,
+                },
+              },
+              ["file"] = {
+                opts = {
+                  --[[ provider = "snacks", ]]
+                },
+              },
+              --[[ ["symbols"] = { ]]
+              --[[   opts = { ]]
+              --[[     provider = "snacks", ]]
+              --[[   }, ]]
+            },
+          },
+          tools = {
+            vectorcode = {
+              description = "Run VectorCode to retrieve the project context.",
+              callback = function()
+                return require("vectorcode.integrations").codecompanion.chat.make_tool()
+              end,
+            },
+          },
+        },
+        inline = { adapter = "openai" } -- { adapter = "ollama" },
+      },
+      display = {
+        action_palette = {
+          provider = "default",
+        },
+        chat = {
+          -- show_references = true,
+          show_header_separator = true,
+          -- show_settings = false,
+        },
+        diff = {
+          provider = "mini_diff",
+        },
+      },
+      --[[ opts = { ]]
+      --[[   log_level = "DEBUG", ]]
+      --[[ }, ]]
+    },
+    init = function()
+      vim.cmd([[cab cc CodeCompanion]])
+      require("legendary").keymaps({
+        {
+          itemgroup = "CodeCompanion",
+          icon = "",
+          description = "Use the power of AI...",
+          keymaps = {
+            {
+              "<C-a>",
+              "<cmd>CodeCompanionActions<CR>",
+              description = "Open the action palette",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>aa",
+              "<cmd>CodeCompanionChat Toggle<CR>",
+              description = "Toggle a chat buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>ac",
+              "<cmd>CodeCompanionChat Add<CR>",
+              description = "Add selected text to a chat buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>ad",
+              "<cmd>CodeCompanionDiff<CR>",
+              description = "Diff the current buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>as",
+              "<cmd>CodeCompanionSettings<CR>",
+              description = "Open the settings buffer",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>at",
+              "<cmd>CodeCompanionToggle<CR>",
+              description = "Toggle CodeCompanion",
+              mode = { "n", "v" },
+            },
+            {
+              "<Leader>ae",
+              "<cmd>CodeCompanion<CR>",
+              description = "CodeCompanion to edit the file directly",
+              mode = { "n", "v" },
+            },
+          },
+        },
+      })
+      require("plugins.codecompanion.spinner"):init()
+    end,
+  },
+  {
+    "echasnovski/mini.test", -- Testing framework for Neovim
+    config = true,
+  },
+  {
+    "echasnovski/mini.diff", -- Inline and better diff over the default
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        -- Disabled by default
+        source = diff.gen_source.none(),
+      })
+    end,
+  },
+
   {
     "windwp/nvim-autopairs",
     dependencies = { "hrsh7th/nvim-cmp" },
@@ -766,6 +1129,165 @@ return {
       dependencies = { "nvim-lua/plenary.nvim" },
       cmd = "VectorCode", -- if you're lazy-loading VectorCode
     },
+  },
+  {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-neo-tree/neo-tree.nvim",
+    },
+    config = function()
+      require("lsp-file-operations").setup()
+    end,
+  },
+  {
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      local function get_bufferline_highlights()
+        local colorscheme = vim.g.colors_name or ""
+        if colorscheme:find("catppuccin") then
+          return require("catppuccin.groups.integrations.bufferline").get()
+        end
+        -- Fallback styling
+        return {
+          background = { bg = "NONE" },
+          buffer_selected = { bold = true, italic = false },
+          buffer_visible = { bg = "NONE" },
+          fill = { bg = "NONE" },
+          separator = { bg = "NONE" },
+          separator_selected = { bg = "NONE" },
+          separator_visible = { bg = "NONE" },
+          indicator_selected = { bg = "NONE" },
+          modified = { bg = "NONE" },
+          modified_selected = { bg = "NONE" },
+          modified_visible = { bg = "NONE" },
+        }
+      end
+
+      -- Initial setup with highlights at the top level
+      require("bufferline").setup({
+        highlights = get_bufferline_highlights(), -- Top-level key
+        options = {
+          themable = true,
+          separator_style = "thin",
+          diagnostics = "nvim_lsp",
+          indicator = {
+            icon = '▎',
+            style = 'icon',
+          },
+          offsets = {
+            {
+              filetype = "neo-tree",
+              text = "File Explorer",
+              text_align = "center",
+              separator = true
+            }
+          },
+          color_icons = true,
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' }
+          },
+          sort_by = 'relative_directory',
+          diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            return "(" .. count .. ")"
+          end,
+          -- name_formatter = function(buf)  -- buf contains:
+          -- name               -- | str        | the basename of the active file
+          -- path               -- | str        | the full path of the active file
+          -- bufnr               | int        | the number of the active buffer
+          -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
+          -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
+          -- end,
+        }
+      })
+
+      --[[ -- Autocmd outside the setup to handle colorscheme changes ]]
+      --[[ vim.api.nvim_create_autocmd("ColorScheme", { ]]
+      --[[   callback = function() ]]
+      --[[     require("bufferline").setup({ highlights = get_bufferline_highlights() }) ]]
+      --[[   end, ]]
+      --[[ }) ]]
+    end,
+  },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+      --[[ "3rd/image.nvim", ]]
+      opts = {},
+
+      {
+        's1n7ax/nvim-window-picker',
+        version = '*',
+        config = function()
+          require 'window-picker'.setup({
+            filter_rules = {
+              include_current_win = false,
+              autoselect_one = true,
+              bo = {
+                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                buftype = { 'terminal', "quickfix" },
+              },
+            },
+          })
+        end,
+      },
+    },
+    config = function()
+      vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+      -- Don't call tree_setup here, it will be called in the event handler
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        popup_border_style = "rounded",
+        enable_git_status = true,
+        enable_diagnostics = true,
+        shared_tree_across_tabs = true,
+        default_component_configs = {
+          icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "󰜌",
+            default = "*",
+            folder_empty_open = "󰝰",
+          },
+          git_status = {
+            symbols = {
+              added = "✚",
+              modified = "",
+              deleted = "✖",
+              renamed = "󰁕",
+            },
+          },
+        },
+        window = {
+          -- mappings = require("config.keymaps").get_tree_mappings(),
+        },
+        filesystem = {
+          follow_current_file = {
+            enabled = true,
+            leave_dirs_open = true,
+          },
+          hijack_netrw_behavior = "open_default",
+        },
+        commands = {
+          open_tab_stay = function()
+            require("neo-tree.sources.filesystem.commands").open_tabnew()
+            vim.cmd("wincmd p") -- Return to previous window
+          end,
+        },
+      })
+    end,
   },
 
 
