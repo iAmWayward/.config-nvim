@@ -1,4 +1,5 @@
 local M = {}
+local wk = require("which-key")
 
 -- Note: <leader> is spacebar, M is alt, C is ctrl.
 -- Therefore, <leader>o translates to "hit space, then o"
@@ -14,8 +15,8 @@ function M.set_base()
   -- Copy/paste from system clipboard
   vim.keymap.set({ 'n', 'x' }, '<leader>cp', '"+y', { desc = "Copy to system clipboard", })
   vim.keymap.set({ 'n', 'x' }, '<leader>cv', '"+p', { desc = "Paste from system clipboard", })
-  -- Delete without changing the registers
 
+  -- NoNeckPain Plugin Bindings --
   vim.keymap.set("n", "<leader>nnp", "<cmd>NoNeckPain<cr>", {
     desc = "Toggle No Neck Pain",
     silent = true,
@@ -72,18 +73,20 @@ function M.set_base()
 
   --[[ Instead of tabs, this nvim config is setup to open "buffers" by default. So this is how you change vim tabs. ]]
   --[[ bufferline plugin keybinds ]]
-  vim.keymap.set('n', '<M-PageUp>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer', silent = true })
-  vim.keymap.set('n', '<M-PageDown>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer', silent = true })
+  vim.keymap.set({ 'n', 'i' }, '<M-PageUp>', '<cmd>BufferLineCyclePrev<CR>', { desc = 'Previous buffer', silent = true })
+  vim.keymap.set({ 'n', 'i' }, '<M-PageDown>', '<cmd>BufferLineCycleNext<CR>', { desc = 'Next buffer', silent = true })
   vim.keymap.set('n', '<leader>q', '<cmd>bp|bd #<CR>', { desc = 'Close current buffer', silent = true })
   vim.api.nvim_set_keymap("n", "<Leader>ng", ":lua require('neogen').generate()<CR>", opts)
 end
 
 function M.telescope_setup()
-  -- nvim Telescope Keybinds (file/text finder)
-  vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = "Find Files" })
-  vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = "Live Grep" })
-  vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = "Find Buffers" })
-  vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = "Help Tags" })
+  wk.register({
+    -- nvim Telescope Keybinds (file/text finder)
+    vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = "Find Files" }),
+    vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = "Live Grep" }),
+    vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = "Find Buffers" }),
+    vim.keymap.set('n', '<leader>fh', require('telescope.builtin').help_tags, { desc = "Help Tags" })
+  })
 end
 
 function M.get_tree_mappings()
@@ -99,17 +102,37 @@ function M.get_tree_mappings()
 end
 
 function M.debugger_setup(dap)
-  -- Use the passed dap instance instead of requiring it
-  vim.keymap.set("n", "<F5>", dap.continue, { desc = "Start/Continue Debugging" })
-  vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Step Over" })
-  vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Step Into" })
-  vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Step Out" })
-  vim.keymap.set("n", "<Leader>b", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" })
-  vim.keymap.set("n", "<Leader>B", function()
-    dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-  end, { desc = "Set Conditional Breakpoint" })
-  vim.keymap.set("n", "<Leader>dr", dap.repl.open, { desc = "Open REPL" })
-  vim.keymap.set("n", "<Leader>dl", dap.run_last, { desc = "Run Last Debug Session" })
+  wk.register({
+    -- Use the passed dap instance instead of requiring it
+    vim.keymap.set("n", "<F5>", dap.continue, { desc = "Start/Continue Debugging" }),
+    vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Step Over" }),
+    vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Step Into" }),
+    vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Step Out" }),
+    vim.keymap.set("n", "<Leader>b", dap.toggle_breakpoint, { desc = "Toggle Breakpoint" }),
+    vim.keymap.set("n", "<Leader>B", function()
+      dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+    end, { desc = "Set Conditional Breakpoint" }),
+    vim.keymap.set("n", "<Leader>dr", dap.repl.open, { desc = "Open REPL" }),
+    vim.keymap.set("n", "<Leader>dl", dap.run_last, { desc = "Run Last Debug Session" }),
+  })
+end
+
+function M.hover_setup()
+  wk.register({
+    vim.keymap.set("n", "K", require("hover").hover, { desc = "hover.nvim" }),
+    vim.keymap.set("n", "gK", require("hover").hover_select, { desc = "hover.nvim (select)" }),
+    vim.keymap.set("n", "<C-p>", function()
+      require("hover").hover_switch("previous")
+    end, { desc = "hover.nvim (previous source)" }),
+
+    vim.keymap.set("n", "<C-n>", function()
+      require("hover").hover_switch("previous")
+    end, { desc = "hover.nvim (next source)" }),
+
+    -- Mouse support
+    --[[   vim.keymap.set("n", "<MouseMove>", require("hover").hover_mouse, { desc = "hover.nvim (mouse)" }) ]]
+    --[[   vim.o.mousemoveevent = true ]]
+  })
 end
 
 -- Special setup required for LSP bindings.
@@ -117,7 +140,6 @@ function M.mason_setup(bufnr)
   local map = function(mode, lhs, rhs, desc)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
-
 
   -- LSP keymaps (buffer-local)
   if bufnr then
