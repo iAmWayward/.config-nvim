@@ -226,9 +226,13 @@ return {
         livePreview = true,
         globalBefore = [[
 require('transparent').clear_prefix('NeoTree')
+require('transparent').clear_prefix('DropBar')
+require('transparent').clear_prefix('BufferLineFill')
 ]],
         globalAfter = [[
 require('transparent').clear_prefix('NeoTree')
+require('transparent').clear_prefix('DropBarIconUISeparator')
+require('transparent').clear_prefix('BufferLineFill')
 -- ]],
       })
     end

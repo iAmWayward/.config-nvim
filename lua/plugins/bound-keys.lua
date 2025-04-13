@@ -2,8 +2,8 @@ return {
   "nvim-lua/plenary.nvim",        -- Required dependency for many plugins. Super useful Lua functions
   {
     "mrjones2014/legendary.nvim", -- A command palette for keymaps, commands and autocmds
-    priority = 10000,
-    lazy = false,
+    -- priority = 10000,
+    lazy = true,
     dependencies = { "kkharji/sqlite.lua" },
     extensions = {
       lazy_nvim = true,
@@ -35,9 +35,7 @@ return {
       -- you could collect them into a table and then pass them to legendary.keymaps.
       --
       -- For example, if your keymaps module returned a table of legendary-style key definitions:
-      --
       -- local keymaps = require("keymaps").keybinds
-      -- legendary.keymaps(keymaps)
     end,
   },
   {
