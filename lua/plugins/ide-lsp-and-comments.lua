@@ -1064,7 +1064,7 @@ return {
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
     },
-    cmd = "leet", -- Load only on command
+    cmd = "Leet", -- Load only on command
     opts = {
       -- configuration goes here
     },
