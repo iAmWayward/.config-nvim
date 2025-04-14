@@ -158,7 +158,12 @@ return {
           "BufferLineFill",  -- For bufferline background
           "BufferLineOffset",
           "StatusLineNC",
-          "DropBarMenuNormalFloat"
+          "DropBarMenuNormalFloat",
+          "TabLine",
+          "TabLineFill",
+          "Whitespace",
+          "WinBar",
+          "WinBarNC"
           -- "lualine",
         },
         exclude_groups = {
@@ -179,7 +184,7 @@ return {
             require('transparent').clear_prefix('lualine_c')
             require('transparent').clear_prefix('NeoTree')
             require('transparent').clear_prefix('TelescopeNormal')
-            require('transparent').clear_prefix('BufferLine')
+            require('transparent').clear_prefix('BufferLineBackground')
             require('transparent').clear_prefix('BufferOffset')
             require('transparent').clear_prefix('BufferLineOffset')
             require('transparent').clear_prefix('DropBarMenuNormalFloat')
@@ -199,8 +204,8 @@ return {
             name = "Tokyo Night",
             colorscheme = "tokyonight",
             before = [[
-              vim.g.tokyonight_transparent = true
-              vim.g.tokyonight_transparent_sidebar = true
+              vim.g.tokyonight_transparent = vim.g.transparent_enabled or false,
+              vim.g.tokyonight_transparent_sidebar = vim.g.transparent_enabled or false,
               vim.g.tokyonight_dark_sidebar = false
               vim.g.tokyonight_dark_float = false
               ]],
@@ -229,7 +234,7 @@ return {
           {
             name = "Ayu",
             colorscheme = "ayu",
-            before = [[ vim.g.ayu_mirage = true ]],
+            before = [[ vim.g.ayu_mirage = vim.g.transparent_enabled or false, ]],
             -- overrides = function()
             --   return {
             --     -- Normal = { bg = "NONE" },
