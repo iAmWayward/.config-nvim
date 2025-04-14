@@ -203,12 +203,6 @@ return {
           {
             name = "Tokyo Night",
             colorscheme = "tokyonight",
-            before = [[
-              vim.g.tokyonight_transparent = vim.g.transparent_enabled or false,
-              vim.g.tokyonight_transparent_sidebar = vim.g.transparent_enabled or false,
-              vim.g.tokyonight_dark_sidebar = false
-              vim.g.tokyonight_dark_float = false
-              ]],
           },
           {
             name = "Catppuccin",
@@ -234,16 +228,6 @@ return {
           {
             name = "Ayu",
             colorscheme = "ayu",
-            before = [[ vim.g.ayu_mirage = vim.g.transparent_enabled or false, ]],
-            -- overrides = function()
-            --   return {
-            --     -- Normal = { bg = "NONE" },
-            --     -- NormalNC = { bg = "NONE" },
-            --     -- lualine_c_normal = { bg = "NONE" },
-            --     -- StatusLine = { bg = "NONE" },
-            --     -- Add other groups as needed
-            --   }
-            -- end
           },
           {
             name = "Edge",
