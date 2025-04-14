@@ -18,7 +18,39 @@ return {
     build = "make", -- correct for lazy.nvim
   },
   {
-    "rcarriga/nvim-notify"
+    "rcarriga/nvim-notify",
+    config = function()
+      require("notify").setup({
+        -- Use default renderer with custom window settings
+        render = "default",
+        stages = "fade_in_slide_out",
+        timeout = 3000,
+        background_colour = "Normal",
+        fps = 60,
+        icons = {
+          ERROR = "",
+          WARN = "",
+          INFO = "",
+          DEBUG = "",
+          TRACE = ""
+        },
+        minimum_width = 50,
+        max_width = 100,
+        max_height = 20,
+        top_down = false,
+
+        -- Custom window parameters for rounded borders and transparency
+        on_open = function(win)
+          vim.api.nvim_win_set_config(win, {
+            border = "rounded",
+            style = "minimal",
+            winblend = 5
+          })
+          vim.wo[win].conceallevel = 2
+          vim.wo[win].wrap = false
+        end
+      })
+    end
   },
   -- Mason for package management
   {
@@ -155,12 +187,20 @@ return {
         long_message_to_split = true,
         inc_rename = false,
         lsp_doc_border = true,
+      },
+      views = {
+        notify = {
+          replace = true,
+          merge = true,
+          render = "default", -- Match the notify renderer
+          format = function(notification)
+            return notification.body
+          end
+        }
       }
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     }
   },
