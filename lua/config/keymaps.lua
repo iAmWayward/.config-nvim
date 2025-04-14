@@ -3,6 +3,15 @@ local M = {}
 
 M.items = {
   -- Base keymaps
+  {
+    mode = 'n',
+    '<leader>hd',
+    function()
+      local cursor_highlight = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
+      print("Highlight group under cursor: " .. cursor_highlight)
+    end,
+    description = 'Show highlight group under cursor'
+  },
   { mode = 'n',          '<leader>T',    '<cmd>Themery<cr>',                                            description = 'Change theme' },
   { mode = { 'n', 'x' }, '<leader>cp',   '"+y',                                                         description = 'Copy to system clipboard' },
   { mode = { 'n', 'x' }, '<leader>cv',   '"+p',                                                         description = 'Paste from system clipboard' },

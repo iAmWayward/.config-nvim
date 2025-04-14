@@ -25,7 +25,7 @@ return {
         render = "default",
         stages = "fade_in_slide_out",
         timeout = 3000,
-        background_colour = "Normal",
+        background_colour = "#000000", -- TODO theme this
         fps = 60,
         icons = {
           ERROR = "",
@@ -44,10 +44,10 @@ return {
           vim.api.nvim_win_set_config(win, {
             border = "rounded",
             style = "minimal",
-            winblend = 5
+            -- winblend = 5
           })
           vim.wo[win].conceallevel = 2
-          vim.wo[win].wrap = false
+          vim.wo[win].wrap = true
         end
       })
     end
@@ -185,19 +185,25 @@ return {
         bottom_search = false,
         command_palette = true,
         long_message_to_split = true,
-        inc_rename = false,
+        inc_rename = false, -- Renaming symbols in a project is handled by lspsaga
         lsp_doc_border = true,
       },
-      views = {
-        notify = {
-          replace = true,
-          merge = true,
-          render = "default", -- Match the notify renderer
-          format = function(notification)
-            return notification.body
-          end
-        }
-      }
+      -- views = {
+      --   notify = {
+      --     replace = true,
+      --     merge = true,
+      --     render = "default", -- Match the notify renderer
+      --     -- format = function(notification)
+      --     --   local body = notification.body or ""
+      --     --   -- If body is a string, split it into lines; if it's already a table, return it as is.
+      --     --   if type(body) == "string" then
+      --     --     -- Split the string at each newline and return the resulting table
+      --     --     return vim.split(body, "\n")
+      --     --   end
+      --     --   return body
+      --     -- end,
+      --   },
+      -- },
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -884,6 +890,92 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
     },
   },
   {
+    "shortcuts/no-neck-pain.nvim",
+    version = "*"
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {
+      file_types = { "markdown", "Avante", "codecompanion" },
+    },
+    ft = { "markdown", "Avante", "codecompanion" },
+  },
+  {
+    "declancm/cinnamon.nvim",
+    version = "*", -- use latest release
+    opts = {
+      keymaps = {
+        basic = true,
+        extra = true,
+      },
+
+      -- Only scroll the window
+      options = {
+        mode = "window",
+        easing = "linear",
+        duration_multiplier = .75,
+      },
+    },
+    -- change default options here
+  },
+  {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      -- Function to generate a dynamic header
+      local function generate_header()
+        local day = os.date("%A")            -- Get the day of the week
+        local hour = tonumber(os.date("%H")) -- Get the current hour
+        local greeting = ""
+
+        if hour < 12 then
+          greeting = "Good Morning!"
+        elseif hour < 18 then
+          greeting = "Good Afternoon!"
+        else
+          greeting = "Good Evening!"
+        end
+
+        return {
+          greeting,
+          "Today is " .. day,
+        }
+      end
+
+      -- Dashboard setup
+      require('dashboard').setup({
+        theme = 'hyper', -- Ensure theme is explicitly set
+        disable_at_vimenter = true,
+        change_to_vcs_root = true,
+        config = {
+          header = generate_header(),
+          week_header = {
+            enable = true,
+            concat = " - Let's Code!",
+          },
+          disable_move = false,
+          shortcut = {
+            {
+              desc = "  Find File",
+              group = "DashboardShortCut",
+              action = "Telescope find_files",
+              key = "f"
+            },
+            {
+              desc
+
+                     = " Recent Files",
+              group  = "DashboardShortCut",
+              action = "Telescope oldfiles",
+              key    = "r"
+            }, { desc = " Config", group = "DashboardShortCut", action = "edit ~/.config/nvim/init.lua", key = "c" }, },
+          footer = { "Have a productive session!", },
+        },
+      })
+    end,
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
+  {
     "danymat/neogen",
     config = function()
       require("neogen").setup({
@@ -1185,30 +1277,8 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
-      local function get_bufferline_highlights()
-        local colorscheme = vim.g.colors_name or ""
-        if colorscheme:find("catppuccin") then
-          return require("catppuccin.groups.integrations.bufferline").get()
-        end
-        -- Fallback styling
-        return {
-          background = { bg = "NONE" },
-          buffer_selected = { bold = true, italic = false },
-          buffer_visible = { bg = "NONE" },
-          fill = { bg = "NONE" },
-          separator = { bg = "NONE" },
-          separator_selected = { bg = "NONE" },
-          separator_visible = { bg = "NONE" },
-          indicator_selected = { bg = "NONE" },
-          modified = { bg = "NONE" },
-          modified_selected = { bg = "NONE" },
-          modified_visible = { bg = "NONE" },
-        }
-      end
-
-      -- Initial setup with highlights at the top level
       require("bufferline").setup({
-        highlights = get_bufferline_highlights(), -- Top-level key
+        -- highlights = get_bufferline_highlights(),
         options = {
           themable = true,
           separator_style = "thin",
@@ -1244,13 +1314,6 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
           -- end,
         }
       })
-
-      --[[ -- Autocmd outside the setup to handle colorscheme changes ]]
-      --[[ vim.api.nvim_create_autocmd("ColorScheme", { ]]
-      --[[   callback = function() ]]
-      --[[     require("bufferline").setup({ highlights = get_bufferline_highlights() }) ]]
-      --[[   end, ]]
-      --[[ }) ]]
     end,
   },
   {
