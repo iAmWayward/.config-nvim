@@ -1,4 +1,40 @@
+--- @file init.lua
+--- @brief Main configuration file for Neovim
+--- @version 1.0
+---
+--- This configuration uses lazy.nvim as the plugin manager and organizes plugins
+--- into logical groups for easier maintenance and understanding.
+---
+--- # Structure:
+--- - Core UI: Visual elements like themes, statuslines, notifications
+--- - Editor Enhancement: Features that improve basic editing
+--- - Navigation: Tools for moving around code and projects
+--- - LSP & Completion: Language server and completion configurations
+--- - Git Integration: Version control related plugins
+--- - Development Tools: Language specific and development enhancements
+--- - AI Tools: AI-assisted coding and writing features
 return {
+  --============================== Core Plugins ==============================--
+  {
+    "echasnovski/mini.test", -- Testing framework for Neovim
+    config = true,
+  },
+  {
+    "echasnovski/mini.diff", -- Inline and better diff over the default
+    config = function()
+      local diff = require("mini.diff")
+      diff.setup({
+        -- Disabled by default
+        source = diff.gen_source.none(),
+      })
+    end,
+  },
+  {
+    "folke/trouble.nvim",
+    config = function()
+      require("trouble").setup()
+    end
+  },
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
@@ -16,6 +52,236 @@ return {
   {
     "nvim-telescope/telescope-fzf-native.nvim",
     build = "make", -- correct for lazy.nvim
+  },
+  {
+    "ahmedkhalf/project.nvim",
+    config = function()
+      require("project_nvim").setup({
+        manual_mode = false,
+        detection_methods = { "pattern", "lsp" },
+        patterns = { ".git", "Makefile", "package.json", ".svn", ".cproj", "csproj" },
+        show_hidden = false,
+      })
+      require('telescope').load_extension('projects')
+    end,
+  },
+  {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter', -- Only visit dashboard when vim is given no arguments
+    config = function()
+      -- Function to generate a dynamic header
+      local function generate_header()
+        local day = os.date("%A")            -- Get the day of the week
+        local hour = tonumber(os.date("%H")) -- Get the current hour
+        local greeting = ""
+
+        if hour < 12 then
+          greeting = "Good Morning!"
+        elseif hour < 18 then
+          greeting = "Good Afternoon!"
+        else
+          greeting = "Good Evening!"
+        end
+
+        return {
+          greeting,
+          "Today is " .. day,
+        }
+      end
+
+      -- Dashboard setup
+      require('dashboard').setup({
+        theme = 'hyper', -- Ensure theme is explicitly set
+        disable_at_vimenter = true,
+        change_to_vcs_root = true,
+        config = {
+          header = generate_header(),
+          week_header = {
+            enable = true,
+            concat = " - Let's Code!",
+          },
+          disable_move = false,
+          shortcut = {
+            {
+              desc = "  Find File",
+              group = "DashboardShortCut",
+              action = "Telescope find_files",
+              key = "f"
+            },
+            {
+              desc
+
+                     = " Recent Files",
+              group  = "DashboardShortCut",
+              action = "Telescope oldfiles",
+              key    = "r"
+            }, { desc = " Config", group = "DashboardShortCut", action = "edit ~/.config/nvim/init.lua", key = "c" }, },
+          footer = { "Have a productive session!", },
+        },
+      })
+    end,
+    dependencies = { 'nvim-tree/nvim-web-devicons' }
+  },
+
+  --============================== Project Management ==============================--
+  {
+    'https://github.com/adelarsq/neovcs.vim',
+    keys = {
+      '<leader>v',
+    },
+    config = function()
+      require('neovcs').setup()
+    end
+  },
+  { 'HugoBde/subversigns.nvim' },
+  {
+    "danymat/neogen",
+    config = function()
+      require("neogen").setup({
+        enabled = true,
+        input_after_comment = true,
+        languages = {
+          cpp = {
+            template = {
+              annotation_convention = "doxygen"
+            }
+          },
+          c = {
+            template = {
+              annotation_convention = "doxygen"
+            }
+          },
+          python = {
+            template = {
+              annotation_convention = "google_docstrings"
+            }
+          },
+          lua = {
+            template = {
+              annotation_convention = "emmylua"
+            }
+          },
+          javascript = {
+            template = {
+              annotation_convention = "jsdoc"
+            }
+          },
+          javascriptreact = {
+            template = {
+              annotation_convention = "jsdoc"
+            }
+          },
+          typescript = {
+            template = {
+              annotation_convention = "tsdoc"
+            }
+          },
+          typescriptreact = {
+            template = {
+              annotation_convention = "tsdoc"
+            }
+          },
+          tsx = {
+            template = {
+              annotation_convention = "tsdoc"
+            }
+          },
+          jsx = {
+            template = {
+              annotation_convention = "jsdoc"
+            }
+          },
+          sh = {
+            template = {
+              annotation_convention = "google_bash"
+            }
+          },
+        }
+      })
+    end,
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    keys = {
+    },
+  },
+
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    --[[ ft = "markdown", ]]
+    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+    event = {
+      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+      -- refer to `:h file-pattern` for more examples
+      "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Obsidian Vault/*.md",
+      "BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
+    },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+
+      -- see below for full list of optional dependencies 👇
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "personal",
+          path = "~/Documents/Obsidian Vault",
+        },
+        --[[ { ]]
+        --[[   name = "work", ]]
+        --[[   path = "~/vaults/work", ]]
+        --[[ }, ]]
+      },
+
+      -- More options available
+    },
+  },
+  {
+    "hat0uma/doxygen-previewer.nvim",
+    opts = {},
+    dependencies = { "hat0uma/prelive.nvim" },
+    update_on_save = true,
+    cmd = {
+      "DoxygenOpen",
+      "DoxygenUpdate",
+      "DoxygenStop",
+      "DoxygenLog",
+      "DoxygenTempDoxyfileOpen"
+    },
+  },
+  {
+    "shortcuts/no-neck-pain.nvim",
+    version = "*"
+  },
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {
+      file_types = { "markdown", "Avante", "codecompanion" },
+    },
+    ft = { "markdown", "Avante", "codecompanion" },
+  },
+
+
+  --============================== UI Enhancements ==============================--
+  {
+    "declancm/cinnamon.nvim",
+    version = "*", -- use latest release
+    opts = {
+      keymaps = {
+        basic = true,
+        extra = true,
+      },
+
+      -- Only scroll the window
+      options = {
+        mode = "window",
+        easing = "linear",
+        duration_multiplier = .75,
+      },
+    },
+    -- change default options here
   },
   {
     "rcarriga/nvim-notify",
@@ -52,62 +318,59 @@ return {
       })
     end
   },
-  -- Mason for package management
   {
-    "ahmedkhalf/project.nvim",
-    config = function()
-      require("project_nvim").setup({
-        manual_mode = false,
-        detection_methods = { "pattern", "lsp" },
-        patterns = { ".git", "Makefile", "package.json", ".svn", ".cproj", "csproj" },
-        show_hidden = false,
-      })
-      require('telescope').load_extension('projects')
-    end,
-  },
-  {
-    'https://github.com/adelarsq/neovcs.vim',
-    keys = {
-      '<leader>v',
-    },
-    config = function()
-      require('neovcs').setup()
-    end
-  },
-  { 'HugoBde/subversigns.nvim' },
-  {
-    "epwalsh/obsidian.nvim",
-    version = "*", -- recommended, use latest release instead of latest commit
-    lazy = true,
-    --[[ ft = "markdown", ]]
-    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-    event = {
-      -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-      -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-      -- refer to `:h file-pattern` for more examples
-      "BufReadPre " .. vim.fn.expand("~") .. "/Documents/Obsidian Vault/*.md",
-      "BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      presets = {
+        bottom_search = false,
+        command_palette = true,
+        long_message_to_split = true,
+        inc_rename = false, -- Renaming symbols in a project is handled by lspsaga
+        lsp_doc_border = true,
+      },
     },
     dependencies = {
-      -- Required.
-      "nvim-lua/plenary.nvim",
-
-      -- see below for full list of optional dependencies 👇
-    },
-    opts = {
-      workspaces = {
-        {
-          name = "personal",
-          path = "~/Documents/Obsidian Vault",
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    }
+  },
+  {
+    "lewis6991/hover.nvim",
+    dependencies = { "neovim/nvim-lspconfig" },
+    config = function()
+      require("hover").setup({
+        init = function(client, bufnr) -- Add parameters here
+          require("hover.providers.lsp")
+          -- Uncomment any additional providers you want to use:
+          -- require('hover.providers.gh')
+          -- require('hover.providers.gh_user')
+          -- require('hover.providers.jira')
+          require('hover.providers.dap')
+          -- require('hover.providers.fold_preview')
+          -- require('hover.providers.diagnostic')
+          require('hover.providers.man')
+          require('hover.providers.dictionary')
+          -- require('hover.providers.highlight')
+        end,
+        preview_opts = {
+          border = "single",
         },
-        --[[ { ]]
-        --[[   name = "work", ]]
-        --[[   path = "~/vaults/work", ]]
-        --[[ }, ]]
-      },
-
-      -- see below for full list of options 👇
-    },
+        preview_window = false,
+        title = true,
+        mouse_providers = {
+          "LSP",
+        },
+        --[[ mouse_delay = 1000, ]]
+      })
+    end,
   },
   {
     'Bekaboo/dropbar.nvim',
@@ -171,45 +434,128 @@ return {
     end,
   },
   {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      lsp = {
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-        },
-      },
-      presets = {
-        bottom_search = false,
-        command_palette = true,
-        long_message_to_split = true,
-        inc_rename = false, -- Renaming symbols in a project is handled by lspsaga
-        lsp_doc_border = true,
-      },
-      -- views = {
-      --   notify = {
-      --     replace = true,
-      --     merge = true,
-      --     render = "default", -- Match the notify renderer
-      --     -- format = function(notification)
-      --     --   local body = notification.body or ""
-      --     --   -- If body is a string, split it into lines; if it's already a table, return it as is.
-      --     --   if type(body) == "string" then
-      --     --     -- Split the string at each newline and return the resulting table
-      --     --     return vim.split(body, "\n")
-      --     --   end
-      --     --   return body
-      --     -- end,
-      --   },
-      -- },
-    },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
-    }
+    'akinsho/bufferline.nvim',
+    version = "*",
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function()
+      require("bufferline").setup({
+        -- highlights = get_bufferline_highlights(),
+        options = {
+          themable = true,
+          separator_style = "thin",
+          diagnostics = "nvim_lsp",
+          indicator = {
+            icon = '▎',
+            style = 'icon',
+          },
+          offsets = {
+            {
+              filetype = "neo-tree",
+              text = "File Explorer",
+              text_align = "center",
+              separator = true
+            }
+          },
+          color_icons = true,
+          hover = {
+            enabled = true,
+            delay = 200,
+            reveal = { 'close' }
+          },
+          sort_by = 'relative_directory',
+          diagnostics_indicator = function(count, level, diagnostics_dict, context)
+            return "(" .. count .. ")"
+          end,
+          -- name_formatter = function(buf)  -- buf contains:
+          -- name               -- | str        | the basename of the active file
+          -- path               -- | str        | the full path of the active file
+          -- bufnr               | int        | the number of the active buffer
+          -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
+          -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
+          -- end,
+        }
+      })
+    end,
   },
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+      --[[ "3rd/image.nvim", ]]
+      opts = {},
+
+      {
+        's1n7ax/nvim-window-picker',
+        version = '*',
+        config = function()
+          require 'window-picker'.setup({
+            filter_rules = {
+              include_current_win = false,
+              autoselect_one = true,
+              bo = {
+                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
+                buftype = { 'terminal', "quickfix" },
+              },
+            },
+          })
+        end,
+      },
+    },
+    config = function()
+      vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+      vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+      vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+      vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+
+      -- Don't call tree_setup here, it will be called in the event handler
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        popup_border_style = "rounded",
+        enable_git_status = true,
+        enable_diagnostics = true,
+        shared_tree_across_tabs = true,
+        default_component_configs = {
+          icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "󰜌",
+            default = "*",
+            folder_empty_open = "󰝰",
+          },
+          git_status = {
+            symbols = {
+              added = "✚",
+              modified = "",
+              deleted = "✖",
+              renamed = "󰁕",
+            },
+          },
+        },
+        window = {
+          -- mappings = require("config.keymaps").get_tree_mappings(),
+        },
+        filesystem = {
+          follow_current_file = {
+            enabled = true,
+            leave_dirs_open = true,
+          },
+          hijack_netrw_behavior = "open_default",
+        },
+        commands = {
+          open_tab_stay = function()
+            require("neo-tree.sources.filesystem.commands").open_tabnew()
+            vim.cmd("wincmd p") -- Return to previous window
+          end,
+        },
+      })
+    end,
+  },
+
+
+  --=============================== LSP Ecosystem ================================--
   {
     "williamboman/mason.nvim",
     config = function()
@@ -366,38 +712,69 @@ return {
       })
     end,
   },
+
   {
-    "lewis6991/hover.nvim",
-    dependencies = { "neovim/nvim-lspconfig" },
+    "windwp/nvim-autopairs",
+    dependencies = { "hrsh7th/nvim-cmp" },
+    event = "InsertEnter",
     config = function()
-      require("hover").setup({
-        init = function(client, bufnr) -- Add parameters here
-          require("hover.providers.lsp")
-          -- Uncomment any additional providers you want to use:
-          -- require('hover.providers.gh')
-          -- require('hover.providers.gh_user')
-          -- require('hover.providers.jira')
-          -- require('hover.providers.dap')
-          -- require('hover.providers.fold_preview')
-          -- require('hover.providers.diagnostic')
-          require('hover.providers.man')
-          require('hover.providers.dictionary')
-          -- require('hover.providers.highlight')
-        end,
-        preview_opts = {
-          border = "single",
-        },
-        preview_window = false,
-        title = true,
-        mouse_providers = {
-          "LSP",
-        },
-        --[[ mouse_delay = 1000, ]]
+      local npairs = require("nvim-autopairs")
+      local Rule = require("nvim-autopairs.rule")
+      local ts_conds = require("nvim-autopairs.ts-conds")
+
+      npairs.setup({
+        check_ts = true,
+        ts_config = {
+          lua = { "string" },
+          javascript = { "template_string" },
+          typescript = { "template_string" },
+          typescriptreact = { "template_string", "string", "comment" },
+          javascriptreact = { "template_string", "string", "comment" },
+        }
       })
 
-      -- require("config.keymaps").hover_setup() -- Keymaps
+      -- Add custom rules for JSX/TSX with more complete filetype handling
+      npairs.add_rules({
+        Rule("<", ">", { "typescriptreact" }),
+        Rule("{", "}", { "typescriptreact" }),
+        Rule("(", ")", { "typescriptreact" }),
+        Rule("[", "]", { "typescriptreact" }),
+        Rule("'", "'", { "typescriptreact" }),
+        Rule('"', '"', { "typescriptreact" }),
+        Rule("`", "`", { "typescriptreact" }),
+      })
+
+      -- Treesitter condition-based pairs
+      npairs.add_rules({
+        Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ "string", "comment" })),
+        Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" }))
+      })
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      local cmp_status_ok, cmp = pcall(require, 'cmp')
+      if cmp_status_ok then
+        cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+      end
     end,
   },
+  {
+    "abecodes/tabout.nvim",
+    opts = {
+      tabkey = "<Tab>",
+      backwards_tabkey = "<S-Tab>",
+      completion = true,
+    },
+  },
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    config = function()
+      local rainbow_delimiters = require 'rainbow-delimiters'
+      vim.g.rainbow_delimiters = {
+        strategy = { [''] = rainbow_delimiters.strategy.global },
+        query = { [''] = 'rainbow-delimiters' }
+      }
+    end
+  },
+
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -468,6 +845,266 @@ return {
       })
     end,
   },
+
+  {
+    'nvimdev/lspsaga.nvim',
+    config = function()
+      require('lspsaga').setup({
+        -- Custom configuration
+        symbol_in_winbar = {
+          enable = true,
+          separator = '   ',
+        },
+        ui = {
+          title = true,
+          border = 'rounded',
+          actionfix = '',
+          expand = '',
+          collapse = '',
+          code_action = '💡',
+          diagnostic = '🐞',
+          colors = {
+            normal_bg = '#022746',
+          },
+        },
+        lightbulb = {
+          enable = true,
+          sign = true,
+          virtual_text = false,
+        },
+        diagnostic = {
+          show_code_action = true,
+          show_source = true,
+          jump_num_shortcut = true,
+          keys = {
+            exec_action = 'o',
+            quit = 'q',
+          },
+        },
+      })
+    end,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-tree/nvim-web-devicons',
+      'folke/trouble.nvim',
+    }
+  },
+  {
+    "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
+    {
+      "Davidyz/VectorCode",
+      dependencies = { "nvim-lua/plenary.nvim" },
+      cmd = "VectorCode", -- if you're lazy-loading VectorCode
+    },
+  },
+  {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-neo-tree/neo-tree.nvim",
+    },
+    config = function()
+      require("lsp-file-operations").setup()
+    end,
+  },
+
+  --=============================== CMP Ecosystem ================================--
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
+      "onsails/lspkind.nvim",
+      "windwp/nvim-autopairs",
+    },
+    config = function()
+      local cmp = require("cmp")
+      local luasnip = require("luasnip")
+      local lspkind = require("lspkind")
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+      -- Main cmp setup
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            luasnip.lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Enter>"] = cmp.mapping.complete(),
+          ["<C-e>"] = cmp.mapping.abort(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        }),
+        sources = cmp.config.sources(
+          {
+            { name = "nvim_lsp" },
+            { name = "luasnip" },
+            { name = "codecompanion" },
+            {
+              name = "lazydev",
+              group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+            }
+          },
+          {
+            { name = "buffer" },
+            { name = "path" },
+          }
+        ),
+        formatting = {
+          format = lspkind.cmp_format({
+            mode = "symbol",
+            maxwidth = 50,
+            ellipsis_char = "...",
+            show_labeldetails = true,
+          }),
+        },
+        experimental = {
+          ghost_text = true,
+        },
+      })
+
+      -- Cmdline setup for search ('/')
+      cmp.setup.cmdline("/", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" }
+        }
+      })
+
+      -- Cmdline setup for command line (':')
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources(
+          { { name = "path" } },
+          { { name = "cmdline" } }
+        )
+      })
+
+      -- Load snippets
+      require("luasnip.loaders.from_vscode").lazy_load()
+    end,
+  },
+
+  --=============================== DAP Debugger Ecosystem ================================--
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "mrjones2014/legendary.nvim",
+      {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+
+          "nvim-neotest/nvim-nio",
+        },
+        config = function()
+          local dap = require("dap")
+          local dapui = require("dapui")
+
+
+          -- Setup dapui
+          dapui.setup()
+
+          -- Open/Close dapui automatically on debugging events
+          dap.listeners.after.event_initialized["dapui_config"] = function()
+            dapui.open()
+          end
+          dap.listeners.before.event_terminated["dapui_config"] = function()
+            dapui.close()
+          end
+          dap.listeners.before.event_exited["dapui_config"] = function()
+            dapui.close()
+          end
+        end,
+      },
+      -- DAP Virtual Text Plugin
+      {
+        "theHamsta/nvim-dap-virtual-text",
+        config = function()
+          require("nvim-dap-virtual-text").setup {
+            commented = true, -- Add comments for better readability
+            enabled = true,
+            enable_commands = true
+          }
+        end,
+      },
+    },
+    config = function()
+      local dap = require("dap")
+      local keymaps = require("config.keymaps")
+      require('legendary').keymaps(keymaps.dap_mappings(dap))
+
+      -- Example Adapter for gdb (adjust for embedded development)
+      dap.adapters.gdb = {
+        type = "executable",
+        command = "arm-none-eabi-gdb", -- Replace with your gdb executable
+        name = "gdb",
+      }
+
+      dap.configurations.c = {
+        {
+          name = "Launch",
+          type = "gdb",
+          request = "launch",
+          program = "${workspaceFolder}/build/your_binary.elf", -- Replace with your ELF path
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          runInTerminal = false,
+          setupCommands = {
+            {
+              text = "-enable-pretty-printing", -- Pretty-printing for better debugging output
+              description = "Enable pretty printing",
+              ignoreFailures = false,
+            },
+          },
+        },
+      }
+
+      dap.configurations.cpp = dap.configurations.c
+      dap.configurations.rust = dap.configurations.c
+    end,
+  },
+
+  --=============================== Very Extra ================================--
+  {
+    "kawre/leetcode.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      -- "ibhagwan/fzf-lua",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    opts = {
+      -- configuration goes here
+    },
+  },
+  {
+    "amitds1997/remote-nvim.nvim",
+    version = "*",                     -- Pin to GitHub releases
+    dependencies = {
+      "nvim-lua/plenary.nvim",         -- For standard functions
+      "MunifTanjim/nui.nvim",          -- To build the plugin UI
+      "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
+    },
+    config = true,
+    -- Offline mode configuration. For more details, see the "Offline mode" section below.
+    --[[ offline_mode = { ]]
+    --[[   -- Should offline mode be enabled? ]]
+    --[[   enabled = false, ]]
+    --[[   -- Do not connect to GitHub at all. Not even to get release information. ]]
+    --[[   no_github = false, ]]
+    --[[   -- What path should be looked at to find locally available releases ]]
+    --[[   cache_dir = utils.path_join(utils.is_windows, vim.fn.stdpath("cache"), constants.PLUGIN_NAME, "version_cache"), ]]
+    --[[ }, ]]
+  },
+
+  --=============================== LLM Provider ================================--
   -- {
   --   "github/copilot.vim"
   -- },
@@ -800,635 +1437,5 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
       require("plugins.codecompanion.spinner"):init()
     end,
   },
-  {
-    "echasnovski/mini.test", -- Testing framework for Neovim
-    config = true,
-  },
-  {
-    "echasnovski/mini.diff", -- Inline and better diff over the default
-    config = function()
-      local diff = require("mini.diff")
-      diff.setup({
-        -- Disabled by default
-        source = diff.gen_source.none(),
-      })
-    end,
-  },
 
-  {
-    "windwp/nvim-autopairs",
-    dependencies = { "hrsh7th/nvim-cmp" },
-    event = "InsertEnter",
-    config = function()
-      local npairs = require("nvim-autopairs")
-      local Rule = require("nvim-autopairs.rule")
-      local ts_conds = require("nvim-autopairs.ts-conds")
-
-      npairs.setup({
-        check_ts = true,
-        ts_config = {
-          lua = { "string" },
-          javascript = { "template_string" },
-          typescript = { "template_string" },
-          typescriptreact = { "template_string", "string", "comment" },
-          javascriptreact = { "template_string", "string", "comment" },
-        }
-      })
-
-      -- Add custom rules for JSX/TSX with more complete filetype handling
-      npairs.add_rules({
-        Rule("<", ">", { "typescriptreact" }),
-        Rule("{", "}", { "typescriptreact" }),
-        Rule("(", ")", { "typescriptreact" }),
-        Rule("[", "]", { "typescriptreact" }),
-        Rule("'", "'", { "typescriptreact" }),
-        Rule('"', '"', { "typescriptreact" }),
-        Rule("`", "`", { "typescriptreact" }),
-      })
-
-      -- Treesitter condition-based pairs
-      npairs.add_rules({
-        Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ "string", "comment" })),
-        Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" }))
-      })
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      local cmp_status_ok, cmp = pcall(require, 'cmp')
-      if cmp_status_ok then
-        cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
-      end
-    end,
-  },
-  {
-    "abecodes/tabout.nvim",
-    opts = {
-      tabkey = "<Tab>",
-      backwards_tabkey = "<S-Tab>",
-      completion = true,
-    },
-  },
-  {
-    "HiPhish/rainbow-delimiters.nvim",
-    config = function()
-      local rainbow_delimiters = require 'rainbow-delimiters'
-      vim.g.rainbow_delimiters = {
-        strategy = { [''] = rainbow_delimiters.strategy.global },
-        query = { [''] = 'rainbow-delimiters' }
-      }
-    end
-  },
-  {
-    "hat0uma/doxygen-previewer.nvim",
-    opts = {},
-    dependencies = { "hat0uma/prelive.nvim" },
-    update_on_save = true,
-    cmd = {
-      "DoxygenOpen",
-      "DoxygenUpdate",
-      "DoxygenStop",
-      "DoxygenLog",
-      "DoxygenTempDoxyfileOpen"
-    },
-  },
-  {
-    "shortcuts/no-neck-pain.nvim",
-    version = "*"
-  },
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    opts = {
-      file_types = { "markdown", "Avante", "codecompanion" },
-    },
-    ft = { "markdown", "Avante", "codecompanion" },
-  },
-  {
-    "declancm/cinnamon.nvim",
-    version = "*", -- use latest release
-    opts = {
-      keymaps = {
-        basic = true,
-        extra = true,
-      },
-
-      -- Only scroll the window
-      options = {
-        mode = "window",
-        easing = "linear",
-        duration_multiplier = .75,
-      },
-    },
-    -- change default options here
-  },
-  {
-    'nvimdev/dashboard-nvim',
-    event = 'VimEnter',
-    config = function()
-      -- Function to generate a dynamic header
-      local function generate_header()
-        local day = os.date("%A")            -- Get the day of the week
-        local hour = tonumber(os.date("%H")) -- Get the current hour
-        local greeting = ""
-
-        if hour < 12 then
-          greeting = "Good Morning!"
-        elseif hour < 18 then
-          greeting = "Good Afternoon!"
-        else
-          greeting = "Good Evening!"
-        end
-
-        return {
-          greeting,
-          "Today is " .. day,
-        }
-      end
-
-      -- Dashboard setup
-      require('dashboard').setup({
-        theme = 'hyper', -- Ensure theme is explicitly set
-        disable_at_vimenter = true,
-        change_to_vcs_root = true,
-        config = {
-          header = generate_header(),
-          week_header = {
-            enable = true,
-            concat = " - Let's Code!",
-          },
-          disable_move = false,
-          shortcut = {
-            {
-              desc = "  Find File",
-              group = "DashboardShortCut",
-              action = "Telescope find_files",
-              key = "f"
-            },
-            {
-              desc
-
-                     = " Recent Files",
-              group  = "DashboardShortCut",
-              action = "Telescope oldfiles",
-              key    = "r"
-            }, { desc = " Config", group = "DashboardShortCut", action = "edit ~/.config/nvim/init.lua", key = "c" }, },
-          footer = { "Have a productive session!", },
-        },
-      })
-    end,
-    dependencies = { 'nvim-tree/nvim-web-devicons' }
-  },
-  {
-    "danymat/neogen",
-    config = function()
-      require("neogen").setup({
-        enabled = true,
-        input_after_comment = true,
-        languages = {
-          cpp = {
-            template = {
-              annotation_convention = "doxygen"
-            }
-          },
-          c = {
-            template = {
-              annotation_convention = "doxygen"
-            }
-          },
-          python = {
-            template = {
-              annotation_convention = "google_docstrings"
-            }
-          },
-          lua = {
-            template = {
-              annotation_convention = "emmylua"
-            }
-          },
-          javascript = {
-            template = {
-              annotation_convention = "jsdoc"
-            }
-          },
-          javascriptreact = {
-            template = {
-              annotation_convention = "jsdoc"
-            }
-          },
-          typescript = {
-            template = {
-              annotation_convention = "tsdoc"
-            }
-          },
-          typescriptreact = {
-            template = {
-              annotation_convention = "tsdoc"
-            }
-          },
-          tsx = {
-            template = {
-              annotation_convention = "tsdoc"
-            }
-          },
-          jsx = {
-            template = {
-              annotation_convention = "jsdoc"
-            }
-          },
-          sh = {
-            template = {
-              annotation_convention = "google_bash"
-            }
-          },
-        }
-      })
-    end,
-    dependencies = "nvim-treesitter/nvim-treesitter",
-    keys = {
-    },
-  },
-  {
-    "folke/trouble.nvim",
-    config = function()
-      require("trouble").setup()
-    end
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "L3MON4D3/LuaSnip",
-      "saadparwaiz1/cmp_luasnip",
-      "onsails/lspkind.nvim",
-      "windwp/nvim-autopairs",
-    },
-    config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-      local lspkind = require("lspkind")
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
-      -- Main cmp setup
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Enter>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
-        }),
-        sources = cmp.config.sources(
-          {
-            { name = "nvim_lsp" },
-            { name = "luasnip" },
-            { name = "codecompanion" },
-            {
-              name = "lazydev",
-              group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-            }
-          },
-          {
-            { name = "buffer" },
-            { name = "path" },
-          }
-        ),
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol",
-            maxwidth = 50,
-            ellipsis_char = "...",
-            show_labeldetails = true,
-          }),
-        },
-        experimental = {
-          ghost_text = true,
-        },
-      })
-
-      -- Cmdline setup for search ('/')
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" }
-        }
-      })
-
-      -- Cmdline setup for command line (':')
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources(
-          { { name = "path" } },
-          { { name = "cmdline" } }
-        )
-      })
-
-      -- Load snippets
-      require("luasnip.loaders.from_vscode").lazy_load()
-    end,
-  },
-  -- Core DAP Plugin
-  {
-    "mfussenegger/nvim-dap",
-    dependencies = {
-      "mrjones2014/legendary.nvim",
-      {
-        "rcarriga/nvim-dap-ui",
-        dependencies = {
-
-          "nvim-neotest/nvim-nio",
-        },
-        config = function()
-          local dap = require("dap")
-          local dapui = require("dapui")
-
-
-          -- Setup dapui
-          dapui.setup()
-
-          -- Open/Close dapui automatically on debugging events
-          dap.listeners.after.event_initialized["dapui_config"] = function()
-            dapui.open()
-          end
-          dap.listeners.before.event_terminated["dapui_config"] = function()
-            dapui.close()
-          end
-          dap.listeners.before.event_exited["dapui_config"] = function()
-            dapui.close()
-          end
-        end,
-      },
-      -- DAP Virtual Text Plugin
-      {
-        "theHamsta/nvim-dap-virtual-text",
-        config = function()
-          require("nvim-dap-virtual-text").setup {
-            commented = true, -- Add comments for better readability
-            enabled = true,
-            enable_commands = true
-          }
-        end,
-      },
-    },
-    config = function()
-      local dap = require("dap")
-      local keymaps = require("config.keymaps")
-      require('legendary').keymaps(keymaps.dap_mappings(dap))
-
-      -- Example Adapter for gdb (adjust for embedded development)
-      dap.adapters.gdb = {
-        type = "executable",
-        command = "arm-none-eabi-gdb", -- Replace with your gdb executable
-        name = "gdb",
-      }
-
-      dap.configurations.c = {
-        {
-          name = "Launch",
-          type = "gdb",
-          request = "launch",
-          program = "${workspaceFolder}/build/your_binary.elf", -- Replace with your ELF path
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          runInTerminal = false,
-          setupCommands = {
-            {
-              text = "-enable-pretty-printing", -- Pretty-printing for better debugging output
-              description = "Enable pretty printing",
-              ignoreFailures = false,
-            },
-          },
-        },
-      }
-
-      dap.configurations.cpp = dap.configurations.c
-      dap.configurations.rust = dap.configurations.c
-    end,
-  },
-
-  {
-    'nvimdev/lspsaga.nvim',
-    config = function()
-      require('lspsaga').setup({
-        -- Custom configuration
-        symbol_in_winbar = {
-          enable = true,
-          separator = '   ',
-        },
-        ui = {
-          title = true,
-          border = 'rounded',
-          actionfix = '',
-          expand = '',
-          collapse = '',
-          code_action = '💡',
-          diagnostic = '🐞',
-          colors = {
-            normal_bg = '#022746',
-          },
-        },
-        lightbulb = {
-          enable = true,
-          sign = true,
-          virtual_text = false,
-        },
-        diagnostic = {
-          show_code_action = true,
-          show_source = true,
-          jump_num_shortcut = true,
-          keys = {
-            exec_action = 'o',
-            quit = 'q',
-          },
-        },
-      })
-    end,
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-tree/nvim-web-devicons',
-      'folke/trouble.nvim',
-    }
-  },
-  {
-    "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
-    {
-      "Davidyz/VectorCode",
-      dependencies = { "nvim-lua/plenary.nvim" },
-      cmd = "VectorCode", -- if you're lazy-loading VectorCode
-    },
-  },
-  {
-    "antosha417/nvim-lsp-file-operations",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-neo-tree/neo-tree.nvim",
-    },
-    config = function()
-      require("lsp-file-operations").setup()
-    end,
-  },
-  {
-    'akinsho/bufferline.nvim',
-    version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function()
-      require("bufferline").setup({
-        -- highlights = get_bufferline_highlights(),
-        options = {
-          themable = true,
-          separator_style = "thin",
-          diagnostics = "nvim_lsp",
-          indicator = {
-            icon = '▎',
-            style = 'icon',
-          },
-          offsets = {
-            {
-              filetype = "neo-tree",
-              text = "File Explorer",
-              text_align = "center",
-              separator = true
-            }
-          },
-          color_icons = true,
-          hover = {
-            enabled = true,
-            delay = 200,
-            reveal = { 'close' }
-          },
-          sort_by = 'relative_directory',
-          diagnostics_indicator = function(count, level, diagnostics_dict, context)
-            return "(" .. count .. ")"
-          end,
-          -- name_formatter = function(buf)  -- buf contains:
-          -- name               -- | str        | the basename of the active file
-          -- path               -- | str        | the full path of the active file
-          -- bufnr               | int        | the number of the active buffer
-          -- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
-          -- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-          -- end,
-        }
-      })
-    end,
-  },
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    branch = "v3.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-      --[[ "3rd/image.nvim", ]]
-      opts = {},
-
-      {
-        's1n7ax/nvim-window-picker',
-        version = '*',
-        config = function()
-          require 'window-picker'.setup({
-            filter_rules = {
-              include_current_win = false,
-              autoselect_one = true,
-              bo = {
-                filetype = { 'neo-tree', "neo-tree-popup", "notify" },
-                buftype = { 'terminal', "quickfix" },
-              },
-            },
-          })
-        end,
-      },
-    },
-    config = function()
-      vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-      vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-      vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-      vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
-
-      -- Don't call tree_setup here, it will be called in the event handler
-      require("neo-tree").setup({
-        close_if_last_window = true,
-        popup_border_style = "rounded",
-        enable_git_status = true,
-        enable_diagnostics = true,
-        shared_tree_across_tabs = true,
-        default_component_configs = {
-          icon = {
-            folder_closed = "",
-            folder_open = "",
-            folder_empty = "󰜌",
-            default = "*",
-            folder_empty_open = "󰝰",
-          },
-          git_status = {
-            symbols = {
-              added = "✚",
-              modified = "",
-              deleted = "✖",
-              renamed = "󰁕",
-            },
-          },
-        },
-        window = {
-          -- mappings = require("config.keymaps").get_tree_mappings(),
-        },
-        filesystem = {
-          follow_current_file = {
-            enabled = true,
-            leave_dirs_open = true,
-          },
-          hijack_netrw_behavior = "open_default",
-        },
-        commands = {
-          open_tab_stay = function()
-            require("neo-tree.sources.filesystem.commands").open_tabnew()
-            vim.cmd("wincmd p") -- Return to previous window
-          end,
-        },
-      })
-    end,
-  },
-
-
-  {
-    "amitds1997/remote-nvim.nvim",
-    version = "*",                     -- Pin to GitHub releases
-    dependencies = {
-      "nvim-lua/plenary.nvim",         -- For standard functions
-      "MunifTanjim/nui.nvim",          -- To build the plugin UI
-      "nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
-    },
-    config = true,
-    -- Offline mode configuration. For more details, see the "Offline mode" section below.
-    --[[ offline_mode = { ]]
-    --[[   -- Should offline mode be enabled? ]]
-    --[[   enabled = false, ]]
-    --[[   -- Do not connect to GitHub at all. Not even to get release information. ]]
-    --[[   no_github = false, ]]
-    --[[   -- What path should be looked at to find locally available releases ]]
-    --[[   cache_dir = utils.path_join(utils.is_windows, vim.fn.stdpath("cache"), constants.PLUGIN_NAME, "version_cache"), ]]
-    --[[ }, ]]
-  },
-
-
-
-
-
-
-  {
-    "kawre/leetcode.nvim",
-    dependencies = {
-      "nvim-telescope/telescope.nvim",
-      -- "ibhagwan/fzf-lua",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    },
-    opts = {
-      -- configuration goes here
-    },
-  },
 }
