@@ -76,6 +76,7 @@ return {
               SignColumn = { bg = "NONE" },
               Folded = { bg = "NONE" },
               VertSplit = { bg = "NONE" },
+              BufferLine = { bg = "NONE" }
             }
           end
           return {}
@@ -114,14 +115,14 @@ return {
         fzf = true,
         --     grug_far = true,
         -- gitsigns = true,
-        --     headlines = true,
-        --     illuminate = true,
+        headlines = true,
+        illuminate = true,
         indent_blankline = { enabled = true },
         --     leap = true,
         lsp_trouble = true,
         mason = true,
         markdown = true,
-        --     mini = true,
+        mini = true,
         native_lsp = {
           enabled = true,
           underlines = {
@@ -131,7 +132,7 @@ return {
             information = { "undercurl" },
           },
         },
-        --     navic = { enabled = true, custom_bg = "NONE" }, -- lualine
+        navic = { enabled = true, custom_bg = "NONE" }, -- lualine
         --     neotest = true,
         neotree = true,
         noice = true,
@@ -155,8 +156,9 @@ return {
           "NeoTreeNormal",   -- If you're using neo-tree
           "TelescopeNormal", -- For telescope
           "BufferLineFill",  -- For bufferline background
-          -- "StatusLine",
+          "BufferLineOffset",
           "StatusLineNC",
+          "DropBarMenuNormalFloat"
           -- "lualine",
         },
         exclude_groups = {
@@ -173,11 +175,14 @@ return {
         callback = function()
           -- Small delay to ensure theme is fully applied
           vim.defer_fn(function()
-            require('transparent').clear_prefix('BufferLine')
             require('transparent').clear_prefix('DropBar')
             require('transparent').clear_prefix('lualine_c')
             require('transparent').clear_prefix('NeoTree')
             require('transparent').clear_prefix('TelescopeNormal')
+            require('transparent').clear_prefix('BufferLine')
+            require('transparent').clear_prefix('BufferOffset')
+            require('transparent').clear_prefix('BufferLineOffset')
+            require('transparent').clear_prefix('DropBarMenuNormalFloat')
           end, 10)
         end
       })
