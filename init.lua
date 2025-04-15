@@ -6,4 +6,4 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 vim.o.signcolumn = "yes"
 
--- vim.cmd.set = "termguicolors"
+vim.cmd.set = "termguicolors"

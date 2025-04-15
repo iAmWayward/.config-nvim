@@ -1,6 +1,8 @@
 -- config/keymaps.lua
 local M = {}
-
+-- {{{ Section Name
+-- fold markers
+-- }}}
 M.items = {
   -- Base keymaps
   {
@@ -12,7 +14,8 @@ M.items = {
     end,
     description = 'Show highlight group under cursor'
   },
-  { mode = 'n',          '<leader>T',    '<cmd>Themery<cr>',                                            description = 'Change theme' },
+  { mode = { 'n', 'x' }, '<leader>T',    '<cmd>Themery<cr>',                                            description = 'Change theme' },
+  { mode = { 'n', 'x' }, '<leader>t',    '<cmd>TransparentToggle<cr>',                                  description = 'Toggle Transparency' },
   { mode = { 'n', 'x' }, '<leader>cp',   '"+y',                                                         description = 'Copy to system clipboard' },
   { mode = { 'n', 'x' }, '<leader>cv',   '"+p',                                                         description = 'Paste from system clipboard' },
 
