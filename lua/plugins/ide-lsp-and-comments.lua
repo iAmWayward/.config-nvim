@@ -289,7 +289,7 @@ return {
         respect_scrolloff = false,
         cursor_scrolls_alone = true,
         duration_multiplier = 1.0,
-        easing = 'linear',
+        easing = 'quadratic',
         pre_hook = nil,
         post_hook = nil,
         performance_mode = false,

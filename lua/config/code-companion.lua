@@ -1,21 +1,5 @@
 return {
   adapters = {
-    -- anthropic = function()
-    --   return require("codecompanion.adapters").extend("anthropic", {
-    --     env = {
-    --       api_key = "cmd:op read op://personal/Anthropic_API/credential --no-newline",
-    --     },
-    --   })
-    -- end,
-    -- copilot = function()
-    --   return require("codecompanion.adapters").extend("copilot", {
-    --     schema = {
-    --       model = {
-    --         default = "gpt-4o",
-    --       },
-    --     },
-    --   })
-    -- end,
     deepseek = function()
       return require("codecompanion.adapters").extend("deepseek", {
         env = {
@@ -23,13 +7,6 @@ return {
         },
       })
     end,
-    --[[ gemini = function() ]]
-    --[[   return require("codecompanion.adapters").extend("gemini", { ]]
-    --[[     env = { ]]
-    --[[       api_key = "cmd:op read op://personal/Gemini_API/credential --no-newline", ]]
-    --[[     }, ]]
-    --[[   }) ]]
-    --[[ end, ]]
     ollama = function()
       return require("codecompanion.adapters").extend("ollama", {
         schema = {
@@ -53,6 +30,29 @@ return {
         },
       })
     end,
+    -- anthropic = function()
+    --   return require("codecompanion.adapters").extend("anthropic", {
+    --     env = {
+    --       api_key = "cmd:op read op://personal/Anthropic_API/credential --no-newline",
+    --     },
+    --   })
+    -- end,
+    -- copilot = function()
+    --   return require("codecompanion.adapters").extend("copilot", {
+    --     schema = {
+    --       model = {
+    --         default = "gpt-4o",
+    --       },
+    --     },
+    --   })
+    -- end,
+    --[[ gemini = function() ]]
+    --[[   return require("codecompanion.adapters").extend("gemini", { ]]
+    --[[     env = { ]]
+    --[[       api_key = "cmd:op read op://personal/Gemini_API/credential --no-newline", ]]
+    --[[     }, ]]
+    --[[   }) ]]
+    --[[ end, ]]
   },
   prompt_library = {
     ["NextJS Expert"] = {
@@ -244,7 +244,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
         },
       },
     },
-    inline = { adapter = "deepseek" }     -- { adapter = "ollama" },
+    inline = { adapter = "deepseek" } -- { adapter = "ollama" },
   },
   display = {
     action_palette = {
@@ -259,8 +259,8 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
       provider = "mini_diff",
     },
   },
-  --[[ opts = { ]]
-  --[[   log_level = "DEBUG", ]]
-  --[[ }, ]]
-  -- },
+  opts = {
+    send_code = false,
+    log_level = "DEBUG",
+  },
 }

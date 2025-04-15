@@ -20,6 +20,7 @@ M.items = {
   { mode = { 'n', 'x' }, '<leader>cv',   '"+p',                                                         description = 'Paste from system clipboard' },
 
   -- NoNeckPain
+  { mode = { 'n', 'x' }, '<leader>n',    name = '+NoNeckPain' },
   { mode = 'n',          '<leader>nnp',  '<cmd>NoNeckPain<cr>',                                         description = 'Toggle No Neck Pain' },
   { mode = 'n',          '<leader>nwu',  '<cmd>NoNeckPainWidthUp<cr>',                                  description = 'Increase width' },
   { mode = 'n',          '<leader>nwd',  '<cmd>NoNeckPainWidthDown<cr>',                                description = 'Decrease width' },
@@ -84,6 +85,22 @@ M.items = {
   { mode = 'n',          '<leader>fg',   require('telescope.builtin').live_grep,                        description = 'Live Grep' },
   { mode = 'n',          '<leader>fb',   require('telescope.builtin').buffers,                          description = 'Find Buffers' },
   { mode = 'n',          '<leader>fh',   require('telescope.builtin').help_tags,                        description = 'Help Tags' },
+
+
+  -- itemgroup = "CodeCompanion",
+  -- icon = "",
+  -- description = "Use the power of AI...",
+  -- keymaps = {
+
+  { mode = { "n", "v" }, "<C-a>",        "<cmd>CodeCompanionActions<CR>",                               description = "Open the action palette" },
+  { mode = { "n", "v" }, "<Leader>aa",   "<cmd>CodeCompanionChat Toggle<CR>",                           description = "Toggle a chat buffer" },
+  { mode = { "n", "v" }, "<Leader>ac",   "<cmd>CodeCompanionChat Add<CR>",                              description = "Add selected text to a chat buffer" },
+  { mode = { "n", "v" }, "<Leader>ad",   "<cmd>CodeCompanionDiff<CR>",                                  description = "Diff the current buffer" },
+  { mode = { "n", "v" }, "<Leader>as",   "<cmd>CodeCompanionSettings<CR>",                              description = "Open the settings buffer" },
+  { mode = { "n", "v" }, "<Leader>at",   "<cmd>CodeCompanionToggle<CR>",                                description = "Toggle CodeCompanion" },
+  { mode = { "n", "v" }, "<Leader>ae",   "<cmd>CodeCompanion<CR>",                                      description = "CodeCompanion to edit the file directly" },
+  -- },
+
 }
 
 M.lsp_mappings = function(bufnr)
@@ -105,46 +122,7 @@ M.lsp_mappings = function(bufnr)
     { mode = 'n', '<leader>ws', vim.lsp.buf.workspace_symbol,                       description = 'Workspace Symbol',     buffer = bufnr },
   }
 end
-M.dap_mappings = function(dap)
-  return {
-    { mode = 'n', '<F5>',      dap.continue,          description = 'Start/Continue Debugging' },
-    { mode = 'n', '<F10>',     dap.step_over,         description = 'Step Over' },
-    { mode = 'n', '<F11>',     dap.step_into,         description = 'Step Into' },
-    { mode = 'n', '<F12>',     dap.step_out,          description = 'Step Out' },
-    { mode = 'n', '<Leader>b', dap.toggle_breakpoint, description = 'Toggle Breakpoint' },
-    {
-      mode = 'n',
-      '<Leader>cb',
-      function()
-        dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-      end,
-      description = 'Conditional Breakpoint'
-    },
-    { mode = 'n', '<Leader>dr', dap.repl.open, description = 'Open REPL' },
-    { mode = 'n', '<Leader>dl', dap.run_last,  description = 'Run Last Session' },
-  }
-end
 
-
-M.lsp_mappings = function(bufnr)
-  return {
-    { mode = 'n', 'gh',         '<cmd>Lspsaga lsp_finder<CR>',                      description = 'LSP Finder',           buffer = bufnr },
-    { mode = 'n', 'K',          '<cmd>Lspsaga hover_doc<CR>',                       description = 'Hover Documentation',  buffer = bufnr },
-    { mode = 'n', 'gd',         '<cmd>Lspsaga peek_definition<CR>',                 description = 'Peek Definition',      buffer = bufnr },
-    { mode = 'n', 'gD',         vim.lsp.buf.definition,                             description = 'Go to Definition',     buffer = bufnr },
-    { mode = 'n', '<leader>ca', '<cmd>Lspsaga code_action<CR>',                     description = 'Code Action',          buffer = bufnr },
-    { mode = 'n', '<leader>rn', '<cmd>Lspsaga rename<CR>',                          description = 'Rename Symbol',        buffer = bufnr },
-    { mode = 'n', '<leader>O',  '<cmd>Lspsaga outline<CR>',                         description = 'Toggle Outline',       buffer = bufnr },
-    { mode = 'n', 'gi',         vim.lsp.buf.implementation,                         description = 'Go to Implementation', buffer = bufnr },
-    { mode = 'n', 'gr',         vim.lsp.buf.references,                             description = 'Find References',      buffer = bufnr },
-    { mode = 'n', '<leader>sh', vim.lsp.buf.signature_help,                         description = 'Signature Help',       buffer = bufnr },
-    { mode = 'n', '[d',         '<cmd>Lspsaga diagnostic_jump_prev<CR>',            description = 'Previous Diagnostic',  buffer = bufnr },
-    { mode = 'n', ']d',         '<cmd>Lspsaga diagnostic_jump_next<CR>',            description = 'Next Diagnostic',      buffer = bufnr },
-    { mode = 'n', '<leader>e',  '<cmd>Lspsaga show_line_diagnostics<CR>',           description = 'Show Line Diagnostic', buffer = bufnr },
-    { mode = 'n', '<leader>F',  function() vim.lsp.buf.format { async = true } end, description = 'Format Code',          buffer = bufnr },
-    { mode = 'n', '<leader>ws', vim.lsp.buf.workspace_symbol,                       description = 'Workspace Symbol',     buffer = bufnr },
-  }
-end
 M.dap_mappings = function(dap)
   return {
     { mode = 'n', '<F5>',      dap.continue,          description = 'Start/Continue Debugging' },
