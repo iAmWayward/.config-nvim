@@ -21,7 +21,14 @@ return {
     "echasnovski/mini.test", -- Testing framework for Neovim
     config = true,
   },
-  { "j-hui/fidget.nvim" },
+  {
+    "j-hui/fidget.nvim",
+    ignore_done_already = true,
+    display = {
+      done_ttl = 2,
+      progress_icon = { "moon" }, --earth, moon, dots https://github.com/j-hui/fidget.nvim/blob/d9ba6b7bfe29b3119a610892af67602641da778e/lua/fidget/spinner/patterns.lua#L36
+    },
+  },
   {
     "echasnovski/mini.diff", -- Inline and better diff over the default
     config = function()
@@ -67,6 +74,11 @@ return {
       })
       require('telescope').load_extension('projects')
     end,
+  },
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" }
   },
   {
     'nvimdev/dashboard-nvim',
@@ -339,13 +351,13 @@ return {
 
       max_kept_windows = 80, --default is 50 Number of windows that stay open for rendering the effect.
       -- Sets animation framerate
-      time_interval = 30,    -- Sets animation framerate in milliseconds. default 17 milliseconds
+      time_interval = 17,    -- Sets animation framerate in milliseconds. default 17 milliseconds
 
       -- Amount of time the cursor has to stay still before triggering animation.
       -- Useful if the target changes and rapidly comes back to its original position.
       -- E.g. when hitting a keybinding that triggers CmdlineEnter.
       -- Increase if the cursor makes weird jumps when hitting keys.
-      delay_event_to_smear = 1, -- milliseconds
+      delay_event_to_smear = 2, -- milliseconds
 
       -- Delay for `vim.on_key` to avoid redundancy with vim events triggers.
       delay_after_key = 5, -- milliseconds
@@ -358,7 +370,7 @@ return {
 
       -- How fast the smear's tail moves towards the target.
       -- 0: no movement, 1: instantaneous
-      trailing_stiffness = 0.3,
+      trailing_stiffness = .49, -- 0.3,
 
       -- Controls if middle points are closer to the head or the tail.
       -- < 1: closer to the tail, > 1: closer to the head
@@ -952,7 +964,7 @@ return {
         -- Custom configuration
         symbol_in_winbar = {
           enable = true,
-          separator = '   ',
+          separator = '  ',
         },
         ui = {
           title = true,

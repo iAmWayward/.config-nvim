@@ -17,9 +17,10 @@ M.items = {
     end,
     description = 'Show highlight group under cursor'
   },
-  { mode = 'n',          '<leader>T',  '<cmd>Themery<cr>',   description = 'Change theme' },
-  { mode = { 'n', 'x' }, '<leader>cp', '"+y',                description = 'Copy to system clipboard' },
-  { mode = { 'n', 'x' }, '<leader>cv', '"+p',                description = 'Paste from system clipboard' },
+  { mode = 'n',          '<leader>T',  '<cmd>Themery<cr>',           description = 'Change theme' },
+  { mode = 'n',          '<leader>t',  '<cmd>TransparentToggle<cr>', description = 'Toggle Transparency' },
+  { mode = { 'n', 'x' }, '<leader>cp', '"+y',                        description = 'Copy to system clipboard' },
+  { mode = { 'n', 'x' }, '<leader>cv', '"+p',                        description = 'Paste from system clipboard' },
 
   -- NoNeckPain
   {
@@ -36,7 +37,7 @@ M.items = {
   -- Neogen
   {
     itemgroup = '+Neogen',
-    description = 'Center code in the terminal to reduce neck strain and increase ergonomics',
+    description = 'Quickly generate header comments for a variety of languages using various format specifications.',
     icon = '',
     keymaps = {
       { mode = 'n', '<leader>ng', function() require('neogen').generate() end,                   description = 'Generate docs' },
@@ -61,7 +62,7 @@ M.items = {
   -- Bufferline
   {
     itemgroup = '+Bufferline',
-    description = 'Center code in the terminal to reduce neck strain and increase ergonomics',
+    description = 'Use buffers as tabs to allow one terminal tab to encapsulate a project',
     icon = '',
     keymaps = {
       { mode = { 'n', 'i' }, '<M-PageUp>',   '<cmd>BufferLineCyclePrev<CR>', description = 'Previous buffer' },
@@ -74,8 +75,8 @@ M.items = {
 
   -- Telescope
   {
-    itemgroup = '+NoNeckPain',
-    description = 'Center code in the terminal to reduce neck strain and increase ergonomics',
+    itemgroup = '+Telescope',
+    description = 'Find files and strings using telescope',
     icon = '',
     keymaps = {
       { mode = 'n', '<leader>ff', require('telescope.builtin').find_files, description = 'Find Files' },
@@ -110,8 +111,8 @@ M.lsp_mappings = function(bufnr)
   return {
 
     {
-      itemgroup = '+NoNeckPain',
-      description = 'Center code in the terminal to reduce neck strain and increase ergonomics',
+      itemgroup = '+LSPSaga',
+      description = 'Quick operations based on code project context.',
       icon = '',
       keymaps = {
         { mode = 'n', 'gh',         '<cmd>Lspsaga lsp_finder<CR>',                      description = 'LSP Finder',           buffer = bufnr },
@@ -137,8 +138,8 @@ end
 M.dap_mappings = function(dap)
   return {
     {
-      itemgroup = '+NoNeckPain',
-      description = 'Center code in the terminal to reduce neck strain and increase ergonomics',
+      itemgroup = '+Debugger',
+      description = 'Comprehensive debugging',
       icon = '',
       keymaps = {
         { mode = 'n', '<F5>',      dap.continue,          description = 'Start/Continue Debugging' },

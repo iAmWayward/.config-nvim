@@ -187,6 +187,8 @@ return {
             require('transparent').clear_prefix('BufferLineBackground')
             require('transparent').clear_prefix('BufferOffset')
             require('transparent').clear_prefix('BufferLineOffset')
+            require('transparent').clear_prefix('BufferLineDevTextInactive')
+            require('transparent').clear_prefix('BufferLineDevIconTxtInactive ')
             require('transparent').clear_prefix('DropBarMenuNormalFloat')
           end, 10)
         end
