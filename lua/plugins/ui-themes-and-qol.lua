@@ -165,6 +165,7 @@ return {
           "WinBar",
           "WinBarNC",
           "BufferLineTabSeparator",
+          "BufferLine*",
           -- "lualine",
         },
         exclude_groups = {
@@ -172,8 +173,8 @@ return {
           "NormalFloat",
           "Notify",
           "notify",
-          "BufferLineBufferSelected",
-          "BufferLineTabSelected",
+          -- "BufferLineBufferSelected",
+          -- "BufferLineTabSelected",
         },
       })
     end,
@@ -197,6 +198,7 @@ return {
             require('transparent').clear_prefix('BufferLineTabSeparator')
             -- require('transparent').clear_prefix('BufferLineTabSeparatorSelected')
             require('transparent').clear_prefix('BufferLineSeparatorSelected')
+            require('transparent').clear_prefix('BufferLine*')
             require('transparent').clear_prefix('BufferLineNumbersVisible')
             require('transparent').clear_prefix('BufferLineIndicatorsVisible')
             require('transparent').clear_prefix('BufferLineNumbers')
