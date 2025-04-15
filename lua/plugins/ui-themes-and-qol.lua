@@ -163,7 +163,8 @@ return {
           "TabLineFill",
           "Whitespace",
           "WinBar",
-          "WinBarNC"
+          "WinBarNC",
+          "BufferLineTabSeparator",
           -- "lualine",
         },
         exclude_groups = {
@@ -188,8 +189,15 @@ return {
             require('transparent').clear_prefix('BufferOffset')
             require('transparent').clear_prefix('BufferLineOffset')
             require('transparent').clear_prefix('BufferLineDevTextInactive')
+            require('transparent').clear_prefix('BufferLineBuffer')
             require('transparent').clear_prefix('BufferLineDevIconTxtInactive ')
             require('transparent').clear_prefix('DropBarMenuNormalFloat')
+            require('transparent').clear_prefix('BufferLineTabSeparator')
+            -- require('transparent').clear_prefix('BufferLineTabSelected')
+            -- require('transparent').clear_prefix('BufferLineTabSeparatorSelected')
+            -- require('transparent').clear_prefix('BufferLineSeparatorSelected')
+            require('transparent').clear_prefix('BufferLineNumbersVisible')
+            require('transparent').clear_prefix('BufferLineNumbers')
           end, 10)
         end
       })

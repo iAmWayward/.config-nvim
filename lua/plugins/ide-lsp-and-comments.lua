@@ -962,6 +962,13 @@ return {
     config = function()
       require('lspsaga').setup({
         -- Custom configuration
+        finder = {
+          default = 'telescope', -- Use telescope as the default finder
+          layout = 'normal',     -- Layout for the finder window
+          keys = {
+            quit = 'q',          -- Custom quit key
+          },
+        },
         symbol_in_winbar = {
           enable = true,
           separator = '  ',
