@@ -171,7 +171,9 @@ return {
           "NotifyBackground",
           "NormalFloat",
           "Notify",
-          "notify"
+          "notify",
+          "BufferLineBufferSelected",
+          "BufferLineTabSelected",
         },
       })
     end,
@@ -193,10 +195,10 @@ return {
             require('transparent').clear_prefix('BufferLineDevIconTxtInactive ')
             require('transparent').clear_prefix('DropBarMenuNormalFloat')
             require('transparent').clear_prefix('BufferLineTabSeparator')
-            -- require('transparent').clear_prefix('BufferLineTabSelected')
             -- require('transparent').clear_prefix('BufferLineTabSeparatorSelected')
-            -- require('transparent').clear_prefix('BufferLineSeparatorSelected')
+            require('transparent').clear_prefix('BufferLineSeparatorSelected')
             require('transparent').clear_prefix('BufferLineNumbersVisible')
+            require('transparent').clear_prefix('BufferLineIndicatorsVisible')
             require('transparent').clear_prefix('BufferLineNumbers')
           end, 10)
         end
