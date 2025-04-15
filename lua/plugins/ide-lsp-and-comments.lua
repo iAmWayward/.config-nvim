@@ -21,6 +21,7 @@ return {
     "echasnovski/mini.test", -- Testing framework for Neovim
     config = true,
   },
+  { "j-hui/fidget.nvim" },
   {
     "echasnovski/mini.diff", -- Inline and better diff over the default
     config = function()
@@ -1217,7 +1218,6 @@ return {
     config = function()
       vim.cmd([[cab cc CodeCompanion]])
       require("codecompanion").setup(require("config.code-companion"))
-      require("plugins.codecompanion.spinner"):init()
     end,
   },
 }
