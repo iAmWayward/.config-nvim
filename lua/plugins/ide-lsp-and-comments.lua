@@ -16,6 +16,7 @@
 --- - AI Tools: AI-assisted coding and writing features
 ---
 return {
+
 	--============================== Core Plugins ==============================--
 	{
 		"folke/trouble.nvim",
@@ -324,7 +325,13 @@ return {
 				["zb"] = function()
 					neoscroll.zb({ half_win_duration = 250 })
 				end,
-				-- Add Page Up and Page Down mappings
+				-- ["n"] = function()
+				-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
+				-- end,
+				-- ["N"] = function()
+				-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
+				-- end,
+
 				["<PageUp>"] = function()
 					neoscroll.scroll(-vim.api.nvim_win_get_height(0) + 25, { duration = 250 })
 				end,
@@ -341,7 +348,7 @@ return {
 	},
 	{
 		"sphamba/smear-cursor.nvim",
-		Lazy = true,
+		lazy = false,
 		opts = {
 			smear_between_buffers = false,
 			scroll_buffer_space = false,
@@ -738,15 +745,15 @@ return {
 			})
 
 			require("mason-lspconfig").setup_handlers({
-				function(server_name)
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = {
-							["*"] = { format = { enable = true } },
-						},
-					})
-				end,
+				-- function(server_name)
+				-- 	require("lspconfig")[server_name].setup({
+				-- 		capabilities = capabilities,
+				-- 		on_attach = on_attach,
+				-- 		settings = {
+				-- 			["*"] = { format = { enable = true } },
+				-- 		},
+				-- 	})
+				-- end,
 
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
@@ -856,7 +863,7 @@ return {
 
 	{
 		"windwp/nvim-autopairs",
-		Lazy = true,
+		lazy = false,
 		dependencies = { "hrsh7th/nvim-cmp" },
 		event = "InsertEnter",
 		config = function()
@@ -900,23 +907,27 @@ return {
 	},
 	{
 		"abecodes/tabout.nvim",
-		opts = {
-			tabkey = "<Tab>",
-			backwards_tabkey = "<S-Tab>",
-			completion = true,
-		},
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		config = function()
+			local opts = { -- Add 'local' declaration
+				tabkey = "<Tab>",
+				backwards_tabkey = "<S-Tab>",
+				completion = true,
+				ignore_beginning = false,
+			} -- Removed trailing comma
+			require("tabout").setup(opts)
+		end,
 	},
 	{
 		"HiPhish/rainbow-delimiters.nvim",
 		config = function()
 			local rainbow_delimiters = require("rainbow-delimiters")
-			vim.g.rainbow_delimiters = {
+			require("rainbow-delimiters.setup")({
 				strategy = { [""] = rainbow_delimiters.strategy.global },
 				query = { [""] = "rainbow-delimiters" },
-			}
+			})
 		end,
 	},
-
 	{
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
@@ -1071,13 +1082,13 @@ return {
 			"folke/trouble.nvim",
 		},
 	},
+	-- {
+	-- 	"tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
+	-- },
 	{
-		"tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
-		{
-			"Davidyz/VectorCode",
-			dependencies = { "nvim-lua/plenary.nvim" },
-			cmd = "VectorCode", -- if you're lazy-loading VectorCode
-		},
+		"Davidyz/VectorCode",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		cmd = "VectorCode", -- if you're lazy-loading VectorCode
 	},
 	{
 		"antosha417/nvim-lsp-file-operations",
@@ -1107,8 +1118,8 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+			-- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+			-- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
 			-- Main cmp setup
 			cmp.setup({
