@@ -166,6 +166,7 @@ return {
           "WinBarNC",
           "BufferLineTabSeparator",
           "BufferLine*",
+          "NoicePopupmenuBorder",
           -- "lualine",
         },
         exclude_groups = {
@@ -173,8 +174,14 @@ return {
           "NormalFloat",
           "Notify",
           "notify",
-          -- "BufferLineBufferSelected",
-          -- "BufferLineTabSelected",
+          "BufferLineBufferSelected",
+          "BufferLineHintSelected",
+          "BufferLineTabSelected",
+          "BufferLineTabSeparatorSelected",
+          "BufferLineDiagnosticSelected",
+          "BufferLineNumbersSelected",
+          "BufferLineSeparatorSelected",
+          "BufferLineCloseButtonSelected"
         },
       })
     end,
@@ -193,15 +200,24 @@ return {
             require('transparent').clear_prefix('BufferLineOffset')
             require('transparent').clear_prefix('BufferLineDevTextInactive')
             require('transparent').clear_prefix('BufferLineBuffer')
+            require('transparent').clear_prefix('BufferLineFill')
             require('transparent').clear_prefix('BufferLineDevIconTxtInactive ')
             require('transparent').clear_prefix('DropBarMenuNormalFloat')
+            require('transparent').clear_prefix('BufferLineTab')
             require('transparent').clear_prefix('BufferLineTabSeparator')
             -- require('transparent').clear_prefix('BufferLineTabSeparatorSelected')
-            require('transparent').clear_prefix('BufferLineSeparatorSelected')
-            require('transparent').clear_prefix('BufferLine*')
+            -- require('transparent').clear_prefix('BufferLineSeparatorSelected')
+            require('transparent').clear_prefix('NoicePopupmenuBorder')
             require('transparent').clear_prefix('BufferLineNumbersVisible')
-            require('transparent').clear_prefix('BufferLineIndicatorsVisible')
+            require('transparent').clear_prefix('BufferLineCloseButtonVisible')
+            require('transparent').clear_prefix('BufferLineIndicatorVisible')
+            require('transparent').clear_prefix('BufferLinePickVisible')
+            require('transparent').clear_prefix('BufferLineInfoVisible')
             require('transparent').clear_prefix('BufferLineNumbers')
+
+            require('transparent').clear_prefix('BufferLine*')
+            require('transparent').clear_prefix('NoicePopupmenuBorder')
+            require('transparent').clear_prefix('WinSeparator')
           end, 10)
         end
       })

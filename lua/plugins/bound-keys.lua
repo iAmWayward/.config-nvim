@@ -1,5 +1,6 @@
 return {
-  "nvim-lua/plenary.nvim",
+  { "nvim-lua/plenary.nvim" },
+  { 'echasnovski/mini.icons', version = '*' },
   {
     "mrjones2014/legendary.nvim",
     lazy = true,

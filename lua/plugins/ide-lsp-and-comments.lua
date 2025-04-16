@@ -18,45 +18,25 @@
 return {
   --============================== Core Plugins ==============================--
   {
-    "echasnovski/mini.test", -- Testing framework for Neovim
-    config = true,
-  },
-  {
-    "j-hui/fidget.nvim",
-    ignore_done_already = true,
-    display = {
-      done_ttl = 2,
-      progress_icon = { "moon" }, --earth, moon, dots https://github.com/j-hui/fidget.nvim/blob/d9ba6b7bfe29b3119a610892af67602641da778e/lua/fidget/spinner/patterns.lua#L36
-    },
-  },
-  {
-    "echasnovski/mini.diff", -- Inline and better diff over the default
-    config = function()
-      local diff = require("mini.diff")
-      diff.setup({
-        -- Disabled by default
-        source = diff.gen_source.none(),
-      })
-    end,
-  },
-  {
     "folke/trouble.nvim",
+    lazy = true,
     config = function()
       require("trouble").setup()
     end
   },
   {
     "nvim-telescope/telescope.nvim",
+    lazy = true,
     dependencies = { "nvim-lua/plenary.nvim" },
     -- If you want to lazy load on keys:
     config = function()
       require("telescope").setup()
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "TelescopeFindPre",
-        callback = function()
-          -- require("config.keymaps").telescope_setup()
-        end,
-      })
+      -- vim.api.nvim_create_autocmd("User", {
+      --   pattern = "TelescopeFindPre",
+      --   callback = function()
+      --     -- require("config.keymaps").telescope_setup()
+      --   end,
+      -- })
     end,
   },
   {
@@ -77,11 +57,13 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
+    lazy = true,
     branch = "harpoon2",
     dependencies = { "nvim-lua/plenary.nvim" }
   },
   {
     'nvimdev/dashboard-nvim',
+    lazy = false,
     event = 'VimEnter', -- Only visit dashboard when vim is given no arguments
     config = function()
       -- Function to generate a dynamic header
@@ -139,6 +121,7 @@ return {
   --============================== Project Management ==============================--
   {
     'https://github.com/adelarsq/neovcs.vim',
+    lazy = true,
     keys = {
       '<leader>v',
     },
@@ -146,9 +129,13 @@ return {
       require('neovcs').setup()
     end
   },
-  { 'HugoBde/subversigns.nvim' },
+  {
+    'HugoBde/subversigns.nvim',
+    lazy = true,
+  },
   {
     "danymat/neogen",
+    lazy = true,
     config = function()
       require("neogen").setup({
         enabled = true,
@@ -251,6 +238,7 @@ return {
   },
   {
     "hat0uma/doxygen-previewer.nvim",
+    lazy = true,
     opts = {},
     dependencies = { "hat0uma/prelive.nvim" },
     update_on_save = true,
@@ -268,29 +256,15 @@ return {
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
+    lazy = true,
     opts = {
       file_types = { "markdown", "Avante", "codecompanion" },
     },
-    ft = { "markdown", "Avante", "codecompanion" },
+    ft = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
   },
 
 
   --============================== UI Enhancements ==============================--
-  -- {
-  --   "declancm/cinnamon.nvim",
-  --   version = "*", -- use latest release
-  --   opts = {
-  --     keymaps = {
-  --       basic = true,
-  --       extra = true,
-  --     },
-  --     options = {
-  --       mode = "window", -- Only scroll the window
-  --       easing = "linear",
-  --       -- duration_multiplier = .75,
-  --     },
-  --   },
-  -- },
   {
     "karb94/neoscroll.nvim",
     config = function()
@@ -322,11 +296,11 @@ return {
         ["zz"]         = function() neoscroll.zz({ half_win_duration = 250 }) end,
         ["zb"]         = function() neoscroll.zb({ half_win_duration = 250 }) end,
         -- Add Page Up and Page Down mappings
-        ["<PageUp>"]   = function() neoscroll.scroll(-vim.api.nvim_win_get_height(0), { duration = 250 }) end,
-        ["<PageDown>"] = function() neoscroll.scroll(vim.api.nvim_win_get_height(0), { duration = 250 }) end,
+        ["<PageUp>"]   = function() neoscroll.scroll(-vim.api.nvim_win_get_height(0) + 25, { duration = 250 }) end,
+        ["<PageDown>"] = function() neoscroll.scroll(vim.api.nvim_win_get_height(0) - 25, { duration = 250 }) end,
       }
 
-      local modes = { 'n', 'v', 'x' }
+      local modes = { 'n', 'v', 'x', 'i' }
       for key, func in pairs(keymap) do
         vim.keymap.set(modes, key, func)
       end
@@ -334,7 +308,7 @@ return {
   },
   {
     "sphamba/smear-cursor.nvim",
-    -- dependencies = { "declancm/cinnamon.nvim" },
+    Lazy = true,
     opts = {
       smear_between_buffers = false,
       scroll_buffer_space = false,
@@ -407,6 +381,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
+    lazy = true,
     config = function()
       require("notify").setup({
         -- Use default renderer with custom window settings
@@ -445,6 +420,9 @@ return {
     event = "VeryLazy",
     opts = {
       lsp = {
+        progress = {
+          enabled = true, -- Disable noice's LSP progress
+        },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
@@ -974,6 +952,9 @@ return {
           separator = '  ',
         },
         ui = {
+          progress = {
+            enable = false,
+          },
           title = true,
           border = 'rounded',
           actionfix = '',
@@ -1232,7 +1213,6 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "j-hui/fidget.nvim",
     },
     config = function()
       vim.cmd([[cab cc CodeCompanion]])
