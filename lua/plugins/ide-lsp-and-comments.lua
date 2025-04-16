@@ -19,10 +19,42 @@ return {
   --============================== Core Plugins ==============================--
   {
     "folke/trouble.nvim",
-    lazy = true,
+    lazy = false,
     config = function()
       require("trouble").setup()
-    end
+    end,
+    keys = {
+      {
+        "<leader>xx",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      {
+        "<leader>cs",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
+      {
+        "<leader>cl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      {
+        "<leader>xL",
+        "<cmd>Trouble loclist toggle<cr>",
+        desc = "Location List (Trouble)",
+      },
+      {
+        "<leader>xQ",
+        "<cmd>Trouble qflist toggle<cr>",
+        desc = "Quickfix List (Trouble)",
+      },
+    },
   },
   {
     "nvim-telescope/telescope.nvim",
@@ -252,11 +284,12 @@ return {
   },
   {
     "shortcuts/no-neck-pain.nvim",
+    lazy = false,
     version = "*"
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    lazy = true,
+    lazy = false,
     opts = {
       file_types = { "markdown", "Avante", "codecompanion" },
     },
@@ -267,6 +300,7 @@ return {
   --============================== UI Enhancements ==============================--
   {
     "karb94/neoscroll.nvim",
+    lazy = false,
     config = function()
       local neoscroll = require('neoscroll')
 
@@ -381,7 +415,7 @@ return {
   },
   {
     "rcarriga/nvim-notify",
-    lazy = true,
+    lazy = false,
     config = function()
       require("notify").setup({
         -- Use default renderer with custom window settings
@@ -417,7 +451,7 @@ return {
   },
   {
     "folke/noice.nvim",
-    event = "VeryLazy",
+    lazy = false,
     opts = {
       lsp = {
         progress = {
@@ -436,6 +470,11 @@ return {
         inc_rename = false, -- Renaming symbols in a project is handled by lspsaga
         lsp_doc_border = true,
       },
+      views = {
+        notify = {
+          position = "top_right", -- Keep notifications in bottom-right
+        },
+      },
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -444,6 +483,7 @@ return {
   },
   {
     "lewis6991/hover.nvim",
+    lazy = false,
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
       require("hover").setup({
@@ -474,6 +514,7 @@ return {
   },
   {
     "nvim-neo-tree/neo-tree.nvim",
+    lazy = true,
     branch = "v3.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -546,6 +587,7 @@ return {
   },
   {
     'Bekaboo/dropbar.nvim',
+    lazy = false,
     -- optional, but required for fuzzy finder support
     dependencies = {
       'nvim-telescope/telescope-fzf-native.nvim',
@@ -554,6 +596,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
+    lazy = false,
     config = function()
       require("lualine").setup({
         options = {
@@ -603,6 +646,7 @@ return {
   },
   {
     'akinsho/bufferline.nvim',
+    lazy = false,
     version = "*",
     dependencies = 'nvim-tree/nvim-web-devicons',
     config = function()
@@ -649,6 +693,7 @@ return {
   --=============================== LSP Ecosystem ================================--
   {
     "williamboman/mason.nvim",
+    lazy = false,
     config = function()
       require("mason").setup()
     end,
@@ -656,6 +701,7 @@ return {
   -- Mason LSP setup
   {
     "williamboman/mason-lspconfig.nvim",
+    lazy = false,
     dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -751,6 +797,7 @@ return {
   -- None-LS (null-ls) for formatting
   {
     "jay-babu/mason-null-ls.nvim",
+    lazy = false,
     dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
     config = function()
       require("mason-null-ls").setup({
@@ -764,7 +811,6 @@ return {
           "markdownlint",
           "yamlfix",
           "cmake_format",
-          "dprint"
         },
         automatic_installation = true,
       })
@@ -804,6 +850,7 @@ return {
 
   {
     "windwp/nvim-autopairs",
+    Lazy = true,
     dependencies = { "hrsh7th/nvim-cmp" },
     event = "InsertEnter",
     config = function()
@@ -1094,6 +1141,7 @@ return {
   --=============================== DAP Debugger Ecosystem ================================--
   {
     "mfussenegger/nvim-dap",
+
     dependencies = {
       "mrjones2014/legendary.nvim",
       {
@@ -1173,6 +1221,7 @@ return {
   --=============================== Very Extra ================================--
   {
     "kawre/leetcode.nvim",
+    event = "VeryLazy",
     dependencies = {
       "nvim-telescope/telescope.nvim",
       -- "ibhagwan/fzf-lua",

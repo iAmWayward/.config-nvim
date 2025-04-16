@@ -153,7 +153,7 @@ return {
       require('transparent').setup({
         extra_groups = {
           --[[ "NormalFloat",     -- Required for floating windows ]]
-          "NeoTreeNormal",   -- If you're using neo-tree
+          "NeoTreeNormal",   -- If you're using
           "TelescopeNormal", -- For telescope
           "BufferLineFill",  -- For bufferline background
           "BufferLineOffset",
