@@ -1,4 +1,10 @@
 return {
+	{ "arcticicestudio/nord-vim" },
+	{ "mofiqul/vscode.nvim" },
+	{ "rebelot/kanagawa.nvim" },
+	{ "rose-pine/neovim" },
+	{ "fynnfluegge/monet.nvim" },
+	{ "olimorris/onedarkpro.nvim" },
 	{
 		"daschw/leaf.nvim",
 		priority = 1000, -- Higher priority to load earlier
@@ -264,8 +270,28 @@ return {
 						colorscheme = "edge",
 					},
 					{
-						name = "Nightfox",
-						colorscheme = "nightfox",
+						name = "Nord",
+						colorscheme = "nord",
+					},
+					{
+						name = "VSCode",
+						colorscheme = "vscode",
+					},
+					{
+						name = "kanagawa",
+						colorscheme = "kanagawa",
+					},
+					-- {
+					-- 	name = "Neovim",
+					-- 	colorscheme = "neovim",
+					-- },
+					{
+						name = "Monet",
+						colorscheme = "monet",
+					},
+					{
+						name = "OneDark Pro",
+						colorscheme = "onedarkpro",
 					},
 				},
 				livePreview = true,

@@ -478,7 +478,7 @@ return {
 			},
 			views = {
 				notify = {
-					position = "top_right", -- Keep notifications in bottom-right
+					position = "topright", -- Keep notifications in bottom-right
 				},
 			},
 		},

@@ -64,21 +64,22 @@ return {
 				auto_submit = false,
 				short_name = "docs",
 			},
-			references = {
-				{
-					type = "file",
-					path = {
-						"next.config.ts",
-						--[[ "doc/.vitepress/config.mjs", ]]
-						--[[ "lua/codecompanion/config.lua", ]]
-						"README.md",
-					},
-				},
-			},
+			-- references = {
+			-- 	{
+			-- 		type = "file",
+			-- 		path = {
+			-- 			"next.config.ts",
+			-- 			--[[ "doc/.vitepress/config.mjs", ]]
+			-- 			--[[ "lua/codecompanion/config.lua", ]]
+			-- 			"README.md",
+			-- 		},
+			-- 	},
+			-- },
 			prompts = {
 				{
 					role = "user",
-					content = [[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
+					content =
+					[[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
 
 I'm sharing my vitepress config file so you have the context of how the documentation website is structured in the `sidebar` section of that file.
 
@@ -97,7 +98,8 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 				{
 					{
 						role = "user",
-						content = "Generate a Python class for managing a book library with methods for adding, removing, and searching books",
+						content =
+						"Generate a Python class for managing a book library with methods for adding, removing, and searching books",
 						opts = {
 							auto_submit = false,
 						},
@@ -246,7 +248,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 	},
 	display = {
 		action_palette = {
-			provider = "telescope", -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
+			provider = "telescope",     -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
 			opts = {
 				show_default_actions = true, -- Show the default actions in the action palette?
 				show_default_prompt_library = true, -- Show the default prompt library in the action palette?
