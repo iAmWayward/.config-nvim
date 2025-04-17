@@ -221,8 +221,8 @@ return {
 			-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
 			-- refer to `:h file-pattern` for more examples
 			"BufReadPre "
-				.. vim.fn.expand("~")
-				.. "/Documents/Obsidian Vault/*.md",
+			.. vim.fn.expand("~")
+			.. "/Documents/Obsidian Vault/*.md",
 			"BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
 		},
 		dependencies = {
@@ -408,14 +408,14 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2, -- For color blending
-			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
+			gamma = 2.2,                      -- For color blending
+			max_shade_no_matrix = 0.75,       -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7,     -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
-			max_length = 60, -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5,    -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3,  -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7,      -- 0: no limit, 1: no reduction
+			max_length = 60,                  -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
