@@ -1,13 +1,31 @@
 return {
-	{ "arcticicestudio/nord-vim" },
-	{ "mofiqul/vscode.nvim" },
-	{ "rebelot/kanagawa.nvim" },
-	{ "rose-pine/neovim" },
-	{ "fynnfluegge/monet.nvim" },
-	{ "olimorris/onedarkpro.nvim" },
+	{
+		"arcticicestudio/nord-vim",
+		lazy = true,
+	},
+	{
+		"mofiqul/vscode.nvim",
+		lazy = true,
+	},
+	{
+		"rebelot/kanagawa.nvim",
+		lazy = true,
+	},
+	{
+		"rose-pine/neovim",
+		lazy = true,
+	},
+	{
+		"fynnfluegge/monet.nvim",
+		lazy = true,
+	},
+	{
+		"olimorris/onedarkpro.nvim",
+		lazy = true,
+	},
 	{
 		"daschw/leaf.nvim",
-		priority = 1000, -- Higher priority to load earlier
+		lazy = true,
 		config = function()
 			require("leaf").setup({
 				theme = "dark",
@@ -18,7 +36,7 @@ return {
 	},
 	{
 		"Tsuzat/NeoSolarized.nvim",
-		priority = 1000, -- Higher priority to load earlier
+		lazy = true,
 		config = function()
 			require("NeoSolarized").setup({
 				style = "dark",
@@ -35,7 +53,7 @@ return {
 	},
 	{
 		"EdenEast/nightfox.nvim",
-		priority = 1000,
+		lazy = true,
 		config = function()
 			require("nightfox").setup({
 				options = {
@@ -46,7 +64,7 @@ return {
 	},
 	{
 		"sainnhe/edge",
-		priority = 1000, -- Higher priority to load earlier
+		lazy = true,
 		init = function()
 			vim.g.edge_transparent_background = vim.g.transparent_enabled or 0
 		end,
@@ -56,7 +74,7 @@ return {
 	-- },
 	{
 		"folke/tokyonight.nvim",
-		priority = 1000, -- Higher priority to load earlier
+		lazy = true,
 		config = function()
 			require("tokyonight").setup({
 				style = "night",
@@ -70,7 +88,7 @@ return {
 	},
 	{
 		"Shatur/neovim-ayu",
-		priority = 1000, -- Higher priority to load earlier
+		lazy = true,
 		config = function()
 			require("ayu").setup({
 				mirage = false,
@@ -92,7 +110,7 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		priority = 1000, -- Higher priority to load earlier
+		lazy = true,
 		config = function()
 			require("gruvbox").setup({
 				transparent_mode = vim.g.transparent_enabled or false,
@@ -105,8 +123,7 @@ return {
 	},
 	{
 		"catppuccin/nvim",
-		priority = 1000, -- Higher priority to load earlier
-		-- lazy = true,
+		lazy = true,
 		name = "catppuccin",
 		opts = {
 			flavour = "mocha",
@@ -276,6 +293,7 @@ return {
 					{
 						name = "VSCode",
 						colorscheme = "vscode",
+						lazy = true,
 					},
 					{
 						name = "kanagawa",
@@ -291,7 +309,7 @@ return {
 					},
 					{
 						name = "OneDark Pro",
-						colorscheme = "onedarkpro",
+						colorscheme = "onedarkpro.nvim",
 					},
 				},
 				livePreview = true,
