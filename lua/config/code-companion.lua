@@ -1,4 +1,61 @@
 return {
+	strategies = {
+		inline = { adapter = "openai" }, -- { adapter = "ollama" },
+		chat = {
+			adapter = "openai",
+			roles = {
+				user = "Wayward",
+			},
+			keymaps = {
+				send = {
+					modes = {
+						i = { "<C-CR>", "<C-s>" },
+					},
+				},
+				completion = {
+					modes = {
+						i = "<C-x>",
+					},
+				},
+			},
+			slash_commands = {
+				["buffer"] = {
+					opts = {
+						--[[ provider = "snacks", ]]
+						keymaps = {
+							modes = {
+								i = "<C-b>",
+							},
+						},
+					},
+				},
+				["help"] = {
+					opts = {
+						--[[ provider = "snacks", ]]
+						max_lines = 1000,
+					},
+				},
+				["file"] = {
+					opts = {
+						--[[ provider = "snacks", ]]
+					},
+				},
+				--[[ ["symbols"] = { ]]
+				--[[   opts = { ]]
+				--[[     provider = "snacks", ]]
+				--[[   }, ]]
+			},
+		},
+		tools = {
+			vectorcode = {
+				description = "Run VectorCode to retrieve the project context.",
+				callback = function()
+					return require("vectorcode.integrations").codecompanion.chat.make_tool()
+				end,
+			},
+		},
+	},
+
 	adapters = {
 		deepseek = function()
 			return require("codecompanion.adapters").extend("deepseek", {
@@ -30,29 +87,6 @@ return {
 				},
 			})
 		end,
-		-- anthropic = function()
-		--   return require("codecompanion.adapters").extend("anthropic", {
-		--     env = {
-		--       api_key = "cmd:op read op://personal/Anthropic_API/credential --no-newline",
-		--     },
-		--   })
-		-- end,
-		-- copilot = function()
-		--   return require("codecompanion.adapters").extend("copilot", {
-		--     schema = {
-		--       model = {
-		--         default = "gpt-4o",
-		--       },
-		--     },
-		--   })
-		-- end,
-		--[[ gemini = function() ]]
-		--[[   return require("codecompanion.adapters").extend("gemini", { ]]
-		--[[     env = { ]]
-		--[[       api_key = "cmd:op read op://personal/Gemini_API/credential --no-newline", ]]
-		--[[     }, ]]
-		--[[   }) ]]
-		--[[ end, ]]
 	},
 	prompt_library = {
 		["NextJS Expert"] = {
@@ -64,17 +98,17 @@ return {
 				auto_submit = false,
 				short_name = "docs",
 			},
-			-- references = {
-			-- 	{
-			-- 		type = "file",
-			-- 		path = {
-			-- 			"next.config.ts",
-			-- 			--[[ "doc/.vitepress/config.mjs", ]]
-			-- 			--[[ "lua/codecompanion/config.lua", ]]
-			-- 			"README.md",
-			-- 		},
-			-- 	},
-			-- },
+			references = {
+				{
+					type = "file",
+					path = {
+						"next.config.ts",
+						--[[ "doc/.vitepress/config.mjs", ]]
+						--[[ "lua/codecompanion/config.lua", ]]
+						"README.md",
+					},
+				},
+			},
 			prompts = {
 				{
 					role = "user",
@@ -189,62 +223,6 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 			},
 		},
 		-- },
-		strategies = {
-			chat = {
-				adapter = "openai",
-				roles = {
-					user = "Wayward",
-				},
-				keymaps = {
-					send = {
-						modes = {
-							i = { "<C-CR>", "<C-s>" },
-						},
-					},
-					completion = {
-						modes = {
-							i = "<C-x>",
-						},
-					},
-				},
-				slash_commands = {
-					["buffer"] = {
-						opts = {
-							--[[ provider = "snacks", ]]
-							keymaps = {
-								modes = {
-									i = "<C-b>",
-								},
-							},
-						},
-					},
-					["help"] = {
-						opts = {
-							--[[ provider = "snacks", ]]
-							max_lines = 1000,
-						},
-					},
-					["file"] = {
-						opts = {
-							--[[ provider = "snacks", ]]
-						},
-					},
-					--[[ ["symbols"] = { ]]
-					--[[   opts = { ]]
-					--[[     provider = "snacks", ]]
-					--[[   }, ]]
-				},
-			},
-			tools = {
-				vectorcode = {
-					description = "Run VectorCode to retrieve the project context.",
-					callback = function()
-						return require("vectorcode.integrations").codecompanion.chat.make_tool()
-					end,
-				},
-			},
-		},
-		inline = { adapter = "openai" }, -- { adapter = "ollama" },
 	},
 	display = {
 		action_palette = {
