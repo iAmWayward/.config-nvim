@@ -54,6 +54,7 @@ return {
 		lazy = true,
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {},
 	},
 	{
 		"nvimdev/dashboard-nvim",
@@ -126,9 +127,7 @@ return {
 		keys = {
 			"<leader>v",
 		},
-		config = function()
-			require("neovcs").setup()
-		end,
+		opts = {},
 	},
 	{
 		"HugoBde/subversigns.nvim",
@@ -206,7 +205,12 @@ return {
 	{
 		"epwalsh/obsidian.nvim",
 		version = "*", -- recommended, use latest release instead of latest commit
-		lazy = true,
+		-- lazy = true,
+		keys = { -- Lazy-load on these keymaps
+			"<leader>no",
+			"<leader>nn",
+			"<leader>nl",
+		},
 		--[[ ft = "markdown", ]]
 		-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
 		event = {
@@ -214,8 +218,8 @@ return {
 			-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
 			-- refer to `:h file-pattern` for more examples
 			"BufReadPre "
-				.. vim.fn.expand("~")
-				.. "/Documents/Obsidian Vault/*.md",
+			.. vim.fn.expand("~")
+			.. "/Documents/Obsidian Vault/*.md",
 			"BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
 		},
 		dependencies = {
@@ -241,7 +245,11 @@ return {
 	},
 	{
 		"hat0uma/doxygen-previewer.nvim",
-		lazy = true,
+		keys = { -- Lazy-load on these keymaps
+			"<leader>dd",
+			"<leader>du",
+		},
+		-- lazy = true,
 		opts = {},
 		dependencies = { "hat0uma/prelive.nvim" },
 		update_on_save = true,
@@ -289,54 +297,54 @@ return {
 					"CursorMoved",
 				},
 			})
-
-			local keymap = {
-				["<C-u>"] = function()
-					neoscroll.ctrl_u({ duration = 250 })
-				end,
-				["<C-d>"] = function()
-					neoscroll.ctrl_d({ duration = 250 })
-				end,
-				["<C-b>"] = function()
-					neoscroll.ctrl_b({ duration = 450 })
-				end,
-				["<C-f>"] = function()
-					neoscroll.ctrl_f({ duration = 450 })
-				end,
-				["<C-y>"] = function()
-					neoscroll.scroll(-0.1, { move_cursor = false, duration = 100 })
-				end,
-				["<C-e>"] = function()
-					neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-				end,
-				["zt"] = function()
-					neoscroll.zt({ half_win_duration = 250 })
-				end,
-				["zz"] = function()
-					neoscroll.zz({ half_win_duration = 250 })
-				end,
-				["zb"] = function()
-					neoscroll.zb({ half_win_duration = 250 })
-				end,
-				-- ["n"] = function()
-				-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-				-- end,
-				-- ["N"] = function()
-				-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-				-- end,
-
-				["<PageUp>"] = function()
-					neoscroll.scroll(-vim.api.nvim_win_get_height(0) + 25, { duration = 250 })
-				end,
-				["<PageDown>"] = function()
-					neoscroll.scroll(vim.api.nvim_win_get_height(0) - 25, { duration = 250 })
-				end,
-			}
-
-			local modes = { "n", "v", "x", "i" }
-			for key, func in pairs(keymap) do
-				vim.keymap.set(modes, key, func)
-			end
+			--
+			-- local keymap = {
+			-- 	["<C-u>"] = function()
+			-- 		neoscroll.ctrl_u({ duration = 250 })
+			-- 	end,
+			-- 	["<C-d>"] = function()
+			-- 		neoscroll.ctrl_d({ duration = 250 })
+			-- 	end,
+			-- 	["<C-b>"] = function()
+			-- 		neoscroll.ctrl_b({ duration = 450 })
+			-- 	end,
+			-- 	["<C-f>"] = function()
+			-- 		neoscroll.ctrl_f({ duration = 450 })
+			-- 	end,
+			-- 	["<C-y>"] = function()
+			-- 		neoscroll.scroll(-0.1, { move_cursor = false, duration = 100 })
+			-- 	end,
+			-- 	["<C-e>"] = function()
+			-- 		neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
+			-- 	end,
+			-- 	["zt"] = function()
+			-- 		neoscroll.zt({ half_win_duration = 250 })
+			-- 	end,
+			-- 	["zz"] = function()
+			-- 		neoscroll.zz({ half_win_duration = 250 })
+			-- 	end,
+			-- 	["zb"] = function()
+			-- 		neoscroll.zb({ half_win_duration = 250 })
+			-- 	end,
+			-- 	-- ["n"] = function()
+			-- 	-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
+			-- 	-- end,
+			-- 	-- ["N"] = function()
+			-- 	-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
+			-- 	-- end,
+			--
+			-- 	["<PageUp>"] = function()
+			-- 		neoscroll.scroll(-vim.api.nvim_win_get_height(0) + 25, { duration = 250 })
+			-- 	end,
+			-- 	["<PageDown>"] = function()
+			-- 		neoscroll.scroll(vim.api.nvim_win_get_height(0) - 25, { duration = 250 })
+			-- 	end,
+			-- }
+			--
+			-- local modes = { "n", "v", "x", "i" }
+			-- for key, func in pairs(keymap) do
+			-- 	vim.keymap.set(modes, key, func)
+			-- end
 		end,
 	},
 	{
@@ -364,7 +372,7 @@ return {
 			-- Useful if the target changes and rapidly comes back to its original position.
 			-- E.g. when hitting a keybinding that triggers CmdlineEnter.
 			-- Increase if the cursor makes weird jumps when hitting keys.
-			delay_event_to_smear = 2, -- milliseconds
+			delay_event_to_smear = 3, -- milliseconds
 
 			-- Delay for `vim.on_key` to avoid redundancy with vim events triggers.
 			delay_after_key = 5, -- milliseconds
@@ -401,14 +409,14 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2, -- For color blending
-			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
+			gamma = 2.2,                      -- For color blending
+			max_shade_no_matrix = 0.75,       -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7,     -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
-			max_length = 60, -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5,    -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3,  -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7,      -- 0: no limit, 1: no reduction
+			max_length = 60,                  -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
@@ -707,7 +715,8 @@ return {
 			prompts = {
 				{
 					role = "user",
-					content = [[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
+					content =
+					[[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
 
 I'm sharing my vitepress config file so you have the context of how the documentation website is structured in the `sidebar` section of that file.
 
@@ -726,7 +735,8 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 				{
 					{
 						role = "user",
-						content = "Generate a Python class for managing a book library with methods for adding, removing, and searching books",
+						content =
+						"Generate a Python class for managing a book library with methods for adding, removing, and searching books",
 						opts = {
 							auto_submit = false,
 						},
@@ -875,7 +885,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 	},
 	display = {
 		action_palette = {
-			provider = "telescope", -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
+			provider = "telescope",     -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
 			opts = {
 				show_default_actions = true, -- Show the default actions in the action palette?
 				show_default_prompt_library = true, -- Show the default prompt library in the action palette?
@@ -1298,6 +1308,14 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 		end,
 	},
 
+	{
+		"folke/trouble.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			auto_close = true,
+			auto_open = true,
+		},
+	},
 	{
 		"nvimdev/lspsaga.nvim",
 		config = function()

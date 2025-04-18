@@ -1,4 +1,36 @@
 return {
+	-- {
+	-- 	"bluz71/vim-nightfly-colors",
+	-- },
+	{
+		"sainnhe/everforest",
+		lazy = true,
+	},
+	{
+		"projekt0n/github-nvim-theme",
+		lazy = true,
+	},
+	{
+		"datsfilipe/vesper.nvim",
+		lazy = true,
+	},
+	{
+		"Mofiqul/dracula.nvim",
+		lazy = true,
+	},
+	------------
+	{
+		"sainnhe/everforest",
+		lazy = true,
+	},
+	{
+		"scottmckendry/cyberdream.nvim",
+		lazy = true,
+	},
+	{
+		"datsfilipe/vesper.nvim",
+		lazy = true,
+	},
 	{
 		"arcticicestudio/nord-vim",
 		lazy = true,
@@ -304,13 +336,38 @@ return {
 					-- 	colorscheme = "neovim",
 					-- },
 					{
-						name = "Monet",
-						colorscheme = "monet",
+						name = "Vesper",
+						colorscheme = "vesper",
 					},
 					{
-						name = "OneDark Pro",
-						colorscheme = "onedarkpro.nvim",
+						name = "Everfrost",
+						colorscheme = "everfrost",
 					},
+					{
+						name = "Github",
+						colorscheme = "github-nvim-theme",
+					},
+					{
+						name = "Neovim",
+						colorscheme = "neovim",
+					},
+					{
+						name = "Dracula",
+						colorscheme = "dracula",
+					},
+					{
+						name = "Cyberdream",
+						colorscheme = "cyberdream",
+					},
+
+					-- {
+					-- 	name = "OneDark",
+					-- 	colorscheme = "onedarkpro.nvim",
+					-- },
+					-- {
+					-- 	name = "Nightfly Colors",
+					-- 	colorscheme = "vim-nightfly-colors",
+					-- },
 				},
 				livePreview = true,
 				globalBefore = [[ ]],

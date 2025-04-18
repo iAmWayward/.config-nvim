@@ -34,6 +34,18 @@ M.items = {
 			{ mode = "n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", description = "Toggle scratchpad" },
 		},
 	},
+
+	-- Doxygen
+	{
+		itemgroup = "+Documentation",
+		description = "Code documentation tools",
+		icon = "󰏫",
+		keymaps = {
+			{ "<leader>dd", "<cmd>DoxygenOpen<CR>",   desc = "Open Doxygen" },
+			{ "<leader>du", "<cmd>DoxygenUpdate<CR>", desc = "Update Doxygen" },
+		},
+	},
+
 	-- Neogen
 	{
 		itemgroup = "+Neogen",
@@ -153,6 +165,91 @@ M.items = {
 			{ mode = { "n", "i" }, "<M-PageUp>",   "<cmd>BufferLineCyclePrev<CR>", description = "Previous buffer" },
 			{ mode = { "n", "i" }, "<M-PageDown>", "<cmd>BufferLineCycleNext<CR>", description = "Next buffer" },
 			{ mode = "n",          "<leader>q",    "<cmd>bp|bd #<CR>",             description = "Close buffer" },
+		},
+	},
+
+	{
+		itemgroup = "+Scrolling",
+		description = "Smooth scrolling with neoscroll",
+		icon = "󰅟",
+		keymaps = {
+			{
+				mode = { "n", "v", "x", "i" },
+				"<C-u>",
+				function()
+					require("neoscroll").ctrl_u({ duration = 250 })
+				end,
+			},
+			{
+				mode = { "n", "v", "x", "i" },
+				"<C-d>",
+				function()
+					require("neoscroll").ctrl_d({ duration = 250 })
+				end,
+			},
+			{
+				mode = { "n", "v", "x", "i" },
+				"<C-b>",
+				function()
+					require("neoscroll").ctrl_b({ duration = 450 })
+				end,
+			},
+			{
+				mode = { "n", "v", "x", "i" },
+				"<C-f>",
+				function()
+					require("neoscroll").ctrl_f({ duration = 450 })
+				end,
+			},
+			{
+				mode = { "n", "v", "x", "i" },
+				"<C-y>",
+				function()
+					require("neoscroll").scroll(-0.1, { move_cursor = false, duration = 100 })
+				end,
+			},
+			{
+				mode = { "n", "v", "x", "i" },
+				"<C-e>",
+				function()
+					require("neoscroll").scroll(0.1, { move_cursor = false, duration = 100 })
+				end,
+			},
+			{
+				mode = "n",
+				"zt",
+				function()
+					require("neoscroll").zt({ half_win_duration = 250 })
+				end,
+			},
+			{
+				mode = "n",
+				"zz",
+				function()
+					require("neoscroll").zz({ half_win_duration = 250 })
+				end,
+			},
+			{
+				mode = "n",
+				"zb",
+				function()
+					require("neoscroll").zb({ half_win_duration = 250 })
+				end,
+			},
+			{
+				mode = "n",
+				"<PageUp>",
+				function()
+					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 25, { duration = 250 })
+				end,
+			},
+			{
+				mode = "n",
+				"<PageDown>",
+				function()
+					require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 25, { duration = 250 })
+				end,
+			},
 		},
 	},
 
@@ -367,6 +464,42 @@ M.dap_mappings = function(dap)
 				},
 				{ mode = "n", "<Leader>dr", dap.repl.open, description = "Open REPL" },
 				{ mode = "n", "<Leader>dl", dap.run_last,  description = "Run Last Session" },
+			},
+		},
+
+		-- Project Navigation
+		{
+			itemgroup = "+Projects",
+			description = "Project management and navigation",
+			icon = "󰉋",
+			keymaps = {
+				{ "<leader>fp", "<cmd>Telescope projects<CR>", desc = "Find projects" },
+				{
+					"<leader>hp",
+					function()
+						require("harpoon"):list():append()
+					end,
+					desc = "Harpoon file",
+				},
+				{
+					"<leader>hq",
+					function()
+						require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+					end,
+					desc = "Harpoon menu",
+				},
+			},
+		},
+
+		-- Obsidian
+		{
+			itemgroup = "+Notes",
+			description = "Obsidian note management",
+			icon = "󰈙",
+			keymaps = {
+				{ "<leader>no", "<cmd>ObsidianSearch<CR>", desc = "Search notes" },
+				{ "<leader>nn", "<cmd>ObsidianNew<CR>",    desc = "New note" },
+				{ "<leader>nl", "<cmd>ObsidianLink<CR>",   desc = "Link note" },
 			},
 		},
 	}
