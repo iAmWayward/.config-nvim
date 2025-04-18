@@ -26,29 +26,18 @@ return {
 			vim.o.timeout = true
 			vim.o.timeoutlen = 300
 		end,
-		config = function()
-			require("which-key").setup({
-				win = {
-					border = "single",
-				},
-			})
-		end,
+		opts = {
+			win = {
+				border = "single",
+			},
+		},
 	},
 
 	{
 		"nvim-telescope/telescope.nvim",
 		lazy = true,
 		dependencies = { "nvim-lua/plenary.nvim" },
-		-- If you want to lazy load on keys:
-		config = function()
-			require("telescope").setup()
-			-- vim.api.nvim_create_autocmd("User", {
-			--   pattern = "TelescopeFindPre",
-			--   callback = function()
-			--     -- require("config.keymaps").telescope_setup()
-			--   end,
-			-- })
-		end,
+		opts = {},
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
@@ -56,13 +45,13 @@ return {
 	},
 	{
 		"ahmedkhalf/project.nvim",
+		opts = {
+			manual_mode = false,
+			detection_methods = { "pattern", "lsp" },
+			patterns = { ".git", "Makefile", "package.json", ".svn", ".cproj", "csproj" },
+			show_hidden = false,
+		},
 		config = function()
-			require("project_nvim").setup({
-				manual_mode = false,
-				detection_methods = { "pattern", "lsp" },
-				patterns = { ".git", "Makefile", "package.json", ".svn", ".cproj", "csproj" },
-				show_hidden = false,
-			})
 			require("telescope").load_extension("projects")
 		end,
 	},
@@ -99,7 +88,7 @@ return {
 			end
 
 			-- Dashboard setup
-			require("dashboard").setup({
+			opts = {
 				theme = "hyper", -- Ensure theme is explicitly set
 				disable_at_vimenter = true,
 				change_to_vcs_root = true,
@@ -132,7 +121,7 @@ return {
 					},
 					footer = { "Have a productive session!" },
 				},
-			})
+			}
 		end,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	},
@@ -153,69 +142,67 @@ return {
 	{
 		"danymat/neogen",
 		lazy = true,
-		config = function()
-			require("neogen").setup({
-				enabled = true,
-				input_after_comment = true,
-				languages = {
-					cpp = {
-						template = {
-							annotation_convention = "doxygen",
-						},
-					},
-					c = {
-						template = {
-							annotation_convention = "doxygen",
-						},
-					},
-					python = {
-						template = {
-							annotation_convention = "google_docstrings",
-						},
-					},
-					lua = {
-						template = {
-							annotation_convention = "emmylua",
-						},
-					},
-					javascript = {
-						template = {
-							annotation_convention = "jsdoc",
-						},
-					},
-					javascriptreact = {
-						template = {
-							annotation_convention = "jsdoc",
-						},
-					},
-					typescript = {
-						template = {
-							annotation_convention = "tsdoc",
-						},
-					},
-					typescriptreact = {
-						template = {
-							annotation_convention = "tsdoc",
-						},
-					},
-					tsx = {
-						template = {
-							annotation_convention = "tsdoc",
-						},
-					},
-					jsx = {
-						template = {
-							annotation_convention = "jsdoc",
-						},
-					},
-					sh = {
-						template = {
-							annotation_convention = "google_bash",
-						},
+		opts = {
+			enabled = true,
+			input_after_comment = true,
+			languages = {
+				cpp = {
+					template = {
+						annotation_convention = "doxygen",
 					},
 				},
-			})
-		end,
+				c = {
+					template = {
+						annotation_convention = "doxygen",
+					},
+				},
+				python = {
+					template = {
+						annotation_convention = "google_docstrings",
+					},
+				},
+				lua = {
+					template = {
+						annotation_convention = "emmylua",
+					},
+				},
+				javascript = {
+					template = {
+						annotation_convention = "jsdoc",
+					},
+				},
+				javascriptreact = {
+					template = {
+						annotation_convention = "jsdoc",
+					},
+				},
+				typescript = {
+					template = {
+						annotation_convention = "tsdoc",
+					},
+				},
+				typescriptreact = {
+					template = {
+						annotation_convention = "tsdoc",
+					},
+				},
+				tsx = {
+					template = {
+						annotation_convention = "tsdoc",
+					},
+				},
+				jsx = {
+					template = {
+						annotation_convention = "jsdoc",
+					},
+				},
+				sh = {
+					template = {
+						annotation_convention = "google_bash",
+					},
+				},
+			},
+		},
 		dependencies = "nvim-treesitter/nvim-treesitter",
 	},
 
@@ -235,8 +222,8 @@ return {
 			-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
 			-- refer to `:h file-pattern` for more examples
 			"BufReadPre "
-			.. vim.fn.expand("~")
-			.. "/Documents/Obsidian Vault/*.md",
+				.. vim.fn.expand("~")
+				.. "/Documents/Obsidian Vault/*.md",
 			"BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
 		},
 		dependencies = {
@@ -296,25 +283,21 @@ return {
 	{
 		"karb94/neoscroll.nvim",
 		lazy = false,
-		config = function()
-			local neoscroll = require("neoscroll")
-
-			neoscroll.setup({
-				hide_cursor = true,
-				stop_eof = true,
-				respect_scrolloff = false,
-				cursor_scrolls_alone = true,
-				duration_multiplier = 1.0,
-				easing = "quadratic",
-				pre_hook = nil,
-				post_hook = nil,
-				performance_mode = false,
-				ignored_events = {
-					"WinScrolled",
-					"CursorMoved",
-				},
-			})
-		end,
+		opts = {
+			hide_cursor = true,
+			stop_eof = true,
+			respect_scrolloff = false,
+			cursor_scrolls_alone = true,
+			duration_multiplier = 1.0,
+			easing = "quadratic",
+			pre_hook = nil,
+			post_hook = nil,
+			performance_mode = false,
+			ignored_events = {
+				"WinScrolled",
+				"CursorMoved",
+			},
+		},
 	},
 	{
 		"sphamba/smear-cursor.nvim",
@@ -378,52 +361,50 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2,                      -- For color blending
-			max_shade_no_matrix = 0.75,       -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7,     -- 0: all pixels, 1: no pixel
+			gamma = 2.2, -- For color blending
+			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5,    -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3,  -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7,      -- 0: no limit, 1: no reduction
-			max_length = 60,                  -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
+			max_length = 60, -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
 	{
 		"rcarriga/nvim-notify",
 		lazy = false,
-		config = function()
-			require("notify").setup({
-				-- Use default renderer with custom window settings
-				render = "default",
-				stages = "fade_in_slide_out",
-				timeout = 3000,
-				background_colour = "#000000", -- TODO theme this
-				fps = 60,
-				icons = {
-					ERROR = "",
-					WARN = "",
-					INFO = "",
-					DEBUG = "",
-					TRACE = "",
-				},
-				minimum_width = 50,
-				max_width = 100,
-				max_height = 20,
-				top_down = true,
+		-- Use default renderer with custom window settings
+		opts = {
+			render = "default",
+			stages = "fade_in_slide_out",
+			timeout = 3000,
+			background_colour = "#000000", -- TODO theme this
+			fps = 60,
+			icons = {
+				ERROR = "",
+				WARN = "",
+				INFO = "",
+				DEBUG = "",
+				TRACE = "",
+			},
+			minimum_width = 50,
+			max_width = 100,
+			max_height = 20,
+			top_down = true,
 
-				-- Custom window parameters for rounded borders and transparency
-				on_open = function(win)
-					vim.api.nvim_win_set_config(win, {
-						border = "rounded",
-						style = "minimal",
-						-- winblend = 5
-					})
-					vim.wo[win].conceallevel = 2
-					vim.wo[win].wrap = true
-				end,
-			})
-		end,
+			-- Custom window parameters for rounded borders and transparency
+			on_open = function(win)
+				vim.api.nvim_win_set_config(win, {
+					border = "rounded",
+					style = "minimal",
+					-- winblend = 5
+				})
+				vim.wo[win].conceallevel = 2
+				vim.wo[win].wrap = true
+			end,
+		},
 	},
 	{
 		"folke/noice.nvim",
@@ -505,23 +486,21 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			"MunifTanjim/nui.nvim",
 			--[[ "3rd/image.nvim", ]]
-			opts = {},
+			-- opts = {},
 
 			{
 				"s1n7ax/nvim-window-picker",
 				version = "*",
-				config = function()
-					require("window-picker").setup({
-						filter_rules = {
-							include_current_win = false,
-							autoselect_one = true,
-							bo = {
-								filetype = { "neo-tree", "neo-tree-popup", "notify" },
-								buftype = { "terminal", "quickfix" },
-							},
+				opts = {
+					filter_rules = {
+						include_current_win = false,
+						autoselect_one = true,
+						bo = {
+							filetype = { "neo-tree", "neo-tree-popup", "notify" },
+							buftype = { "terminal", "quickfix" },
 						},
-					})
-				end,
+					},
+				},
 			},
 		},
 		config = function()
@@ -581,378 +560,101 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		lazy = false,
-		config = function()
-			require("lualine").setup({
-				options = {
-					diagnostics = "nvim_lsp",
-					indicator = {
-						icon = "▎",
-						style = "icon",
-					},
-					theme = "auto",
-					section_separators = { left = "", right = "" },
-					-- component_separators = { left = '', right = '' },
-					component_separators = { left = "", right = "" },
-					--[[ section_separators = { left = "", right = "" }, ]]
-					disabled_filetypes = {},
-					always_divide_middle = true,
-					globalstatus = true,
+		opts = {
+			options = {
+				diagnostics = "nvim_lsp",
+				indicator = {
+					icon = "▎",
+					style = "icon",
 				},
-				sections = {
-					lualine_a = {
-						{
-							"mode",
-							separator = { left = "" },
-						},
-						-- right_padding = 4
-					},
-					lualine_b = { "branch", "diff", "diagnostics" },
-					lualine_c = {},
-					lualine_x = { "filesize", "encoding", "fileformat" },
-					lualine_y = { "progress", "location" },
-					lualine_z = {
-						{
-							"filetype",
-							separator = { right = "" },
-						},
-					},
-				},
-				inactive_sections = {
-					lualine_a = { "branch", "diff", "diagnostics" },
-					lualine_b = {},
-					lualine_c = {},
-					lualine_x = {},
-					lualine_y = {},
-					lualine_z = {},
-				},
-			})
-		end,
-	},
-	adapters = {
-		deepseek = function()
-			return require("codecompanion.adapters").extend("deepseek", {
-				env = {
-					api_key = "cmd:op read op://personal/DeepSeek_API/credential --no-newline",
-				},
-			})
-		end,
-		ollama = function()
-			return require("codecompanion.adapters").extend("ollama", {
-				schema = {
-					num_ctx = {
-						default = 50000,
-					},
-				},
-			})
-		end,
-		openai = function()
-			return require("codecompanion.adapters").extend("openai", {
-				env = {
-					api_key = "cmd:op read op://personal/OpenAI_API/credential --no-newline",
-				},
-				schema = {
-					model = {
-						default = function()
-							return "gpt-4.1-nano"
-						end,
-					},
-				},
-			})
-		end,
-	},
-	prompt_library = {
-		["NextJS Expert"] = {
-			strategy = "chat",
-			description = "Write typesafe NextJS 15.2 React code.",
-			opts = {
-				index = 11,
-				is_slash_cmd = false,
-				auto_submit = false,
-				short_name = "docs",
+				theme = "auto",
+				section_separators = { left = "", right = "" },
+				-- component_separators = { left = '', right = '' },
+				component_separators = { left = "", right = "" },
+				--[[ section_separators = { left = "", right = "" }, ]]
+				disabled_filetypes = {},
+				always_divide_middle = true,
+				globalstatus = true,
 			},
-			references = {
-				{
-					type = "file",
-					path = {
-						"next.config.ts",
-						--[[ "doc/.vitepress/config.mjs", ]]
-						--[[ "lua/codecompanion/config.lua", ]]
-						"README.md",
+			sections = {
+				lualine_a = {
+					{
+						"mode",
+						separator = { left = "" },
+					},
+					-- right_padding = 4
+				},
+				lualine_b = { "branch", "diff", "diagnostics" },
+				lualine_c = {},
+				lualine_x = { "filesize", "encoding", "fileformat" },
+				lualine_y = { "progress", "location" },
+				lualine_z = {
+					{
+						"filetype",
+						separator = { right = "" },
 					},
 				},
 			},
-			prompts = {
-				{
-					role = "user",
-					content =
-					[[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
-
-I'm sharing my vitepress config file so you have the context of how the documentation website is structured in the `sidebar` section of that file.
-
-I'm also sharing my `config.lua` file which I'm mapping to the `configuration` section of the sidebar.
-]],
-				},
+			inactive_sections = {
+				lualine_a = { "branch", "diff", "diagnostics" },
+				lualine_b = {},
+				lualine_c = {},
+				lualine_x = {},
+				lualine_y = {},
+				lualine_z = {},
 			},
 		},
-		["Test workflow"] = {
-			strategy = "workflow",
-			description = "Use a workflow to test the plugin",
-			opts = {
-				index = 4,
-			},
-			prompts = {
-				{
-					{
-						role = "user",
-						content =
-						"Generate a Python class for managing a book library with methods for adding, removing, and searching books",
-						opts = {
-							auto_submit = false,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write unit tests for the library class you just created",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Create a TypeScript interface for a complex e-commerce shopping cart system",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write a recursive algorithm to balance a binary search tree in Java",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Generate a comprehensive regex pattern to validate email addresses with explanations",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Create a Rust struct and implementation for a thread-safe message queue",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write a GitHub Actions workflow file for CI/CD with multiple stages",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Create SQL queries for a complex database schema with joins across 4 tables",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write a Lua configuration for Neovim with custom keybindings and plugins",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Generate documentation in JSDoc format for a complex JavaScript API client",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-			},
-		},
-		-- },
-		strategies = {
-			inline = { adapter = "openai" }, -- { adapter = "ollama" },
-			chat = {
-				adapter = "openai",
-				roles = {
-					user = "Wayward",
-				},
-				keymaps = {
-					send = {
-						modes = {
-							i = { "<C-CR>", "<C-s>" },
-						},
-					},
-					completion = {
-						modes = {
-							i = "<C-x>",
-						},
-					},
-				},
-				slash_commands = {
-					["buffer"] = {
-						opts = {
-							--[[ provider = "snacks", ]]
-							keymaps = {
-								modes = {
-									i = "<C-b>",
-								},
-							},
-						},
-					},
-					["help"] = {
-						opts = {
-							--[[ provider = "snacks", ]]
-							max_lines = 1000,
-						},
-					},
-					["file"] = {
-						opts = {
-							--[[ provider = "snacks", ]]
-						},
-					},
-					--[[ ["symbols"] = { ]]
-					--[[   opts = { ]]
-					--[[     provider = "snacks", ]]
-					--[[   }, ]]
-				},
-			},
-			tools = {
-				vectorcode = {
-					description = "Run VectorCode to retrieve the project context.",
-					callback = function()
-						return require("vectorcode.integrations").codecompanion.chat.make_tool()
-					end,
-				},
-			},
-		},
-	},
-	display = {
-		action_palette = {
-			provider = "telescope",     -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
-			opts = {
-				show_default_actions = true, -- Show the default actions in the action palette?
-				show_default_prompt_library = true, -- Show the default prompt library in the action palette?
-			},
-		},
-		chat = {
-			adapter = "deepseek",
-			-- show_references = true,
-			show_header_separator = true,
-			-- show_settings = false,
-		},
-		diff = {
-			enabled = true,
-			provider = "default", --"mini_diff",
-		},
-
-		-- Options to customize the UI of the chat buffer
-		window = {
-			layout = "vertical", -- float|vertical|horizontal|buffer
-			position = nil, -- left|right|top|bottom (nil will default depending on vim.opt.plitright|vim.opt.splitbelow)
-			border = "single",
-			height = 0.8,
-			width = 0.45,
-			relative = "editor",
-			full_height = true, -- when set to false, vsplit will be used to open the chat buffer vs. botright/topleft vsplit
-			opts = {
-				breakindent = true,
-				cursorcolumn = false,
-				cursorline = false,
-				foldcolumn = "0",
-				linebreak = true,
-				list = false,
-				numberwidth = 1,
-				signcolumn = "no",
-				spell = false,
-				wrap = true,
-			},
-		},
-	},
-	opts = {
-		send_code = false,
-		log_level = "DEBUG",
 	},
 	{
 		"akinsho/bufferline.nvim",
 		lazy = false,
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		config = function()
-			require("bufferline").setup({
-				-- highlights = get_bufferline_highlights(),
-				options = {
-					themable = true,
-					separator_style = "thin",
-					diagnostics = "nvim_lsp",
-					indicator = {
-						icon = "▎",
-						style = "icon",
-					},
-					offsets = {
-						{
-							filetype = "neo-tree",
-							text = "File Explorer",
-							text_align = "center",
-							separator = true,
-						},
-					},
-					color_icons = true,
-					hover = {
-						enabled = true,
-						delay = 200,
-						reveal = { "close" },
-					},
-					sort_by = "relative_directory",
-					diagnostics_indicator = function(count, level, diagnostics_dict, context)
-						return "(" .. count .. ")"
-					end,
-					-- name_formatter = function(buf)  -- buf contains:
-					-- name               -- | str        | the basename of the active file
-					-- path               -- | str        | the full path of the active file
-					-- bufnr               | int        | the number of the active buffer
-					-- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
-					-- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
-					-- end,
+		opts = {
+			-- highlights = get_bufferline_highlights(),
+			options = {
+				themable = true,
+				separator_style = "thin",
+				diagnostics = "nvim_lsp",
+				indicator = {
+					icon = "▎",
+					style = "icon",
 				},
-			})
-		end,
+				offsets = {
+					{
+						filetype = "neo-tree",
+						text = "File Explorer",
+						text_align = "center",
+						separator = true,
+					},
+				},
+				color_icons = true,
+				hover = {
+					enabled = true,
+					delay = 200,
+					reveal = { "close" },
+				},
+				sort_by = "relative_directory",
+				diagnostics_indicator = function(count, level, diagnostics_dict, context)
+					return "(" .. count .. ")"
+				end,
+				-- name_formatter = function(buf)  -- buf contains:
+				-- name               -- | str        | the basename of the active file
+				-- path               -- | str        | the full path of the active file
+				-- bufnr               | int        | the number of the active buffer
+				-- buffers (tabs only) | table(int) | the numbers of the buffers in the tab
+				-- tabnr (tabs only)   | int        | the "handle" of the tab, can be converted to its ordinal number using: `vim.api.nvim_tabpage_get_number(buf.tabnr)`
+				-- end,
+			},
+		},
 	},
 
 	--=============================== LSP Ecosystem ================================--
 	{
 		"williamboman/mason.nvim",
 		lazy = false,
-		config = function()
-			require("mason").setup()
-		end,
+		opts = {},
 	},
-	-- Mason LSP setup
 	{
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
@@ -1156,15 +858,12 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 	{
 		"abecodes/tabout.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		config = function()
-			local opts = { -- Add 'local' declaration
-				tabkey = "<Tab>",
-				backwards_tabkey = "<S-Tab>",
-				completion = true,
-				ignore_beginning = false,
-			} -- Removed trailing comma
-			require("tabout").setup(opts)
-		end,
+		opts = { -- Add 'local' declaration
+			tabkey = "<Tab>",
+			backwards_tabkey = "<S-Tab>",
+			completion = true,
+			ignore_beginning = false,
+		}, -- Removed trailing comma
 	},
 	{
 		"HiPhish/rainbow-delimiters.nvim",
@@ -1282,56 +981,56 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			auto_close = true,
-			auto_open = true,
+			modes = {
+				diagnostics = { auto_open = false },
+			},
 		},
 	},
 	{
 		"nvimdev/lspsaga.nvim",
-		config = function()
-			require("lspsaga").setup({
-				-- Custom configuration
-				finder = {
-					default = "telescope", -- Use telescope as the default finder
-					layout = "normal", -- Layout for the finder window
-					keys = {
-						quit = "q", -- Custom quit key
-					},
+		opts = {
+			-- Custom configuration
+			finder = {
+				default = "telescope", -- Use telescope as the default finder
+				layout = "normal", -- Layout for the finder window
+				keys = {
+					quit = "q", -- Custom quit key
 				},
-				symbol_in_winbar = {
-					enable = true,
-					separator = "  ",
+			},
+			symbol_in_winbar = {
+				enable = true,
+				separator = "  ",
+			},
+			ui = {
+				progress = {
+					enable = false,
 				},
-				ui = {
-					progress = {
-						enable = false,
-					},
-					title = true,
-					border = "rounded",
-					actionfix = "",
-					expand = "",
-					collapse = "",
-					code_action = "💡",
-					diagnostic = "🐞",
-					colors = {
-						normal_bg = "#022746",
-					},
+				title = true,
+				border = "rounded",
+				actionfix = "",
+				expand = "",
+				collapse = "",
+				code_action = "💡",
+				diagnostic = "🐞",
+				colors = {
+					normal_bg = "#022746",
 				},
-				lightbulb = {
-					enable = true,
-					sign = true,
-					virtual_text = false,
+			},
+			lightbulb = {
+				enable = true,
+				sign = true,
+				virtual_text = false,
+			},
+			diagnostic = {
+				show_code_action = true,
+				show_source = true,
+				jump_num_shortcut = true,
+				keys = {
+					exec_action = "o",
+					quit = "q",
 				},
-				diagnostic = {
-					show_code_action = true,
-					show_source = true,
-					jump_num_shortcut = true,
-					keys = {
-						exec_action = "o",
-						quit = "q",
-					},
-				},
-			})
-		end,
+			},
+		},
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons",
@@ -1352,9 +1051,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 			"nvim-lua/plenary.nvim",
 			"nvim-neo-tree/neo-tree.nvim",
 		},
-		config = function()
-			require("lsp-file-operations").setup()
-		end,
+		opts = {},
 	},
 
 	--=============================== CMP Ecosystem ================================--
@@ -1566,13 +1263,12 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 	},
 	{
 		"mrjones2014/legendary.nvim",
-		lazy = true,
+		keys = {
+			{ "<C-p>", "<cmd>Legendary<cr>", desc = "Open Command Palette" },
+		}, -- lazy = true,
 		dependencies = {
 			"kkharji/sqlite.lua",
 			"folke/which-key.nvim",
-		},
-		keys = {
-			{ "<C-p>", "<cmd>Legendary<cr>", desc = "Open Command Palette" },
 		},
 		config = function()
 			require("legendary").setup({
