@@ -18,6 +18,23 @@
 return {
 
 	--============================== Core Plugins ==============================--
+	{ "nvim-lua/plenary.nvim" },
+	{ "echasnovski/mini.icons", version = "*" },
+	{
+		"folke/which-key.nvim",
+		init = function()
+			vim.o.timeout = true
+			vim.o.timeoutlen = 300
+		end,
+		config = function()
+			require("which-key").setup({
+				win = {
+					border = "single",
+				},
+			})
+		end,
+	},
+
 	{
 		"nvim-telescope/telescope.nvim",
 		lazy = true,
@@ -297,54 +314,6 @@ return {
 					"CursorMoved",
 				},
 			})
-			--
-			-- local keymap = {
-			-- 	["<C-u>"] = function()
-			-- 		neoscroll.ctrl_u({ duration = 250 })
-			-- 	end,
-			-- 	["<C-d>"] = function()
-			-- 		neoscroll.ctrl_d({ duration = 250 })
-			-- 	end,
-			-- 	["<C-b>"] = function()
-			-- 		neoscroll.ctrl_b({ duration = 450 })
-			-- 	end,
-			-- 	["<C-f>"] = function()
-			-- 		neoscroll.ctrl_f({ duration = 450 })
-			-- 	end,
-			-- 	["<C-y>"] = function()
-			-- 		neoscroll.scroll(-0.1, { move_cursor = false, duration = 100 })
-			-- 	end,
-			-- 	["<C-e>"] = function()
-			-- 		neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-			-- 	end,
-			-- 	["zt"] = function()
-			-- 		neoscroll.zt({ half_win_duration = 250 })
-			-- 	end,
-			-- 	["zz"] = function()
-			-- 		neoscroll.zz({ half_win_duration = 250 })
-			-- 	end,
-			-- 	["zb"] = function()
-			-- 		neoscroll.zb({ half_win_duration = 250 })
-			-- 	end,
-			-- 	-- ["n"] = function()
-			-- 	-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-			-- 	-- end,
-			-- 	-- ["N"] = function()
-			-- 	-- 	neoscroll.scroll(0.1, { move_cursor = false, duration = 100 })
-			-- 	-- end,
-			--
-			-- 	["<PageUp>"] = function()
-			-- 		neoscroll.scroll(-vim.api.nvim_win_get_height(0) + 25, { duration = 250 })
-			-- 	end,
-			-- 	["<PageDown>"] = function()
-			-- 		neoscroll.scroll(vim.api.nvim_win_get_height(0) - 25, { duration = 250 })
-			-- 	end,
-			-- }
-			--
-			-- local modes = { "n", "v", "x", "i" }
-			-- for key, func in pairs(keymap) do
-			-- 	vim.keymap.set(modes, key, func)
-			-- end
 		end,
 	},
 	{
@@ -1593,6 +1562,43 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 		config = function()
 			vim.cmd([[cab cc CodeCompanion]])
 			require("codecompanion").setup(require("config.code-companion"))
+		end,
+	},
+	{
+		"mrjones2014/legendary.nvim",
+		lazy = true,
+		dependencies = {
+			"kkharji/sqlite.lua",
+			"folke/which-key.nvim",
+		},
+		keys = {
+			{ "<C-p>", "<cmd>Legendary<cr>", desc = "Open Command Palette" },
+		},
+		config = function()
+			require("legendary").setup({
+				include_builtin = true,
+				include_legendary_cmds = true,
+				extensions = {
+					which_key = {
+						auto_register = true,
+						do_binding = false,
+						use_groups = true,
+					},
+				},
+			})
+
+			-- Load all regular keymaps
+			local keymaps = require("config.keymaps")
+			require("legendary").keymaps(keymaps.items)
+
+			-- Setup LSP keymaps when attaching to buffers
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					local bufnr = args.buf
+					local lsp_maps = require("config.keymaps").lsp_mappings(bufnr)
+					require("legendary").keymaps(lsp_maps)
+				end,
+			})
 		end,
 	},
 }
