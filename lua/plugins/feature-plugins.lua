@@ -532,6 +532,18 @@ return {
 						},
 					},
 				},
+				window = {
+					mappings = {
+						["<CR>"] = "open",
+						["p"] = "toggle_preview",
+						["<leader><space>"] = "toggle_preview",
+						["l"] = "open",
+						["C"] = "close_node",
+						["t"] = "open_tab_drop",
+						["T"] = "open_tab_stay",
+						-- 	mappings = require("config.keymaps").get_tree_mappings(),
+					},
+				},
 				filesystem = {
 					follow_current_file = {
 						enabled = true,
@@ -1276,6 +1288,11 @@ return {
 				include_legendary_cmds = true,
 				extensions = {
 					which_key = {
+						-- auto_register = {
+						-- 	neotree = true,
+						-- 	neo_tree = true,
+						-- 	["neo-tree"] = true,
+						-- },
 						auto_register = true,
 						do_binding = false,
 						use_groups = true,
@@ -1286,6 +1303,16 @@ return {
 			-- Load all regular keymaps
 			local keymaps = require("config.keymaps")
 			require("legendary").keymaps(keymaps.items)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "neo-tree",
+				callback = function()
+					require("legendary").keymaps(require("config.keymaps").items, {
+						buffer = true,
+						filetype = "neo-tree",
+					})
+				end,
+			})
 
 			-- Setup LSP keymaps when attaching to buffers
 			vim.api.nvim_create_autocmd("LspAttach", {
