@@ -201,16 +201,23 @@ return {
 			},
 		},
 	},
+
 	{
 		"xiyaowong/transparent.nvim",
 		lazy = false,
 		config = function()
+			local transparent = require("transparent")
+			-- Define async_execute in the same scope where it's used
+			local async_execute = function(command)
+				vim.fn.jobstart(command, { detach = true })
+			end
+
+			-- Setup transparent.nvim
 			require("transparent").setup({
 				extra_groups = {
-					--[[ "NormalFloat",     -- Required for floating windows ]]
-					"NeoTreeNormal", -- If you're using
-					"TelescopeNormal", -- For telescope
-					"BufferLineFill", -- For bufferline background
+					"NeoTreeNormal",
+					"TelescopeNormal",
+					"BufferLineFill",
 					"BufferLineOffset",
 					"StatusLineNC",
 					"DropBarMenuNormalFloat",
@@ -222,25 +229,34 @@ return {
 					"BufferLineTabSeparator",
 					"BufferLine*",
 					"NoicePopupmenuBorder",
-					-- "lualine",
 				},
 				exclude_groups = {
 					"NotifyBackground",
 					"NormalFloat",
 					"Notify",
 					"notify",
-					-- "BufferLineBufferSelected",
-					-- "BufferLineHintSelected",
-					-- "BufferLineTabSelected",
-					-- "BufferLineTabSeparatorSelected",
-					-- "BufferLineDiagnosticSelected",
-					-- "BufferLineNumbersSelected",
-					-- "BufferLineSeparatorSelected",
-					-- "BufferLineCloseButtonSelected"
 				},
 			})
+
+			-- Custom toggle function with Kitty integration
+			function Toggle_Transparency()
+				transparent.toggle()
+				local is_transparent = transparent.is_transparent()
+
+				local kitty_cmd = is_transparent
+						and "kitty @ --to=unix:/tmp/kitty set-background-opacity 0.85; " .. "kitty @ --to=unix:/tmp/kitty set-config background_blur 20"
+					or "kitty @ --to=unix:/tmp/kitty set-background-opacity 1.0; "
+						.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 0"
+
+				async_execute(kitty_cmd)
+			end
 		end,
 		init = function()
+			-- Define async_execute again in this scope since it's needed here
+			local async_execute = function(command)
+				vim.fn.jobstart(command, { detach = true })
+			end
+
 			vim.api.nvim_create_autocmd("ColorScheme", {
 				pattern = "*",
 				callback = function()
@@ -260,8 +276,6 @@ return {
 						require("transparent").clear_prefix("DropBarMenuNormalFloat")
 						require("transparent").clear_prefix("BufferLineTab")
 						require("transparent").clear_prefix("BufferLineTabSeparator")
-						-- require('transparent').clear_prefix('BufferLineTabSeparatorSelected')
-						-- require('transparent').clear_prefix('BufferLineSeparatorSelected')
 						require("transparent").clear_prefix("NoicePopupmenuBorder")
 						require("transparent").clear_prefix("BufferLineNumbersVisible")
 						require("transparent").clear_prefix("BufferLineCloseButtonVisible")
@@ -273,6 +287,14 @@ return {
 						require("transparent").clear_prefix("BufferLine*")
 						require("transparent").clear_prefix("NoicePopupmenuBorder")
 						require("transparent").clear_prefix("WinSeparator")
+
+						-- Re-apply Kitty transparency after theme change
+						if vim.g.transparent_enabled then
+							async_execute(
+								"kitty @ --to=unix:/tmp/kitty set-background-opacity 0.69; "
+									.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 10"
+							)
+						end
 					end, 10)
 				end,
 			})
