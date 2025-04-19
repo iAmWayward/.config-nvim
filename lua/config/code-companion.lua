@@ -89,144 +89,180 @@ return {
 		end,
 	},
 	prompt_library = {
-		["NextJS Expert"] = {
+		["NextJS PWA Expert"] = {
 			strategy = "chat",
-			description = "Write typesafe NextJS 15.2 React code.",
-			opts = {
-				index = 11,
-				is_slash_cmd = false,
-				auto_submit = false,
-				short_name = "docs",
-			},
+			description = "NextJS 15.2 PWA development with TypeScript and Kubernetes",
+			opts = { index = 1 },
 			references = {
-				{
-					type = "file",
-					path = {
-						"next.config.ts",
-						--[[ "doc/.vitepress/config.mjs", ]]
-						--[[ "lua/codecompanion/config.lua", ]]
-						"README.md",
-					},
-				},
+				{ type = "file", path = { "next.config.ts", "package.json", "dockerfile" } },
 			},
 			prompts = {
 				{
 					role = "user",
-					content =
-					[[I'm rewriting the documentation for my plugin CodeCompanion.nvim, as I'm moving to a vitepress website. Can you help me rewrite it?
-
-I'm sharing my vitepress config file so you have the context of how the documentation website is structured in the `sidebar` section of that file.
-
-I'm also sharing my `config.lua` file which I'm mapping to the `configuration` section of the sidebar.
+					content = [[
+You are a NextJS 15.2 expert specializing in PWAs. Help me create type-safe, performant code
+with App Router, server components, and React best practices. Always:
+1. Prioritize TypeScript strictness
+2. Enforce Tailwind CSS utility classes
+3. Optimize for Kubernetes deployment
+4. Suggest modern React patterns (hooks, suspense, etc.)
+5. Validate against PWA requirements (service workers, manifest)
 ]],
 				},
 			},
 		},
-		["Test workflow"] = {
-			strategy = "workflow",
-			description = "Use a workflow to test the plugin",
-			opts = {
-				index = 4,
+
+		["Neovim Config Assistant"] = {
+			strategy = "chat",
+			description = "Help with Neovim 0.11 Lazy.nvim configuration",
+			opts = { index = 2 },
+			references = {
+				{ type = "file", path = "lua/config/lazy.lua" },
 			},
+			prompts = {
+				{
+					role = "user",
+					content = [[
+You're a Neovim configuration expert. Help me:
+- Structure my Lazy.nvim setup
+- Troubleshoot plugin issues
+- Optimize startup time
+- Implement modern Lua patterns
+- Set up LSPs and formatters
+- Optimize out redundancies
+Always consider Neovim 0.11+ features and cross-platform compatibility.
+]],
+				},
+			},
+		},
+
+		["Home Assistant Expert"] = {
+			strategy = "chat",
+			description = "Home Assistant configuration and automation help",
+			opts = { index = 3 },
+			references = {
+				{ type = "file", path = "configuration.yaml" },
+			},
+			prompts = {
+				{
+					role = "user",
+					content = [[
+You're a Home Assistant expert. Always use the keyword "trigger" and never the deprecated "platform."
+Similarly, never use "service." Instead ALWAYS NO MATTER WHAT use "action." Additionally, will will help with:
+- YAML configuration validation
+- Automation optimization
+- Custom component integration
+- Template creation
+- Energy monitoring setup
+Always check for best practices and suggest performance improvements.
+]],
+				},
+			},
+		},
+
+		["Code Review Specialist"] = {
+			strategy = "chat",
+			description = "Open source code review and debugging assistant",
+			opts = { index = 4 },
+			prompts = {
+				{
+					role = "user",
+					content = [[
+You're a senior code reviewer. Help me:
+1. Analyze code structure and architecture
+2. Identify potential bugs and security issues
+3. Suggest performance optimizations
+4. Recommend design pattern improvements
+5. Create debugging strategies
+6. Document complex logic
+Focus on readability, maintainability, and cross-platform compatibility.
+]],
+				},
+			},
+		},
+
+		["Embedded Systems Engineer"] = {
+			strategy = "chat",
+			description = "Embedded development for various platforms",
+			opts = { index = 5 },
+			references = {
+				{ type = "file", path = { "schematics.pdf", "datasheets/" } },
+			},
+			prompts = {
+				{
+					role = "user",
+					content = [[
+You're an embedded systems expert. Assist with:
+- Low-level C/C++ programming
+- Hardware abstraction layers
+- Peripheral configuration (GPIO, UART, SPI, I2C)
+- RTOS integration
+- Memory optimization
+- Cross-compiling toolchains
+- Debugging with JTAG/SWD
+Support platforms: Mikrotik, 8devices, MSP430, STM32. Always consider:
+- Hardware constraints
+- Power efficiency
+- Real-time requirements
+- Safety-critical practices
+]],
+				},
+			},
+		},
+
+		["Code Review Workflow"] = {
+			strategy = "workflow",
+			description = "Multi-step code review process",
+			opts = { index = 10 },
 			prompts = {
 				{
 					{
 						role = "user",
-						content =
-						"Generate a Python class for managing a book library with methods for adding, removing, and searching books",
-						opts = {
-							auto_submit = false,
-						},
+						content = "Analyze this code for potential bugs and security issues",
+						opts = { auto_submit = false },
 					},
-				},
-				{
 					{
 						role = "user",
-						content = "Write unit tests for the library class you just created",
-						opts = {
-							auto_submit = true,
-						},
+						content = "Suggest architectural improvements and design patterns",
+						opts = { auto_submit = false },
 					},
-				},
-				{
 					{
 						role = "user",
-						content = "Create a TypeScript interface for a complex e-commerce shopping cart system",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write a recursive algorithm to balance a binary search tree in Java",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Generate a comprehensive regex pattern to validate email addresses with explanations",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Create a Rust struct and implementation for a thread-safe message queue",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write a GitHub Actions workflow file for CI/CD with multiple stages",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Create SQL queries for a complex database schema with joins across 4 tables",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Write a Lua configuration for Neovim with custom keybindings and plugins",
-						opts = {
-							auto_submit = true,
-						},
-					},
-				},
-				{
-					{
-						role = "user",
-						content = "Generate documentation in JSDoc format for a complex JavaScript API client",
-						opts = {
-							auto_submit = true,
-						},
+						content = "Propose performance optimizations with concrete examples",
+						opts = { auto_submit = true },
 					},
 				},
 			},
 		},
-		-- },
+
+		["Embedded Debugging Workflow"] = {
+			strategy = "workflow",
+			description = "Hardware debugging assistance flow",
+			opts = { index = 11 },
+			prompts = {
+				{
+					{
+						role = "user",
+						content = "Analyze this microcontroller crash log",
+						opts = { auto_submit = false },
+					},
+					{
+						role = "user",
+						content = "Suggest possible hardware/software causes",
+						opts = { auto_submit = false },
+					},
+					{
+						role = "user",
+						content = "Propose step-by-step debugging strategy",
+						opts = { auto_submit = true },
+					},
+				},
+			},
+		},
 	},
 	display = {
 		action_palette = {
-			provider = "telescope",     -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
+			provider = "telescope", -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
 			opts = {
 				show_default_actions = true, -- Show the default actions in the action palette?
 				show_default_prompt_library = true, -- Show the default prompt library in the action palette?
@@ -255,7 +291,7 @@ I'm also sharing my `config.lua` file which I'm mapping to the `configuration` s
 			opts = {
 				breakindent = true,
 				cursorcolumn = false,
-				cursorline = false,
+				cursorline = true,
 				foldcolumn = "0",
 				linebreak = true,
 				list = false,
