@@ -262,6 +262,9 @@ return {
 				callback = function()
 					-- Small delay to ensure theme is fully applied
 					vim.defer_fn(function()
+						require("config.kitty-colors").set_kitty_colors()
+					end, 100)
+					vim.defer_fn(function()
 						require("transparent").clear_prefix("DropBar")
 						require("transparent").clear_prefix("lualine_c")
 						require("transparent").clear_prefix("NeoTree")
@@ -361,14 +364,14 @@ return {
 						name = "Vesper",
 						colorscheme = "vesper",
 					},
-					{
-						name = "Everfrost",
-						colorscheme = "everfrost",
-					},
-					{
-						name = "Github",
-						colorscheme = "github-nvim-theme",
-					},
+					-- {
+					-- 	name = "Everfrost",
+					-- 	colorscheme = "everfrost",
+					-- },
+					-- {
+					-- 	name = "Github",
+					-- 	colorscheme = "github-nvim-theme",
+					-- },
 					{
 						name = "Neovim",
 						colorscheme = "neovim",
@@ -393,6 +396,9 @@ return {
 				},
 				livePreview = true,
 				globalBefore = [[ ]],
+				globalAfter = [[
+          require('config.kitty-colors').set_kitty_colors()
+        ]],
 			})
 		end,
 	},
