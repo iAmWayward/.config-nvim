@@ -18,8 +18,8 @@ M.items = {
 		description = "Show highlight group under cursor",
 	},
 	{ mode = "n", "<leader>T", "<cmd>Themery<cr>", description = "Change theme" },
-	{ mode = "n", "<leader>t", "<cmd>Toggle_Transparency<cr>", description = "Toggle Transparency" },
-	-- { mode = "n",          "<leader>t",  "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
+	-- { mode = "n", "<leader>t", "<cmd>Toggle_Transparency<cr>", description = "Toggle Transparency" },
+	{ mode = "n", "<leader>t", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
 

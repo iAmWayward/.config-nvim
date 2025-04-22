@@ -372,10 +372,10 @@ return {
 					-- 	name = "Github",
 					-- 	colorscheme = "github-nvim-theme",
 					-- },
-					{
-						name = "Neovim",
-						colorscheme = "neovim",
-					},
+					-- {
+					-- 	name = "Neovim",
+					-- 	colorscheme = "neovim",
+					-- },
 					{
 						name = "Dracula",
 						colorscheme = "dracula",
@@ -397,8 +397,8 @@ return {
 				livePreview = true,
 				globalBefore = [[ ]],
 				globalAfter = [[
-          require('config.kitty-colors').set_kitty_colors()
-        ]],
+				      require('config.kitty-colors').set_kitty_colors()
+				    ]],
 			})
 		end,
 	},
