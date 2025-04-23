@@ -222,8 +222,8 @@ return {
 			-- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
 			-- refer to `:h file-pattern` for more examples
 			"BufReadPre "
-			.. vim.fn.expand("~")
-			.. "/Documents/Obsidian Vault/*.md",
+				.. vim.fn.expand("~")
+				.. "/Documents/Obsidian Vault/*.md",
 			"BufNewFile " .. vim.fn.expand("~") .. "/Obsidian Vault/*.md",
 		},
 		dependencies = {
@@ -303,10 +303,11 @@ return {
 		"sphamba/smear-cursor.nvim",
 		lazy = false,
 		opts = {
-			smear_between_buffers = false,
-			scroll_buffer_space = false,
+			smear_between_buffers = true,
+			scroll_buffer_space = true,
 			smear_between_neighbor_lines = true, -- Smear when moving to adjacent lines
-			-- legacy_computing_symbols_support = true,
+			smear_insert_mode = true,
+			legacy_computing_symbols_support = true,
 			never_draw_over_target = false,
 			vertical_bar_cursor = false,
 			vertical_bar_cursor_insert_mode = true,
@@ -314,8 +315,7 @@ return {
 			min_vertical_distance_smear = 2,
 			-- Attempt to hide the real cursor by drawing a character below it.
 			-- Can be useful when not using `termguicolors`
-			-- hide_target_hack = true,
-
+			hide_target_hack = true,
 			max_kept_windows = 80, --default is 50 Number of windows that stay open for rendering the effect.
 			-- Sets animation framerate
 			time_interval = 17, -- Sets animation framerate in milliseconds. default 17 milliseconds
@@ -361,14 +361,14 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2,                      -- For color blending
-			max_shade_no_matrix = 0.75,       -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7,     -- 0: all pixels, 1: no pixel
+			gamma = 2.2, -- For color blending
+			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5,    -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3,  -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7,      -- 0: no limit, 1: no reduction
-			max_length = 60,                  -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
+			max_length = 60, -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
@@ -1004,7 +1004,7 @@ return {
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
-			size = 15,       -- Height of the terminal split
+			size = 15, -- Height of the terminal split
 			persist_size = false,
 			shade_terminals = true,
 			insert_mappings = false, -- Disable default insert mode mappings

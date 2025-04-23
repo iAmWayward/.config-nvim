@@ -253,7 +253,7 @@ M.items = {
 				end,
 			},
 			{
-				mode = { "n", "v", "x" }, -- Add relevant modes here
+				mode = { "n", "v", "x", "i" }, -- Add relevant modes here
 				"<PageUp>",
 				function()
 					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, { duration = 250 })
@@ -261,7 +261,7 @@ M.items = {
 				description = "Page Up (Neoscroll)",
 			},
 			{
-				mode = { "n", "v", "x" }, -- Add relevant modes here
+				mode = { "n", "v", "x", "i" }, -- Add relevant modes here
 				"<PageDown>",
 				function()
 					require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
