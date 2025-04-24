@@ -233,6 +233,7 @@ return {
 			-- see below for full list of optional dependencies 👇
 		},
 		opts = {
+			ui = { enable = false }, -- TODO evaluate conflict with markdown plugin
 			workspaces = {
 				{
 					name = "personal",
@@ -433,11 +434,17 @@ return {
 					reverse = true, -- New notifications appear at the top
 					zindex = 100, -- Ensure proper layering
 					merge = false, -- Show all notifications individually
-					replace = false, -- Don't replace existing notifications
+					replace = true, -- Don't replace existing notifications
+					-- render = ""
 				},
 				-- Optionally configure LSP progress position if needed
 				lsp_progress = {
 					position = "bottom_right",
+				},
+			},
+			format = {
+				markdown = {
+					enabled = true, -- Make sure markdown formatting is enabled
 				},
 			},
 		},
@@ -707,15 +714,15 @@ return {
 			})
 
 			require("mason-lspconfig").setup_handlers({
-				-- function(server_name)
-				-- 	require("lspconfig")[server_name].setup({
-				-- 		capabilities = capabilities,
-				-- 		on_attach = on_attach,
-				-- 		settings = {
-				-- 			["*"] = { format = { enable = true } },
-				-- 		},
-				-- 	})
-				-- end,
+				function(server_name)
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+						on_attach = on_attach,
+						settings = {
+							["*"] = { format = { enable = true } },
+						},
+					})
+				end,
 
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
@@ -954,6 +961,7 @@ return {
 					"yaml",
 					"http",
 					"jsdoc",
+					"regex",
 				},
 				ignore_install = {},
 				modules = {},
@@ -1119,10 +1127,10 @@ return {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
 					{ name = "codecompanion" },
-					{
-						name = "lazydev",
-						group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-					},
+					-- {
+					-- 	name = "lazydev",
+					-- 	group_index = 0, -- set group index to 0 to skip loading LuaLS completions
+					-- },
 				}, {
 					{ name = "buffer" },
 					{ name = "path" },
