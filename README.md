@@ -1,33 +1,119 @@
-# Neovim config
+# Neovim Coding-Ready IDE
 
-This configuration uses lazy.lua to load plugins from the `lua/plugins/` folder.
+This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 
-- the autoformatting function formats code when you save the file. It doesn't apply to .c and .h files so I don't annoy my coworkers with gigantic diffs. You may prefer to remove that logic, but it also might piss off your coworkers if they know how version control works.
+## Quick Start
 
-- I don't know how ready-for-action the DAP tool is. I've been debugging a network issue for the past few months so I haven't had call to set breakpoints and that kind of thing.
+- You can view keybindings within neovim by pressing Ctrl+p.
 
-- Some keymaps are still floating around in the plugin files. But most of them are defined in /config/keymaps.lua. I also set up which-key and legendary, since I am a noob.
+- All the normal vim keybindings have been preserved.
 
-- AI assistant has vim motions under <leader>a, you can use basically any provider. In your bashrc or fish.lua or whatever, add env variables like
+- Note: Vim uses "Motions" to accomplish most actions, which are
+  described using certain symbols:
+
+- C = Ctrl
+
+- M = Alt (Meta key)
+
+- `<leader>` = Special key for user-defined motions. It is unbound in vim by default.
+
+So `C-r` means "Press Ctrl and r at the same time"
+while "Cr" means "Press capital C then r in sequence."
+
+- This config utilizes `buffers` to act as tabs within a given vim tab.
+  Using this method will help you stay organized when working with
+  multiple projects by allowing you to have multiple tabs from the
+  same project stored in a higher tab.
+
+Because of this, you must use `<leader>q` to close a buffer rather
+than `:q`, which will close all the buffers along with the tab itself.
+
+- **The `<leader>` key is bound to spacebar.** Feel free to change this.
+
+### Important Motions (keybindings)
+
+- `<leader>o` File Tree Toggle
+
+- `<leader>O` Outline Toggle (very useful)
+
+- `C-\` Toggle terminal
+
+- `C-p` Show keybindings
+
+- `K` Show documentation
+
+- `gd` Hover definition ([g]o to [d]efinition)
+
+- `gD` Go to definition
+
+- `za` Toggle Fold/Collapse code under cursor
+
+- `xX` Toggle diagnostics for this buffer
+
+- `xx` Toggle diagnostics for entire project
+
+#### Appearance Motions
+
+- `<leader>t` toggle transparency
+- `<leader>T` Change theme
+
+The rest should hopefully be fairly straightforward.
+
+## Setup
+
+### Linux
+
+```bash
+sudo (dnf install neovim || apt install neovim || pacman -S neovim) # Use your distro package manager.
+```
+
+Then,
+
+```bash
+cd ~/.config && git clone https://github.com/AlphaNumericPencil/.config-nvim.git nvim
+```
+
+### Windows
+
+1. Download a random exe from the internet which purports to be neovim.
+   Or something, I guess.
+1. `git clone https://github.com/AlphaNumericPencil/.config-nvim.git $env:LOCALAPPDATA\nvim`
+
+### All Platforms
+
+Launch with the `nvim` command and then type `:Lazy update`.
+
+Colon will launch the command pallete. Once you type the
+command and hit `<Enter>`. The plugins should install without
+issue. Exit neovim and relaunch.
+
+#### Code Companion
+
+The AI assistant has vim motions under `<leader>a`. You can
+use the vast majority of providers. In your bashrc or fish.lua,
+just add env variables like
 
 OPENAI_API_KEY
 DEEPSEEK_AI_KEY
 ANTHROPIC_AI_KEY
 
-and it has ollama set up too, bring your own server
+Ollama is set up too. Bring your own server
 
-- Toggle transparency with :Transparency toggle, just know most themes have small visual issues in transparent mode, which I'm trying to fix. And the ones that work in transparent mode are transparent all the time :D so I'm meaning to fix that when this other stuff is off my plate.
+### Additional Notes
 
-I think that's all the important disclaimers, Sorry if declaring multiple plugins per file is annoying, but word on the street is nvim loads faster that way so I'm working towards having maybe 3-4 files in /plugins
+This config uses `/configs/lazy.lua` to load plugins from the `lua/plugins/` folder.
 
-Highlight group 'NotifyBackground' has no background highlight
-Please provide an RGB hex value or highlight group with a background value for 'background_colour' option.
-This is the colour that will be used for 100% transparency.
+Keymaps are defined in `lua/configs/keymaps`
+CodeCompanion is configured in `lua/config/code-companion`
 
-```lua
-require("notify").setup({
-  background_colour = "#000000",
-})
-```
+- the auto-formatting function will format code when you save the file.
+  It does not format .c and .h files because I don't want to annoy my coworkers.
+  You may prefer to remove that exclusionary logic, or you can
+  modify it to disable formatting for other languages.
 
-Defaulting to #000000
+- I don't know how ready-for-action the DAP tool is. I've been debugging
+  a network issue for the past few months, so I haven't had call to set
+  breakpoints and that kind of thing.
+
+- Some keymaps are still floating around in the plugin files.
+  That being said, most are defined in /config/keymaps.lua..
