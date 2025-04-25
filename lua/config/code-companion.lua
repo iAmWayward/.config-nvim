@@ -1,4 +1,8 @@
+-- config.codecompanion.lua
 return {
+	integrations = {
+		cmp = true,
+	},
 	strategies = {
 		inline = { adapter = "openai" }, -- { adapter = "ollama" },
 		chat = {

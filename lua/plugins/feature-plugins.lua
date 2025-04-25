@@ -32,7 +32,21 @@ return {
 			},
 		},
 	},
-
+	--=============================== LLM Provider ================================--
+	-- {
+	--   "github/copilot.vim"
+	-- },
+	{
+		"olimorris/codecompanion.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			vim.cmd([[cab cc CodeCompanion]])
+			require("codecompanion").setup(require("config.code-companion"))
+		end,
+	},
 	{
 		"nvim-telescope/telescope.nvim",
 		lazy = true,
@@ -290,7 +304,7 @@ return {
 			respect_scrolloff = false,
 			cursor_scrolls_alone = true,
 			duration_multiplier = 1.0,
-			easing = "quadratic",
+			easing = "linear", -- quadratic, linear,
 			pre_hook = nil,
 			post_hook = nil,
 			performance_mode = false,
@@ -730,13 +744,13 @@ return {
 						on_attach = on_attach,
 						settings = {
 							Lua = {
-						-- 		runtime = { version = "LuaJIT" },
+								-- 		runtime = { version = "LuaJIT" },
 								diagnostics = { globals = { "vim" } },
-						-- 		workspace = {
-						-- 			library = vim.api.nvim_get_runtime_file("", true),
-						-- 			checkThirdParty = false,
-						-- 		},
-						-- 		telemetry = { enable = false },
+								-- 		workspace = {
+								-- 			library = vim.api.nvim_get_runtime_file("", true),
+								-- 			checkThirdParty = false,
+								-- 		},
+								-- 		telemetry = { enable = false },
 							},
 						},
 					})
@@ -878,7 +892,7 @@ return {
 		"abecodes/tabout.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		opts = { -- Add 'local' declaration
-			tabkey = "<Tab>",
+			tabkey = "<C-Tab>",
 			backwards_tabkey = "<S-Tab>",
 			completion = true,
 			ignore_beginning = false,
@@ -1106,9 +1120,7 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
-			-- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			-- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
+			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
 			-- Main cmp setup
 			cmp.setup({
 				snippet = {
@@ -1126,7 +1138,11 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name = "codecompanion" },
+					{ name = "codecompanion_models" },
+					{ name = "codecompanion_slash_commands" },
+					{ name = "codecompanion_tools" },
+					{ name = "codecompanion_variables" },
+					{ name = "cmdline" },
 					-- {
 					-- 	name = "lazydev",
 					-- 	group_index = 0, -- set group index to 0 to skip loading LuaLS completions
@@ -1144,7 +1160,7 @@ return {
 					}),
 				},
 				experimental = {
-					ghost_text = true,
+					ghost_text = { h1_group = "CmpGhostText" },
 				},
 			})
 
@@ -1278,21 +1294,7 @@ return {
 		--[[   cache_dir = utils.path_join(utils.is_windows, vim.fn.stdpath("cache"), constants.PLUGIN_NAME, "version_cache"), ]]
 		--[[ }, ]]
 	},
-	--=============================== LLM Provider ================================--
-	-- {
-	--   "github/copilot.vim"
-	-- },
-	{
-		"olimorris/codecompanion.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-		},
-		config = function()
-			vim.cmd([[cab cc CodeCompanion]])
-			require("codecompanion").setup(require("config.code-companion"))
-		end,
-	},
+
 	{
 		"mrjones2014/legendary.nvim",
 		keys = {
