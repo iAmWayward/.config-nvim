@@ -453,37 +453,37 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	{
-		"lewis6991/hover.nvim",
-		lazy = false,
-		dependencies = { "neovim/nvim-lspconfig" },
-		config = function()
-			require("hover").setup({
-				init = function(client, bufnr) -- Add parameters here
-					require("hover.providers.lsp")
-					-- Uncomment any additional providers you want to use:
-					-- require('hover.providers.gh')
-					-- require('hover.providers.gh_user')
-					-- require('hover.providers.jira')
-					require("hover.providers.dap")
-					-- require('hover.providers.fold_preview')
-					-- require('hover.providers.diagnostic')
-					require("hover.providers.man")
-					require("hover.providers.dictionary")
-					-- require('hover.providers.highlight')
-				end,
-				preview_opts = {
-					border = "single",
-				},
-				preview_window = false,
-				title = true,
-				mouse_providers = {
-					"LSP",
-				},
-				--[[ mouse_delay = 1000, ]]
-			})
-		end,
-	},
+	-- {
+	-- 	"lewis6991/hover.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = { "neovim/nvim-lspconfig" },
+	-- 	config = function()
+	-- 		require("hover").setup({
+	-- 			init = function(client, bufnr) -- Add parameters here
+	-- 				require("hover.providers.lsp")
+	-- 				-- Uncomment any additional providers you want to use:
+	-- 				-- require('hover.providers.gh')
+	-- 				-- require('hover.providers.gh_user')
+	-- 				-- require('hover.providers.jira')
+	-- 				require("hover.providers.dap")
+	-- 				-- require('hover.providers.fold_preview')
+	-- 				-- require('hover.providers.diagnostic')
+	-- 				require("hover.providers.man")
+	-- 				require("hover.providers.dictionary")
+	-- 				-- require('hover.providers.highlight')
+	-- 			end,
+	-- 			preview_opts = {
+	-- 				border = "single",
+	-- 			},
+	-- 			preview_window = false,
+	-- 			title = true,
+	-- 			mouse_providers = {
+	-- 				"LSP",
+	-- 			},
+	-- 			--[[ mouse_delay = 1000, ]]
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		lazy = true,
@@ -730,13 +730,13 @@ return {
 						on_attach = on_attach,
 						settings = {
 							Lua = {
-								runtime = { version = "LuaJIT" },
+						-- 		runtime = { version = "LuaJIT" },
 								diagnostics = { globals = { "vim" } },
-								workspace = {
-									library = vim.api.nvim_get_runtime_file("", true),
-									checkThirdParty = false,
-								},
-								telemetry = { enable = false },
+						-- 		workspace = {
+						-- 			library = vim.api.nvim_get_runtime_file("", true),
+						-- 			checkThirdParty = false,
+						-- 		},
+						-- 		telemetry = { enable = false },
 							},
 						},
 					})
@@ -1150,7 +1150,6 @@ return {
 
 			-- Cmdline setup for search ('/')
 			cmp.setup.cmdline("/", {
-				mapping = cmp.mapping.preset.cmdline(),
 				sources = {
 					{ name = "buffer" },
 				},
@@ -1201,13 +1200,11 @@ return {
 			-- DAP Virtual Text Plugin
 			{
 				"theHamsta/nvim-dap-virtual-text",
-				config = function()
-					require("nvim-dap-virtual-text").setup({
-						commented = true, -- Add comments for better readability
-						enabled = true,
-						enable_commands = true,
-					})
-				end,
+				opts = {
+					commented = true, -- Add comments for better readability
+					enabled = true,
+					enable_commands = true,
+				},
 			},
 		},
 		config = function()
