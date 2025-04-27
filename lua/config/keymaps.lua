@@ -12,7 +12,8 @@ M.items = {
 		mode = "n",
 		"<leader>hd",
 		function()
-			local cursor_highlight = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
+			local cursor_highlight = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1),
+				"name")
 			print("Highlight group under cursor: " .. cursor_highlight)
 		end,
 		description = "Show highlight group under cursor",
@@ -50,7 +51,8 @@ M.items = {
 	-- Neogen
 	{
 		itemgroup = "+Neogen",
-		description = "Quickly generate header comments for a variety of languages using various format specifications.",
+		description =
+		"Quickly generate header comments for a variety of languages using various format specifications.",
 		icon = "",
 		keymaps = {
 			{
@@ -134,7 +136,8 @@ M.items = {
 				mode = "n",
 				"rf",
 				function()
-					vim.cmd("Neotree float reveal_file=" .. vim.fn.expand("<cfile>") .. " reveal_force_cwd")
+					vim.cmd("Neotree float reveal_file=" ..
+					vim.fn.expand("<cfile>") .. " reveal_force_cwd")
 				end,
 				description = "Reveal in float",
 			},
@@ -256,7 +259,8 @@ M.items = {
 				mode = { "n", "v", "x", "i" }, -- Add relevant modes here
 				"<PageUp>",
 				function()
-					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, { duration = 250 })
+					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10,
+						{ duration = 250 })
 				end,
 				description = "Page Up (Neoscroll)",
 			},
@@ -264,7 +268,8 @@ M.items = {
 				mode = { "n", "v", "x", "i" }, -- Add relevant modes here
 				"<PageDown>",
 				function()
-					require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
+					require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10,
+						{ duration = 250 })
 				end,
 				description = "Page Down (Neoscroll)",
 			},

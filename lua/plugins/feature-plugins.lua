@@ -19,6 +19,18 @@ return {
 
 	--============================== Core Plugins ==============================--
 	{ "nvim-lua/plenary.nvim" },
+	{
+		"nvim-tree/nvim-web-devicons",
+		event = { "VeryLazy" },
+		dependencies = {
+			"Allianaab2m/nvim-material-icon-v3",
+		},
+		config = function()
+			require("nvim-web-devicons").setup({
+				override = require("nvim-material-icon").get_icons(),
+			})
+		end,
+	},
 	{ "echasnovski/mini.icons", version = "*" },
 	{
 		"folke/which-key.nvim",
@@ -145,7 +157,7 @@ return {
 		"https://github.com/adelarsq/neovcs.vim",
 		lazy = true,
 		keys = {
-			"<leader>v",
+			"<leader>vcs",
 		},
 		opts = {},
 	},
@@ -1087,7 +1099,7 @@ return {
 		},
 	},
 	-- {
-	-- 	"tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
+	--   "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
 	-- },
 	{
 		"Davidyz/VectorCode",
