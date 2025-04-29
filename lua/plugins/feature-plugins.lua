@@ -297,6 +297,8 @@ return {
 		"shortcuts/no-neck-pain.nvim",
 		lazy = false,
 		version = "*",
+		blend = 0.1,
+		skipEnteringNoNeckPainBuffer = true,
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
