@@ -11,16 +11,17 @@ This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 - Note: Vim uses "Motions" to accomplish most actions, which are
   described using certain symbols:
 
-- C = Ctrl
-
-- M = Alt (Meta key)
-
+- `C` = Ctrl
+- `M` = Alt (Meta key)
+- `<CR>` = carriage return
 - `<leader>` = Special key for user-defined motions. It is unbound in vim by default.
 
 So `C-r` means "Press Ctrl and r at the same time"
 while "Cr" means "Press capital C then r in sequence."
 
-- This config utilizes `buffers` to act as tabs within a given vim tab.
+## Description
+
+This config utilizes `buffers` to act as tabs within a given vim tab.
   Using this method will help you stay organized when working with
   multiple projects by allowing you to have multiple tabs from the
   same project stored in a higher tab.
