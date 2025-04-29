@@ -1,10 +1,12 @@
 require("config.lazy")
-
-vim.o.cmdheight = 0
+--
+-- vim.o.cmdheight = 0
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
+-- vim.o.signcolumn = "yes"
 vim.o.signcolumn = "yes"
+vim.o.number = true
 
 vim.cmd.set = "termguicolors"
 vim.o.shell = "/usr/bin/fish"

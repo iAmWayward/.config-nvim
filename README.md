@@ -2,14 +2,13 @@
 
 This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 
+
 ## Quick Start
 
 - You can view keybindings within neovim by pressing Ctrl+p.
-
 - All the normal vim keybindings have been preserved.
-
-- Note: Vim uses "Motions" to accomplish most actions, which are
-  described using certain symbols:
+    - Note: Vim uses "Motions" to accomplish most actions, which are
+    described using certain symbols:
 
 - `C` = Ctrl
 - `M` = Alt (Meta key)
@@ -19,7 +18,10 @@ This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 So `C-r` means "Press Ctrl and r at the same time"
 while "Cr" means "Press capital C then r in sequence."
 
+
+
 ## Description
+
 
 This config utilizes `buffers` to act as tabs within a given vim tab.
   Using this method will help you stay organized when working with
@@ -31,7 +33,10 @@ than `:q`, which will close all the buffers along with the tab itself.
 
 - **The `<leader>` key is bound to spacebar.** Feel free to change this.
 
+
+
 ### Important Motions (keybindings)
+
 
 - `<leader>o` File Tree Toggle
 
@@ -53,16 +58,22 @@ than `:q`, which will close all the buffers along with the tab itself.
 
 - `xx` Toggle diagnostics for entire project
 
+
+
 #### Appearance Motions
+
 
 - `<leader>t` toggle transparency
 - `<leader>T` Change theme
 
 The rest should hopefully be fairly straightforward.
 
+
+
 ## Setup
 
 ### Linux
+
 
 ```bash
 sudo (dnf install neovim || apt install neovim || pacman -S neovim) # Use your distro package manager.

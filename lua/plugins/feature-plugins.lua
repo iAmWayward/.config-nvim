@@ -325,9 +325,18 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     lazy = false,
     opts = {
-      file_types = { "markdown", "Avante", "codecompanion" },
+      file_types = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
     },
     ft = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
+    config = function()
+      require('render-markdown').setup({
+        completions = { lsp = { enabled = true } },
+        heading = {
+          width = { 'block' },
+          border = true,
+        },
+      })
+    end
   },
 
   --============================== UI Enhancements ==============================--
@@ -503,37 +512,37 @@ return {
       "rcarriga/nvim-notify",
     },
   },
-  {
-    "lewis6991/hover.nvim",
-    lazy = false,
-    dependencies = { "neovim/nvim-lspconfig" },
-    config = function()
-      require("hover").setup({
-        init = function(client, bufnr) -- Add parameters here
-          require("hover.providers.lsp")
-          -- Uncomment any additional providers you want to use:
-          -- require('hover.providers.gh')
-          -- require('hover.providers.gh_user')
-          -- require('hover.providers.jira')
-          require("hover.providers.dap")
-          -- require('hover.providers.fold_preview')
-          -- require('hover.providers.diagnostic')
-          require("hover.providers.man")
-          require("hover.providers.dictionary")
-          -- require('hover.providers.highlight')
-        end,
-        preview_opts = {
-          border = "single",
-        },
-        preview_window = false,
-        title = true,
-        mouse_providers = {
-          "LSP",
-        },
-        --[[ mouse_delay = 1000, ]]
-      })
-    end,
-  },
+  -- {
+  --   "lewis6991/hover.nvim",
+  --   lazy = false,
+  --   dependencies = { "neovim/nvim-lspconfig" },
+  --   config = function()
+  --     require("hover").setup({
+  --       init = function(client, bufnr) -- Add parameters here
+  --         require("hover.providers.lsp")
+  --         -- Uncomment any additional providers you want to use:
+  --         -- require('hover.providers.gh')
+  --         -- require('hover.providers.gh_user')
+  --         -- require('hover.providers.jira')
+  --         require("hover.providers.dap")
+  --         -- require('hover.providers.fold_preview')
+  --         -- require('hover.providers.diagnostic')
+  --         require("hover.providers.man")
+  --         require("hover.providers.dictionary")
+  --         -- require('hover.providers.highlight')
+  --       end,
+  --       preview_opts = {
+  --         border = "single",
+  --       },
+  --       preview_window = false,
+  --       title = true,
+  --       mouse_providers = {
+  --         "LSP",
+  --       },
+  --       --[[ mouse_delay = 1000, ]]
+  --     })
+  --   end,
+  -- },
   {
     "nvim-neo-tree/neo-tree.nvim",
     lazy = true,
@@ -617,15 +626,15 @@ return {
       })
     end,
   },
-  {
-    "Bekaboo/dropbar.nvim",
-    lazy = false,
-    -- optional, but required for fuzzy finder support
-    dependencies = {
-      "nvim-telescope/telescope-fzf-native.nvim",
-      build = "make",
-    },
-  },
+  -- {
+  --   "Bekaboo/dropbar.nvim",
+  --   lazy = false,
+  --   -- optional, but required for fuzzy finder support
+  --   dependencies = {
+  --     "nvim-telescope/telescope-fzf-native.nvim",
+  --     build = "make",
+  --   },
+  -- },
   {
     "nvim-lualine/lualine.nvim",
     lazy = false,
@@ -803,6 +812,7 @@ return {
             --[[   capabilities = vim.tbl_deep_extend('force', capabilities, { -- Fix merge ]]
             --[[     positionEncodings = { "utf-16", "utf-32" }, ]]
             --[[   }), ]]
+            -- "--offset-encoding=utf-16",
             on_attach = on_attach,
             cmd = {
               "clangd",
@@ -811,7 +821,8 @@ return {
               "--completion-style=detailed",
               -- "--header-insertion=iwyu",
               "--suggest-missing-includes",
-              "--offset-encoding=utf-16",
+              "--cross-file-rename", -- Enable cross-file refs
+              "--all-scopes-completion",
             },
           })
         end,
@@ -861,8 +872,8 @@ return {
           -- null_ls.builtins.formatting.fixjson, -- JSON
 
           -- Markdown
-          -- null_ls.builtins.formatting.mdformat,
-          null_ls.builtins.diagnostics.markdownlint,
+          null_ls.builtins.formatting.mdformat,
+          -- null_ls.builtins.diagnostics.markdownlint,
 
           null_ls.builtins.formatting.yamlfix, -- YAML
           -- null_ls.builtins.diagnostics.tsc,
@@ -1045,15 +1056,19 @@ return {
       })
     end,
   },
-
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
       auto_close = true,
+      auto_preview = true, -- auto open a window when hovering an item
+      use_diagnostic_signs = true,
+      use_lsp_diagnostic_signs = true,
+      mode = "workspace_diagnostics",
       modes = {
         diagnostics = { auto_open = false },
       },
+
     },
   },
   {
@@ -1073,10 +1088,13 @@ return {
   },
   {
     "nvimdev/lspsaga.nvim",
+    lazy = false,
+    -- event = 'LspAttach',
     opts = {
       -- Custom configuration
       finder = {
         default = "telescope", -- Use telescope as the default finder
+        methods = { "reference,", "definition", "telescope" },
         layout = "normal",     -- Layout for the finder window
         keys = {
           quit = "q",          -- Custom quit key
@@ -1104,7 +1122,7 @@ return {
       lightbulb = {
         enable = true,
         sign = true,
-        virtual_text = false,
+        virtual_text = true,
       },
       diagnostic = {
         show_code_action = true,
@@ -1115,11 +1133,21 @@ return {
           quit = "q",
         },
       },
+      project = {
+        enable = true,
+        detection_method = function()
+          -- Use project.nvim's detection methods
+          local project_util = require("project_nvim.utils.path")
+          return project_util.get_project_root()
+        end
+      },
     },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
       "folke/trouble.nvim",
+      "ahmedkhalf/project.nvim",
+      "MeanderingProgrammer/render-markdown.nvim",
     },
   },
   -- {
@@ -1179,6 +1207,7 @@ return {
           { name = "codecompanion_tools" },
           { name = "codecompanion_variables" },
           { name = "cmdline" },
+          { name = 'render-markdown' },
           -- {
           -- 	name = "lazydev",
           -- 	group_index = 0, -- set group index to 0 to skip loading LuaLS completions
