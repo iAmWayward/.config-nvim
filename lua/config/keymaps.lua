@@ -88,13 +88,13 @@ M.items = {
     icon = "",
     keymaps = {
 
-      {
-        "<leader>xx",
-        function()
-          tr.toggle("workspace_diagnostics")
-        end,
-        desc = "Diagnostics (Trouble)",
-      },
+      -- {
+      --   "<leader>xx",
+      --   function()
+      --     tr.toggle("workspace_diagnostics")
+      --   end,
+      --   desc = "Diagnostics (Trouble)",
+      -- },
       {
         "<leader>xx",
         "<cmd>Trouble diagnostics toggle<cr>",

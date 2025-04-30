@@ -1049,34 +1049,24 @@ return {
       })
     end,
   },
-  -- {
-  --   "folke/trouble.nvim",
-  --   dependencies = { "nvim-tree/nvim-web-devicons" },
-  --   opts = {
-  --     position = "bottom",
-  --     auto_close = true,
-  --     auto_preview = true, -- auto open a window when hovering an item
-  --     use_diagnostic_signs = true,
-  --     use_lsp_diagnostic_signs = true,
-  --     mode = "workspace_diagnostics",
-  --     modes = {
-  --       diagnostics = { auto_open = false },
-  --     },
-  --
-  --   },
-  -- },
   {
     "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
-      mode   = "workspace_diagnostics",
-      height = 15,
-      width  = 80,
-      -- no need for open_no_preview override
-    },
-    keys = {
+      position = "bottom",
+      auto_close = true,
+      auto_preview = true, -- auto open a window when hovering an item
+      use_diagnostic_signs = true,
+      use_lsp_diagnostic_signs = true,
+      mode = "workspace_diagnostics",
+      -- height = 15,
+      -- width = 100,
+      modes = {
+        diagnostics = { auto_open = false },
+      },
+
     },
   },
-
   {
     "akinsho/toggleterm.nvim",
     version = "*",
