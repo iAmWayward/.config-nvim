@@ -87,6 +87,14 @@ M.items = {
     description = "Index errors, warnings, and info dialouges and diagnostics.",
     icon = "",
     keymaps = {
+
+      {
+        "<leader>xx",
+        function()
+          tr.toggle("workspace_diagnostics")
+        end,
+        desc = "Diagnostics (Trouble)",
+      },
       {
         "<leader>xx",
         "<cmd>Trouble diagnostics toggle<cr>",

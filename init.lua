@@ -1,13 +1,13 @@
 require("config.lazy")
 --
--- vim.o.cmdheight = 0
+vim.o.cmdheight = 0
 vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 
 vim.o.signcolumn = "yes"
 vim.o.number = true
-
+vim.opt.statuscolumn = [[%=%l %s]]
 vim.cmd.set = "termguicolors"
 vim.o.shell = "/usr/bin/fish"
 
@@ -17,3 +17,6 @@ vim.opt.shiftwidth = 2   -- Number of spaces for auto-indent and >>/<< operation
 vim.opt.softtabstop = 2  -- Number of spaces for <Tab> key in insert mode
 
 vim.opt.linebreak = true
+
+vim.opt.splitbelow = true -- New splits open below
+vim.opt.splitright = false

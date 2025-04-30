@@ -1,10 +1,3 @@
---- @file init.lua
---- @brief Main configuration file for Neovim
---- @version 1.0
----
---- This configuration uses lazy.nvim as the plugin manager and organizes plugins
---- into logical groups for easier maintenance and understanding.
----
 --- # Structure:
 --- - Core UI: Visual elements like themes, statuslines, notifications
 --- - Editor Enhancement: Features that improve basic editing
@@ -1056,21 +1049,34 @@ return {
       })
     end,
   },
+  -- {
+  --   "folke/trouble.nvim",
+  --   dependencies = { "nvim-tree/nvim-web-devicons" },
+  --   opts = {
+  --     position = "bottom",
+  --     auto_close = true,
+  --     auto_preview = true, -- auto open a window when hovering an item
+  --     use_diagnostic_signs = true,
+  --     use_lsp_diagnostic_signs = true,
+  --     mode = "workspace_diagnostics",
+  --     modes = {
+  --       diagnostics = { auto_open = false },
+  --     },
+  --
+  --   },
+  -- },
   {
     "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
-      auto_close = true,
-      auto_preview = true, -- auto open a window when hovering an item
-      use_diagnostic_signs = true,
-      use_lsp_diagnostic_signs = true,
-      mode = "workspace_diagnostics",
-      modes = {
-        diagnostics = { auto_open = false },
-      },
-
+      mode   = "workspace_diagnostics",
+      height = 15,
+      width  = 80,
+      -- no need for open_no_preview override
+    },
+    keys = {
     },
   },
+
   {
     "akinsho/toggleterm.nvim",
     version = "*",
@@ -1145,7 +1151,7 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
-      "folke/trouble.nvim",
+      -- "folke/trouble.nvim",
       "ahmedkhalf/project.nvim",
       "MeanderingProgrammer/render-markdown.nvim",
     },
