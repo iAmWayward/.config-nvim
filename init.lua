@@ -20,3 +20,36 @@ vim.opt.linebreak = true
 
 vim.opt.splitbelow = true -- New splits open below
 vim.opt.splitright = false
+
+
+--
+-- function is_plugin_buffer(ft)
+--   local plugin_filetypes = {
+--     'neo-tree',       -- Neo-tree filetype
+--     'Trouble',        -- Trouble.nvim filetype
+--     'lspsagaoutline', -- Lspsaga outline (adjust if different)
+--     -- Add other plugin filetypes as needed
+--   }
+--   return vim.tbl_contains(plugin_filetypes, ft)
+-- end
+--
+-- vim.api.nvim_create_autocmd('BufDelete', {
+--   desc = 'Return to code window after closing plugin buffers',
+--   callback = function(args)
+--     local buf = args.buf
+--     local buf_ft = vim.api.nvim_buf_get_option(buf, 'filetype')
+--
+--     if is_plugin_buffer(buf_ft) then
+--       -- Iterate through all windows to find a non-plugin window
+--       for _, win in ipairs(vim.api.nvim_list_wins()) do
+--         local win_buf = vim.api.nvim_win_get_buf(win)
+--         local win_ft = vim.api.nvim_buf_get_option(win_buf, 'filetype')
+--
+--         if not is_plugin_buffer(win_ft) then
+--           vim.api.nvim_set_current_win(win) -- Switch to the code window
+--           return
+--         end
+--       end
+--     end
+--   end,
+-- })

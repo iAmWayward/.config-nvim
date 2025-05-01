@@ -1,4 +1,4 @@
---- # Structure:
+-- # Structure:
 --- - Core UI: Visual elements like themes, statuslines, notifications
 --- - Editor Enhancement: Features that improve basic editing
 --- - Project Management: Tools for moving around code and projects
@@ -1059,12 +1059,22 @@ return {
       use_diagnostic_signs = true,
       use_lsp_diagnostic_signs = true,
       mode = "workspace_diagnostics",
-      -- height = 15,
-      -- width = 100,
       modes = {
         diagnostics = { auto_open = false },
+            preview_float = {
+      mode = "diagnostics",
+      preview = {
+        type = "float",
+        relative = "editor",
+        border = "rounded",
+        title = "Preview",
+        title_pos = "center",
+        position = { 0, -2 },
+        size = { width = 0.3, height = 0.3 },
+        zindex = 200,
       },
-
+      },
+    }
     },
   },
   {
