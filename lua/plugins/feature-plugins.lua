@@ -849,7 +849,7 @@ return {
 					"markdownlint",
 					"yamlfix",
 					"cmakelang",
-					-- "cmake_format",
+					"cmake_format",
 				},
 				automatic_installation = true,
 			})
