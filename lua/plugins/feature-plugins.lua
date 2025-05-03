@@ -18,7 +18,7 @@ return {
 			'kevinhwang91/promise-async',
 		},
 		opts = {
-			provider_selector = function(_, filetype, _)
+			provider_selector = function(_, _filetype, _)
 				return { 'treesitter', 'indent' }
 			end
 		}
@@ -107,23 +107,17 @@ return {
 		opts = {},
 	},
 	{
-		"nvimdev/dashboard-nvim",
+		"nvimdev/dashboard.nvim",
 		lazy = false,
-		event = "VimEnter", -- Only visit dashboard when vim is given no arguments
-		config = function()
-			-- Function to generate a dynamic header
+		event = "VimEnter", -- Load when Neovim starts with no arguments
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = function()
 			local function generate_header()
-				local day = os.date("%A")        -- Get the day of the week
-				local hour = tonumber(os.date("%H")) -- Get the current hour
-				local greeting = ""
-
-				if hour < 12 then
-					greeting = "Good Morning!"
-				elseif hour < 18 then
-					greeting = "Good Afternoon!"
-				else
-					greeting = "Good Evening!"
-				end
+				local day = os.date("%A")
+				local hour = tonumber(os.date("%H"))
+				local greeting = hour < 12 and "Good Morning!"
+						or hour < 18 and "Good Afternoon!"
+						or "Good Evening!"
 
 				return {
 					greeting,
@@ -131,9 +125,8 @@ return {
 				}
 			end
 
-			-- Dashboard setup
-			opts = {
-				theme = "hyper", -- Ensure theme is explicitly set
+			return { -- This return value becomes the plugin's setup() argument
+				theme = "hyper",
 				disable_at_vimenter = true,
 				change_to_vcs_root = true,
 				config = {
@@ -166,8 +159,7 @@ return {
 					footer = { "Have a productive session!" },
 				},
 			}
-		end,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
+		end
 	},
 
 	--============================== Project Management ==============================--
@@ -622,15 +614,6 @@ return {
 			})
 		end,
 	},
-	-- {
-	--   "Bekaboo/dropbar.nvim",
-	--   lazy = false,
-	--   -- optional, but required for fuzzy finder support
-	--   dependencies = {
-	--     "nvim-telescope/telescope-fzf-native.nvim",
-	--     build = "make",
-	--   },
-	-- },
 	{
 		"nvim-lualine/lualine.nvim",
 		lazy = false,
@@ -709,7 +692,7 @@ return {
 					reveal = { "close" },
 				},
 				sort_by = "relative_directory",
-				diagnostics_indicator = function(count, level, diagnostics_dict, context)
+				diagnostics_indicator = function(count, _level, _diagnostics_dict, _context)
 					return "(" .. count .. ")"
 				end,
 				-- name_formatter = function(buf)  -- buf contains:
@@ -891,7 +874,7 @@ return {
 
 					-- Markdown
 					null_ls.builtins.formatting.mdformat,
-					-- null_ls.builtins.diagnostics.markdownlint,
+					null_ls.builtins.diagnostics.markdownlint,
 
 					null_ls.builtins.formatting.yamlfix, -- YAML
 					-- null_ls.builtins.diagnostics.tsc,
@@ -985,7 +968,12 @@ return {
 			{
 				"numToStr/Comment.nvim",
 				config = function()
-					require("Comment").setup()
+					-- Local definition ensures the `pre_hook` is scoped to this block
+					local pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+
+					require("Comment").setup({
+						pre_hook = pre_hook, -- Use the locally defined hook
+					})
 				end,
 			},
 			{
@@ -1054,8 +1042,8 @@ return {
 					keymaps = {
 						init_selection = "<M-w>",
 						scope_incremental = "<CR>",
-						node_incremental = "<Tab>",
-						node_decremental = "<S-Tab>",
+						node_incremental = "grn",
+						node_decremental = "grm",
 					},
 				},
 				matchup = { enable = true },
@@ -1184,7 +1172,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			-- "folke/trouble.nvim",
 			"ahmedkhalf/project.nvim",
-			"MeanderingProgrammer/render-markdown.nvim",
+			-- "MeanderingProgrammer/render-markdown.nvim",
 		},
 	},
 	-- {
