@@ -18,7 +18,7 @@ return {
 			'kevinhwang91/promise-async',
 		},
 		opts = {
-			provider_selector = function(_, _filetype, _)
+			provider_selector = function(bufnr, filetype, buftype)
 				return { 'treesitter', 'indent' }
 			end
 		}
@@ -107,9 +107,9 @@ return {
 		opts = {},
 	},
 	{
-		"nvimdev/dashboard.nvim",
+		"nvimdev/dashboard-nvim", -- Correct repository name
 		lazy = false,
-		event = "VimEnter", -- Load when Neovim starts with no arguments
+		event = "VimEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = function()
 			local function generate_header()
@@ -125,7 +125,7 @@ return {
 				}
 			end
 
-			return { -- This return value becomes the plugin's setup() argument
+			return { -- Passed directly to dashboard.setup()
 				theme = "hyper",
 				disable_at_vimenter = true,
 				change_to_vcs_root = true,
@@ -138,7 +138,7 @@ return {
 					disable_move = false,
 					shortcut = {
 						{
-							desc = "  Find File",
+							desc = " Find File",
 							group = "DashboardShortCut",
 							action = "Telescope find_files",
 							key = "f",
@@ -161,7 +161,6 @@ return {
 			}
 		end
 	},
-
 	--============================== Project Management ==============================--
 	{
 		"https://github.com/adelarsq/neovcs.vim",
@@ -969,7 +968,8 @@ return {
 				"numToStr/Comment.nvim",
 				config = function()
 					-- Local definition ensures the `pre_hook` is scoped to this block
-					local pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+					local pre_hook = require("ts_context_commentstring.integrations.comment_nvim")
+							.create_pre_hook()
 
 					require("Comment").setup({
 						pre_hook = pre_hook, -- Use the locally defined hook
