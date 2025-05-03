@@ -24,6 +24,9 @@ return {
 		}
 	},
 	{
+		"lukas-reineke/cmp-under-comparator",
+	},
+	{
 		"nvim-tree/nvim-web-devicons",
 		event = { "VeryLazy" },
 		dependencies = {
@@ -750,6 +753,19 @@ return {
 				end
 			end
 
+			vim.diagnostic.config({
+				virtual_text = false, -- Disable inline diagnostics
+				signs = true,
+				update_in_insert = false,
+				severity_sort = true,
+			})
+
+			local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
+			for type, icon in pairs(signs) do
+				local hl = "DiagnosticSign" .. type
+				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+			end
+
 			require("mason-lspconfig").setup({
 				automatic_installation = true,
 				ensure_installed = {
@@ -768,6 +784,13 @@ return {
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
 					require("lspconfig")[server_name].setup({
+						handlers = {
+							["textDocument/publishDiagnostics"] = vim.lsp.with(
+								vim.lsp.diagnostic.on_publish_diagnostics, {
+									-- virtual_text = false -- Disable default virtual text
+								}
+							)
+						},
 						capabilities = capabilities,
 						on_attach = on_attach,
 						settings = {
@@ -1061,6 +1084,9 @@ return {
 			use_diagnostic_signs = true,
 			use_lsp_diagnostic_signs = true,
 			mode = "workspace_diagnostics",
+			multiline = false,
+			padding = false,
+			auto_jump = { "lsp_definitions" },
 			modes = {
 				diagnostics = { auto_open = false },
 				preview_float = {
@@ -1096,8 +1122,8 @@ return {
 	},
 	{
 		"nvimdev/lspsaga.nvim",
-		lazy = false,
-		-- event = 'LspAttach',
+		-- lazy = false,
+		event = 'LspAttach',
 		opts = {
 			-- Custom configuration
 			finder = {
@@ -1121,16 +1147,19 @@ return {
 				actionfix = "",
 				expand = "",
 				collapse = "",
-				code_action = "💡",
+				-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+				-- code_action = "💡",
 				diagnostic = "🐞",
 				colors = {
 					normal_bg = "#022746",
 				},
 			},
 			lightbulb = {
-				enable = true,
+				enable = false,
 				sign = true,
 				virtual_text = true,
+				jump_num_shortcut = true,
+				show_soruce = true,
 			},
 			diagnostic = {
 				show_code_action = true,
@@ -1231,6 +1260,23 @@ return {
 						ellipsis_char = "...",
 						show_labeldetails = true,
 					}),
+				},
+				sorting = {
+					priority_weight = 2,
+					comparators = {
+						cmp.config.compare.offset,
+						cmp.config.compare.exact,
+						cmp.config.compare.score,
+						require("cmp-under-comparator").under, -- Needs plugin install!
+						cmp.config.compare.kind,
+						cmp.config.compare.sort_text,
+						cmp.config.compare.length,
+						cmp.config.compare.order,
+					},
+				},
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
 				},
 				experimental = {
 					ghost_text = { h1_group = "CmpGhostText" },
