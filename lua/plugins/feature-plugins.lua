@@ -48,7 +48,7 @@ return {
 		end,
 		opts = {
 			win = {
-				border = "single",
+				border = "rounded",
 			},
 		},
 	},
@@ -691,7 +691,7 @@ return {
 					reveal = { "close" },
 				},
 				sort_by = "relative_directory",
-				diagnostics_indicator = function(count, _level, _diagnostics_dict, _context)
+				diagnostics_indicator = function(count, level, diagnostics_dict, context)
 					return "(" .. count .. ")"
 				end,
 				-- name_formatter = function(buf)  -- buf contains:
@@ -760,6 +760,15 @@ return {
 					"html",
 					"eslint",
 					"vimls",
+					"docker_compose_language_service",
+					"dockerls",
+					"cssls",
+					"css_variables",
+					"cssmodules_ls",
+					"nginx_config_formatter",
+					"diagnosticls",
+					"helm_ls",
+
 				},
 			})
 
@@ -789,6 +798,7 @@ return {
 							Lua = {
 								-- 		runtime = { version = "LuaJIT" },
 								diagnostics = { globals = { "vim" } },
+								unusedLocalExclude = { "^_" },
 								-- 		workspace = {
 								-- 			library = vim.api.nvim_get_runtime_file("", true),
 								-- 			checkThirdParty = false,
@@ -854,7 +864,12 @@ return {
 					"markdownlint",
 					"yamlfix",
 					"cmakelang",
+					"cmakelint",
 					"cmake_format",
+					"nginx_config_formatter",
+					"gitlint",
+					"gitleak",
+					"yamllint",
 				},
 				automatic_installation = true,
 			})
@@ -866,17 +881,17 @@ return {
 					null_ls.builtins.formatting.prettierd,
 					-- null_ls.builtins.formatting.dprint,
 
-					-- null_ls.builtins.formatting.ruff,   -- Python
+					null_ls.builtins.formatting.ruff, -- Python
 					-- null_ls.builtins.formatting.stylua, -- Lua
-					-- null_ls.builtins.formatting.shfmt, -- Shell scripts
-					-- null_ls.builtins.formatting.fixjson, -- JSON
+					null_ls.builtins.formatting.shfmt, -- Shell scripts
+					null_ls.builtins.formatting.fixjson, -- JSON
 
 					-- Markdown
 					null_ls.builtins.formatting.mdformat,
 					null_ls.builtins.diagnostics.markdownlint,
 
 					null_ls.builtins.formatting.yamlfix, -- YAML
-					-- null_ls.builtins.diagnostics.tsc,
+					null_ls.builtins.diagnostics.tsc,
 
 					-- CMake
 					null_ls.builtins.formatting.cmake_format.with({
@@ -1136,7 +1151,7 @@ return {
 				expand = "",
 				collapse = "",
 				-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-				-- code_action = "💡",
+				code_action = "💡",
 				diagnostic = "🐞",
 				colors = {
 					normal_bg = "#022746",
