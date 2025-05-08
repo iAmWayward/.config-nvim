@@ -716,24 +716,24 @@ return {
 		lazy = false,
 		dependencies = { "williamboman/mason.nvim", "neovim/nvim-lspconfig" },
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+			-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			-- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-			-- Unified on_attach function
-			local on_attach = function(client, bufnr)
-				-- Skip formatting for C/H files
-				local filetype = vim.bo[bufnr].filetype
-				if client.supports_method("textDocument/formatting") and filetype ~= "c" and filetype ~= "h" then
-					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						group = augroup,
-						buffer = bufnr,
-						callback = function()
-							vim.lsp.buf.format({ bufnr = bufnr })
-						end,
-					})
-				end
-			end
+			-- -- Unified on_attach function
+			-- local on_attach = function(client, bufnr)
+			-- 	-- Skip formatting for C/H files
+			-- 	local filetype = vim.bo[bufnr].filetype
+			-- 	if client.supports_method("textDocument/formatting") and filetype ~= "c" and filetype ~= "h" then
+			-- 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			-- 		vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 			group = augroup,
+			-- 			buffer = bufnr,
+			-- 			callback = function()
+			-- 				vim.lsp.buf.format({ bufnr = bufnr })
+			-- 			end,
+			-- 		})
+			-- 	end
+			-- end
 
 			vim.diagnostic.config({
 				virtual_text = false, -- Disable inline diagnostics
@@ -765,85 +765,92 @@ return {
 					"cssls",
 					"css_variables",
 					"cssmodules_ls",
-					"nginx_config_formatter",
+					-- "nginx_config_formatter",
 					"diagnosticls",
 					"helm_ls",
 
 				},
 			})
 
-			require("mason-lspconfig").setup_handlers({
-				function(server_name)
-					require("lspconfig")[server_name].setup({
-						handlers = {
-							["textDocument/publishDiagnostics"] = vim.lsp.with(
-								vim.lsp.diagnostic.on_publish_diagnostics, {
-									-- virtual_text = false -- Disable default virtual text
-								}
-							)
-						},
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = {
-							["*"] = { format = { enable = true } },
-						},
-					})
-				end,
-
-				["lua_ls"] = function()
-					require("lspconfig").lua_ls.setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						settings = {
-							Lua = {
-								-- 		runtime = { version = "LuaJIT" },
-								diagnostics = { globals = { "vim" } },
-								unusedLocalExclude = { "^_" },
-								-- 		workspace = {
-								-- 			library = vim.api.nvim_get_runtime_file("", true),
-								-- 			checkThirdParty = false,
-								-- 		},
-								-- 		telemetry = { enable = false },
-							},
-						},
-					})
-				end,
-
-				["clangd"] = function()
-					require("lspconfig").clangd.setup({
-						capabilities = {
-							capabilities,
-							positionEncodings = { "utf-16", "utf-32" },
-						},
-						-- Use this instead if you dont need encodings merged for codecompanion.
-						--[[ require("lspconfig").clangd.setup({ ]]
-						--[[   capabilities = vim.tbl_deep_extend('force', capabilities, { -- Fix merge ]]
-						--[[     positionEncodings = { "utf-16", "utf-32" }, ]]
-						--[[   }), ]]
-						-- "--offset-encoding=utf-16",
-						on_attach = on_attach,
-						cmd = {
-							"clangd",
-							"--background-index",
-							"--clang-tidy",
-							"--completion-style=detailed",
-							-- "--header-insertion=iwyu",
-							"--suggest-missing-includes",
-							"--cross-file-rename", -- Enable cross-file refs
-							"--all-scopes-completion",
-						},
-					})
-				end,
-
-				["ts_ls"] = function()
-					require("lspconfig").ts_ls.setup({
-						capabilities = capabilities,
-						on_attach = on_attach,
-						root_dir = require("lspconfig.util").root_pattern("package.json",
-							"tsconfig.json", ".git"),
-					})
-				end,
-			})
+vim.lsp.config("clangd", {
+    on_attach = function(client, bufnr)
+        -- Disable clangd's documentFormatting capability (so formatting is done by another tool)
+        client.server_capabilities.documentFormatting = false
+        -- (Optional) other on_attach actions, e.g., setting keymaps, can go here
+    end,
+	})
+			-- require("mason-lspconfig").setup_handlers({
+			-- 	function(server_name)
+			-- 		require("lspconfig")[server_name].setup({
+			-- 			handlers = {
+			-- 				["textDocument/publishDiagnostics"] = vim.lsp.with(
+			-- 					vim.lsp.diagnostic.on_publish_diagnostics, {
+			-- 						-- virtual_text = false -- Disable default virtual text
+			-- 					}
+			-- 				)
+			-- 			},
+			-- 			capabilities = capabilities,
+			-- 			on_attach = on_attach,
+			-- 			settings = {
+			-- 				["*"] = { format = { enable = true } },
+			-- 			},
+			-- 		})
+			-- 	end,
+			--
+			-- 	["lua_ls"] = function()
+			-- 		require("lspconfig").lua_ls.setup({
+			-- 			capabilities = capabilities,
+			-- 			on_attach = on_attach,
+			-- 			settings = {
+			-- 				Lua = {
+			-- 					-- 		runtime = { version = "LuaJIT" },
+			-- 					diagnostics = { globals = { "vim" } },
+			-- 					unusedLocalExclude = { "^_" },
+			-- 					-- 		workspace = {
+			-- 					-- 			library = vim.api.nvim_get_runtime_file("", true),
+			-- 					-- 			checkThirdParty = false,
+			-- 					-- 		},
+			-- 					-- 		telemetry = { enable = false },
+			-- 				},
+			-- 			},
+			-- 		})
+			-- 	end,
+			--
+			-- 	["clangd"] = function()
+			-- 		require("lspconfig").clangd.setup({
+			-- 			capabilities = {
+			-- 				capabilities,
+			-- 				positionEncodings = { "utf-16", "utf-32" },
+			-- 			},
+			-- 			-- Use this instead if you dont need encodings merged for codecompanion.
+			-- 			--[[ require("lspconfig").clangd.setup({ ]]
+			-- 			--[[   capabilities = vim.tbl_deep_extend('force', capabilities, { -- Fix merge ]]
+			-- 			--[[     positionEncodings = { "utf-16", "utf-32" }, ]]
+			-- 			--[[   }), ]]
+			-- 			-- "--offset-encoding=utf-16",
+			-- 			on_attach = on_attach,
+			-- 			cmd = {
+			-- 				"clangd",
+			-- 				"--background-index",
+			-- 				"--clang-tidy",
+			-- 				"--completion-style=detailed",
+			-- 				-- "--header-insertion=iwyu",
+			-- 				"--suggest-missing-includes",
+			-- 				"--cross-file-rename", -- Enable cross-file refs
+			-- 				"--all-scopes-completion",
+			-- 			},
+			-- 		})
+			-- 	end,
+			--
+			-- 	["ts_ls"] = function()
+			-- 		require("lspconfig").ts_ls.setup({
+			-- 			capabilities = capabilities,
+			-- 			on_attach = on_attach,
+			-- 			root_dir = require("lspconfig.util").root_pattern("package.json",
+			-- 				"tsconfig.json", ".git"),
+			-- 		})
+			-- 	end,
+			-- })
 		end,
 	},
 
@@ -859,7 +866,7 @@ return {
 					"stylua",
 					-- "ruff",
 					"shfmt",
-					-- "fixjson",
+					"fixjson",
 					"mdformat",
 					"markdownlint",
 					"yamlfix",
@@ -881,17 +888,17 @@ return {
 					null_ls.builtins.formatting.prettierd,
 					-- null_ls.builtins.formatting.dprint,
 
-					null_ls.builtins.formatting.ruff, -- Python
+					-- null_ls.builtins.formatting.ruff, -- Python
 					-- null_ls.builtins.formatting.stylua, -- Lua
 					null_ls.builtins.formatting.shfmt, -- Shell scripts
-					null_ls.builtins.formatting.fixjson, -- JSON
+					-- null_ls.builtins.formatting.fixjson, -- JSON
 
 					-- Markdown
 					null_ls.builtins.formatting.mdformat,
 					null_ls.builtins.diagnostics.markdownlint,
 
 					null_ls.builtins.formatting.yamlfix, -- YAML
-					null_ls.builtins.diagnostics.tsc,
+					-- null_ls.builtins.diagnostics.tsc,
 
 					-- CMake
 					null_ls.builtins.formatting.cmake_format.with({
@@ -1313,7 +1320,6 @@ return {
 			{
 				"rcarriga/nvim-dap-ui",
 				dependencies = {
-
 					"nvim-neotest/nvim-nio",
 				},
 				config = function()
