@@ -1355,6 +1355,7 @@ return {
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
 			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
+
 			-- Main cmp setup
 			cmp.setup({
 				snippet = {
@@ -1417,7 +1418,25 @@ return {
 			})
 
 			-- Cmdline setup for search ('/')
+			-- cmp.setup.cmdline("/", {
+			--   mapping = cmp.mapping.preset.cmdline({
+			--     ["<C-n>"] = { c = cmp.mapping.select_next_item() },
+			--     ["<C-p>"] = { c = cmp.mapping.select_prev_item() },
+			--     ["<CR>"] = { c = cmp.mapping.confirm({ select = true }) },
+			--   }),
+			--   sources = {
+			--     { name = "buffer" },
+			--   },
+			-- })
+
+			-- Cmdline setup for search ('/')
 			cmp.setup.cmdline("/", {
+				mapping = cmp.mapping.preset.cmdline({
+					["<C-n>"] = { c = cmp.mapping.select_next_item() },
+					["<C-p>"] = { c = cmp.mapping.select_prev_item() },
+					["<S-CR>"] = { c = cmp.mapping.confirm({ select = true }) },
+				}),
+
 				sources = {
 					{ name = "buffer" },
 				},
@@ -1425,7 +1444,12 @@ return {
 
 			-- Cmdline setup for command line (':')
 			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline(),
+				mapping = cmp.mapping.preset.cmdline({
+					["<C-n>"] = { c = cmp.mapping.select_next_item() },
+					["<C-p>"] = { c = cmp.mapping.select_prev_item() },
+					["<S-CR>"] = { c = cmp.mapping.confirm({ select = true }) },
+				}),
+
 				sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
 			})
 

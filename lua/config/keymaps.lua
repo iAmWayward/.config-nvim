@@ -6,6 +6,28 @@ local M = {}
 M.items = {
 	-- Base keymaps
 
+	-- {
+	-- 	itemgroup = "+Search",
+	-- 	description = "Search navigation and completion",
+	-- 	icon = "",
+	-- 	keymaps = {
+	-- 		{
+	-- 			mode = "c", -- Command-line mode
+	-- 			"<Tab>",
+	-- 			"<C-n>",
+	-- 			description = "Next completion item",
+	-- 			opts = { noremap = true }
+	-- 		},
+	-- 		{
+	-- 			mode = "c",
+	-- 			"<S-Tab>",
+	-- 			"<C-p>",
+	-- 			description = "Previous completion item",
+	-- 			opts = { noremap = true }
+	-- 		}
+	-- 	}
+	-- },
+
 	{ mode = { "n", "x" }, "<leader>n",  group = "+NoNeckPain" },
 
 	{
