@@ -961,13 +961,25 @@ return {
 			local util         = require("lspconfig.util")
 
 			-- default setup for most servers
-			local servers      = { "pyright", "lua_ls", "clangd", "ts_ls", "bashls", "html", "cssls", "eslint" }
+			local servers      = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
 			for _, name in ipairs(servers) do
 				lspconfig(name, {
 					capabilities = capabilities,
 					on_attach    = on_attach,
 				})
 			end
+
+			lspconfig("clangd", {
+				capabilities = capabilities,
+				on_attach = on_attach,
+				settings = {
+					clangd = {
+						Format = {
+							Enable = false -- Disable clangd's built-in formatter
+						}
+					}
+				}
+			})
 
 			-- typescript server with custom root_dir
 			lspconfig("ts_ls", {
