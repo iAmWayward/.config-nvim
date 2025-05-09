@@ -9,7 +9,7 @@ vim.o.signcolumn = "yes"
 vim.o.number = true
 vim.opt.statuscolumn = [[%=%l %s]]
 vim.cmd.set = "termguicolors"
-vim.o.shell = "/usr/bin/fish"
+-- vim.o.shell = "/usr/bin/fish"
 
 -- vim.opt.expandtab = true -- Convert tabs to spaces
 vim.opt.tabstop = 2     -- Number of spaces a TAB displays as
@@ -21,6 +21,13 @@ vim.opt.linebreak = true
 vim.opt.splitbelow = true -- New splits open below
 vim.opt.splitright = false
 
+-- If the current system shell or the `shell` option is set to /usr/bin/fish then revert to sh
+if os.getenv('SHELL') == "/usr/bin/fish" or vim.opt.shell == "/usr/bin/fish" then
+	vim.opt.shell = "/bin/sh"
+else
+	-- Else default to the system current shell.
+	vim.opt.shell = os.getenv('SHELL')
+end
 
 --
 -- function is_plugin_buffer(ft)
@@ -30,7 +37,7 @@ vim.opt.splitright = false
 --     'lspsagaoutline', -- Lspsaga outline (adjust if different)
 --     -- Add other plugin filetypes as needed
 --   }
---   return vim.tbl_contains(plugin_filetypes, ft)
+--   return vim.tbl_contain(plugin_filetypes, ft)
 -- end
 --
 -- vim.api.nvim_create_autocmd('BufDelete', {

@@ -52,7 +52,7 @@ M.items = {
 				function()
 					local winid = require('ufo').peekFoldedLinesUnderCursor()
 					if not winid then
-						require('lspsaga.hover').render_hover_doc()
+						require('lspsaga.hover'):render_hover_doc()
 						vim.lsp.buf.hover()
 					end
 				end,
