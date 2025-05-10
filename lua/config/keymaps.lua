@@ -342,56 +342,56 @@ M.items = {
 	-- icon = "",
 	-- description = "Use the power of AI...",
 	-- keymaps = {
-	{
-		itemgroup = "+CodeCompanion",
-		description = "Comprehensive LLM functionality for inline or side-by-side editing.",
-		icon = "",
-		keymaps = {
-			{
-				mode = { "n", "v" },
-				"<C-a>",
-				"<cmd>CodeCompanionActions<CR>",
-				description = "Open the action palette",
-			},
-			{
-				mode = { "n", "v" },
-				"<Leader>aa",
-				"<cmd>CodeCompanionChat Toggle<CR>",
-				description = "Toggle a chat buffer",
-			},
-			{
-				mode = { "n", "v" },
-				"<Leader>ac",
-				"<cmd>CodeCompanionChat Add<CR>",
-				description = "Add selected text to a chat buffer",
-			},
-			{
-				mode = { "n", "v" },
-				"<Leader>ad",
-				"<cmd>CodeCompanionDiff<CR>",
-				description = "Diff the current buffer",
-			},
-			{
-				mode = { "n", "v" },
-				"<Leader>as",
-				"<cmd>CodeCompanionSettings<CR>",
-				description = "Open the settings buffer",
-			},
-			{
-				mode = { "n", "v" },
-				"<Leader>at",
-				"<cmd>CodeCompanionToggle<CR>",
-				description = "Toggle CodeCompanion",
-			},
-			{
-				mode = { "n", "v" },
-				"<Leader>ae",
-				"<cmd>CodeCompanion<CR>",
-				description = "CodeCompanion to edit the file directly",
-			},
-			-- },
-		},
-	},
+	-- {
+	-- 	itemgroup = "+CodeCompanion",
+	-- 	description = "Comprehensive LLM functionality for inline or side-by-side editing.",
+	-- 	icon = "",
+	-- 	keymaps = {
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<C-a>",
+	-- 			"<cmd>CodeCompanionActions<CR>",
+	-- 			description = "Open the action palette",
+	-- 		},
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<Leader>aa",
+	-- 			"<cmd>CodeCompanionChat Toggle<CR>",
+	-- 			description = "Toggle a chat buffer",
+	-- 		},
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<Leader>ac",
+	-- 			"<cmd>CodeCompanionChat Add<CR>",
+	-- 			description = "Add selected text to a chat buffer",
+	-- 		},
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<Leader>ad",
+	-- 			"<cmd>CodeCompanionDiff<CR>",
+	-- 			description = "Diff the current buffer",
+	-- 		},
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<Leader>as",
+	-- 			"<cmd>CodeCompanionSettings<CR>",
+	-- 			description = "Open the settings buffer",
+	-- 		},
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<Leader>at",
+	-- 			"<cmd>CodeCompanionToggle<CR>",
+	-- 			description = "Toggle CodeCompanion",
+	-- 		},
+	-- 		{
+	-- 			mode = { "n", "v" },
+	-- 			"<Leader>ae",
+	-- 			"<cmd>CodeCompanion<CR>",
+	-- 			description = "CodeCompanion to edit the file directly",
+	-- 		},
+	-- 		-- },
+	-- 	},
+	-- },
 }
 
 M.lsp_mappings = function(bufnr)
