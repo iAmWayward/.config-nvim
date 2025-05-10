@@ -72,14 +72,27 @@ M.items = {
 				mode = "n",
 				"K",
 				function()
-					local winid = require('ufo').peekFoldedLinesUnderCursor()
-					if not winid then
-						require('lspsaga.hover'):render_hover_doc()
-						vim.lsp.buf.hover()
+					local ufo = require("ufo")
+					if not ufo.peekFoldedLinesUnderCursor() then
+						vim.cmd("Lspsaga hover_doc")
 					end
 				end,
-				description = "Peek fold under cursor"
+				description = "Peek fold or hover",
+				buffer = bufnr,
 			},
+
+			-- {
+			-- 	mode = "n",
+			-- 	"K",
+			-- 	function()
+			-- 		local winid = require('ufo').peekFoldedLinesUnderCursor()
+			-- 		if not winid then
+			-- 			require('lspsaga.hover'):render_hover_doc()
+			-- 			vim.lsp.buf.hover()
+			-- 		end
+			-- 	end,
+			-- 	description = "Peek fold under cursor"
+			-- },
 		},
 	},
 

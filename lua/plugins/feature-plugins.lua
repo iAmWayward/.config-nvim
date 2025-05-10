@@ -13,15 +13,18 @@ return {
 	--============================== Core Plugins ==============================--
 	{ "nvim-lua/plenary.nvim" },
 	{
-		'kevinhwang91/nvim-ufo',
+		"kevinhwang91/nvim-ufo",
 		dependencies = {
-			'kevinhwang91/promise-async',
+			"kevinhwang91/promise-async",
 		},
 		opts = {
+			---@param bufnr integer
+			---@param filetype string
+			---@param buftype string
 			provider_selector = function(bufnr, filetype, buftype)
-				return { 'treesitter', 'indent' }
-			end
-		}
+				return { "treesitter", "indent" }
+			end,
+		},
 	},
 	{
 		"lukas-reineke/cmp-under-comparator",
@@ -115,9 +118,7 @@ return {
 			local function generate_header()
 				local day = os.date("%A")
 				local hour = tonumber(os.date("%H"))
-				local greeting = hour < 12 and "Good Morning!"
-						or hour < 18 and "Good Afternoon!"
-						or "Good Evening!"
+				local greeting = hour < 12 and "Good Morning!" or hour < 18 and "Good Afternoon!" or "Good Evening!"
 
 				return {
 					greeting,
@@ -159,7 +160,7 @@ return {
 					footer = { "Have a productive session!" },
 				},
 			}
-		end
+		end,
 	},
 	--============================== Project Management ==============================--
 	{
@@ -503,14 +504,14 @@ return {
 		},
 		ft = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
 		config = function()
-			require('render-markdown').setup({
+			require("render-markdown").setup({
 				completions = { lsp = { enabled = true } },
 				heading = {
-					width = { 'block' },
+					width = { "block" },
 					border = true,
 				},
 			})
-		end
+		end,
 	},
 
 	--============================== UI Enhancements ==============================--
@@ -595,14 +596,14 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2,                            -- For color blending
-			max_shade_no_matrix = 0.75,             -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7,           -- 0: all pixels, 1: no pixel
+			gamma = 2.2, -- For color blending
+			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5,          -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3,        -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7,            -- 0: no limit, 1: no reduction
-			max_length = 60,                        -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
+			max_length = 60, -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
@@ -913,21 +914,32 @@ return {
 			-- 2) mason-lspconfig setup: ensure servers, auto‑enable them
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"ts_ls", "clangd", "lua_ls", "pyright", "bashls",
-					"tailwindcss", "html", "eslint", "vimls",
-					"docker_compose_language_service", "dockerls",
-					"cssls", "css_variables", "cssmodules_ls",
-					"diagnosticls", "helm_ls",
+					"ts_ls",
+					"clangd",
+					"lua_ls",
+					"pyright",
+					"bashls",
+					"tailwindcss",
+					"html",
+					"eslint",
+					"vimls",
+					"docker_compose_language_service",
+					"dockerls",
+					"cssls",
+					"css_variables",
+					"cssmodules_ls",
+					"diagnosticls",
+					"helm_ls",
 				},
 				automatic_enable = true, -- new in v2.0 :contentReference[oaicite:4]{index=4}
 			})
 
 			-- 3) Diagnostics UI tweaks
 			vim.diagnostic.config({
-				virtual_text     = false,
-				signs            = true,
+				virtual_text = false,
+				signs = true,
 				update_in_insert = false,
-				severity_sort    = true,
+				severity_sort = true,
 			})
 			local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
 			for type, icon in pairs(signs) do
@@ -936,36 +948,37 @@ return {
 			end
 
 			-- 4) Set up LSP‐capabilities and formatting autocmd
-			local capabilities = require("cmp_nvim_lsp")
-					.default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
-			local augroup      = vim.api.nvim_create_augroup("LspFormatting", {})
+			local capabilities =
+				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
+			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
-			local on_attach    = function(client, bufnr)
+			local on_attach = function(client, bufnr)
 				-- only format non‑C/H files
 				if client.supports_method("textDocument/formatting") then
 					local ft = vim.bo[bufnr].filetype
 					if ft ~= "c" and ft ~= "h" then
 						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 						vim.api.nvim_create_autocmd("BufWritePre", {
-							group    = augroup,
-							buffer   = bufnr,
-							callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
+							group = augroup,
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ bufnr = bufnr })
+							end,
 						})
 					end
 				end
 			end
 
 			-- 5) Configure each server via native API
-			local lspconfig    = vim.lsp
-					.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
-			local util         = require("lspconfig.util")
+			local lspconfig = vim.lsp.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
+			local util = require("lspconfig.util")
 
 			-- default setup for most servers
-			local servers      = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
+			local servers = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
 			for _, name in ipairs(servers) do
 				lspconfig(name, {
 					capabilities = capabilities,
-					on_attach    = on_attach,
+					on_attach = on_attach,
 				})
 			end
 
@@ -975,18 +988,18 @@ return {
 				settings = {
 					clangd = {
 						Format = {
-							Enable = false -- Disable clangd's built-in formatter
-						}
-					}
-				}
+							Enable = false, -- Disable clangd's built-in formatter
+						},
+					},
+				},
 			})
 
 			-- typescript server with custom root_dir
-			lspconfig("ts_ls", {
-				capabilities = capabilities,
-				on_attach    = on_attach,
-				root_dir     = util.root_pattern("package.json", "tsconfig.json", ".git"),
-			})
+			-- 		lspconfig("ts_ls", {
+			-- 			capabilities = capabilities,
+			-- 			on_attach    = on_attach,
+			-- 			root_dir     = util.root_pattern("package.json", "tsconfig.json", ".git"),
+			-- 		})
 		end,
 	},
 
@@ -1015,6 +1028,7 @@ return {
 					"yamllint",
 				},
 				automatic_installation = true,
+				handlers = {},
 			})
 
 			local null_ls = require("null-ls")
@@ -1025,7 +1039,7 @@ return {
 					-- null_ls.builtins.formatting.dprint,
 
 					-- null_ls.builtins.formatting.ruff, -- Python
-					-- null_ls.builtins.formatting.stylua, -- Lua
+					null_ls.builtins.formatting.stylua, -- Lua
 					null_ls.builtins.formatting.shfmt, -- Shell scripts
 					-- null_ls.builtins.formatting.fixjson, -- JSON
 
@@ -1034,7 +1048,6 @@ return {
 					null_ls.builtins.diagnostics.markdownlint,
 
 					null_ls.builtins.formatting.yamlfix, -- YAML
-					-- null_ls.builtins.diagnostics.tsc,
 
 					-- CMake
 					null_ls.builtins.formatting.cmake_format.with({
@@ -1125,8 +1138,7 @@ return {
 				"numToStr/Comment.nvim",
 				config = function()
 					-- Local definition ensures the `pre_hook` is scoped to this block
-					local pre_hook = require("ts_context_commentstring.integrations.comment_nvim")
-							.create_pre_hook()
+					local pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
 
 					require("Comment").setup({
 						pre_hook = pre_hook, -- Use the locally defined hook
@@ -1247,7 +1259,7 @@ return {
 						zindex = 200,
 					},
 				},
-			}
+			},
 		},
 	},
 	{
@@ -1256,7 +1268,7 @@ return {
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
-			size = 15,             -- Height of the terminal split
+			size = 15, -- Height of the terminal split
 			persist_size = true,
 			shade_terminals = true,
 			insert_mappings = false, -- Disable default insert mode mappings
@@ -1268,7 +1280,7 @@ return {
 	{
 		"nvimdev/lspsaga.nvim",
 		-- lazy = false,
-		event = 'LspAttach',
+		event = "LspAttach",
 		opts = {
 			-- Custom configuration
 			finder = {
@@ -1276,7 +1288,7 @@ return {
 				methods = { "reference,", "definition", "telescope" },
 				layout = "normal", -- Layout for the finder window
 				keys = {
-					quit = "q",      -- Custom quit key
+					quit = "q", -- Custom quit key
 				},
 			},
 			symbol_in_winbar = {
@@ -1321,7 +1333,7 @@ return {
 					-- Use project.nvim's detection methods
 					local project_util = require("project_nvim.utils.path")
 					return project_util.get_project_root()
-				end
+				end,
 			},
 		},
 		dependencies = {
@@ -1390,7 +1402,7 @@ return {
 					{ name = "codecompanion_tools" },
 					{ name = "codecompanion_variables" },
 					{ name = "cmdline" },
-					{ name = 'render-markdown' },
+					{ name = "render-markdown" },
 					-- {
 					-- 	name = "lazydev",
 					-- 	group_index = 0, -- set group index to 0 to skip loading LuaLS completions
@@ -1566,8 +1578,8 @@ return {
 		version = "*", -- Pin to GitHub releases
 		event = "VeryLazy",
 		dependencies = {
-			"nvim-lua/plenary.nvim",      -- For standard functions
-			"MunifTanjim/nui.nvim",       -- To build the plugin UI
+			"nvim-lua/plenary.nvim", -- For standard functions
+			"MunifTanjim/nui.nvim", -- To build the plugin UI
 			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
 		},
 		config = true,
