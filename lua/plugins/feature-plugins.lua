@@ -517,13 +517,14 @@ return {
 	--============================== UI Enhancements ==============================--
 	{
 		"karb94/neoscroll.nvim",
-		lazy = false,
+		event = "VeryLazy",
+		-- lazy = false,
 		opts = {
 			hide_cursor = true,
 			stop_eof = true,
 			respect_scrolloff = false,
 			cursor_scrolls_alone = true,
-			duration_multiplier = 1.0,
+			duration_multiplier = 1.2,
 			easing = "linear", -- quadratic, linear,
 			pre_hook = nil,
 			post_hook = nil,
@@ -568,15 +569,15 @@ return {
 
 			-- How fast the smear's head moves towards the target.
 			-- 0: no movement, 1: instantaneous
-			stiffness = 0.65,
+			stiffness = 0.70,
 
 			-- How fast the smear's tail moves towards the target.
 			-- 0: no movement, 1: instantaneous
-			trailing_stiffness = 0.49, -- 0.3,
+			trailing_stiffness = 0.65, -- 49 0.3,
 
 			-- Controls if middle points are closer to the head or the tail.
 			-- < 1: closer to the tail, > 1: closer to the head
-			trailing_exponent = 1, -- default 2
+			trailing_exponent = 2, -- default 2
 
 			-- How much the smear slows down when getting close to the target.
 			-- < 0: less slowdown, > 0: more slowdown. Keep small, e.g. [-0.2, 0.2]
@@ -586,10 +587,10 @@ return {
 			distance_stop_animating = 0.15,
 
 			-- Set of parameters for insert mode
-			stiffness_insert_mode = 0.4,
-			trailing_stiffness_insert_mode = 0.4,
-			trailing_exponent_insert_mode = 1,
-			distance_stop_animating_vertical_bar = 0.875, -- Can be decreased (e.g. to 0.1) if using legacy computing symbols
+			stiffness_insert_mode = 0.7,
+			trailing_stiffness_insert_mode = 0.65,
+			trailing_exponent_insert_mode = 2,
+			distance_stop_animating_vertical_bar = 0.1, -- Can be decreased (e.g. to 0.1) if using legacy computing symbols
 
 			-- When to switch between rasterization methods
 			max_slope_horizontal = 0.5,
@@ -813,7 +814,7 @@ return {
 				},
 				theme = "auto",
 				section_separators = { left = "", right = "" },
-				-- component_separators = { left = '', right = '' },
+				-- component_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				--[[ section_separators = { left = "", right = "" }, ]]
 				disabled_filetypes = {},
@@ -824,7 +825,7 @@ return {
 				lualine_a = {
 					{
 						"mode",
-						separator = { left = "" },
+						separator = { right = "", left = "" },
 					},
 					-- right_padding = 4
 				},
@@ -835,18 +836,18 @@ return {
 				lualine_z = {
 					{
 						"filetype",
-						separator = { right = "" },
+						separator = { right = "", left = "" },
 					},
 				},
 			},
-			inactive_sections = {
-				lualine_a = { "branch", "diff", "diagnostics" },
-				lualine_b = {},
-				lualine_c = {},
-				lualine_x = {},
-				lualine_y = {},
-				lualine_z = {},
-			},
+			-- inactive_sections = {
+			-- 	lualine_a = { "branch", "diff", "diagnostics" },
+			-- 	lualine_b = {},
+			-- 	lualine_c = {},
+			-- 	lualine_x = {},
+			-- 	lualine_y = {},
+			-- 	lualine_z = {},
+			-- },
 		},
 	},
 	{
@@ -908,10 +909,8 @@ return {
 			"hrsh7th/cmp-nvim-lsp", -- for capabilities
 		},
 		config = function()
-			-- 1) Basic Mason setup
-			require("mason").setup() -- mason.nvim v2.0+ :contentReference[oaicite:3]{index=3}
+			require("mason").setup()
 
-			-- 2) mason-lspconfig setup: ensure servers, auto‑enable them
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"ts_ls",
@@ -969,7 +968,6 @@ return {
 				end
 			end
 
-			-- 5) Configure each server via native API
 			local lspconfig = vim.lsp.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
 			local util = require("lspconfig.util")
 
@@ -977,7 +975,7 @@ return {
 			local servers = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
 			for _, name in ipairs(servers) do
 				lspconfig(name, {
-					capabilities = capabilities,
+					-- capabilities = capabilities,
 					on_attach = on_attach,
 				})
 			end
@@ -1440,18 +1438,6 @@ return {
 					ghost_text = { h1_group = "CmpGhostText" },
 				},
 			})
-
-			-- Cmdline setup for search ('/')
-			-- cmp.setup.cmdline("/", {
-			--   mapping = cmp.mapping.preset.cmdline({
-			--     ["<C-n>"] = { c = cmp.mapping.select_next_item() },
-			--     ["<C-p>"] = { c = cmp.mapping.select_prev_item() },
-			--     ["<CR>"] = { c = cmp.mapping.confirm({ select = true }) },
-			--   }),
-			--   sources = {
-			--     { name = "buffer" },
-			--   },
-			-- })
 
 			-- Cmdline setup for search ('/')
 			cmp.setup.cmdline("/", {

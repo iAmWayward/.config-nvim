@@ -28,23 +28,22 @@ M.items = {
 	-- 	}
 	-- },
 
-	{ mode = { "n", "x" }, "<leader>n",  group = "+NoNeckPain" },
+	{ mode = { "n", "x" }, "<leader>n", group = "+NoNeckPain" },
 
 	{
 		mode = "n",
 		"<leader>hd",
 		function()
-			local cursor_highlight = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1),
-				"name")
+			local cursor_highlight = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
 			print("Highlight group under cursor: " .. cursor_highlight)
 		end,
 		description = "Show highlight group under cursor",
 	},
-	{ mode = "n",          "<leader>T",  "<cmd>Themery<cr>",           description = "Change theme" },
+	{ mode = "n", "<leader>T", "<cmd>Themery<cr>", description = "Change theme" },
 	-- { mode = "n", "<leader>t", "<cmd>Toggle_Transparency<cr>", description = "Toggle Transparency" },
-	{ mode = "n",          "<leader>t",  "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
-	{ mode = { "n", "x" }, "<leader>cp", '"+y',                        description = "Copy to system clipboard" },
-	{ mode = { "n", "x" }, "<leader>cv", '"+p',                        description = "Paste from system clipboard" },
+	{ mode = "n", "<leader>t", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
+	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
+	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
 
 	-- NoNeckPain
 	{
@@ -52,9 +51,9 @@ M.items = {
 		description = "Center code in the terminal to reduce neck strain and increase ergonomics",
 		icon = "",
 		keymaps = {
-			{ mode = "n", "<leader>nnp", "<cmd>NoNeckPain<cr>",           description = "Toggle No Neck Pain" },
-			{ mode = "n", "<leader>nwu", "<cmd>NoNeckPainWidthUp<cr>",    description = "Increase width" },
-			{ mode = "n", "<leader>nwd", "<cmd>NoNeckPainWidthDown<cr>",  description = "Decrease width" },
+			{ mode = "n", "<leader>nnp", "<cmd>NoNeckPain<cr>", description = "Toggle No Neck Pain" },
+			{ mode = "n", "<leader>nwu", "<cmd>NoNeckPainWidthUp<cr>", description = "Increase width" },
+			{ mode = "n", "<leader>nwd", "<cmd>NoNeckPainWidthDown<cr>", description = "Decrease width" },
 			{ mode = "n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", description = "Toggle scratchpad" },
 		},
 	},
@@ -64,10 +63,10 @@ M.items = {
 		description = "Center code in the terminal to reduce neck strain and increase ergonomics",
 		icon = "",
 		keymaps = {
-			{ mode = "n", "zR", require('ufo').openAllFolds,         description = "Open all folds" },
-			{ mode = "n", "zM", require('ufo').closeAllFolds,        description = "Close all folds" },
-			{ mode = "n", "zr", require('ufo').openFoldsExceptKinds, description = "Open folds except kind" },
-			{ mode = "n", "zm", require('ufo').closeFoldsWith,       description = "Close folds with..." },
+			{ mode = "n", "zR", require("ufo").openAllFolds, description = "Open all folds" },
+			{ mode = "n", "zM", require("ufo").closeAllFolds, description = "Close all folds" },
+			{ mode = "n", "zr", require("ufo").openFoldsExceptKinds, description = "Open folds except kind" },
+			{ mode = "n", "zm", require("ufo").closeFoldsWith, description = "Close folds with..." },
 			{
 				mode = "n",
 				"K",
@@ -80,19 +79,6 @@ M.items = {
 				description = "Peek fold or hover",
 				buffer = bufnr,
 			},
-
-			-- {
-			-- 	mode = "n",
-			-- 	"K",
-			-- 	function()
-			-- 		local winid = require('ufo').peekFoldedLinesUnderCursor()
-			-- 		if not winid then
-			-- 			require('lspsaga.hover'):render_hover_doc()
-			-- 			vim.lsp.buf.hover()
-			-- 		end
-			-- 	end,
-			-- 	description = "Peek fold under cursor"
-			-- },
 		},
 	},
 
@@ -102,7 +88,7 @@ M.items = {
 		description = "Code documentation tools",
 		icon = "󰏫",
 		keymaps = {
-			{ "<leader>dd", "<cmd>DoxygenOpen<CR>",   desc = "Open Doxygen" },
+			{ "<leader>dd", "<cmd>DoxygenOpen<CR>", desc = "Open Doxygen" },
 			{ "<leader>du", "<cmd>DoxygenUpdate<CR>", desc = "Update Doxygen" },
 		},
 	},
@@ -110,8 +96,7 @@ M.items = {
 	-- Neogen
 	{
 		itemgroup = "+Neogen",
-		description =
-		"Quickly generate header comments for a variety of languages using various format specifications.",
+		description = "Quickly generate header comments for a variety of languages using various format specifications.",
 		icon = "",
 		keymaps = {
 			{
@@ -203,8 +188,7 @@ M.items = {
 				mode = "n",
 				"rf",
 				function()
-					vim.cmd("Neotree float reveal_file=" ..
-						vim.fn.expand("<cfile>") .. " reveal_force_cwd")
+					vim.cmd("Neotree float reveal_file=" .. vim.fn.expand("<cfile>") .. " reveal_force_cwd")
 				end,
 				description = "Reveal in float",
 			},
@@ -248,9 +232,9 @@ M.items = {
 		description = "Use buffers as tabs to allow one terminal tab to encapsulate a project",
 		icon = "",
 		keymaps = {
-			{ mode = { "n", "i" }, "<M-PageUp>",   "<cmd>BufferLineCyclePrev<CR>", description = "Previous buffer" },
+			{ mode = { "n", "i" }, "<M-PageUp>", "<cmd>BufferLineCyclePrev<CR>", description = "Previous buffer" },
 			{ mode = { "n", "i" }, "<M-PageDown>", "<cmd>BufferLineCycleNext<CR>", description = "Next buffer" },
-			{ mode = "n",          "<leader>q",    "<cmd>bp|bd #<CR>",             description = "Close buffer" },
+			{ mode = "n", "<leader>q", "<cmd>bp|bd #<CR>", description = "Close buffer" },
 		},
 	},
 
@@ -261,14 +245,14 @@ M.items = {
 		keymaps = {
 			{
 				mode = { "n", "v", "x" },
-				"<C-u>",
+				"<C-k>",
 				function()
 					require("neoscroll").ctrl_u({ duration = 250 })
 				end,
 			},
 			{
 				mode = { "n", "v", "x" },
-				"<C-d>",
+				"<C-j>",
 				function()
 					require("neoscroll").ctrl_d({ duration = 250 })
 				end,
@@ -326,8 +310,7 @@ M.items = {
 				mode = { "n", "v", "x", "i" }, -- Add relevant modes here
 				"<PageUp>",
 				function()
-					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10,
-						{ duration = 250 })
+					require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, { duration = 250 })
 				end,
 				description = "Page Up (Neoscroll)",
 			},
@@ -335,8 +318,7 @@ M.items = {
 				mode = { "n", "v", "x", "i" }, -- Add relevant modes here
 				"<PageDown>",
 				function()
-					require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10,
-						{ duration = 250 })
+					require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
 				end,
 				description = "Page Down (Neoscroll)",
 			},
@@ -350,9 +332,9 @@ M.items = {
 		icon = "",
 		keymaps = {
 			{ mode = "n", "<leader>ff", require("telescope.builtin").find_files, description = "Find Files" },
-			{ mode = "n", "<leader>fg", require("telescope.builtin").live_grep,  description = "Live Grep" },
-			{ mode = "n", "<leader>fb", require("telescope.builtin").buffers,    description = "Find Buffers" },
-			{ mode = "n", "<leader>fh", require("telescope.builtin").help_tags,  description = "Help Tags" },
+			{ mode = "n", "<leader>fg", require("telescope.builtin").live_grep, description = "Live Grep" },
+			{ mode = "n", "<leader>fb", require("telescope.builtin").buffers, description = "Find Buffers" },
+			{ mode = "n", "<leader>fh", require("telescope.builtin").help_tags, description = "Help Tags" },
 		},
 	},
 
@@ -539,10 +521,10 @@ M.dap_mappings = function(dap)
 			description = "Comprehensive debugging",
 			icon = "",
 			keymaps = {
-				{ mode = "n", "<F5>",      dap.continue,          description = "Start/Continue Debugging" },
-				{ mode = "n", "<F10>",     dap.step_over,         description = "Step Over" },
-				{ mode = "n", "<F11>",     dap.step_into,         description = "Step Into" },
-				{ mode = "n", "<F12>",     dap.step_out,          description = "Step Out" },
+				{ mode = "n", "<F5>", dap.continue, description = "Start/Continue Debugging" },
+				{ mode = "n", "<F10>", dap.step_over, description = "Step Over" },
+				{ mode = "n", "<F11>", dap.step_into, description = "Step Into" },
+				{ mode = "n", "<F12>", dap.step_out, description = "Step Out" },
 				{ mode = "n", "<Leader>b", dap.toggle_breakpoint, description = "Toggle Breakpoint" },
 				{
 					mode = "n",
@@ -553,7 +535,7 @@ M.dap_mappings = function(dap)
 					description = "Conditional Breakpoint",
 				},
 				{ mode = "n", "<Leader>dr", dap.repl.open, description = "Open REPL" },
-				{ mode = "n", "<Leader>dl", dap.run_last,  description = "Run Last Session" },
+				{ mode = "n", "<Leader>dl", dap.run_last, description = "Run Last Session" },
 			},
 		},
 
@@ -588,8 +570,8 @@ M.dap_mappings = function(dap)
 			icon = "󰈙",
 			keymaps = {
 				{ "<leader>no", "<cmd>ObsidianSearch<CR>", desc = "Search notes" },
-				{ "<leader>nn", "<cmd>ObsidianNew<CR>",    desc = "New note" },
-				{ "<leader>nl", "<cmd>ObsidianLink<CR>",   desc = "Link note" },
+				{ "<leader>nn", "<cmd>ObsidianNew<CR>", desc = "New note" },
+				{ "<leader>nl", "<cmd>ObsidianLink<CR>", desc = "Link note" },
 			},
 		},
 	}
