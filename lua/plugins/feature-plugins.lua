@@ -12,10 +12,11 @@ return {
 
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
-	{ "andweeb/presence.nvim" },
+	{ "andweeb/presence.nvim", event = "VeryLazy" },
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"kevinhwang91/nvim-ufo",
+		event = "VeryLazy",
 		dependencies = {
 			"kevinhwang91/promise-async",
 		},
@@ -31,6 +32,7 @@ return {
 	},
 	{
 		"lukas-reineke/cmp-under-comparator",
+		lazy = true,
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
@@ -61,6 +63,7 @@ return {
 	--=============================== LLM Provider ================================--
 	{
 		"github/copilot.vim",
+		lazy = true,
 	},
 	-- {
 	-- 	"olimorris/codecompanion.nvim",
@@ -107,7 +110,7 @@ return {
 	},
 	{
 		"ThePrimeagen/harpoon",
-		lazy = true,
+		event = "VeryLazy",
 		branch = "harpoon2",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {},
@@ -180,7 +183,7 @@ return {
 	},
 	{
 		"danymat/neogen",
-		lazy = true,
+		event = "VeryLazy",
 		opts = {
 			enabled = true,
 			input_after_comment = true,
@@ -494,7 +497,6 @@ return {
 	},
 	{
 		"shortcuts/no-neck-pain.nvim",
-		lazy = false,
 		event = "VeryLazy",
 		version = "*",
 		blend = 0.1,
@@ -997,6 +999,7 @@ return {
 				end
 			end
 
+			-- local lspconfig = require("lspconfig")
 			local lspconfig = vim.lsp.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
 			local util = require("lspconfig.util")
 
@@ -1004,10 +1007,18 @@ return {
 			local servers = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
 			for _, name in ipairs(servers) do
 				lspconfig(name, {
-					-- capabilities = capabilities,
+					capabilities = capabilities,
 					on_attach = on_attach,
 				})
 			end
+
+			-- -- old way:
+			-- for _, name in ipairs(servers) do
+			-- 	lspconfig[name].setup({
+			-- 		capabilities = capabilities,
+			-- 		on_attach = on_attach,
+			-- 	})
+			-- end
 
 			lspconfig("clangd", {
 				capabilities = capabilities,

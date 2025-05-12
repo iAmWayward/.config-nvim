@@ -22,12 +22,33 @@ vim.opt.splitbelow = true -- New splits open below
 vim.opt.splitright = false
 
 -- If the current system shell or the `shell` option is set to /usr/bin/fish then revert to sh
-if os.getenv('SHELL') == "/usr/bin/fish" or vim.opt.shell == "/usr/bin/fish" then
+if os.getenv("SHELL") == "/usr/bin/fish" or vim.opt.shell == "/usr/bin/fish" then
 	vim.opt.shell = "/bin/sh"
 else
 	-- Else default to the system current shell.
-	vim.opt.shell = os.getenv('SHELL')
+	vim.opt.shell = os.getenv("SHELL")
 end
+
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	pattern = "sagaoutline",
+	callback = function(args)
+		vim.api.nvim_buf_set_option(args.buf, "buflisted", false)
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "sagaoutline",
+	callback = function(args)
+		-- Prevent the window from being automatically resized
+		vim.wo[args.win].winfixheight = true
+		vim.wo[args.win].winfixwidth = true
+		-- Optional: Try setting nobuflisted here as well or instead of BufWinEnter
+		vim.bo[args.buf].buflisted = false
+		-- Optional: Make the buffer delete itself when hidden (use with caution)
+		-- vim.bo[args.buf].bufhidden = 'wipe'
+	end,
+	desc = "Set window options for Lspsaga Outline",
+})
 
 --
 -- function is_plugin_buffer(ft)
