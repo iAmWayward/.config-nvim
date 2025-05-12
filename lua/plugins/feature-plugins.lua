@@ -11,6 +11,8 @@
 return {
 
 	--============================== Core Plugins ==============================--
+	-- { "pandasoli/nekovim" },
+	{ "andweeb/presence.nvim" },
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"kevinhwang91/nvim-ufo",
@@ -57,9 +59,9 @@ return {
 		},
 	},
 	--=============================== LLM Provider ================================--
-	-- {
-	--   "github/copilot.vim"
-	-- },
+	{
+		"github/copilot.vim",
+	},
 	-- {
 	-- 	"olimorris/codecompanion.nvim",
 	-- 	dependencies = {
@@ -112,7 +114,7 @@ return {
 	},
 	{
 		"nvimdev/dashboard-nvim", -- Correct repository name
-		lazy = false,
+		-- lazy = false,
 		event = "VimEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = function()
@@ -493,13 +495,15 @@ return {
 	{
 		"shortcuts/no-neck-pain.nvim",
 		lazy = false,
+		event = "VeryLazy",
 		version = "*",
 		blend = 0.1,
 		skipEnteringNoNeckPainBuffer = true,
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		opts = {
 			file_types = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
 		},
@@ -784,6 +788,7 @@ return {
 						["C"] = "close_node",
 						["t"] = "open_tab_drop",
 						["T"] = "open_tab_stay",
+						["oa"] = "avante_add_files",
 						-- 	mappings = require("config.keymaps").get_tree_mappings(),
 					},
 				},
@@ -798,6 +803,29 @@ return {
 					open_tab_stay = function()
 						require("neo-tree.sources.filesystem.commands").open_tabnew()
 						vim.cmd("wincmd p") -- Return to previous window
+					end,
+
+					-- Add files to avante buffer
+					avante_add_files = function(state)
+						local node = state.tree:get_node()
+						local filepath = node:get_id()
+						local relative_path = require("avante.utils").relative_path(filepath)
+
+						local sidebar = require("avante").get()
+
+						local open = sidebar:is_open()
+						-- ensure avante sidebar is open
+						if not open then
+							require("avante.api").ask()
+							sidebar = require("avante").get()
+						end
+
+						sidebar.file_selector:add_selected_file(relative_path)
+
+						-- remove neo tree buffer
+						if not open then
+							sidebar.file_selector:remove_selected_file("neo-tree filesystem [1]")
+						end
 					end,
 				},
 			})
@@ -1265,6 +1293,7 @@ return {
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
+		event = "VeryLazy",
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
@@ -1352,7 +1381,7 @@ return {
 		event = "VeryLazy",
 		version = false,    -- Never set this value to "*"! Never!
 		opts = {
-			provider = "openai", --
+			provider = "openai", -- ollama , aihubmix,
 			openai = {
 				endpoint = "https://api.openai.com/v1",
 				model = "gpt-4o",         -- your desired model (or use gpt-4o, etc.)
@@ -1361,6 +1390,18 @@ return {
 				max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
 				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
 			},
+			rag_service = {
+				enabled = false,                    -- Enables the RAG service
+				host_mount = os.getenv("HOME"),     -- Host mount path for the rag service
+				provider = "openai",                -- The provider to use for RAG service (e.g. openai or ollama)
+				llm_model = "",                     -- The LLM model to use for RAG service
+				embed_model = "",                   -- The embedding model to use for RAG service
+				endpoint = "https://api.openai.com/v1", -- The API endpoint for RAG service
+			},
+			-- web_search_engine = {
+			-- 	provider = "tavily", -- tavily, serpapi, searchapi, google, kagi, brave, or searxng
+			-- 	proxy = nil,     -- proxy support, e.g., http://127.0.0.1:7890
+			-- },
 		},
 		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
 		build = "make",
@@ -1529,7 +1570,6 @@ return {
 	--=============================== DAP Debugger Ecosystem ================================--
 	{
 		"mfussenegger/nvim-dap",
-
 		dependencies = {
 			"mrjones2014/legendary.nvim",
 			{

@@ -117,3 +117,8 @@ CodeCompanion is configured in `lua/config/code-companion`
 
 - Some keymaps are still floating around in the plugin files.
   That being said, most are defined in /config/keymaps.lua..
+
+
+
+
+\https://github.com/ravitemer/mcphub.nvim#avante-integration

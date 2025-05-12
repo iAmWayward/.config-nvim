@@ -454,16 +454,23 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"gi",
-					vim.lsp.buf.implementation,
+					require("telescope.builtin").lsp_implementations(),
+					-- vim.lsp.buf.implementation,
 					description = "Go to Implementation",
 					buffer = bufnr,
 				},
+
 				{
 					mode = "n",
-					"gR",
-					vim.lsp.buf.references,
+					"<leader>gR",
+					require("telescope.builtin").lsp_references(),
 					description = "Find References",
 					buffer = bufnr,
+					-- mode = "n",
+					-- "gR",
+					-- vim.lsp.buf.references,
+					-- description = "Find References",
+					-- buffer = bufnr,
 				},
 				{
 					mode = "n",
@@ -506,6 +513,15 @@ M.lsp_mappings = function(bufnr)
 					mode = "n",
 					"<leader>ws",
 					vim.lsp.buf.workspace_symbol,
+					description = "Workspace Symbol",
+					buffer = bufnr,
+				},
+				{
+					mode = "n",
+					"<leader>sf",
+					"<cmd>Lspsaga finder<CR>",
+
+					-- vim.lsp.buf.workspace_symbol,
 					description = "Workspace Symbol",
 					buffer = bufnr,
 				},
