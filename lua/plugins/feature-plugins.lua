@@ -32,7 +32,7 @@ return {
 	},
 	{
 		"lukas-reineke/cmp-under-comparator",
-		lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
@@ -63,7 +63,7 @@ return {
 	--=============================== LLM Provider ================================--
 	{
 		"github/copilot.vim",
-		lazy = true,
+		event = "VeryLazy",
 	},
 	-- {
 	-- 	"olimorris/codecompanion.nvim",
@@ -78,7 +78,8 @@ return {
 	-- },
 	{
 		"nvim-telescope/telescope.nvim",
-		lazy = true,
+		-- lazy = true,
+		event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {
 			extensions = {
@@ -179,7 +180,8 @@ return {
 	},
 	{
 		"HugoBde/subversigns.nvim",
-		lazy = true,
+		-- lazy = true,
+		event = "VeryLazy",
 	},
 	{
 		"danymat/neogen",
@@ -483,7 +485,7 @@ return {
 			"<leader>dd",
 			"<leader>du",
 		},
-		-- lazy = true,
+		lazy = true,
 		opts = {},
 		dependencies = { "hat0uma/prelive.nvim" },
 		update_on_save = true,
@@ -544,7 +546,8 @@ return {
 	},
 	{
 		"sphamba/smear-cursor.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		opts = {
 			smear_between_buffers = true,
 			scroll_buffer_space = true,
@@ -729,6 +732,7 @@ return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		lazy = true,
+		-- event = "VeryLazy",
 		branch = "v3.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -883,7 +887,8 @@ return {
 	},
 	{
 		"akinsho/bufferline.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
@@ -1693,7 +1698,8 @@ return {
 		"mrjones2014/legendary.nvim",
 		keys = {
 			{ "<C-p>", "<cmd>Legendary<cr>", desc = "Open Command Palette" },
-		}, -- lazy = true,
+		},
+		lazy = true,
 		dependencies = {
 			"kkharji/sqlite.lua",
 			"folke/which-key.nvim",
