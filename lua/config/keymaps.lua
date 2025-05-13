@@ -67,13 +67,25 @@ M.items = {
 			{ mode = "n", "zM", require("ufo").closeAllFolds,        description = "Close all folds" },
 			{ mode = "n", "zr", require("ufo").openFoldsExceptKinds, description = "Open folds except kind" },
 			{ mode = "n", "zm", require("ufo").closeFoldsWith,       description = "Close folds with..." },
+			-- {
+			-- 	mode = "n",
+			-- 	"K",
+			-- 	function()
+			-- 		local ufo = require("ufo")
+			-- 		if not ufo.peekFoldedLinesUnderCursor() then
+			-- 			vim.cmd("Lspsaga hover_doc")
+			-- 		end
+			-- 	end,
+			-- 	description = "Peek fold or hover",
+			-- 	buffer = bufnr,
+			-- },
 			{
 				mode = "n",
 				"K",
 				function()
 					local ufo = require("ufo")
 					if not ufo.peekFoldedLinesUnderCursor() then
-						vim.cmd("Lspsaga hover_doc")
+						require("lspsaga.hover"):render_hover_doc()
 					end
 				end,
 				description = "Peek fold or hover",
