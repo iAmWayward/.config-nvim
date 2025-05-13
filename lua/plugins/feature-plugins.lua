@@ -27,7 +27,18 @@ return {
 			provider_selector = function(bufnr, filetype, buftype)
 				return { "treesitter", "indent" }
 			end,
-			close_fold_kinds = { "imports" },
+			-- close_fold_kinds_for_ft
+			-- close_fold_kinds = { "imports" },
+			close_fold_kinds_for_ft = {
+				description = [[After the buffer is displayed (opened for the first time), close the
+                    folds whose range with `kind` field is included in this option. For now,
+                    'lsp' provider's standardized kinds are 'comment', 'imports' and 'region',
+                    and the 'treesitter' provider exposes the underlying node types.
+                    This option is a table with filetype as key and fold kinds as value. Use a
+                    default value if value of filetype is absent.
+                    Run `UfoInspect` for details if your provider has extended the kinds.]],
+				default = { default = {} },
+			},
 		},
 	},
 	{
@@ -818,10 +829,11 @@ return {
 						["l"] = "open",
 						["C"] = "close_node",
 						["t"] = "open_tab_drop",
-						["T"] = "open_tab_stay",
+						["T"] = "open_tabnew",
 						["oa"] = "avante_add_files",
 						["S"] = "split_with_window_picker", -- or comment for default split
 						["s"] = "vsplit_with_window_picker", -- or comment for default split
+						["Z"] = "expand_all_nodes",
 						-- 	mappings = require("config.keymaps").get_tree_mappings(),
 					},
 				},
