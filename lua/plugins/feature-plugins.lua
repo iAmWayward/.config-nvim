@@ -749,19 +749,29 @@ return {
 						include_current_win = false,
 						autoselect_one = true,
 						bo = {
-							filetype = { "neo-tree", "neo-tree-popup", "notify" },
-							buftype = { "terminal", "quickfix" },
+							filetype = { "neo-tree", "neo-tree-popup", "notify", "sagaoutline", "trouble" },
+							buftype = { "terminal", "quickfix", "sagaoutline", "trouble" },
 						},
 					},
 				},
 			},
 		},
 		config = function()
-			vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-			vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-			vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-			vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
-
+			-- vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
+			-- vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
+			-- vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
+			-- vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
+			--
+			vim.diagnostic.config({
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "",
+						[vim.diagnostic.severity.WARN] = "",
+						[vim.diagnostic.severity.INFO] = "",
+						[vim.diagnostic.severity.HINT] = "󰌵",
+					},
+				},
+			})
 			require("neo-tree").setup({
 				close_if_last_window = true,
 				popup_border_style = "rounded",
@@ -776,12 +786,27 @@ return {
 						default = "*",
 						folder_empty_open = "󰝰",
 					},
+					name = {
+						trailing_slash = false,
+						use_git_status_colors = true,
+						highlight = "NeoTreeFileName",
+					},
 					git_status = {
 						symbols = {
-							added = "✚",
-							modified = "",
-							deleted = "✖",
-							renamed = "󰁕",
+							added = "", -- or "✚", but this is redundant info if you use git_status_colors on the name
+							modified = "", -- or "", but this is redundant info if you use git_status_colors on the name
+							deleted = "✖", -- this can only be used in the git_status source
+							renamed = "󰁕", -- this can only be used in the git_status source
+							-- Status type
+							untracked = "",
+							ignored = "",
+							unstaged = "󰄱",
+							staged = "",
+							conflict = "",
+							-- added = "✚",
+							-- modified = "",
+							-- deleted = "✖",
+							-- renamed = "󰁕",
 						},
 					},
 				},
@@ -795,13 +820,15 @@ return {
 						["t"] = "open_tab_drop",
 						["T"] = "open_tab_stay",
 						["oa"] = "avante_add_files",
+						["S"] = "split_with_window_picker", -- or comment for default split
+						["s"] = "vsplit_with_window_picker", -- or comment for default split
 						-- 	mappings = require("config.keymaps").get_tree_mappings(),
 					},
 				},
 				filesystem = {
 					follow_current_file = {
 						enabled = true,
-						leave_dirs_open = true,
+						leave_dirs_open = false,
 					},
 					hijack_netrw_behavior = "open_default",
 				},
@@ -839,7 +866,8 @@ return {
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		opts = {
 			options = {
 				diagnostics = "nvim_lsp",
@@ -1586,6 +1614,7 @@ return {
 	--=============================== DAP Debugger Ecosystem ================================--
 	{
 		"mfussenegger/nvim-dap",
+		event = "VeryLazy",
 		dependencies = {
 			"mrjones2014/legendary.nvim",
 			{
@@ -1615,6 +1644,7 @@ return {
 			-- DAP Virtual Text Plugin
 			{
 				"theHamsta/nvim-dap-virtual-text",
+				event = "VeryLazy",
 				opts = {
 					commented = true, -- Add comments for better readability
 					enabled = true,
@@ -1693,7 +1723,6 @@ return {
 		--[[   cache_dir = utils.path_join(utils.is_windows, vim.fn.stdpath("cache"), constants.PLUGIN_NAME, "version_cache"), ]]
 		--[[ }, ]]
 	},
-
 	{
 		"mrjones2014/legendary.nvim",
 		keys = {
