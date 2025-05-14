@@ -43,7 +43,7 @@ return {
 	},
 	{
 		"lukas-reineke/cmp-under-comparator",
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
@@ -342,7 +342,6 @@ return {
 	-- 		--   },
 	-- 		-- },
 	--
-	--
 	-- 		picker = {
 	-- 			-- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
 	-- 			name = "fzf-lua",
@@ -407,7 +406,7 @@ return {
 	-- 		-- Optional, configure additional syntax highlighting / extmarks.
 	-- 		-- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
 	-- 		ui = {
-	-- 			enable = true,      -- set to false to disable all additional syntax features
+	-- 			enable = true, -- set to false to disable all additional syntax features
 	-- 			update_debounce = 200, -- update delay after a text change (in milliseconds)
 	-- 			max_file_length = 5000, -- disable UI features for files with more than this many lines
 	-- 			-- Define how various check-boxes are displayed
@@ -449,31 +448,31 @@ return {
 	-- 			},
 	-- 		},
 	--
-	-- -- Specify how to handle attachments.
-	-- attachments = {
-	-- 	-- The default folder to place images in via `:Obsidian paste_img`.
-	-- 	-- If this is a relative path it will be interpreted as relative to the vault root.
-	-- 	-- You can always override this per image by passing a full path to the command instead of just a filename.
-	-- 	img_folder = "assets/imgs", -- This is the default
+	-- 		-- Specify how to handle attachments.
+	-- 		attachments = {
+	-- 			-- The default folder to place images in via `:Obsidian paste_img`.
+	-- 			-- If this is a relative path it will be interpreted as relative to the vault root.
+	-- 			-- You can always override this per image by passing a full path to the command instead of just a filename.
+	-- 			img_folder = "assets/imgs", -- This is the default
 	--
-	-- 	-- A function that determines default name or prefix when pasting images via `:Obsidian paste_img`.
-	-- 	---@return string
-	-- 	img_name_func = function()
-	-- 		-- Prefix image names with timestamp.
-	-- 		return string.format("Pasted image %s", os.date "%Y%m%d%H%M%S")
-	-- 	end,
+	-- 			-- A function that determines default name or prefix when pasting images via `:Obsidian paste_img`.
+	-- 			---@return string
+	-- 			img_name_func = function()
+	-- 				-- Prefix image names with timestamp.
+	-- 				return string.format("Pasted image %s", os.date("%Y%m%d%H%M%S"))
+	-- 			end,
 	--
-	-- 	-- A function that determines the text to insert in the note when pasting an image.
-	-- 	-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
-	-- 	-- This is the default implementation.
-	-- 	---@param client obsidian.Client
-	-- 	---@param path obsidian.Path the absolute path to the image file
-	-- 	---@return string
-	-- 	img_text_func = function(client, path)
-	-- 		path = client:vault_relative_path(path) or path
-	-- 		return string.format("![%s](%s)", path.name, path)
-	-- 	end,
-	-- },
+	-- 			-- A function that determines the text to insert in the note when pasting an image.
+	-- 			-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
+	-- 			-- This is the default implementation.
+	-- 			---@param client obsidian.Client
+	-- 			---@param path obsidian.Path the absolute path to the image file
+	-- 			---@return string
+	-- 			img_text_func = function(client, path)
+	-- 				path = client:vault_relative_path(path) or path
+	-- 				return string.format("![%s](%s)", path.name, path)
+	-- 			end,
+	-- 		},
 	--
 	-- 		-- See https://github.com/obsidian-nvim/obsidian.nvim/wiki/Notes-on-configuration#statusline-component
 	-- 		statusline = {
@@ -484,8 +483,7 @@ return {
 	--
 	-- 		-- Optional, boolean or a function that takes a filename and returns a boolean.
 	-- 		-- `true` indicates that you don't want obsidian.nvim to manage frontmatter.
-	-- 		disable_frontmatter = false
-	--
+	-- 		disable_frontmatter = false,
 	--
 	-- 		-- see below for full list of options 👇
 	-- 	},
@@ -519,6 +517,7 @@ return {
 		"MeanderingProgrammer/render-markdown.nvim",
 		-- lazy = false,
 		event = "VeryLazy",
+		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 		opts = {
 			file_types = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
 		},
@@ -529,6 +528,20 @@ return {
 				heading = {
 					width = { "block" },
 					border = true,
+					position = "inline",
+					enabled = true,
+					render_modes = true,
+					atx = true, -- render special stuff instead of ###
+					setext = true,
+					sign = true,
+
+					border_virtual = true,
+
+					above = "", -- "▄",
+					below = "", --"▀",
+				},
+				code_blocks = {
+					languages = { c = "doxygen", cpp = "doxygen" },
 				},
 			})
 		end,
@@ -618,14 +631,14 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2,                            -- For color blending
-			max_shade_no_matrix = 0.75,             -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7,           -- 0: all pixels, 1: no pixel
+			gamma = 2.2, -- For color blending
+			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5,          -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3,        -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7,            -- 0: no limit, 1: no reduction
-			max_length = 60,                        -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
+			max_length = 60, -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
@@ -672,9 +685,9 @@ return {
 					enabled = true,
 				},
 				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+					["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+					["vim.lsp.util.stylize_markdown"] = false,
+					["cmp.entry.get_documentation"] = false, -- requires hrsh7th/nvim-cmp
 				},
 			},
 			presets = {
@@ -700,7 +713,7 @@ return {
 			},
 			format = {
 				markdown = {
-					enabled = true, -- Make sure markdown formatting is enabled
+					enabled = true,
 				},
 			},
 		},
@@ -709,40 +722,40 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	-- {
-	--   "lewis6991/hover.nvim",
-	--   lazy = false,
-	--   dependencies = { "neovim/nvim-lspconfig" },
-	--   config = function()
-	--     require("hover").setup({
-	--       init = function(client, bufnr) -- Add parameters here
-	--         require("hover.providers.lsp")
-	--         -- Uncomment any additional providers you want to use:
-	--         -- require('hover.providers.gh')
-	--         -- require('hover.providers.gh_user')
-	--         -- require('hover.providers.jira')
-	--         require("hover.providers.dap")
-	--         -- require('hover.providers.fold_preview')
-	--         -- require('hover.providers.diagnostic')
-	--         require("hover.providers.man")
-	--         require("hover.providers.dictionary")
-	--         -- require('hover.providers.highlight')
-	--       end,
-	--       preview_opts = {
-	--         border = "single",
-	--       },
-	--       preview_window = false,
-	--       title = true,
-	--       mouse_providers = {
-	--         "LSP",
-	--       },
-	--       --[[ mouse_delay = 1000, ]]
-	--     })
-	--   end,
-	-- },
+	{
+		"lewis6991/hover.nvim",
+		-- lazy = false,
+		event = "LspAttach",
+		dependencies = { "neovim/nvim-lspconfig" },
+		config = function()
+			require("hover").setup({
+				init = function(client, bufnr) -- Add parameters here
+					require("hover.providers.lsp")
+					-- Uncomment any additional providers you want to use:
+					-- require('hover.providers.gh')
+					-- require('hover.providers.gh_user')
+					-- require('hover.providers.jira')
+					require("hover.providers.dap")
+					-- require('hover.providers.fold_preview')
+					require("hover.providers.diagnostic")
+					require("hover.providers.man")
+					require("hover.providers.dictionary")
+					require("hover.providers.highlight")
+				end,
+				preview_opts = {
+					border = "single",
+				},
+				preview_window = false,
+				title = true,
+				mouse_providers = {
+					"LSP",
+				},
+				--[[ mouse_delay = 1000, ]]
+			})
+		end,
+	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
-		lazy = true,
 		-- event = "VeryLazy",
 		branch = "v3.x",
 		dependencies = {
@@ -768,11 +781,6 @@ return {
 			},
 		},
 		config = function()
-			-- vim.fn.sign_define("DiagnosticSignError", { text = " ", texthl = "DiagnosticSignError" })
-			-- vim.fn.sign_define("DiagnosticSignWarn", { text = " ", texthl = "DiagnosticSignWarn" })
-			-- vim.fn.sign_define("DiagnosticSignInfo", { text = " ", texthl = "DiagnosticSignInfo" })
-			-- vim.fn.sign_define("DiagnosticSignHint", { text = "󰌵", texthl = "DiagnosticSignHint" })
-			--
 			vim.diagnostic.config({
 				signs = {
 					text = {
@@ -824,7 +832,7 @@ return {
 				window = {
 					mappings = {
 						["<CR>"] = "open",
-						["p"] = "toggle_preview",
+						["p"] = "paste_from_clipboard",
 						["<leader><space>"] = "toggle_preview",
 						["l"] = "open",
 						["C"] = "close_node",
@@ -840,9 +848,15 @@ return {
 				filesystem = {
 					follow_current_file = {
 						enabled = true,
-						leave_dirs_open = false,
+						leave_dirs_open = true,
+						group_empty_dirs = true,
 					},
 					hijack_netrw_behavior = "open_default",
+				},
+				buffers = {
+					follow_current_file = {
+						enabled = true,
+					},
 				},
 				commands = {
 					open_tab_stay = function()
@@ -1005,6 +1019,7 @@ return {
 					"cssmodules_ls",
 					"diagnosticls",
 					"helm_ls",
+					"markdown_oxide",
 				},
 				automatic_enable = true, -- new in v2.0 :contentReference[oaicite:4]{index=4}
 			})
@@ -1024,7 +1039,7 @@ return {
 
 			-- 4) Set up LSP‐capabilities and formatting autocmd
 			local capabilities =
-					require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
+				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
 			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 			local on_attach = function(client, bufnr)
@@ -1353,7 +1368,7 @@ return {
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
-			size = 15,             -- Height of the terminal split
+			size = 15, -- Height of the terminal split
 			persist_size = true,
 			shade_terminals = true,
 			insert_mappings = false, -- Disable default insert mode mappings
@@ -1373,7 +1388,7 @@ return {
 				methods = { "reference,", "definition", "telescope" },
 				layout = "normal", -- Layout for the finder window
 				keys = {
-					quit = "q",      -- Custom quit key
+					quit = "q", -- Custom quit key
 				},
 			},
 			symbol_in_winbar = {
@@ -1403,6 +1418,20 @@ return {
 				jump_num_shortcut = true,
 				show_soruce = true,
 			},
+			hover = {
+				enable = true,
+				open_link = "gx",
+				-- open_cmd = "tabedit",
+				open_browser = "default", -- or "firefox" etc.
+				render = "markdown_oxide", -- Ensure markdown rendering is enabled
+				border = "rounded",
+				keys = {
+					scroll_down = "<C-f>",
+					scroll_up = "<C-b>",
+					-- open_cmd = "vsplit",
+					-- open_cmd = "edit",
+				},
+			},
 			diagnostic = {
 				show_code_action = true,
 				show_source = true,
@@ -1426,7 +1455,7 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			-- "folke/trouble.nvim",
 			"ahmedkhalf/project.nvim",
-			-- "MeanderingProgrammer/render-markdown.nvim",
+			"MeanderingProgrammer/render-markdown.nvim",
 		},
 	},
 	-- {
@@ -1435,23 +1464,23 @@ return {
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
-		version = false,    -- Never set this value to "*"! Never!
+		version = false, -- Never set this value to "*"! Never!
 		opts = {
 			provider = "openai", -- ollama , aihubmix,
 			openai = {
 				endpoint = "https://api.openai.com/v1",
-				model = "gpt-4o",         -- your desired model (or use gpt-4o, etc.)
-				timeout = 30000,          -- Timeout in milliseconds, increase this for reasoning models
+				model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
 				temperature = 0,
 				max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
 				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
 			},
 			rag_service = {
-				enabled = false,                    -- Enables the RAG service
-				host_mount = os.getenv("HOME"),     -- Host mount path for the rag service
-				provider = "openai",                -- The provider to use for RAG service (e.g. openai or ollama)
-				llm_model = "",                     -- The LLM model to use for RAG service
-				embed_model = "",                   -- The embedding model to use for RAG service
+				enabled = false, -- Enables the RAG service
+				host_mount = os.getenv("HOME"), -- Host mount path for the rag service
+				provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
+				llm_model = "", -- The LLM model to use for RAG service
+				embed_model = "", -- The embedding model to use for RAG service
 				endpoint = "https://api.openai.com/v1", -- The API endpoint for RAG service
 			},
 			-- web_search_engine = {
@@ -1469,10 +1498,10 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"hrsh7th/nvim-cmp",           -- autocompletion for avante commands and mentions
-			"ibhagwan/fzf-lua",           -- for file_selector provider fzf
+			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+			"ibhagwan/fzf-lua", -- for file_selector provider fzf
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua",     -- for providers='copilot'
+			"zbirenbaum/copilot.lua", -- for providers='copilot'
 			{
 				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
@@ -1490,14 +1519,6 @@ return {
 					},
 				},
 			},
-			-- {
-			--   -- Make sure to set this up properly if you have lazy=true
-			--   'MeanderingProgrammer/render-markdown.nvim',
-			--   opts = {
-			--     file_types = { "markdown", "Avante" },
-			--   },
-			--   ft = { "markdown", "Avante" },
-			-- },
 		},
 	},
 	{
@@ -1656,7 +1677,7 @@ return {
 			-- DAP Virtual Text Plugin
 			{
 				"theHamsta/nvim-dap-virtual-text",
-				event = "VeryLazy",
+				-- event = "VeryLazy",
 				opts = {
 					commented = true, -- Add comments for better readability
 					enabled = true,
@@ -1720,8 +1741,8 @@ return {
 		version = "*", -- Pin to GitHub releases
 		event = "VeryLazy",
 		dependencies = {
-			"nvim-lua/plenary.nvim",      -- For standard functions
-			"MunifTanjim/nui.nvim",       -- To build the plugin UI
+			"nvim-lua/plenary.nvim", -- For standard functions
+			"MunifTanjim/nui.nvim", -- To build the plugin UI
 			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
 		},
 		config = true,
@@ -1787,4 +1808,171 @@ return {
 			})
 		end,
 	},
+	{
+		"Fildo7525/pretty_hover",
+		event = "LspAttach",
+		opts = {
+			multi_server = true,
+			border = "rounded",
+			-- line = {
+			-- 	detect = { "@brief" },
+			-- 	styler = "**",
+			-- },
+			-- references = {
+			-- 	detect = { "@param", "@tparam" },
+			-- 	styler = { "**", "`" },
+			-- },
+		},
+		dependencies = {
+			"nvimdev/lspsaga.nvim", -- Ensure LspSaga loads first
+		},
+	},
+	-- 	{
+	--   "folke/snacks.nvim",
+	--   priority = 1000,
+	--   lazy = false,
+	--   ---@type snacks.Config
+	--   opts = {
+	--     bigfile = { enabled = true },
+	--     dashboard = { enabled = true },
+	--     explorer = { enabled = true },
+	--     indent = { enabled = true },
+	--     input = { enabled = true },
+	--     notifier = {
+	--       enabled = true,
+	--       timeout = 3000,
+	--     },
+	--     picker = { enabled = true },
+	--     quickfile = { enabled = true },
+	--     scope = { enabled = true },
+	--     scroll = { enabled = true },
+	--     statuscolumn = { enabled = true },
+	--     words = { enabled = true },
+	--     styles = {
+	--       notification = {
+	--         -- wo = { wrap = true } -- Wrap notifications
+	--       }
+	--     }
+	--   },
+	--   keys = {
+	--     -- Top Pickers & Explorer
+	--     { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+	--     { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
+	--     { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
+	--     { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
+	--     { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+	--     { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+	--     -- find
+	--     { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+	--     { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+	--     { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
+	--     { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
+	--     { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
+	--     { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
+	--     -- git
+	--     { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
+	--     { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
+	--     { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
+	--     { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
+	--     { "<leader>gS", function() Snacks.picker.git_stash() end, desc = "Git Stash" },
+	--     { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
+	--     { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
+	--     -- Grep
+	--     { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
+	--     { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Open Buffers" },
+	--     { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
+	--     { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
+	--     -- search
+	--     { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
+	--     { '<leader>s/', function() Snacks.picker.search_history() end, desc = "Search History" },
+	--     { "<leader>sa", function() Snacks.picker.autocmds() end, desc = "Autocmds" },
+	--     { "<leader>sb", function() Snacks.picker.lines() end, desc = "Buffer Lines" },
+	--     { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
+	--     { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
+	--     { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+	--     { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
+	--     { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
+	--     { "<leader>sH", function() Snacks.picker.highlights() end, desc = "Highlights" },
+	--     { "<leader>si", function() Snacks.picker.icons() end, desc = "Icons" },
+	--     { "<leader>sj", function() Snacks.picker.jumps() end, desc = "Jumps" },
+	--     { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
+	--     { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
+	--     { "<leader>sm", function() Snacks.picker.marks() end, desc = "Marks" },
+	--     { "<leader>sM", function() Snacks.picker.man() end, desc = "Man Pages" },
+	--     { "<leader>sp", function() Snacks.picker.lazy() end, desc = "Search for Plugin Spec" },
+	--     { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
+	--     { "<leader>sR", function() Snacks.picker.resume() end, desc = "Resume" },
+	--     { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
+	--     { "<leader>uC", function() Snacks.picker.colorschemes() end, desc = "Colorschemes" },
+	--     -- LSP
+	--     { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
+	--     { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
+	--     { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
+	--     { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
+	--     { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
+	--     { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+	--     { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+	--     -- Other
+	--     { "<leader>z",  function() Snacks.zen() end, desc = "Toggle Zen Mode" },
+	--     { "<leader>Z",  function() Snacks.zen.zoom() end, desc = "Toggle Zoom" },
+	--     { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+	--     { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+	--     { "<leader>n",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
+	--     { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
+	--     { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
+	--     { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse", mode = { "n", "v" } },
+	--     { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
+	--     { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
+	--     { "<c-/>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
+	--     { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
+	--     { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
+	--     { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+	--     {
+	--       "<leader>N",
+	--       desc = "Neovim News",
+	--       function()
+	--         Snacks.win({
+	--           file = vim.api.nvim_get_runtime_file("doc/news.txt", false)[1],
+	--           width = 0.6,
+	--           height = 0.6,
+	--           wo = {
+	--             spell = false,
+	--             wrap = false,
+	--             signcolumn = "yes",
+	--             statuscolumn = " ",
+	--             conceallevel = 3,
+	--           },
+	--         })
+	--       end,
+	--     }
+	--   },
+	--   init = function()
+	--     vim.api.nvim_create_autocmd("User", {
+	--       pattern = "VeryLazy",
+	--       callback = function()
+	--         -- Setup some globals for debugging (lazy-loaded)
+	--         _G.dd = function(...)
+	--           Snacks.debug.inspect(...)
+	--         end
+	--         _G.bt = function()
+	--           Snacks.debug.backtrace()
+	--         end
+	--         vim.print = _G.dd -- Override print to use snacks for `:=` command
+	--
+	--         -- Create some toggle mappings
+	--         Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+	--         Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+	--         Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+	--         Snacks.toggle.diagnostics():map("<leader>ud")
+	--         Snacks.toggle.line_number():map("<leader>ul")
+	--         Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map("<leader>uc")
+	--         Snacks.toggle.treesitter():map("<leader>uT")
+	--         Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
+	--         Snacks.toggle.inlay_hints():map("<leader>uh")
+	--         Snacks.toggle.indent():map("<leader>ug")
+	--         Snacks.toggle.dim():map("<leader>uD")
+	--       end,
+	--     })
+	--   end,
+	-- }
 }

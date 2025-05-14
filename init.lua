@@ -29,13 +29,13 @@ else
 	vim.opt.shell = os.getenv("SHELL")
 end
 
-vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "sagaoutline",
-	callback = function(args)
-		vim.api.nvim_buf_set_option(args.buf, "buflisted", false)
-	end,
-})
-
+-- vim.api.nvim_create_autocmd("BufWinEnter", {
+-- 	pattern = "sagaoutline",
+-- 	callback = function(args)
+-- 		vim.api.nvim_buf_set_option(args.buf, "buflisted", false)
+-- 	end,
+-- })
+--
 -- vim.api.nvim_create_autocmd("FileType", {
 -- 	pattern = "sagaoutline",
 -- 	callback = function(args)

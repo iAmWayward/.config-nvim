@@ -57,7 +57,6 @@ M.items = {
 			{ mode = "n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", description = "Toggle scratchpad" },
 		},
 	},
-
 	{
 		itemgroup = "+UFO",
 		description = "Center code in the terminal to reduce neck strain and increase ergonomics",
@@ -67,17 +66,17 @@ M.items = {
 			{ mode = "n", "zM", require("ufo").closeAllFolds,        description = "Close all folds" },
 			{ mode = "n", "zr", require("ufo").openFoldsExceptKinds, description = "Open folds except kind" },
 			{ mode = "n", "zm", require("ufo").closeFoldsWith,       description = "Close folds with..." },
+
 			-- {
 			-- 	mode = "n",
 			-- 	"K",
 			-- 	function()
 			-- 		local ufo = require("ufo")
 			-- 		if not ufo.peekFoldedLinesUnderCursor() then
-			-- 			vim.cmd("Lspsaga hover_doc")
+			-- 			require("hover").hover()
 			-- 		end
 			-- 	end,
-			-- 	description = "Peek fold or hover",
-			-- 	buffer = bufnr,
+			-- 	description = "Peek fold or styled hover",
 			-- },
 			{
 				mode = "n",
@@ -85,7 +84,8 @@ M.items = {
 				function()
 					local ufo = require("ufo")
 					if not ufo.peekFoldedLinesUnderCursor() then
-						require("lspsaga.hover"):render_hover_doc()
+						-- require("lspsaga.hover"):render_hover_doc()
+						require("pretty_hover").hover()
 					end
 				end,
 				description = "Peek fold or hover",
@@ -93,7 +93,13 @@ M.items = {
 			},
 		},
 	},
-
+	-- {
+	-- 	"<leader>k",
+	-- 	function()
+	-- 		require("pretty_hover").hover()
+	-- 	end,
+	-- 	desc = "Hover Documentation (Pretty)",
+	-- },
 	-- Doxygen
 	{
 		itemgroup = "+Documentation",
