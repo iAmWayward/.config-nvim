@@ -44,7 +44,14 @@ M.items = {
 	{ mode = "n",          "<leader>t",  "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{ mode = { "n", "x" }, "<leader>cp", '"+y',                        description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p',                        description = "Paste from system clipboard" },
-
+	{
+		mode = "n",
+		"<leader>uh",
+		function()
+			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+		end,
+		description = "Toggle Inlay Hints",
+	},
 	-- NoNeckPain
 	{
 		itemgroup = "+NoNeckPain",

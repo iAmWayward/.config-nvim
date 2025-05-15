@@ -631,14 +631,14 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2, -- For color blending
-			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
+			gamma = 2.2,                            -- For color blending
+			max_shade_no_matrix = 0.75,             -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7,           -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
-			max_length = 60, -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5,          -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3,        -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7,            -- 0: no limit, 1: no reduction
+			max_length = 60,                        -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
@@ -685,9 +685,9 @@ return {
 					enabled = true,
 				},
 				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = false,
-					["vim.lsp.util.stylize_markdown"] = false,
-					["cmp.entry.get_documentation"] = false, -- requires hrsh7th/nvim-cmp
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 				},
 			},
 			presets = {
@@ -1043,7 +1043,7 @@ return {
 
 			-- 4) Set up LSP‐capabilities and formatting autocmd
 			local capabilities =
-				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
+					require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
 			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 			local on_attach = function(client, bufnr)
@@ -1372,7 +1372,7 @@ return {
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
-			size = 15, -- Height of the terminal split
+			size = 15,             -- Height of the terminal split
 			persist_size = true,
 			shade_terminals = true,
 			insert_mappings = false, -- Disable default insert mode mappings
@@ -1392,7 +1392,7 @@ return {
 				methods = { "reference,", "definition", "telescope" },
 				layout = "normal", -- Layout for the finder window
 				keys = {
-					quit = "q", -- Custom quit key
+					quit = "q",      -- Custom quit key
 				},
 			},
 			symbol_in_winbar = {
@@ -1468,23 +1468,23 @@ return {
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
-		version = false, -- Never set this value to "*"! Never!
+		version = false,    -- Never set this value to "*"! Never!
 		opts = {
 			provider = "openai", -- ollama , aihubmix,
 			openai = {
 				endpoint = "https://api.openai.com/v1",
-				model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+				model = "gpt-4o",         -- your desired model (or use gpt-4o, etc.)
+				timeout = 30000,          -- Timeout in milliseconds, increase this for reasoning models
 				temperature = 0,
 				max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
 				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
 			},
 			rag_service = {
-				enabled = false, -- Enables the RAG service
-				host_mount = os.getenv("HOME"), -- Host mount path for the rag service
-				provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
-				llm_model = "", -- The LLM model to use for RAG service
-				embed_model = "", -- The embedding model to use for RAG service
+				enabled = false,                    -- Enables the RAG service
+				host_mount = os.getenv("HOME"),     -- Host mount path for the rag service
+				provider = "openai",                -- The provider to use for RAG service (e.g. openai or ollama)
+				llm_model = "",                     -- The LLM model to use for RAG service
+				embed_model = "",                   -- The embedding model to use for RAG service
 				endpoint = "https://api.openai.com/v1", -- The API endpoint for RAG service
 			},
 			-- web_search_engine = {
@@ -1502,10 +1502,10 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-			"ibhagwan/fzf-lua", -- for file_selector provider fzf
+			"hrsh7th/nvim-cmp",           -- autocompletion for avante commands and mentions
+			"ibhagwan/fzf-lua",           -- for file_selector provider fzf
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua", -- for providers='copilot'
+			"zbirenbaum/copilot.lua",     -- for providers='copilot'
 			{
 				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
@@ -1745,8 +1745,8 @@ return {
 		version = "*", -- Pin to GitHub releases
 		event = "VeryLazy",
 		dependencies = {
-			"nvim-lua/plenary.nvim", -- For standard functions
-			"MunifTanjim/nui.nvim", -- To build the plugin UI
+			"nvim-lua/plenary.nvim",      -- For standard functions
+			"MunifTanjim/nui.nvim",       -- To build the plugin UI
 			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
 		},
 		config = true,
