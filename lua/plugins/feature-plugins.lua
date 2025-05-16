@@ -810,6 +810,7 @@ return {
 					"notify",
 					"sagaoutline",
 					"trouble",
+					"toggleterm",
 				},
 				default_component_configs = {
 					icon = {
@@ -922,7 +923,7 @@ return {
 				component_separators = { left = "", right = "" },
 				--[[ section_separators = { left = "", right = "" }, ]]
 				disabled_filetypes = { "tree", "neo-tree", "lspsaga", "sagaoutline" },
-				ignore_focus = { "neo-tree", "lspsaga", "sagaoutline" },
+				ignore_focus = { "neo-tree", "lspsaga", "sagaoutline", "trouble", "terminal", "toggleterm" },
 				always_divide_middle = true,
 				globalstatus = false,
 			},
@@ -1389,13 +1390,14 @@ return {
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
+			autochdir = true,
 			size = 15, -- Height of the terminal split
 			persist_size = true,
-			shade_terminals = true,
+			shade_terminals = false,
 			insert_mappings = false, -- Disable default insert mode mappings
 			close_on_exit = true,
 			border = "curved",
-			shell = vim.o.shell,
+			shell = "fish",
 		},
 	},
 	{
