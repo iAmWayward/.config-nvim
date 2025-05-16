@@ -187,7 +187,9 @@ return {
 		keys = {
 			"<leader>vcs",
 		},
-		opts = {},
+		config = function()
+			require("neovcs").setup()
+		end,
 	},
 	{
 		"HugoBde/subversigns.nvim",
@@ -922,8 +924,16 @@ return {
 				-- component_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				--[[ section_separators = { left = "", right = "" }, ]]
-				disabled_filetypes = { "tree", "neo-tree", "lspsaga", "sagaoutline" },
-				ignore_focus = { "neo-tree", "lspsaga", "sagaoutline", "trouble", "terminal", "toggleterm" },
+				disabled_filetypes = { "tree", "neo-tree", "lspsaga", "sagaoutline", "dashboard" },
+				ignore_focus = {
+					"neo-tree",
+					"lspsaga",
+					"sagaoutline",
+					"trouble",
+					"terminal",
+					"toggleterm",
+					-- "dashboard",
+				},
 				always_divide_middle = true,
 				globalstatus = false,
 			},
@@ -1351,7 +1361,7 @@ return {
 			})
 		end,
 	},
-	{ "RRethy/vim-illuminate" }, -- Highlight other uses of an expression
+	-- { "RRethy/vim-illuminate" }, -- Highlight other uses of an expression
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1767,15 +1777,13 @@ return {
 			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
 		},
 		config = true,
+		offline_mode = {
+			enabled = true,
+			no_github = false,
+		},
 		-- Offline mode configuration. For more details, see the "Offline mode" section below.
-		--[[ offline_mode = { ]]
-		--[[   -- Should offline mode be enabled? ]]
-		--[[   enabled = false, ]]
-		--[[   -- Do not connect to GitHub at all. Not even to get release information. ]]
-		--[[   no_github = false, ]]
 		--[[   -- What path should be looked at to find locally available releases ]]
 		--[[   cache_dir = utils.path_join(utils.is_windows, vim.fn.stdpath("cache"), constants.PLUGIN_NAME, "version_cache"), ]]
-		--[[ }, ]]
 	},
 	{
 		"mrjones2014/legendary.nvim",
