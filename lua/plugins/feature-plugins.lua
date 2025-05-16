@@ -515,7 +515,6 @@ return {
 	},
 	{
 		"MeanderingProgrammer/render-markdown.nvim",
-		-- lazy = false,
 		event = "VeryLazy",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 		opts = {
@@ -551,7 +550,6 @@ return {
 	{
 		"karb94/neoscroll.nvim",
 		event = "VeryLazy",
-		-- lazy = false,
 		opts = {
 			hide_cursor = true,
 			stop_eof = true,
@@ -570,7 +568,6 @@ return {
 	},
 	{
 		"sphamba/smear-cursor.nvim",
-		-- lazy = false,
 		event = "VeryLazy",
 		opts = {
 			smear_between_buffers = true,
@@ -645,6 +642,7 @@ return {
 	{
 		"rcarriga/nvim-notify",
 		-- lazy = false,
+		event = "VeryLazy",
 		-- Use default renderer with custom window settings
 		opts = {
 			render = "default",
