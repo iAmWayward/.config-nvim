@@ -20,7 +20,8 @@ vim.opt.linebreak = true
 --
 vim.opt.splitbelow = true -- New splits open below
 vim.opt.splitright = false
-vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+-- vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+vim.diagnostic.config({ virtual_text = { suffix = " ■" } }) -- Aline text to end of line?
 -- If the current system shell or the `shell` option is set to /usr/bin/fish then revert to sh
 if os.getenv("SHELL") == "/usr/bin/fish" or vim.opt.shell == "/usr/bin/fish" then
 	vim.opt.shell = "/bin/sh"

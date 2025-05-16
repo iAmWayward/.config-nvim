@@ -129,7 +129,7 @@ return {
 	},
 	{
 		"nvimdev/dashboard-nvim", -- Correct repository name
-		-- lazy = false,
+		lazy = true,
 		event = "VimEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = function()
@@ -631,20 +631,20 @@ return {
 			min_slope_vertical = 2,
 
 			-- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
-			gamma = 2.2,                            -- For color blending
-			max_shade_no_matrix = 0.75,             -- 0: more overhangs, 1: more matrices
-			matrix_pixel_threshold = 0.7,           -- 0: all pixels, 1: no pixel
+			gamma = 2.2, -- For color blending
+			max_shade_no_matrix = 0.75, -- 0: more overhangs, 1: more matrices
+			matrix_pixel_threshold = 0.7, -- 0: all pixels, 1: no pixel
 			matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
-			matrix_pixel_min_factor = 0.5,          -- 0: all pixels, 1: no pixel
-			volume_reduction_exponent = 0.3,        -- 0: no reduction, 1: full reduction
-			minimum_volume_factor = 0.7,            -- 0: no limit, 1: no reduction
-			max_length = 60,                        -- 35,                           -- Maximum smear length
+			matrix_pixel_min_factor = 0.5, -- 0: all pixels, 1: no pixel
+			volume_reduction_exponent = 0.3, -- 0: no reduction, 1: full reduction
+			minimum_volume_factor = 0.7, -- 0: no limit, 1: no reduction
+			max_length = 60, -- 35,                           -- Maximum smear length
 			max_length_insert_mode = 1,
 		},
 	},
 	{
 		"rcarriga/nvim-notify",
-		lazy = false,
+		-- lazy = false,
 		-- Use default renderer with custom window settings
 		opts = {
 			render = "default",
@@ -673,12 +673,13 @@ return {
 				})
 				vim.wo[win].conceallevel = 2
 				vim.wo[win].wrap = true
+				-- vim.lsp.handlers["$/progress"] = vim.notify
 			end,
 		},
 	},
 	{
 		"folke/noice.nvim",
-		lazy = false,
+		-- lazy = false,
 		opts = {
 			lsp = {
 				progress = {
@@ -709,12 +710,17 @@ return {
 				-- Optionally configure LSP progress position if needed
 				lsp_progress = {
 					position = "bottom_right",
+					spinner = "aesthetic",
 				},
 			},
 			format = {
 				markdown = {
 					enabled = true,
 				},
+			},
+			documentation = {
+				-- view = "lspsaga",
+				opts = {},
 			},
 		},
 		dependencies = {
@@ -797,6 +803,16 @@ return {
 				enable_git_status = true,
 				enable_diagnostics = true,
 				shared_tree_across_tabs = true,
+				enable_cursor_hijack = true,
+				tabs_layout = "active", -- start, end, center, equal, focus
+				open_files_do_not_replace_types = {
+					"terminal",
+					"telescope",
+					"lspsaga",
+					"notify",
+					"sagaoutline",
+					"trouble",
+				},
 				default_component_configs = {
 					icon = {
 						folder_closed = "",
@@ -808,6 +824,7 @@ return {
 					name = {
 						trailing_slash = false,
 						use_git_status_colors = true,
+						highlight_opened_files = true,
 						highlight = "NeoTreeFileName",
 					},
 					git_status = {
@@ -847,7 +864,7 @@ return {
 				},
 				filesystem = {
 					follow_current_file = {
-						enabled = true,
+						enabled = false,
 						leave_dirs_open = true,
 						group_empty_dirs = true,
 					},
@@ -893,7 +910,7 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		-- lazy = false,
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		opts = {
 			options = {
 				diagnostics = "nvim_lsp",
@@ -906,9 +923,10 @@ return {
 				-- component_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				--[[ section_separators = { left = "", right = "" }, ]]
-				disabled_filetypes = {},
+				disabled_filetypes = { "tree", "neo-tree", "lspsaga", "sagaoutline" },
+				ignore_focus = { "neo-tree", "lspsaga", "sagaoutline" },
 				always_divide_middle = true,
-				globalstatus = true,
+				globalstatus = false,
 			},
 			sections = {
 				lualine_a = {
@@ -942,7 +960,7 @@ return {
 	{
 		"akinsho/bufferline.nvim",
 		-- lazy = false,
-		event = "VeryLazy",
+		-- event = "VeryLazy",
 		version = "*",
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
@@ -1043,7 +1061,7 @@ return {
 
 			-- 4) Set up LSP‐capabilities and formatting autocmd
 			local capabilities =
-					require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
+				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
 			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 			local on_attach = function(client, bufnr)
@@ -1108,7 +1126,8 @@ return {
 	-- None-LS (null-ls) for formatting
 	{
 		"jay-babu/mason-null-ls.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
 		config = function()
 			require("mason-null-ls").setup({
@@ -1272,6 +1291,7 @@ return {
 					"cpp",
 					"c",
 					"make",
+					"cmake",
 					"python",
 					"lua",
 					"luadoc",
@@ -1279,7 +1299,6 @@ return {
 					"css",
 					"rust",
 					"bash",
-					"cmake",
 					"comment",
 					"csv",
 					"desktop",
@@ -1372,7 +1391,7 @@ return {
 		opts = {
 			direction = "horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
-			size = 15,             -- Height of the terminal split
+			size = 15, -- Height of the terminal split
 			persist_size = true,
 			shade_terminals = true,
 			insert_mappings = false, -- Disable default insert mode mappings
@@ -1386,13 +1405,12 @@ return {
 		-- lazy = false,
 		event = "LspAttach",
 		opts = {
-			-- Custom configuration
 			finder = {
 				default = "telescope", -- Use telescope as the default finder
 				methods = { "reference,", "definition", "telescope" },
 				layout = "normal", -- Layout for the finder window
 				keys = {
-					quit = "q",      -- Custom quit key
+					quit = "q", -- Custom quit key
 				},
 			},
 			symbol_in_winbar = {
@@ -1448,7 +1466,6 @@ return {
 			project = {
 				enable = true,
 				detection_method = function()
-					-- Use project.nvim's detection methods
 					local project_util = require("project_nvim.utils.path")
 					return project_util.get_project_root()
 				end,
@@ -1468,23 +1485,23 @@ return {
 	{
 		"yetone/avante.nvim",
 		event = "VeryLazy",
-		version = false,    -- Never set this value to "*"! Never!
+		version = false, -- Never set this value to "*"! Never!
 		opts = {
 			provider = "openai", -- ollama , aihubmix,
 			openai = {
 				endpoint = "https://api.openai.com/v1",
-				model = "gpt-4o",         -- your desired model (or use gpt-4o, etc.)
-				timeout = 30000,          -- Timeout in milliseconds, increase this for reasoning models
+				model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
 				temperature = 0,
 				max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
 				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
 			},
 			rag_service = {
-				enabled = false,                    -- Enables the RAG service
-				host_mount = os.getenv("HOME"),     -- Host mount path for the rag service
-				provider = "openai",                -- The provider to use for RAG service (e.g. openai or ollama)
-				llm_model = "",                     -- The LLM model to use for RAG service
-				embed_model = "",                   -- The embedding model to use for RAG service
+				enabled = false, -- Enables the RAG service
+				host_mount = os.getenv("HOME"), -- Host mount path for the rag service
+				provider = "openai", -- The provider to use for RAG service (e.g. openai or ollama)
+				llm_model = "", -- The LLM model to use for RAG service
+				embed_model = "", -- The embedding model to use for RAG service
 				endpoint = "https://api.openai.com/v1", -- The API endpoint for RAG service
 			},
 			-- web_search_engine = {
@@ -1502,10 +1519,10 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"hrsh7th/nvim-cmp",           -- autocompletion for avante commands and mentions
-			"ibhagwan/fzf-lua",           -- for file_selector provider fzf
+			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+			"ibhagwan/fzf-lua", -- for file_selector provider fzf
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua",     -- for providers='copilot'
+			"zbirenbaum/copilot.lua", -- for providers='copilot'
 			{
 				-- support for image pasting
 				"HakonHarnes/img-clip.nvim",
@@ -1745,8 +1762,8 @@ return {
 		version = "*", -- Pin to GitHub releases
 		event = "VeryLazy",
 		dependencies = {
-			"nvim-lua/plenary.nvim",      -- For standard functions
-			"MunifTanjim/nui.nvim",       -- To build the plugin UI
+			"nvim-lua/plenary.nvim", -- For standard functions
+			"MunifTanjim/nui.nvim", -- To build the plugin UI
 			"nvim-telescope/telescope.nvim", -- For picking b/w different remote methods
 		},
 		config = true,

@@ -362,6 +362,24 @@ M.items = {
 			{ mode = "n", "<leader>fh", require("telescope.builtin").help_tags,  description = "Help Tags" },
 		},
 	},
+	{
+		mode = { "n", "v" }, -- Add relevant modes here
+		"<leader>gp",
+		function()
+			require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
+		end,
+		description = "Page Down (Neoscroll)",
+	},
+	{
+		mode = "n",
+		"<leader>gp",
+		function()
+			vim.system({ "git", "pull" }, { text = true }, function(result)
+				vim.notify(result.stdout)
+			end)
+		end,
+		desc = "Git Pull",
+	},
 
 	-- itemgroup = "CodeCompanion",
 	-- icon = "",
