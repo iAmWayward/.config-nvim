@@ -2,14 +2,19 @@ return {
 	-- {
 	-- 	"bluz71/vim-nightfly-colors",
 	-- },
+	--
+	{
+		"lunarvim/Onedarker.nvim",
+		event = "VeryLazy",
+	},
 	{
 		"sainnhe/everforest",
 		event = "VeryLazy",
 	},
 	{
 		"projekt0n/github-nvim-theme",
-		lazy = true,
-		event = "VeryLazy",
+		lazy = false,
+		-- event = "VeryLazy",
 	},
 	{
 		"datsfilipe/vesper.nvim",
@@ -281,9 +286,9 @@ return {
 				pattern = "*",
 				callback = function()
 					-- Small delay to ensure theme is fully applied
-					vim.defer_fn(function()
-						require("config.kitty-colors").set_kitty_colors()
-					end, 100)
+					-- vim.defer_fn(function()
+					-- 	require("config.kitty-colors").set_kitty_colors()
+					-- end, 100)
 					vim.defer_fn(function()
 						require("transparent").clear_prefix("DropBar")
 						require("transparent").clear_prefix("lualine_c")
@@ -370,7 +375,6 @@ return {
 					{
 						name = "VSCode",
 						colorscheme = "vscode",
-						lazy = true,
 					},
 					{
 						name = "kanagawa",
@@ -388,14 +392,11 @@ return {
 					-- 	name = "Everfrost",
 					-- 	colorscheme = "everfrost",
 					-- },
-					-- {
-					-- 	name = "Github",
-					-- 	colorscheme = "github-nvim-theme",
-					-- },
-					-- {
-					-- 	name = "Neovim",
-					-- 	colorscheme = "neovim",
-					-- },
+
+					{
+						name = "jellybeans-nvim",
+						colorscheme = "metalelf0/jellybeans-nvim",
+					},
 					{
 						name = "Dracula",
 						colorscheme = "dracula",
@@ -407,7 +408,11 @@ return {
 
 					-- {
 					-- 	name = "OneDark",
-					-- 	colorscheme = "onedarkpro.nvim",
+					-- 	colorscheme = "onedarkpro-nvim",
+					-- },
+					-- {
+					-- 	name = "Github",
+					-- 	colorscheme = "github-nvim-theme",
 					-- },
 					-- {
 					-- 	name = "Nightfly Colors",

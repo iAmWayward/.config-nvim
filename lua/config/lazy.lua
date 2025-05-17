@@ -21,6 +21,28 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.o.cmdheight = 0
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevel = 99
+
+vim.o.signcolumn = "yes"
+vim.o.number = true
+vim.opt.statuscolumn = [[%=%l %s]]
+vim.cmd.set = "termguicolors"
+vim.o.shell = "fish"
+
+vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.tabstop = 2      -- Number of spaces a TAB displays as
+vim.opt.shiftwidth = 2   -- Number of spaces for auto-indent and >>/<< operations
+vim.opt.softtabstop = 2  -- Number of spaces for <Tab> key in insert mode
+
+vim.opt.linebreak = true
+--
+vim.opt.splitbelow = true -- New splits open below
+vim.opt.splitright = false
+-- vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
+vim.diagnostic.config({ virtual_text = { suffix = " ■" } })
 -- Setup lazy.nvim
 require("lazy").setup({
   spec = {
@@ -28,7 +50,8 @@ require("lazy").setup({
   },
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  --[[ install = { colorscheme = { "habamax" } }, ]]
+  install = { colorscheme = { "tokyonight" } },
+  -- install = { colorscheme = { "habamax" } },
   -- automatically check for plugin updates
   checker = { enabled = true },
 })

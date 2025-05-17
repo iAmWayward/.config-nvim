@@ -5,15 +5,88 @@
 --- - LSP & Completion: Language server and completion configurations
 --- - CMP:
 --- - :
+--- PERF
 --- - Extras: Fun stuff
 --- - AI Tools: AI-assisted coding and writing features
----
+--- TODO:
+--- HACK:
+--- NOTE:
+--- FIX:
+--- WARNING:
+
 return {
 
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
 	{ "nvim-lua/plenary.nvim" },
+	{
+		"folke/todo-comments.nvim",
+		opts = {
+			signs = true, -- show icons in the signs column
+			sign_priority = 500, -- sign priority
+			-- keywords recognized as todo comments
+			keywords = {
+				FIX = {
+					icon = " ", -- icon used for the sign, and in search results
+					color = "error", -- can be a hex color, or a named color (see below)
+					alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
+					signs = true, -- configure signs for some keywords individually
+				},
+				TODO = { icon = " ", color = "info" },
+				HACK = { icon = " ", color = "warning" },
+				WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+				PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+				NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+				TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+			},
+			gui_style = {
+				fg = "NONE", -- The gui style to use for the fg highlight group.
+				bg = "BOLD", -- The gui style to use for the bg highlight group.
+			},
+			merge_keywords = true, -- when true, custom keywords will be merged with the defaults
+			-- highlighting of the line containing the todo comment
+			-- * before: highlights before the keyword (typically comment characters)
+			-- * keyword: highlights of the keyword
+			-- * after: highlights after the keyword (todo text)
+			highlight = {
+				multiline = false, -- enable multine todo comments
+				multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
+				multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
+				before = "", -- "fg" or "bg" or empty
+				keyword = "fg", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+				after = "fg", -- "fg" or "bg" or empty
+				-- pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
+				comments_only = true, -- uses treesitter to match keywords in comments only
+				max_line_len = 400, -- ignore lines longer than this
+				exclude = {}, -- list of file types to exclude highlighting
+			},
+			-- list of named colors where we try to extract the guifg from the
+			-- list of highlight groups or use the hex color if hl not found as a fallback
+			colors = {
+				error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+				warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
+				info = { "DiagnosticInfo", "#2563EB" },
+				hint = { "DiagnosticHint", "#10B981" },
+				default = { "Identifier", "#7C3AED" },
+				test = { "Identifier", "#FF00FF" },
+			},
+			search = {
+				command = "rg",
+				args = {
+					"--color=never",
+					"--no-heading",
+					"--with-filename",
+					"--line-number",
+					"--column",
+				},
+				-- regex that will be used to match keywords.
+				-- don't replace the (KEYWORDS) placeholder
+				-- pattern = [[\b(KEYWORDS):]], -- ripgrep regex
+				-- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
+			},
+		},
+	},
 	{
 		"kevinhwang91/nvim-ufo",
 		event = "VeryLazy",
@@ -43,7 +116,7 @@ return {
 	},
 	{
 		"lukas-reineke/cmp-under-comparator",
-		-- event = "VeryLazy",
+		event = "VeryLazy",
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
@@ -76,21 +149,10 @@ return {
 		"github/copilot.vim",
 		event = "VeryLazy",
 	},
-	-- {
-	-- 	"olimorris/codecompanion.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 	},
-	-- 	config = function()
-	-- 		vim.cmd([[cab cc CodeCompanion]])
-	-- 		require("codecompanion").setup(require("config.code-companion"))
-	-- 	end,
-	-- },
 	{
 		"nvim-telescope/telescope.nvim",
-		-- lazy = true,
-		event = "VeryLazy",
+		lazy = true,
+		-- event = "VeryLazy",
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = {
 			extensions = {
@@ -105,7 +167,8 @@ return {
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "make", -- correct for lazy.nvim
+		lazy = true,
+		build = "make",
 	},
 	{
 		"ahmedkhalf/project.nvim",
@@ -128,7 +191,7 @@ return {
 		opts = {},
 	},
 	{
-		"nvimdev/dashboard-nvim", -- Correct repository name
+		"nvimdev/dashboard-nvim",
 		lazy = true,
 		event = "VimEnter",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -144,7 +207,7 @@ return {
 				}
 			end
 
-			return { -- Passed directly to dashboard.setup()
+			return {
 				theme = "hyper",
 				disable_at_vimenter = true,
 				change_to_vcs_root = true,
@@ -185,7 +248,7 @@ return {
 		"https://github.com/adelarsq/neovcs.vim",
 		lazy = true,
 		keys = {
-			"<leader>vcs",
+			"<leader>v",
 		},
 		config = function()
 			require("neovcs").setup()
@@ -193,7 +256,6 @@ return {
 	},
 	{
 		"HugoBde/subversigns.nvim",
-		-- lazy = true,
 		event = "VeryLazy",
 	},
 	{
@@ -516,13 +578,23 @@ return {
 		skipEnteringNoNeckPainBuffer = true,
 	},
 	{
+		"Wansmer/treesj",
+		keys = { "<space>m", "<space>j", "<space>s" },
+		dependencies = { "nvim-treesitter/nvim-treesitter" }, -- if you install parsers with `nvim-treesitter`
+		config = function()
+			require("treesj").setup({
+				max_join_length = 120,
+			})
+		end,
+	},
+	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		event = "VeryLazy",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 		opts = {
-			file_types = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
+			file_types = { "checkhealth", "markdown", "Avante", "hover", "lspsaga", "pretty_hover", "pretty-hover" },
 		},
-		ft = { "markdown", "Avante", "codecompanion", "hover", "lspsaga" },
+		ft = { "markdown", "Avante", "hover", "lspsaga", "pretty_hover", "pretty-hover" },
 		config = function()
 			require("render-markdown").setup({
 				completions = { lsp = { enabled = true } },
@@ -728,38 +800,129 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
+	-- {
+	-- 	"lewis6991/hover.nvim",
+	-- 	-- lazy = false,
+	-- 	event = "LspAttach",
+	-- 	dependencies = { "neovim/nvim-lspconfig" },
+	-- 	config = function()
+	-- 		require("hover").setup({
+	-- 			init = function(client, bufnr) -- Add parameters here
+	-- 				require("hover.providers.lsp")
+	-- 				-- Uncomment any additional providers you want to use:
+	-- 				-- require('hover.providers.gh')
+	-- 				-- require('hover.providers.gh_user')
+	-- 				-- require('hover.providers.jira')
+	-- 				require("hover.providers.dap")
+	-- 				-- require('hover.providers.fold_preview')
+	-- 				require("hover.providers.diagnostic")
+	-- 				require("hover.providers.man")
+	-- 				require("hover.providers.dictionary")
+	-- 				require("hover.providers.highlight")
+	-- 			end,
+	-- 			preview_opts = {
+	-- 				border = "single",
+	-- 			},
+	-- 			preview_window = false,
+	-- 			title = true,
+	-- 			mouse_providers = {
+	-- 				"LSP",
+	-- 			},
+	-- 			--[[ mouse_delay = 1000, ]]
+	-- 		})
+	-- 	end,
+	-- },
 	{
-		"lewis6991/hover.nvim",
+		"nvimdev/lspsaga.nvim",
 		-- lazy = false,
 		event = "LspAttach",
-		dependencies = { "neovim/nvim-lspconfig" },
-		config = function()
-			require("hover").setup({
-				init = function(client, bufnr) -- Add parameters here
-					require("hover.providers.lsp")
-					-- Uncomment any additional providers you want to use:
-					-- require('hover.providers.gh')
-					-- require('hover.providers.gh_user')
-					-- require('hover.providers.jira')
-					require("hover.providers.dap")
-					-- require('hover.providers.fold_preview')
-					require("hover.providers.diagnostic")
-					require("hover.providers.man")
-					require("hover.providers.dictionary")
-					require("hover.providers.highlight")
-				end,
-				preview_opts = {
-					border = "single",
+		opts = {
+			finder = {
+				default = "telescope", -- Use telescope as the default finder
+				methods = { "reference,", "definition", "telescope" },
+				layout = "normal", -- Layout for the finder window
+				keys = {
+					quit = "q", -- Custom quit key
 				},
-				preview_window = false,
+			},
+			symbol_in_winbar = {
+				enable = true,
+				separator = "  ",
+			},
+			ui = {
+				progress = {
+					enable = false,
+				},
 				title = true,
-				mouse_providers = {
-					"LSP",
+				border = "rounded",
+				actionfix = "",
+				expand = "",
+				collapse = "",
+				-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+				code_action = "💡",
+				diagnostic = "🐞",
+				-- colors = {
+				-- 	normal_bg = "#022746",
+				-- },
+			},
+			lightbulb = {
+				enable = false,
+				sign = true,
+				virtual_text = true,
+				jump_num_shortcut = true,
+				show_soruce = true,
+			},
+			hover = {
+				enable = true,
+				open_link = "gx",
+				-- open_cmd = "tabedit",
+				open_browser = "default", -- or "firefox" etc.
+				render = "markdown_oxide", -- Ensure markdown rendering is enabled
+				border = "rounded",
+				keys = {
+					scroll_down = "<C-f>",
+					scroll_up = "<C-b>",
+					-- open_cmd = "vsplit",
+					-- open_cmd = "edit",
 				},
-				--[[ mouse_delay = 1000, ]]
-			})
-		end,
+			},
+			diagnostic = {
+				show_code_action = true,
+				show_source = true,
+				jump_num_shortcut = true,
+				keys = {
+					exec_action = "o",
+					quit = "q",
+				},
+			},
+			project = {
+				enable = true,
+				detection_method = function()
+					local project_util = require("project_nvim.utils.path")
+					return project_util.get_project_root()
+				end,
+			},
+		},
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+			-- "folke/trouble.nvim",
+			"ahmedkhalf/project.nvim",
+			"MeanderingProgrammer/render-markdown.nvim",
+		},
 	},
+	{
+		"Fildo7525/pretty_hover",
+		event = "LspAttach",
+		opts = {
+			multi_server = true,
+			border = "rounded",
+		},
+		dependencies = {
+			"nvimdev/lspsaga.nvim", -- Ensure LspSaga loads first
+		},
+	},
+
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		-- event = "VeryLazy",
@@ -924,7 +1087,7 @@ return {
 				-- component_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				--[[ section_separators = { left = "", right = "" }, ]]
-				disabled_filetypes = { "tree", "neo-tree", "lspsaga", "sagaoutline", "dashboard" },
+				disabled_filetypes = {},
 				ignore_focus = {
 					"neo-tree",
 					"lspsaga",
@@ -932,7 +1095,6 @@ return {
 					"trouble",
 					"terminal",
 					"toggleterm",
-					-- "dashboard",
 				},
 				always_divide_middle = true,
 				globalstatus = false,
@@ -976,7 +1138,8 @@ return {
 			-- highlights = get_bufferline_highlights(),
 			options = {
 				themable = true,
-				separator_style = "thin",
+				numbers = "none", -- | "ordinal" | "buffer_id" | "both" |
+				separator_style = "thin", -- slant, padded_slant, slope, thick, thin
 				diagnostics = "nvim_lsp",
 				indicator = {
 					icon = "▎",
@@ -998,8 +1161,12 @@ return {
 				},
 				sort_by = "relative_directory",
 				diagnostics_indicator = function(count, level, diagnostics_dict, context)
-					return "(" .. count .. ")"
+					local icon = level:match("error") and " " or " "
+					return " " .. icon .. count
 				end,
+				-- diagnostics_indicator = function(count, level, diagnostics_dict, context)
+				-- 	return "(" .. count .. ")"
+				-- end,
 				-- name_formatter = function(buf)  -- buf contains:
 				-- name               -- | str        | the basename of the active file
 				-- path               -- | str        | the full path of the active file
@@ -1367,27 +1534,34 @@ return {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
 			position = "bottom",
+			pinned = false,
 			auto_close = true,
 			auto_preview = true, -- auto open a window when hovering an item
 			use_diagnostic_signs = true,
 			use_lsp_diagnostic_signs = true,
-			mode = "workspace_diagnostics",
-			multiline = false,
-			padding = false,
+			-- mode = "workspace_diagnostics",
+			multiline = true,
+			padding = true,
+			preview = {
+				type = "float",
+				relative = "editor",
+				border = "rounded",
+				title = "Preview",
+				title_pos = "center",
+				position = { 0, -2 },
+				size = { width = 0.4, height = 0.4 },
+				zindex = 100,
+			},
 			auto_jump = { "lsp_definitions" },
 			modes = {
-				diagnostics = { auto_open = false },
-				preview_float = {
-					mode = "diagnostics",
-					preview = {
-						type = "float",
-						relative = "editor",
-						border = "rounded",
-						title = "Preview",
-						title_pos = "center",
-						position = { 0, -2 },
-						size = { width = 0.3, height = 0.3 },
-						zindex = 200,
+				diagnostics = {
+					-- use a split, relative to the window:
+					win = {
+						type = "split",
+						relative = "win",
+						position = "bottom",
+						-- 30% of the window height; can be <1.0 for % or >1 for fixed lines
+						size = 0.3,
 					},
 				},
 			},
@@ -1408,85 +1582,6 @@ return {
 			close_on_exit = true,
 			border = "curved",
 			shell = "fish",
-		},
-	},
-	{
-		"nvimdev/lspsaga.nvim",
-		-- lazy = false,
-		event = "LspAttach",
-		opts = {
-			finder = {
-				default = "telescope", -- Use telescope as the default finder
-				methods = { "reference,", "definition", "telescope" },
-				layout = "normal", -- Layout for the finder window
-				keys = {
-					quit = "q", -- Custom quit key
-				},
-			},
-			symbol_in_winbar = {
-				enable = true,
-				separator = "  ",
-			},
-			ui = {
-				progress = {
-					enable = false,
-				},
-				title = true,
-				border = "rounded",
-				actionfix = "",
-				expand = "",
-				collapse = "",
-				-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-				code_action = "💡",
-				diagnostic = "🐞",
-				colors = {
-					normal_bg = "#022746",
-				},
-			},
-			lightbulb = {
-				enable = false,
-				sign = true,
-				virtual_text = true,
-				jump_num_shortcut = true,
-				show_soruce = true,
-			},
-			hover = {
-				enable = true,
-				open_link = "gx",
-				-- open_cmd = "tabedit",
-				open_browser = "default", -- or "firefox" etc.
-				render = "markdown_oxide", -- Ensure markdown rendering is enabled
-				border = "rounded",
-				keys = {
-					scroll_down = "<C-f>",
-					scroll_up = "<C-b>",
-					-- open_cmd = "vsplit",
-					-- open_cmd = "edit",
-				},
-			},
-			diagnostic = {
-				show_code_action = true,
-				show_source = true,
-				jump_num_shortcut = true,
-				keys = {
-					exec_action = "o",
-					quit = "q",
-				},
-			},
-			project = {
-				enable = true,
-				detection_method = function()
-					local project_util = require("project_nvim.utils.path")
-					return project_util.get_project_root()
-				end,
-			},
-		},
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-			-- "folke/trouble.nvim",
-			"ahmedkhalf/project.nvim",
-			"MeanderingProgrammer/render-markdown.nvim",
 		},
 	},
 	-- {
@@ -1602,10 +1697,6 @@ return {
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
-					{ name = "codecompanion_models" },
-					{ name = "codecompanion_slash_commands" },
-					{ name = "codecompanion_tools" },
-					{ name = "codecompanion_variables" },
 					{ name = "cmdline" },
 					{ name = "render-markdown" },
 					-- {
@@ -1630,7 +1721,7 @@ return {
 						cmp.config.compare.offset,
 						cmp.config.compare.exact,
 						cmp.config.compare.score,
-						require("cmp-under-comparator").under, -- Needs plugin install!
+						require("cmp-under-comparator").under,
 						cmp.config.compare.kind,
 						cmp.config.compare.sort_text,
 						cmp.config.compare.length,
@@ -1836,24 +1927,5 @@ return {
 				end,
 			})
 		end,
-	},
-	{
-		"Fildo7525/pretty_hover",
-		event = "LspAttach",
-		opts = {
-			multi_server = true,
-			border = "rounded",
-			-- line = {
-			-- 	detect = { "@brief" },
-			-- 	styler = "**",
-			-- },
-			-- references = {
-			-- 	detect = { "@param", "@tparam" },
-			-- 	styler = { "**", "`" },
-			-- },
-		},
-		dependencies = {
-			"nvimdev/lspsaga.nvim", -- Ensure LspSaga loads first
-		},
 	},
 }
