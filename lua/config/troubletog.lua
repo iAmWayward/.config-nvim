@@ -3,6 +3,9 @@ local M = {}
 local exclude = {
 	["neo-tree"] = true,
 	["sagaoutline"] = true,
+	["Avante"] = true,
+	["AvanteSelectedFiles"] = true,
+	["AvanteInput"] = true,
 }
 
 --- Toggle diagnostics below your "real" code window.
@@ -24,7 +27,7 @@ function M.toggle_below()
 
 	-- now toggle Trouble diagnostics in a bottom split of `cur`
 	require("trouble").toggle({
-		mode = "workspace_diagnostics",
+		mode = "diagnostics",
 		win = {
 			relative = "win",
 			position = "bottom",

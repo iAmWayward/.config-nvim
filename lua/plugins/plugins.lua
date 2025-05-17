@@ -15,7 +15,6 @@
 --- WARNING:
 
 return {
-
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
@@ -942,7 +941,16 @@ return {
 						include_current_win = false,
 						autoselect_one = true,
 						bo = {
-							filetype = { "neo-tree", "neo-tree-popup", "notify", "sagaoutline", "trouble" },
+							filetype = {
+								"neo-tree",
+								"neo-tree-popup",
+								"notify",
+								"sagaoutline",
+								"trouble",
+								"Avante",
+								"AvanteSelectedFiles",
+								"AvanteInput",
+							},
 							buftype = { "terminal", "quickfix", "sagaoutline", "trouble" },
 						},
 					},
@@ -976,6 +984,9 @@ return {
 					"sagaoutline",
 					"trouble",
 					"toggleterm",
+					"Avante",
+					"AvanteSelectedFiles",
+					"AvanteInput",
 				},
 				default_component_configs = {
 					icon = {
@@ -1095,6 +1106,9 @@ return {
 					"trouble",
 					"terminal",
 					"toggleterm",
+					"Avante",
+					"AvanteSelectedFiles",
+					"AvanteInput",
 				},
 				always_divide_middle = true,
 				globalstatus = false,
