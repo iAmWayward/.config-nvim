@@ -75,62 +75,74 @@ M.items = {
 			{ mode = "n", "zM", require("ufo").closeAllFolds, description = "Close all folds" },
 			{ mode = "n", "zr", require("ufo").openFoldsExceptKinds, description = "Open folds except kind" },
 			{ mode = "n", "zm", require("ufo").closeFoldsWith, description = "Close folds with..." },
-
 			{
 				mode = "n",
 				"K",
 				function()
 					local ufo = require("ufo")
-					if not ufo.peekFoldedLinesUnderCursor() then
-						-- Fallback to styled hover using Lspsaga
-						local hover = require("lspsaga.hover")
-						local parser = require("pretty_hover.parser")
-
-						-- Get LSP hover text from server
-						vim.lsp.buf_request(
-							0,
-							"textDocument/hover",
-							vim.lsp.util.make_position_params(),
-							function(_, result, ctx, _)
-								if not (result and result.contents) then
-									return
-								end
-
-								local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
-								markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
-
-								if vim.tbl_isempty(markdown_lines) then
-									return
-								end
-
-								local text = table.concat(markdown_lines, "\n")
-								local parsed = parser.parse(text)
-								local win, buf = hover:render_hover_doc({
-									contents = parsed.text,
-									filetype = "markdown",
-									border = "rounded",
-									max_width = 100,
-									max_height = 20,
-								})
-
-								if buf and win then
-									for _, hl in ipairs(parsed.highlight) do
-										vim.api.nvim_buf_add_highlight(
-											buf,
-											-1,
-											hl.group,
-											hl.line,
-											hl.start_col,
-											hl.end_col
-										)
-									end
-								end
-							end
-						)
+					-- If ufo.peekFoldedLinesUnderCursor exists and returns true (meaning it showed a fold)
+					if ufo and ufo.peekFoldedLinesUnderCursor and ufo.peekFoldedLinesUnderCursor() then
+						return -- UFO handled it, so we're done.
 					end
+					require("pretty_hover").hover()
 				end,
-				description = "Peek fold or styled hover",
+				description = "Peek fold (UFO) or pretty_hover",
 			},
+			-- 		{
+			-- 			mode = "n",
+			-- 			"K",
+			-- 			function()
+			-- 				local ufo = require("ufo")
+			-- 				if not ufo.peekFoldedLinesUnderCursor() then
+			-- 					-- Fallback to styled hover using Lspsaga
+			-- 					local hover = require("lspsaga.hover")
+			-- 					local parser = require("pretty_hover.parser")
+			--
+			-- 					-- Get LSP hover text from server
+			-- 					vim.lsp.buf_request(
+			-- 						0,
+			-- 						"textDocument/hover",
+			-- 						vim.lsp.util.make_position_params(),
+			-- 						function(_, result, ctx, _)
+			-- 							if not (result and result.contents) then
+			-- 								return
+			-- 							end
+			--
+			-- 							local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
+			-- 							markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
+			--
+			-- 							if vim.tbl_isempty(markdown_lines) then
+			-- 								return
+			-- 							end
+			--
+			-- 							local text = table.concat(markdown_lines, "\n")
+			-- 							local parsed = parser.parse(text)
+			-- 							local win, buf = hover:render_hover_doc({
+			-- 								contents = parsed.text,
+			-- 								filetype = "markdown",
+			-- 								border = "rounded",
+			-- 								max_width = 100,
+			-- 								max_height = 20,
+			-- 							})
+			--
+			-- 							if buf and win then
+			-- 								for _, hl in ipairs(parsed.highlight) do
+			-- 									vim.api.nvim_buf_add_highlight(
+			-- 										buf,
+			-- 										-1,
+			-- 										hl.group,
+			-- 										hl.line,
+			-- 										hl.start_col,
+			-- 										hl.end_col
+			-- 									)
+			-- 								end
+			-- 							end
+			-- 						end
+			-- 					)
+			-- 				end
+			-- 			end,
+			-- 			description = "Peek fold or styled hover",
+			-- 		},
 		},
 	},
 	-- Doxygen
@@ -176,7 +188,6 @@ M.items = {
 			},
 		},
 	},
-
 	{
 		itemgroup = "+Diagnostics",
 		description = "Index errors, warnings, and info dialouges and diagnostics.",
@@ -189,6 +200,13 @@ M.items = {
 				end,
 				desc = "鈴 Diagnostics below code (Trouble)",
 			},
+			-- {
+			-- 	"<leader>tt",
+			-- 	function()
+			-- 		require("config.troubletog").toggle_term_below()
+			-- 	end,
+			-- 	desc = "鈴 Terminal below code",
+			-- },
 			-- {
 			--   "<leader>xx",
 			--   function()
@@ -486,7 +504,7 @@ M.lsp_mappings = function(bufnr)
 				},
 				{
 					mode = "n",
-					"<Leader>K",
+					"<leader>K",
 					function()
 						require("pretty_hover").hover()
 					end,
