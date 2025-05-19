@@ -30,6 +30,12 @@ M.items = {
 		end,
 		description = "Toggle Inlay Hints",
 	},
+	{
+		mode = "n",
+		"<leader>tn",
+		"<cmd>:set relativenumber!<cr>",
+		description = "Toggle relative numbers",
+	},
 	-- NoNeckPain
 	{
 		itemgroup = "+NoNeckPain",
