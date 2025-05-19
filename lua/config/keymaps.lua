@@ -7,29 +7,6 @@ local M = {}
 
 M.items = {
 	-- Base keymaps
-
-	-- {
-	-- 	itemgroup = "+Search",
-	-- 	description = "Search navigation and completion",
-	-- 	icon = "",
-	-- 	keymaps = {
-	-- 		{
-	-- 			mode = "c", -- Command-line mode
-	-- 			"<Tab>",
-	-- 			"<C-n>",
-	-- 			description = "Next completion item",
-	-- 			opts = { noremap = true }
-	-- 		},
-	-- 		{
-	-- 			mode = "c",
-	-- 			"<S-Tab>",
-	-- 			"<C-p>",
-	-- 			description = "Previous completion item",
-	-- 			opts = { noremap = true }
-	-- 		}
-	-- 	}
-	-- },
-
 	{ mode = { "n", "x" }, "<leader>n", group = "+NoNeckPain" },
 
 	{
@@ -41,14 +18,13 @@ M.items = {
 		end,
 		description = "Show highlight group under cursor",
 	},
-	{ mode = "n", "<leader>T", "<cmd>Themery<cr>", description = "Change theme" },
-	-- { mode = "n", "<leader>t", "<cmd>Toggle_Transparency<cr>", description = "Toggle Transparency" },
-	{ mode = "n", "<leader>t", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
+	{ mode = "n", "<leader>tT", "<cmd>Themery<cr>", description = "Change theme" },
+	{ mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
 	{
 		mode = "n",
-		"<leader>uh",
+		"<leader>th",
 		function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 		end,
@@ -200,25 +176,6 @@ M.items = {
 				end,
 				desc = "鈴 Diagnostics below code (Trouble)",
 			},
-			-- {
-			-- 	"<leader>tt",
-			-- 	function()
-			-- 		require("config.troubletog").toggle_term_below()
-			-- 	end,
-			-- 	desc = "鈴 Terminal below code",
-			-- },
-			-- {
-			--   "<leader>xx",
-			--   function()
-			--     tr.toggle("workspace_diagnostics")
-			--   end,
-			--   desc = "Diagnostics (Trouble)",
-			-- },
-			-- {
-			-- 	"<leader>xx",
-			-- 	"<cmd>Trouble diagnostics toggle<cr>",
-			-- 	desc = "Diagnostics (Trouble)",
-			-- },
 			{
 				"<leader>xX",
 				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
@@ -505,10 +462,10 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"<leader>K",
-					function()
-						require("pretty_hover").hover()
-					end,
-					-- "<cmd>Lspsaga hover_doc<CR>",
+					-- function()
+					-- 	require("pretty_hover").hover()
+					-- end,
+					"<cmd>Lspsaga hover_doc<CR>",
 					description = "Hover Documentation",
 					buffer = bufnr,
 				},

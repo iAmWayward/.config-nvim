@@ -757,7 +757,7 @@ return {
 					enabled = true,
 				},
 				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.convert_input_to_markdown_lines"] = false,
 					["vim.lsp.util.stylize_markdown"] = true,
 					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 				},
@@ -799,38 +799,6 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	-- {
-	-- 	"lewis6991/hover.nvim",
-	-- 	-- lazy = false,
-	-- 	event = "LspAttach",
-	-- 	dependencies = { "neovim/nvim-lspconfig" },
-	-- 	config = function()
-	-- 		require("hover").setup({
-	-- 			init = function(client, bufnr) -- Add parameters here
-	-- 				require("hover.providers.lsp")
-	-- 				-- Uncomment any additional providers you want to use:
-	-- 				-- require('hover.providers.gh')
-	-- 				-- require('hover.providers.gh_user')
-	-- 				-- require('hover.providers.jira')
-	-- 				require("hover.providers.dap")
-	-- 				-- require('hover.providers.fold_preview')
-	-- 				require("hover.providers.diagnostic")
-	-- 				require("hover.providers.man")
-	-- 				require("hover.providers.dictionary")
-	-- 				require("hover.providers.highlight")
-	-- 			end,
-	-- 			preview_opts = {
-	-- 				border = "single",
-	-- 			},
-	-- 			preview_window = false,
-	-- 			title = true,
-	-- 			mouse_providers = {
-	-- 				"LSP",
-	-- 			},
-	-- 			--[[ mouse_delay = 1000, ]]
-	-- 		})
-	-- 	end,
-	-- },
 	{
 		"nvimdev/lspsaga.nvim",
 		-- lazy = false,
@@ -876,7 +844,7 @@ return {
 				open_link = "gx",
 				-- open_cmd = "tabedit",
 				open_browser = "default", -- or "firefox" etc.
-				render = "markdown_oxide", -- Ensure markdown rendering is enabled
+				-- render = "markdown_oxide", -- Ensure markdown rendering is enabled
 				border = "rounded",
 				keys = {
 					scroll_down = "<C-f>",
@@ -1542,7 +1510,7 @@ return {
 			})
 		end,
 	},
-	-- { "RRethy/vim-illuminate" }, -- Highlight other uses of an expression
+	{ "RRethy/vim-illuminate" }, -- Highlight other uses of an expression
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1586,7 +1554,7 @@ return {
 		version = "*",
 		event = "VeryLazy",
 		opts = {
-			direction = "horizontal", -- Opens at the bottom
+			direction = "float", --horizontal", -- Opens at the bottom
 			open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
 			autochdir = true,
 			size = 15, -- Height of the terminal split
@@ -1941,5 +1909,16 @@ return {
 				end,
 			})
 		end,
+	},
+	{
+		"m4xshen/hardtime.nvim",
+
+		dependencies = { "MunifTanjim/nui.nvim" },
+		opts = {
+
+			lazy = false,
+			enabled = false,
+			restriction_mode = "hint",
+		},
 	},
 }
