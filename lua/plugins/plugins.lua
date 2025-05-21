@@ -1081,7 +1081,7 @@ return {
 				-- component_separators = { left = "", right = "" },
 				component_separators = { left = "", right = "" },
 				--[[ section_separators = { left = "", right = "" }, ]]
-				disabled_filetypes = {},
+				disabled_filetypes = { "dashboard", "neo-tree", "lazy", "sagaoutline" },
 				ignore_focus = {
 					"neo-tree",
 					"lspsaga",
@@ -1094,6 +1094,7 @@ return {
 					"AvanteInput",
 					"themery",
 					"TelescopePrompt",
+					"lazy",
 				},
 				always_divide_middle = true,
 				globalstatus = false,
