@@ -1629,11 +1629,11 @@ return {
 			},
 		},
 	},
-	{
-		"Davidyz/VectorCode",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		cmd = "VectorCode", -- if you're lazy-loading VectorCode
-	},
+	-- {
+	-- 	"Davidyz/VectorCode",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	cmd = "VectorCode", -- if you're lazy-loading VectorCode
+	-- },
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {

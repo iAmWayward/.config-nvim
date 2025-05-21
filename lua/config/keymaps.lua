@@ -70,61 +70,6 @@ M.items = {
 				end,
 				description = "Peek fold (UFO) or pretty_hover",
 			},
-			-- 		{
-			-- 			mode = "n",
-			-- 			"K",
-			-- 			function()
-			-- 				local ufo = require("ufo")
-			-- 				if not ufo.peekFoldedLinesUnderCursor() then
-			-- 					-- Fallback to styled hover using Lspsaga
-			-- 					local hover = require("lspsaga.hover")
-			-- 					local parser = require("pretty_hover.parser")
-			--
-			-- 					-- Get LSP hover text from server
-			-- 					vim.lsp.buf_request(
-			-- 						0,
-			-- 						"textDocument/hover",
-			-- 						vim.lsp.util.make_position_params(),
-			-- 						function(_, result, ctx, _)
-			-- 							if not (result and result.contents) then
-			-- 								return
-			-- 							end
-			--
-			-- 							local markdown_lines = vim.lsp.util.convert_input_to_markdown_lines(result.contents)
-			-- 							markdown_lines = vim.lsp.util.trim_empty_lines(markdown_lines)
-			--
-			-- 							if vim.tbl_isempty(markdown_lines) then
-			-- 								return
-			-- 							end
-			--
-			-- 							local text = table.concat(markdown_lines, "\n")
-			-- 							local parsed = parser.parse(text)
-			-- 							local win, buf = hover:render_hover_doc({
-			-- 								contents = parsed.text,
-			-- 								filetype = "markdown",
-			-- 								border = "rounded",
-			-- 								max_width = 100,
-			-- 								max_height = 20,
-			-- 							})
-			--
-			-- 							if buf and win then
-			-- 								for _, hl in ipairs(parsed.highlight) do
-			-- 									vim.api.nvim_buf_add_highlight(
-			-- 										buf,
-			-- 										-1,
-			-- 										hl.group,
-			-- 										hl.line,
-			-- 										hl.start_col,
-			-- 										hl.end_col
-			-- 									)
-			-- 								end
-			-- 							end
-			-- 						end
-			-- 					)
-			-- 				end
-			-- 			end,
-			-- 			description = "Peek fold or styled hover",
-			-- 		},
 		},
 	},
 	-- Doxygen
@@ -184,28 +129,38 @@ M.items = {
 			},
 			{
 				"<leader>xX",
-				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-				desc = "Buffer Diagnostics (Trouble)",
+				function()
+					require("config.toggle-trouble").toggle_buffer_diagnostics()
+				end,
+				desc = "󰒡 Buffer Diagnostics (Trouble)",
 			},
 			{
 				"<leader>cs",
-				"<cmd>Trouble symbols toggle focus=false<cr>",
-				desc = "Symbols (Trouble)",
+				function()
+					require("config.toggle-trouble").toggle_symbols()
+				end,
+				desc = "󰒡 Symbols (Trouble)",
 			},
 			{
-				"<leader>cl",
-				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-				desc = "LSP Definitions / references / ... (Trouble)",
+				"<leader>xr",
+				function()
+					require("config.toggle-trouble").toggle_lsp()
+				end,
+				desc = "󰒡 LSP Definitions / References (Trouble)",
 			},
 			{
 				"<leader>xL",
-				"<cmd>Trouble loclist toggle<cr>",
-				desc = "Location List (Trouble)",
+				function()
+					require("config.toggle-trouble").toggle_loclist()
+				end,
+				desc = "󰒡 Location List (Trouble)",
 			},
 			{
 				"<leader>xQ",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "Quickfix List (Trouble)",
+				function()
+					require("config.toggle-trouble").toggle_qflist()
+				end,
+				desc = "󰒡 Quickfix List (Trouble)",
 			},
 		},
 	},
@@ -393,61 +348,6 @@ M.items = {
 		end,
 		desc = "Git Pull",
 	},
-
-	-- itemgroup = "CodeCompanion",
-	-- icon = "",
-	-- description = "Use the power of AI...",
-	-- keymaps = {
-	-- {
-	-- 	itemgroup = "+CodeCompanion",
-	-- 	description = "Comprehensive LLM functionality for inline or side-by-side editing.",
-	-- 	icon = "",
-	-- 	keymaps = {
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<C-a>",
-	-- 			"<cmd>CodeCompanionActions<CR>",
-	-- 			description = "Open the action palette",
-	-- 		},
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<Leader>aa",
-	-- 			"<cmd>CodeCompanionChat Toggle<CR>",
-	-- 			description = "Toggle a chat buffer",
-	-- 		},
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<Leader>ac",
-	-- 			"<cmd>CodeCompanionChat Add<CR>",
-	-- 			description = "Add selected text to a chat buffer",
-	-- 		},
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<Leader>ad",
-	-- 			"<cmd>CodeCompanionDiff<CR>",
-	-- 			description = "Diff the current buffer",
-	-- 		},
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<Leader>as",
-	-- 			"<cmd>CodeCompanionSettings<CR>",
-	-- 			description = "Open the settings buffer",
-	-- 		},
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<Leader>at",
-	-- 			"<cmd>CodeCompanionToggle<CR>",
-	-- 			description = "Toggle CodeCompanion",
-	-- 		},
-	-- 		{
-	-- 			mode = { "n", "v" },
-	-- 			"<Leader>ae",
-	-- 			"<cmd>CodeCompanion<CR>",
-	-- 			description = "CodeCompanion to edit the file directly",
-	-- 		},
-	-- 		-- },
-	-- 	},
-	-- },
 }
 
 M.lsp_mappings = function(bufnr)

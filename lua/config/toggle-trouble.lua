@@ -8,7 +8,7 @@ local exclude = {
 	["AvanteInput"] = true,
 }
 
--- Keep track of last used target window
+-- Determine the target window to display Trouble below
 local function get_target_window()
 	local cur = vim.api.nvim_get_current_win()
 	local ft = vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(cur), "filetype")
@@ -26,25 +26,49 @@ local function get_target_window()
 	return cur
 end
 
-function M.toggle_below()
+-- General function to toggle Trouble with specified options
+local function toggle_trouble(opts)
 	local win = get_target_window()
+	opts = opts or {}
+	opts.win = opts.win or {}
+	opts.win.relative = "win"
+	opts.win.position = "bottom"
+	opts.win.win = win
+	opts.focus = false
+	require("trouble").toggle(opts)
+end
 
+function M.toggle_below()
 	-- Close toggleterm if visible
 	local term = require("toggleterm.terminal").get(1)
 	if term and term:is_open() then
 		term:close()
 	end
 
-	-- Toggle Trouble diagnostics under target win
-	require("trouble").toggle({
+	toggle_trouble({ mode = "diagnostics" })
+end
+
+function M.toggle_buffer_diagnostics()
+	toggle_trouble({
 		mode = "diagnostics",
-		win = {
-			relative = "win",
-			position = "bottom",
-			win = win,
-		},
-		focus = false,
+		filter = { buf = 0 },
 	})
+end
+
+function M.toggle_symbols()
+	toggle_trouble({ mode = "symbols" })
+end
+
+function M.toggle_lsp()
+	toggle_trouble({ mode = "lsp" })
+end
+
+function M.toggle_loclist()
+	toggle_trouble({ mode = "loclist" })
+end
+
+function M.toggle_qflist()
+	toggle_trouble({ mode = "qflist" })
 end
 
 function M.toggle_term_below()
