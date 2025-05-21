@@ -812,6 +812,17 @@ return {
 					quit = "q", -- Custom quit key
 				},
 			},
+			outline = {
+				win_position = "right",
+				win_width = 30,
+				auto_preview = true,
+				detail = true,
+				auto_close = true,
+				close_after_jump = false,
+				layout = "normal",
+				max_height = 0.5,
+				left_width = 0.1,
+			},
 			symbol_in_winbar = {
 				enable = true,
 				separator = "  ",
@@ -1077,6 +1088,8 @@ return {
 					"Avante",
 					"AvanteSelectedFiles",
 					"AvanteInput",
+					"themery",
+					"TelescopePrompt",
 				},
 				always_divide_middle = true,
 				globalstatus = false,

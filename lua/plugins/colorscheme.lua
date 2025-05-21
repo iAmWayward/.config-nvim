@@ -153,9 +153,12 @@ return {
 							Normal = { bg = "NONE" },
 							NormalNC = { bg = "NONE" },
 							SignColumn = { bg = "NONE" },
+							LineNr = { fg = "#BBDEFF" },
+							-- CursorLineNr = { fg = "BOLD" },
 							Folded = { bg = "NONE" },
 							VertSplit = { bg = "NONE" },
 							BufferLine = { bg = "NONE" },
+							-- SignColumn = { fg = "" }
 						}
 					end
 					return {}
@@ -323,7 +326,11 @@ return {
 									.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 10"
 							)
 						end
-					end, 10)
+						local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
+						vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
+
+						vim.api.nvim_set_hl(0, "lualine_c", { bg = "none" })
+					end, 2)
 				end,
 			})
 		end,

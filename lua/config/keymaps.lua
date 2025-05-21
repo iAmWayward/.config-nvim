@@ -123,7 +123,7 @@ M.items = {
 			{
 				"<leader>xx",
 				function()
-					require("config.troubletog").toggle_below()
+					require("config.toggle-trouble").toggle_below()
 				end,
 				desc = "鈴 Diagnostics below code (Trouble)",
 			},
@@ -461,7 +461,7 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"<leader>e",
-					"<cmd>Lspsaga show_line_diagnostics<CR>",
+					"<cmd>Lspsaga show_line_diagnostics<CR><cmd>Lspsaga code_action<CR>",
 					description = "Show Line Diagnostic",
 					buffer = bufnr,
 				},
