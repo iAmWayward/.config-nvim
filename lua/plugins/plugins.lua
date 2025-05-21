@@ -864,6 +864,10 @@ return {
 					-- open_cmd = "edit",
 				},
 			},
+			outline = {
+				max_height = 0.3,
+				left_width = 0.3,
+			},
 			diagnostic = {
 				show_code_action = true,
 				show_source = true,
