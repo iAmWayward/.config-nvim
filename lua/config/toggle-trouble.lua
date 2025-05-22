@@ -67,6 +67,14 @@ function M.toggle_loclist()
 	toggle_trouble({ mode = "loclist" })
 end
 
+function M.toggle_implement()
+	toggle_trouble({ mode = "lsp_implementations" })
+end
+
+function M.toggle_typedef()
+	toggle_trouble({ mode = "lsp_type_definitions" })
+end
+
 function M.toggle_qflist()
 	toggle_trouble({ mode = "qflist" })
 end
