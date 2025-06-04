@@ -399,11 +399,10 @@ return {
 					-- 	name = "Everfrost",
 					-- 	colorscheme = "everfrost",
 					-- },
-
-					{
-						name = "jellybeans-nvim",
-						colorscheme = "metalelf0/jellybeans-nvim",
-					},
+					-- {
+					-- 	name = "jellybeans-nvim",
+					-- 	colorscheme = "metalelf0/jellybeans-nvim",
+					-- },
 					{
 						name = "Dracula",
 						colorscheme = "dracula",

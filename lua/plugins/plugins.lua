@@ -820,8 +820,8 @@ return {
 				auto_close = true,
 				close_after_jump = false,
 				layout = "normal",
-				max_height = 0.5,
-				left_width = 0.1,
+				max_height = 0.3,
+				left_width = 0.3,
 			},
 			symbol_in_winbar = {
 				enable = true,
@@ -863,10 +863,6 @@ return {
 					-- open_cmd = "vsplit",
 					-- open_cmd = "edit",
 				},
-			},
-			outline = {
-				max_height = 0.3,
-				left_width = 0.3,
 			},
 			diagnostic = {
 				show_code_action = true,
@@ -958,7 +954,7 @@ return {
 				enable_diagnostics = true,
 				shared_tree_across_tabs = true,
 				enable_cursor_hijack = true,
-				tabs_layout = "active", -- start, end, center, equal, focus
+				tabs_layout = "focus", -- start, end, active, center, equal, focus
 				open_files_do_not_replace_types = {
 					"terminal",
 					"telescope",
@@ -1013,7 +1009,7 @@ return {
 						["C"] = "close_node",
 						["t"] = "open_tab_drop",
 						["T"] = "open_tabnew",
-						["oa"] = "avante_add_files",
+						["<leader>af"] = "avante_add_files",
 						["S"] = "split_with_window_picker", -- or comment for default split
 						["s"] = "vsplit_with_window_picker", -- or comment for default split
 						["Z"] = "expand_all_nodes",
@@ -1022,7 +1018,7 @@ return {
 				},
 				filesystem = {
 					follow_current_file = {
-						enabled = false,
+						enabled = true,
 						leave_dirs_open = true,
 						group_empty_dirs = true,
 					},
@@ -1430,7 +1426,7 @@ return {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"rrethy/nvim-treesitter-endwise",
 			"windwp/nvim-autopairs",
-			"abecodes/tabout.nvim",
+			-- "abecodes/tabout.nvim",
 			{
 				"numToStr/Comment.nvim",
 				config = function()
@@ -1446,7 +1442,7 @@ return {
 				"JoosepAlviste/nvim-ts-context-commentstring",
 				config = function()
 					require("ts_context_commentstring").setup({})
-					vim.g.skip_ts_context_commentstring_module = true
+					vim.g.skip_ts_context_commentstring_module = true --TODO: evaluate
 				end,
 			},
 			{
@@ -1593,13 +1589,15 @@ return {
 		version = false, -- Never set this value to "*"! Never!
 		opts = {
 			provider = "openai", -- ollama , aihubmix,
-			openai = {
-				endpoint = "https://api.openai.com/v1",
-				model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
-				timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-				temperature = 0,
-				max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
-				--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+			providers = {
+				openai = {
+					endpoint = "https://api.openai.com/v1",
+					model = "gpt-4o", -- your desired model (or use gpt-4o, etc.)
+					timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
+					-- temperature = 0,
+					-- max_completion_tokens = 8192, -- Increase this to include reasoning tokens (for reasoning models)
+					--reasoning_effort = "medium", -- low|medium|high, only used for reasoning models
+				},
 			},
 			rag_service = {
 				enabled = false, -- Enables the RAG service
@@ -1692,7 +1690,7 @@ return {
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-Tab>"] = cmp.mapping.complete(),
 					["<C-e>"] = cmp.mapping.abort(),
-					["<Tab>"] = cmp.mapping.confirm({ select = true }),
+					["<S-Tab>"] = cmp.mapping.confirm({ select = true }),
 				}),
 				sources = cmp.config.sources({
 					{ name = "nvim_lsp" },

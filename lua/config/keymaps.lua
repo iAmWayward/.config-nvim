@@ -22,6 +22,7 @@ M.items = {
 	{ mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
+	{ mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
 	{
 		mode = "n",
 		"<leader>th",
