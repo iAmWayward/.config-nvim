@@ -163,6 +163,20 @@ M.items = {
 				end,
 				desc = "󰒡 Quickfix List (Trouble)",
 			},
+			{
+				"<leader>xi",
+				function()
+					require("config.toggle-trouble").toggle_implement()
+				end,
+				desc = "󰒡 Symbols (Trouble)",
+			},
+			{
+				"<leader>xtd",
+				function()
+					require("config.toggle-trouble").toggle_typedef()
+				end,
+				desc = "󰒡 LSP Definitions / References (Trouble)",
+			},
 		},
 	},
 
