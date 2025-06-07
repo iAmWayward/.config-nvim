@@ -14,25 +14,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 vim.opt.rtp:prepend(lazypath)
-
-vim.lsp.enable({
-	"ts_ls",
-	"clangd",
-	"lua_ls",
-	"pyright",
-	"bashls",
-	"tailwindcss",
-	"html",
-	"eslint",
-	"vimls",
-	"docker_compose_language_service",
-	"dockerls",
-	"cssls",
-	"css_variables",
-	"cssmodules_ls",
-	"diagnosticls",
-	"helm_ls",
-})
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
@@ -40,6 +21,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 vim.o.winborder = "rounded"
+vim.opt.confirm = true -- Ask if save is desired if :q from an unsaved buffer
 -- vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
 -- vim.api.nvim_set_hl(0, "LspReferenceRead", { underline = true })
 -- vim.api.nvim_set_hl(0, "LspReferenceWrite", { underline = true })
@@ -142,5 +124,5 @@ require("lazy").setup({
 	install = { colorscheme = { "tokyonight" } },
 	-- install = { colorscheme = { "habamax" } },
 	-- automatically check for plugin updates
-	checker = { enabled = true },
+  checker = { enabled = true },
 })

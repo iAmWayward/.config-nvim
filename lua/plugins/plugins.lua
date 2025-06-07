@@ -860,80 +860,149 @@ return {
 		lazy = false,
 		opts = {},
 	},
-  {
-	"williamboman/mason-lspconfig.nvim",
-	lazy = false,
-	dependencies = {
-		"williamboman/mason.nvim", -- mason core
-		"neovim/nvim-lspconfig", -- native LSP configurations
-	},
-	config = function()
-		require("mason").setup()
+	{
+		"williamboman/mason-lspconfig.nvim",
+		lazy = false,
+		dependencies = {
+			"williamboman/mason.nvim", -- mason core
+			"neovim/nvim-lspconfig", -- native LSP configurations
+		},
+		config = function()
+			require("mason").setup()
 
-		require("mason-lspconfig").setup({
-			ensure_installed = {},
-			automatic_installation = true, -- Fixed: was "automatic_enable"
-		})
-
-		-- Set up LSP capabilities and formatting autocmd
-		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-		local on_attach = function(client, bufnr)
-			-- only format non-C/H files
-			if client.supports_method("textDocument/formatting") then
-				local ft = vim.bo[bufnr].filetype
-				if ft ~= "c" and ft ~= "h" then
-					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-					vim.api.nvim_create_autocmd("BufWritePre", {
-						group = augroup,
-						buffer = bufnr,
-						callback = function()
-							vim.lsp.buf.format({ bufnr = bufnr })
-						end,
-					})
+			-- Set up LSP capabilities and formatting autocmd
+			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+			local on_attach = function(client, bufnr)
+				-- only format non-C/H files
+				if client.supports_method("textDocument/formatting") then
+					local ft = vim.bo[bufnr].filetype
+					if ft ~= "c" and ft ~= "h" then
+						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = augroup,
+							buffer = bufnr,
+							callback = function()
+								vim.lsp.buf.format({ bufnr = bufnr })
+							end,
+						})
+					end
 				end
 			end
-		end
 
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("LspAutoFormat", {}),
+				callback = function(args)
+					local bufnr = args.buf
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-		-- Use native LSP capabilities
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities.textDocument.completion.completionItem.snippetSupport = true
-		capabilities.textDocument.completion.completionItem.resolveSupport = {
-			properties = { "documentation", "detail", "additionalTextEdits" },
-		}
+					-- Only set up for files you want
+					local ft = vim.bo[bufnr].filetype
+					if ft == "c" or ft == "h" then
+						return
+					end
+
+					-- Only setup if the client supports formatting
+					if client.supports_method("textDocument/formatting") then
+						vim.api.nvim_clear_autocmds({ group = "LspAutoFormat", buffer = bufnr })
+						vim.api.nvim_create_autocmd("BufWritePre", {
+							group = "LspAutoFormat",
+							buffer = bufnr,
+							callback = function()
+								-- Only use the preferred formatter (none-ls/null-ls if present)
+								vim.lsp.buf.format({
+									bufnr = bufnr,
+									filter = function(lsp_client)
+										-- Prefer null-ls if present
+										if require("null-ls") and lsp_client.name == "null-ls" then
+											return true
+										end
+										-- Otherwise, use any other LSP that supports formatting
+										return lsp_client.name ~= "null-ls"
+									end,
+								})
+							end,
+						})
+					end
+				end,
+			})
+
+			-- Use native LSP capabilities
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities.textDocument.completion.completionItem.snippetSupport = true
+			capabilities.textDocument.completion.completionItem.resolveSupport = {
+				properties = { "documentation", "detail", "additionalTextEdits" },
+			}
+			--
+			require("mason-lspconfig").setup({
+				ensure_installed = { "lua_ls", "pyright" },
+				automatic_installation = true, -- if you want Mason to auto-install missing servers
+
+				handlers = {
+					-- Default handler (for any server without a custom handler)
+					function(server_name)
+						local opts = { on_attach = on_attach, capabilities = capabilities }
+						-- If we have a custom config for this server, merge it in:
+						local has_custom, custom_opts = pcall(require, "lsp." .. server_name)
+						if has_custom then
+							opts = vim.tbl_deep_extend("force", opts, custom_opts)
+						end
+						require("lspconfig")[server_name].setup(opts)
+					end,
+					-- (Optional) Custom handler for a specific server example:
+					["lua_ls"] = function()
+						local opts = {
+							on_attach = on_attach,
+							capabilities = capabilities,
+							settings = {
+								Lua = { diagnostics = { globals = { "vim" } }, telemetry = { enable = false } },
+							},
+						}
+						require("lspconfig").lua_ls.setup(opts)
+					end,
+					-- you can add more custom per-server handlers here
+				},
+
+				-- ---[ Universal Autoformat-on-Save for All LSPs ]---
+				vim.api.nvim_create_autocmd("LspAttach", {
+					group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
+					callback = function(args)
+						local bufnr = args.buf
+						local client = vim.lsp.get_client_by_id(args.data.client_id)
+						local ft = vim.bo[bufnr].filetype
+						-- Skip C/C++ headers if you want, adjust as needed
+						if ft == "c" or ft == "h" then
+							return
+						end
+						-- Only setup if the client supports formatting
+						if client.supports_method("textDocument/formatting") then
+							vim.api.nvim_clear_autocmds({ group = "LspAutoFormat", buffer = bufnr })
+							vim.api.nvim_create_autocmd("BufWritePre", {
+								group = "LspAutoFormat",
+								buffer = bufnr,
+								callback = function()
+									vim.lsp.buf.format({
+										bufnr = bufnr,
+										timeout_ms = 2000,
+										filter = function(lsp_client)
+											-- Prefer null-ls if available, else fallback to others
+											if lsp_client.name == "null-ls" then
+												return true
+											end
+											-- Add any other preferred LSP client logic here
+											return false
+										end,
+									})
+								end,
+							})
+						end
+					end,
+				}),
+			})
+		end,
+	},
 	--
-      require('mason-lspconfig').setup({
-  ensure_installed = { "lua_ls", "pyright" },
-  automatic_installation = true,  -- if you want Mason to auto-install missing servers
-
-  handlers = {
-    -- Default handler (for any server without a custom handler)
-    function(server_name)
-      local opts = { on_attach = on_attach, capabilities = capabilities }
-      -- If we have a custom config for this server, merge it in:
-      local has_custom, custom_opts = pcall(require, "lsp." .. server_name)
-      if has_custom then
-        opts = vim.tbl_deep_extend("force", opts, custom_opts)
-      end
-      require("lspconfig")[server_name].setup(opts)
-    end,
-    -- (Optional) Custom handler for a specific server example:
-    ["lua_ls"] = function()
-      local opts = {
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          Lua = { diagnostics = { globals = {"vim"} }, telemetry = { enable = false } }
-        }
-      }
-      require("lspconfig").lua_ls.setup(opts)
-    end,
-    -- you can add more custom per-server handlers here
-  }
-      }
-      )
-	end,
-},
+	--
+	--
 	-- {
 	-- 	"williamboman/mason-lspconfig.nvim",
 	-- 	lazy = false,

@@ -22,6 +22,8 @@ M.items = {
 	{ mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
+	{ mode = { "n" }, "<Esc>", '<cmd>nohlsearch<CR>', description = "Esc to clear search" },
+  -- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 	-- { mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
 	{
 		mode = "n",
