@@ -1,0 +1,6 @@
+-- local util = vim.fs or require("lspconfig.util")
+-- return {
+-- 	filetypes = { "python" },
+-- 	root_dir = util.root_pattern("pyproject.toml", ".git"),
+-- 	settings = { python = { analysis = { typeCheckingMode = "strict" } } },
+-- }

@@ -369,9 +369,8 @@ M.items = {
 
 M.lsp_mappings = function(bufnr)
 	return {
-
 		{
-			itemgroup = "+LSPSaga",
+			itemgroup = "+LSP",
 			description = "Quick operations based on code project context.",
 			icon = "",
 			keymaps = {
@@ -399,21 +398,21 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"<leader>ca",
-					"<cmd>Lspsaga code_action<CR>",
+					vim.lsp.buf.code_action(),
 					description = "Code Action",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"<leader>rn",
-					"<cmd>Lspsaga rename<CR>",
+					vim.lsp.buf.rename(),
 					description = "Rename Symbol",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"<leader>O",
-					"<cmd>Lspsaga outline<CR>",
+					"<cmd>Trouble symbols toggle<CR>",
 					description = "Toggle Outline",
 					buffer = bufnr,
 				},
@@ -454,24 +453,32 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"[d",
-					"<cmd>Lspsaga diagnostic_jump_prev<CR>",
+					vim.diagnostic.goto_prev,
 					description = "Previous Diagnostic",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"]d",
-					"<cmd>Lspsaga diagnostic_jump_next<CR>",
+					vim.diagnostic.goto_next,
 					description = "Next Diagnostic",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"<leader>e",
-					"<cmd>Lspsaga show_line_diagnostics<CR><cmd>Lspsaga code_action<CR>",
-					description = "Show Line Diagnostic",
+					vim.diagnostic.open_float,
+					description = "Next Diagnostic",
 					buffer = bufnr,
 				},
+
+				-- {
+				-- 	mode = "n",
+				-- 	"<leader>e",
+				-- 	"<cmd>Lspsaga show_line_diagnostics<CR><cmd>Lspsaga code_action<CR>",
+				-- 	description = "Show Line Diagnostic",
+				-- 	buffer = bufnr,
+				-- },
 				{
 					mode = "n",
 					"<leader>F",

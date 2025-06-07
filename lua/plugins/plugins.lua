@@ -18,6 +18,10 @@ return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
+	{
+		"neovim/nvim-lspconfig",
+		lazy = false,
+	},
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"folke/todo-comments.nvim",
@@ -112,10 +116,6 @@ return {
 				default = { default = {} },
 			},
 		},
-	},
-	{
-		"lukas-reineke/cmp-under-comparator",
-		event = "VeryLazy",
 	},
 	{
 		"nvim-tree/nvim-web-devicons",
@@ -323,234 +323,6 @@ return {
 		},
 		dependencies = "nvim-treesitter/nvim-treesitter",
 	},
-
-	-- {
-	-- 	"obsidian-nvim/obsidian.nvim",
-	-- 	version = "*", -- recommended, use latest release instead of latest commit
-	-- 	lazy = true,
-	-- 	ft = "markdown",
-	-- 	-- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
-	-- 	-- event = {
-	-- 	--   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-	-- 	--   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
-	-- 	--   -- refer to `:h file-pattern` for more examples
-	-- 	--   "BufReadPre path/to/my-vault/*.md",
-	-- 	--   "BufNewFile path/to/my-vault/*.md",
-	-- 	-- },
-	-- 	dependencies = {
-	-- 		-- Required.
-	-- 		"nvim-lua/plenary.nvim",
-	--
-	-- 		-- see above for full list of optional dependencies ☝️
-	-- 	},
-	-- 	---@module 'obsidian'
-	-- 	---@type obsidian.config.ClientOpts
-	-- 	opts = {
-	-- 		workspaces = {
-	-- 			{
-	-- 				name = "personal",
-	-- 				path = "~/Documents/Notes",
-	-- 			},
-	-- 			{
-	-- 				name = "work",
-	-- 				path = "~/Documents/Obsidian Vault/",
-	-- 			},
-	-- 		},
-	-- 		daily_notes = {
-	-- 			-- Optional, if you keep daily notes in a separate directory.
-	-- 			folder = "Daily Log",
-	-- 			-- Optional, if you want to change the date format for the ID of daily notes.
-	-- 			date_format = "%Y-%m-%d",
-	-- 			-- Optional, if you want to change the date format of the default alias of daily notes.
-	-- 			alias_format = "%B %-d, %Y",
-	-- 			-- Optional, default tags to add to each new daily note created.
-	-- 			default_tags = { "daily-notes" },
-	-- 			-- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-	-- 			template = nil,
-	-- 			-- Optional, if you want `Obsidian yesterday` to return the last work day or `Obsidian tomorrow` to return the next work day.
-	-- 			workdays_only = true,
-	-- 		},
-	--
-	-- 		-- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
-	-- 		completion = {
-	-- 			-- Enables completion using nvim_cmp
-	-- 			nvim_cmp = true,
-	-- 			-- Enables completion using blink.cmp
-	-- 			blink = false,
-	-- 			-- Trigger completion at 2 chars.
-	-- 			min_chars = 2,
-	-- 		},
-	--
-	-- 		-- 	  mappings = {
-	-- 		--   -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-	-- 		--   ["gf"] = {
-	-- 		--     action = function()
-	-- 		--       return require("obsidian").util.gf_passthrough()
-	-- 		--     end,
-	-- 		--     opts = { noremap = false, expr = true, buffer = true },
-	-- 		--   },
-	-- 		--   -- Toggle check-boxes.
-	-- 		--   ["<leader>ch"] = {
-	-- 		--     action = function()
-	-- 		--       return require("obsidian").util.toggle_checkbox()
-	-- 		--     end,
-	-- 		--     opts = { buffer = true },
-	-- 		--   },
-	-- 		--   -- Smart action depending on context: follow link, show notes with tag, toggle checkbox, or toggle heading fold
-	-- 		--   ["<cr>"] = {
-	-- 		--     action = function()
-	-- 		--       return require("obsidian").util.smart_action()
-	-- 		--     end,
-	-- 		--     opts = { buffer = true, expr = true },
-	-- 		--   },
-	-- 		-- },
-	--
-	-- 		picker = {
-	-- 			-- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.pick'.
-	-- 			name = "fzf-lua",
-	-- 			-- Optional, configure key mappings for the picker. These are the defaults.
-	-- 			-- Not all pickers support all mappings.
-	-- 			note_mappings = {
-	-- 				-- Create a new note from your query.
-	-- 				new = "<C-x>",
-	-- 				-- Insert a link to the selected note.
-	-- 				insert_link = "<C-l>",
-	-- 			},
-	-- 			tag_mappings = {
-	-- 				-- Add tag(s) to current note.
-	-- 				tag_note = "<C-x>",
-	-- 				-- Insert a tag at the current location.
-	-- 				insert_tag = "<C-l>",
-	-- 			},
-	-- 		},
-	--
-	-- 		-- Optional, sort search results by "path", "modified", "accessed", or "created".
-	-- 		-- The recommend value is "modified" and `true` for `sort_reversed`, which means, for example,
-	-- 		-- that `:Obsidian quick_switch` will show the notes sorted by latest modified time
-	-- 		sort_by = "modified",
-	-- 		sort_reversed = true,
-	--
-	-- 		-- Set the maximum number of lines to read from notes on disk when performing certain searches.
-	-- 		search_max_lines = 1000,
-	--
-	-- 		-- Optional, determines how certain commands open notes. The valid options are:
-	-- 		-- 1. "current" (the default) - to always open in the current window
-	-- 		-- 2. "vsplit" - to open in a vertical split if there's not already a vertical split
-	-- 		-- 3. "hsplit" - to open in a horizontal split if there's not already a horizontal split
-	-- 		open_notes_in = "current",
-	--
-	-- 		-- Optional, define your own callbacks to further customize behavior.
-	-- 		-- callbacks = {
-	-- 		--   -- Runs at the end of `require("obsidian").setup()`.
-	-- 		--   ---@param client obsidian.Client
-	-- 		--   post_setup = function(client) end,
-	-- 		--
-	-- 		--   -- Runs anytime you enter the buffer for a note.
-	-- 		--   ---@param client obsidian.Client
-	-- 		--   ---@param note obsidian.Note
-	-- 		--   enter_note = function(client, note) end,
-	-- 		--
-	-- 		--   -- Runs anytime you leave the buffer for a note.
-	-- 		--   ---@param client obsidian.Client
-	-- 		--   ---@param note obsidian.Note
-	-- 		--   leave_note = function(client, note) end,
-	-- 		--
-	-- 		--   -- Runs right before writing the buffer for a note.
-	-- 		--   ---@param client obsidian.Client
-	-- 		--   ---@param note obsidian.Note
-	-- 		--   pre_write_note = function(client, note) end,
-	-- 		--
-	-- 		--   -- Runs anytime the workspace is set/changed.
-	-- 		--   ---@param client obsidian.Client
-	-- 		--   ---@param workspace obsidian.Workspace
-	-- 		--   post_set_workspace = function(client, workspace) end,
-	-- 		-- },
-	--
-	-- 		-- Optional, configure additional syntax highlighting / extmarks.
-	-- 		-- This requires you have `conceallevel` set to 1 or 2. See `:help conceallevel` for more details.
-	-- 		ui = {
-	-- 			enable = true, -- set to false to disable all additional syntax features
-	-- 			update_debounce = 200, -- update delay after a text change (in milliseconds)
-	-- 			max_file_length = 5000, -- disable UI features for files with more than this many lines
-	-- 			-- Define how various check-boxes are displayed
-	-- 			checkboxes = {
-	-- 				-- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
-	-- 				[" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
-	-- 				["x"] = { char = "", hl_group = "ObsidianDone" },
-	-- 				[">"] = { char = "", hl_group = "ObsidianRightArrow" },
-	-- 				["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
-	-- 				["!"] = { char = "", hl_group = "ObsidianImportant" },
-	-- 				-- Replace the above with this if you don't have a patched font:
-	-- 				-- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
-	-- 				-- ["x"] = { char = "✔", hl_group = "ObsidianDone" },
-	--
-	-- 				-- You can also add more custom ones...
-	-- 			},
-	-- 			-- Use bullet marks for non-checkbox lists.
-	-- 			bullets = { char = "•", hl_group = "ObsidianBullet" },
-	-- 			external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
-	-- 			-- Replace the above with this if you don't have a patched font:
-	-- 			-- external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
-	-- 			reference_text = { hl_group = "ObsidianRefText" },
-	-- 			highlight_text = { hl_group = "ObsidianHighlightText" },
-	-- 			tags = { hl_group = "ObsidianTag" },
-	-- 			block_ids = { hl_group = "ObsidianBlockID" },
-	-- 			hl_groups = {
-	-- 				-- The options are passed directly to `vim.api.nvim_set_hl()`. See `:help nvim_set_hl`.
-	-- 				ObsidianTodo = { bold = true, fg = "#f78c6c" },
-	-- 				ObsidianDone = { bold = true, fg = "#89ddff" },
-	-- 				ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
-	-- 				ObsidianTilde = { bold = true, fg = "#ff5370" },
-	-- 				ObsidianImportant = { bold = true, fg = "#d73128" },
-	-- 				ObsidianBullet = { bold = true, fg = "#89ddff" },
-	-- 				ObsidianRefText = { underline = true, fg = "#c792ea" },
-	-- 				ObsidianExtLinkIcon = { fg = "#c792ea" },
-	-- 				ObsidianTag = { italic = true, fg = "#89ddff" },
-	-- 				ObsidianBlockID = { italic = true, fg = "#89ddff" },
-	-- 				ObsidianHighlightText = { bg = "#75662e" },
-	-- 			},
-	-- 		},
-	--
-	-- 		-- Specify how to handle attachments.
-	-- 		attachments = {
-	-- 			-- The default folder to place images in via `:Obsidian paste_img`.
-	-- 			-- If this is a relative path it will be interpreted as relative to the vault root.
-	-- 			-- You can always override this per image by passing a full path to the command instead of just a filename.
-	-- 			img_folder = "assets/imgs", -- This is the default
-	--
-	-- 			-- A function that determines default name or prefix when pasting images via `:Obsidian paste_img`.
-	-- 			---@return string
-	-- 			img_name_func = function()
-	-- 				-- Prefix image names with timestamp.
-	-- 				return string.format("Pasted image %s", os.date("%Y%m%d%H%M%S"))
-	-- 			end,
-	--
-	-- 			-- A function that determines the text to insert in the note when pasting an image.
-	-- 			-- It takes two arguments, the `obsidian.Client` and an `obsidian.Path` to the image file.
-	-- 			-- This is the default implementation.
-	-- 			---@param client obsidian.Client
-	-- 			---@param path obsidian.Path the absolute path to the image file
-	-- 			---@return string
-	-- 			img_text_func = function(client, path)
-	-- 				path = client:vault_relative_path(path) or path
-	-- 				return string.format("![%s](%s)", path.name, path)
-	-- 			end,
-	-- 		},
-	--
-	-- 		-- See https://github.com/obsidian-nvim/obsidian.nvim/wiki/Notes-on-configuration#statusline-component
-	-- 		statusline = {
-	-- 			enabled = true,
-	-- 			format = "{{properties}} properties {{backlinks}} backlinks {{words}} words {{chars}} chars",
-	-- 		},
-	-- 		preferred_link_style = "wiki",
-	--
-	-- 		-- Optional, boolean or a function that takes a filename and returns a boolean.
-	-- 		-- `true` indicates that you don't want obsidian.nvim to manage frontmatter.
-	-- 		disable_frontmatter = false,
-	--
-	-- 		-- see below for full list of options 👇
-	-- 	},
-	-- },
 	{
 		"hat0uma/doxygen-previewer.nvim",
 		keys = { -- Lazy-load on these keymaps
@@ -759,7 +531,6 @@ return {
 				override = {
 					["vim.lsp.util.convert_input_to_markdown_lines"] = false,
 					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 				},
 			},
 			presets = {
@@ -799,95 +570,6 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	-- {
-	-- 	"nvimdev/lspsaga.nvim",
-	-- 	-- lazy = false,
-	-- 	event = "LspAttach",
-	-- 	opts = {
-	-- 		finder = {
-	-- 			default = "telescope", -- Use telescope as the default finder
-	-- 			methods = { "reference,", "definition", "telescope" },
-	-- 			layout = "normal", -- Layout for the finder window
-	-- 			keys = {
-	-- 				quit = "q", -- Custom quit key
-	-- 			},
-	-- 		},
-	-- 		outline = {
-	-- 			win_position = "right",
-	-- 			win_width = 30,
-	-- 			auto_preview = true,
-	-- 			detail = true,
-	-- 			auto_close = true,
-	-- 			close_after_jump = false,
-	-- 			layout = "normal",
-	-- 			max_height = 0.3,
-	-- 			left_width = 0.3,
-	-- 		},
-	-- 		symbol_in_winbar = {
-	-- 			enable = true,
-	-- 			separator = "  ",
-	-- 		},
-	-- 		ui = {
-	-- 			progress = {
-	-- 				enable = false,
-	-- 			},
-	-- 			title = true,
-	-- 			border = "rounded",
-	-- 			actionfix = "",
-	-- 			expand = "",
-	-- 			collapse = "",
-	-- 			-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-	-- 			code_action = "💡",
-	-- 			diagnostic = "🐞",
-	-- 			-- colors = {
-	-- 			-- 	normal_bg = "#022746",
-	-- 			-- },
-	-- 		},
-	-- 		lightbulb = {
-	-- 			enable = false,
-	-- 			sign = true,
-	-- 			virtual_text = true,
-	-- 			jump_num_shortcut = true,
-	-- 			show_soruce = true,
-	-- 		},
-	-- 		hover = {
-	-- 			enable = true,
-	-- 			open_link = "gx",
-	-- 			-- open_cmd = "tabedit",
-	-- 			open_browser = "default", -- or "firefox" etc.
-	-- 			-- render = "markdown_oxide", -- Ensure markdown rendering is enabled
-	-- 			border = "rounded",
-	-- 			keys = {
-	-- 				scroll_down = "<C-f>",
-	-- 				scroll_up = "<C-b>",
-	-- 				-- open_cmd = "vsplit",
-	-- 				-- open_cmd = "edit",
-	-- 			},
-	-- 		},
-	-- 		diagnostic = {
-	-- 			show_code_action = true,
-	-- 			show_source = true,
-	-- 			jump_num_shortcut = true,
-	-- 			keys = {
-	-- 				exec_action = "o",
-	-- 				quit = "q",
-	-- 			},
-	-- 		},
-	-- 		project = {
-	-- 			enable = true,
-	-- 			detection_method = function()
-	-- 				local project_util = require("project_nvim.utils.path")
-	-- 				return project_util.get_project_root()
-	-- 			end,
-	-- 		},
-	-- 	},
-	-- 	dependencies = {
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"nvim-tree/nvim-web-devicons",
-	-- 		"ahmedkhalf/project.nvim",
-	-- 		"MeanderingProgrammer/render-markdown.nvim",
-	-- 	},
-	-- },
 	{
 		"Fildo7525/pretty_hover",
 		event = "LspAttach",
@@ -899,7 +581,6 @@ return {
 			"nvimdev/lspsaga.nvim", -- Ensure LspSaga loads first
 		},
 	},
-
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		-- event = "VeryLazy",
@@ -1179,120 +860,158 @@ return {
 		lazy = false,
 		opts = {},
 	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
-		dependencies = {
-			"williamboman/mason.nvim", -- mason core
-			"neovim/nvim-lspconfig", -- native LSP configurations
-			"hrsh7th/cmp-nvim-lsp", -- for capabilities
-		},
-		config = function()
-			require("mason").setup()
+  {
+	"williamboman/mason-lspconfig.nvim",
+	lazy = false,
+	dependencies = {
+		"williamboman/mason.nvim", -- mason core
+		"neovim/nvim-lspconfig", -- native LSP configurations
+	},
+	config = function()
+		require("mason").setup()
 
-			require("mason-lspconfig").setup({
-				ensure_installed = {
-					"ts_ls",
-					"clangd",
-					"lua_ls",
-					"pyright",
-					"bashls",
-					"tailwindcss",
-					"html",
-					"eslint",
-					"vimls",
-					"docker_compose_language_service",
-					"dockerls",
-					"cssls",
-					"css_variables",
-					"cssmodules_ls",
-					"diagnosticls",
-					"helm_ls",
-					"markdown_oxide",
-				},
-				automatic_enable = true, -- new in v2.0 :contentReference[oaicite:4]{index=4}
-				file_watcher = {
-					enable = true,
-					debounce = 100, -- Debounce time in ms (optional)
-				},
-			})
+		require("mason-lspconfig").setup({
+			ensure_installed = {},
+			automatic_installation = true, -- Fixed: was "automatic_enable"
+		})
 
-			-- 3) Diagnostics UI tweaks
-			vim.diagnostic.config({
-				virtual_text = false,
-				signs = true,
-				update_in_insert = false,
-				severity_sort = true,
-			})
-			local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
-			for type, icon in pairs(signs) do
-				local hl = "DiagnosticSign" .. type
-				vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-			end
-
-			-- 4) Set up LSP‐capabilities and formatting autocmd
-			local capabilities =
-				require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities()) -- cmp capabilities :contentReference[oaicite:5]{index=5}
-			local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-
-			local on_attach = function(client, bufnr)
-				-- only format non‑C/H files
-				if client.supports_method("textDocument/formatting") then
-					local ft = vim.bo[bufnr].filetype
-					if ft ~= "c" and ft ~= "h" then
-						vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							group = augroup,
-							buffer = bufnr,
-							callback = function()
-								vim.lsp.buf.format({ bufnr = bufnr })
-							end,
-						})
-					end
+		-- Set up LSP capabilities and formatting autocmd
+		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+		local on_attach = function(client, bufnr)
+			-- only format non-C/H files
+			if client.supports_method("textDocument/formatting") then
+				local ft = vim.bo[bufnr].filetype
+				if ft ~= "c" and ft ~= "h" then
+					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = augroup,
+						buffer = bufnr,
+						callback = function()
+							vim.lsp.buf.format({ bufnr = bufnr })
+						end,
+					})
 				end
 			end
+		end
 
-			-- local lspconfig = require("lspconfig")
-			local lspconfig = vim.lsp.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
-			local util = require("lspconfig.util")
 
-			-- default setup for most servers
-			local servers = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
-			for _, name in ipairs(servers) do
-				lspconfig(name, {
-					capabilities = capabilities,
-					on_attach = on_attach,
-				})
-			end
+		-- Use native LSP capabilities
+		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		capabilities.textDocument.completion.completionItem.snippetSupport = true
+		capabilities.textDocument.completion.completionItem.resolveSupport = {
+			properties = { "documentation", "detail", "additionalTextEdits" },
+		}
+	--
+      require('mason-lspconfig').setup({
+  ensure_installed = { "lua_ls", "pyright" },
+  automatic_installation = true,  -- if you want Mason to auto-install missing servers
 
-			-- -- old way:
-			-- for _, name in ipairs(servers) do
-			-- 	lspconfig[name].setup({
-			-- 		capabilities = capabilities,
-			-- 		on_attach = on_attach,
-			-- 	})
-			-- end
-
-			lspconfig("clangd", {
-				capabilities = capabilities,
-				on_attach = on_attach,
-				settings = {
-					clangd = {
-						Format = {
-							Enable = false, -- Disable clangd's built-in formatter
-						},
-					},
-				},
-			})
-
-			-- typescript server with custom root_dir
-			-- 		lspconfig("ts_ls", {
-			-- 			capabilities = capabilities,
-			-- 			on_attach    = on_attach,
-			-- 			root_dir     = util.root_pattern("package.json", "tsconfig.json", ".git"),
-			-- 		})
-		end,
-	},
+  handlers = {
+    -- Default handler (for any server without a custom handler)
+    function(server_name)
+      local opts = { on_attach = on_attach, capabilities = capabilities }
+      -- If we have a custom config for this server, merge it in:
+      local has_custom, custom_opts = pcall(require, "lsp." .. server_name)
+      if has_custom then
+        opts = vim.tbl_deep_extend("force", opts, custom_opts)
+      end
+      require("lspconfig")[server_name].setup(opts)
+    end,
+    -- (Optional) Custom handler for a specific server example:
+    ["lua_ls"] = function()
+      local opts = {
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+          Lua = { diagnostics = { globals = {"vim"} }, telemetry = { enable = false } }
+        }
+      }
+      require("lspconfig").lua_ls.setup(opts)
+    end,
+    -- you can add more custom per-server handlers here
+  }
+      }
+      )
+	end,
+},
+	-- {
+	-- 	"williamboman/mason-lspconfig.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = {
+	-- 		"williamboman/mason.nvim", -- mason core
+	-- 		"neovim/nvim-lspconfig", -- native LSP configurations
+	-- 	},
+	-- 	config = function()
+	-- 		require("mason").setup()
+	--
+	-- 		require("mason-lspconfig").setup({
+	-- 			ensure_installed = {},
+	-- 			automatic_enable = true, -- new in v2.0 :contentReference[oaicite:4]{index=4}
+	-- 			file_watcher = {
+	-- 				enable = true,
+	-- 				debounce = 100, -- Debounce time in ms (optional)
+	-- 			},
+	-- 		})
+	--
+	-- 		-- 4) Set up LSP‐capabilities and formatting autocmd
+	-- 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+	--
+	-- 		local on_attach = function(client, bufnr)
+	-- 			-- only format non‑C/H files
+	-- 			if client.supports_method("textDocument/formatting") then
+	-- 				local ft = vim.bo[bufnr].filetype
+	-- 				if ft ~= "c" and ft ~= "h" then
+	-- 					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+	-- 					vim.api.nvim_create_autocmd("BufWritePre", {
+	-- 						group = augroup,
+	-- 						buffer = bufnr,
+	-- 						callback = function()
+	-- 							vim.lsp.buf.format({ bufnr = bufnr })
+	-- 						end,
+	-- 					})
+	-- 				end
+	-- 			end
+	-- 		end
+	--
+	-- 		-- local lspconfig = require("lspconfig")
+	-- 		local lspconfig = vim.lsp.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
+	-- 		local util = require("lspconfig.util")
+	-- 		local capabilities = vim.lsp.protocol.make_client_capabilities()
+	-- 		capabilities.textDocument.completion.completionItem.snippetSupport = true
+	-- 		capabilities.textDocument.completion.completionItem.resolveSupport = {
+	-- 			properties = { "documentation", "detail", "additionalTextEdits" },
+	-- 		}
+	-- 		-- default setup for most servers
+	-- 		local servers = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
+	-- 		for _, name in ipairs(servers) do
+	-- 			lspconfig(name, {
+	-- 				capabilities = capabilities,
+	-- 				on_attach = on_attach,
+	-- 			})
+	-- 		end
+	--
+	--      		require("mason-lspconfig").setup_handlers({
+	-- 		-- Default handler for all servers
+	-- 		function(server_name)
+	-- 			require("lspconfig")[server_name].setup({
+	-- 				capabilities = capabilities,
+	-- 				on_attach = on_attach,
+	-- 			})
+	-- 		end,
+	--
+	-- 		lspconfig("clangd", {
+	-- 			capabilities = capabilities,
+	-- 			on_attach = on_attach,
+	-- 			settings = {
+	-- 				clangd = {
+	-- 					Format = {
+	-- 						Enable = false, -- Disable clangd's built-in formatter
+	-- 					},
+	-- 				},
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- },
 
 	-- None-LS (null-ls) for formatting
 	{
@@ -1353,60 +1072,6 @@ return {
 			})
 		end,
 	},
-	{
-		"windwp/nvim-autopairs",
-		lazy = false,
-		dependencies = { "hrsh7th/nvim-cmp" },
-		event = "InsertEnter",
-		config = function()
-			local npairs = require("nvim-autopairs")
-			local Rule = require("nvim-autopairs.rule")
-			local ts_conds = require("nvim-autopairs.ts-conds")
-
-			npairs.setup({
-				check_ts = true,
-				ts_config = {
-					lua = { "string" },
-					javascript = { "template_string" },
-					typescript = { "template_string" },
-					typescriptreact = { "template_string", "string", "comment" },
-					javascriptreact = { "template_string", "string", "comment" },
-				},
-			})
-
-			-- Add custom rules for JSX/TSX with more complete filetype handling
-			npairs.add_rules({
-				Rule("<", ">", { "typescriptreact" }),
-				Rule("{", "}", { "typescriptreact" }),
-				Rule("(", ")", { "typescriptreact" }),
-				Rule("[", "]", { "typescriptreact" }),
-				Rule("'", "'", { "typescriptreact" }),
-				Rule('"', '"', { "typescriptreact" }),
-				Rule("`", "`", { "typescriptreact" }),
-			})
-
-			-- Treesitter condition-based pairs
-			npairs.add_rules({
-				Rule("%", "%", "lua"):with_pair(ts_conds.is_ts_node({ "string", "comment" })),
-				Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node({ "function" })),
-			})
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			local cmp_status_ok, cmp = pcall(require, "cmp")
-			if cmp_status_ok then
-				cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-			end
-		end,
-	},
-	-- {
-	--   "abecodes/tabout.nvim",
-	--   dependencies = { "nvim-treesitter/nvim-treesitter" },
-	--   opts = { -- Add 'local' declaration
-	--     tabkey = "<C-Tab>",
-	--     backwards_tabkey = "<S-Tab>",
-	--     completion = true,
-	--     ignore_beginning = false,
-	--   }, -- Removed trailing comma
-	-- },
 	{
 		"HiPhish/rainbow-delimiters.nvim",
 		config = function()
@@ -1523,7 +1188,6 @@ return {
 			})
 		end,
 	},
-	{ "RRethy/vim-illuminate" }, -- Highlight other uses of an expression
 	{
 		"folke/trouble.nvim",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -1621,34 +1285,11 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
 			"ibhagwan/fzf-lua", -- for file_selector provider fzf
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-			"zbirenbaum/copilot.lua", -- for providers='copilot'
-			{
-				-- support for image pasting
-				"HakonHarnes/img-clip.nvim",
-				event = "VeryLazy",
-				opts = {
-					-- recommended settings
-					default = {
-						embed_image_as_base64 = false,
-						prompt_for_file_name = false,
-						drag_and_drop = {
-							insert_mode = true,
-						},
-						-- required for Windows users
-						use_absolute_path = true,
-					},
-				},
-			},
+			-- "zbirenbaum/copilot.lua", -- for providers='copilot'
 		},
 	},
-	-- {
-	-- 	"Davidyz/VectorCode",
-	-- 	dependencies = { "nvim-lua/plenary.nvim" },
-	-- 	cmd = "VectorCode", -- if you're lazy-loading VectorCode
-	-- },
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {
@@ -1656,111 +1297,6 @@ return {
 			"nvim-neo-tree/neo-tree.nvim",
 		},
 		opts = {},
-	},
-
-	--=============================== CMP Ecosystem ================================--
-	{
-		"hrsh7th/nvim-cmp",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			"L3MON4D3/LuaSnip",
-			"saadparwaiz1/cmp_luasnip",
-			"onsails/lspkind.nvim",
-			"windwp/nvim-autopairs",
-		},
-		config = function()
-			local cmp = require("cmp")
-			local luasnip = require("luasnip")
-			local lspkind = require("lspkind")
-			vim.api.nvim_set_hl(0, "CmpGhostText", { link = "Comment", default = true })
-
-			-- Main cmp setup
-			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-Tab>"] = cmp.mapping.complete(),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<S-Tab>"] = cmp.mapping.confirm({ select = true }),
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "cmdline" },
-					{ name = "render-markdown" },
-					-- {
-					-- 	name = "lazydev",
-					-- 	group_index = 0, -- set group index to 0 to skip loading LuaLS completions
-					-- },
-				}, {
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
-				formatting = {
-					format = lspkind.cmp_format({
-						mode = "symbol",
-						maxwidth = 50,
-						ellipsis_char = "...",
-						show_labeldetails = true,
-					}),
-				},
-				sorting = {
-					priority_weight = 2,
-					comparators = {
-						cmp.config.compare.offset,
-						cmp.config.compare.exact,
-						cmp.config.compare.score,
-						require("cmp-under-comparator").under,
-						cmp.config.compare.kind,
-						cmp.config.compare.sort_text,
-						cmp.config.compare.length,
-						cmp.config.compare.order,
-					},
-				},
-				window = {
-					completion = cmp.config.window.bordered(),
-					documentation = cmp.config.window.bordered(),
-				},
-				experimental = {
-					ghost_text = { h1_group = "CmpGhostText" },
-				},
-			})
-
-			-- Cmdline setup for search ('/')
-			cmp.setup.cmdline("/", {
-				mapping = cmp.mapping.preset.cmdline({
-					["<C-n>"] = { c = cmp.mapping.select_next_item() },
-					["<C-p>"] = { c = cmp.mapping.select_prev_item() },
-					["<S-CR>"] = { c = cmp.mapping.confirm({ select = true }) },
-				}),
-
-				sources = {
-					{ name = "buffer" },
-				},
-			})
-
-			-- Cmdline setup for command line (':')
-			cmp.setup.cmdline(":", {
-				mapping = cmp.mapping.preset.cmdline({
-					["<C-n>"] = { c = cmp.mapping.select_next_item() },
-					["<C-p>"] = { c = cmp.mapping.select_prev_item() },
-					["<S-CR>"] = { c = cmp.mapping.confirm({ select = true }) },
-				}),
-
-				sources = cmp.config.sources({ { name = "path" } }, { { name = "cmdline" } }),
-			})
-
-			-- Load snippets
-			require("luasnip.loaders.from_vscode").lazy_load()
-		end,
 	},
 
 	--=============================== DAP Debugger Ecosystem ================================--
@@ -1912,15 +1448,6 @@ return {
 						buffer = true,
 						filetype = "neo-tree",
 					})
-				end,
-			})
-
-			-- Setup LSP keymaps when attaching to buffers
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local bufnr = args.buf
-					local lsp_maps = require("config.keymaps").lsp_mappings(bufnr)
-					require("legendary").keymaps(lsp_maps)
 				end,
 			})
 		end,
