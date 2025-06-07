@@ -144,10 +144,10 @@ return {
 		},
 	},
 	--=============================== LLM Provider ================================--
-	{
-		"github/copilot.vim",
-		event = "VeryLazy",
-	},
+	-- {
+	-- 	"github/copilot.vim",
+	-- 	event = "VeryLazy",
+	-- },
 	{
 		"nvim-telescope/telescope.nvim",
 		lazy = true,
@@ -799,96 +799,95 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	{
-		"nvimdev/lspsaga.nvim",
-		-- lazy = false,
-		event = "LspAttach",
-		opts = {
-			finder = {
-				default = "telescope", -- Use telescope as the default finder
-				methods = { "reference,", "definition", "telescope" },
-				layout = "normal", -- Layout for the finder window
-				keys = {
-					quit = "q", -- Custom quit key
-				},
-			},
-			outline = {
-				win_position = "right",
-				win_width = 30,
-				auto_preview = true,
-				detail = true,
-				auto_close = true,
-				close_after_jump = false,
-				layout = "normal",
-				max_height = 0.3,
-				left_width = 0.3,
-			},
-			symbol_in_winbar = {
-				enable = true,
-				separator = "  ",
-			},
-			ui = {
-				progress = {
-					enable = false,
-				},
-				title = true,
-				border = "rounded",
-				actionfix = "",
-				expand = "",
-				collapse = "",
-				-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
-				code_action = "💡",
-				diagnostic = "🐞",
-				-- colors = {
-				-- 	normal_bg = "#022746",
-				-- },
-			},
-			lightbulb = {
-				enable = false,
-				sign = true,
-				virtual_text = true,
-				jump_num_shortcut = true,
-				show_soruce = true,
-			},
-			hover = {
-				enable = true,
-				open_link = "gx",
-				-- open_cmd = "tabedit",
-				open_browser = "default", -- or "firefox" etc.
-				-- render = "markdown_oxide", -- Ensure markdown rendering is enabled
-				border = "rounded",
-				keys = {
-					scroll_down = "<C-f>",
-					scroll_up = "<C-b>",
-					-- open_cmd = "vsplit",
-					-- open_cmd = "edit",
-				},
-			},
-			diagnostic = {
-				show_code_action = true,
-				show_source = true,
-				jump_num_shortcut = true,
-				keys = {
-					exec_action = "o",
-					quit = "q",
-				},
-			},
-			project = {
-				enable = true,
-				detection_method = function()
-					local project_util = require("project_nvim.utils.path")
-					return project_util.get_project_root()
-				end,
-			},
-		},
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-tree/nvim-web-devicons",
-			-- "folke/trouble.nvim",
-			"ahmedkhalf/project.nvim",
-			"MeanderingProgrammer/render-markdown.nvim",
-		},
-	},
+	-- {
+	-- 	"nvimdev/lspsaga.nvim",
+	-- 	-- lazy = false,
+	-- 	event = "LspAttach",
+	-- 	opts = {
+	-- 		finder = {
+	-- 			default = "telescope", -- Use telescope as the default finder
+	-- 			methods = { "reference,", "definition", "telescope" },
+	-- 			layout = "normal", -- Layout for the finder window
+	-- 			keys = {
+	-- 				quit = "q", -- Custom quit key
+	-- 			},
+	-- 		},
+	-- 		outline = {
+	-- 			win_position = "right",
+	-- 			win_width = 30,
+	-- 			auto_preview = true,
+	-- 			detail = true,
+	-- 			auto_close = true,
+	-- 			close_after_jump = false,
+	-- 			layout = "normal",
+	-- 			max_height = 0.3,
+	-- 			left_width = 0.3,
+	-- 		},
+	-- 		symbol_in_winbar = {
+	-- 			enable = true,
+	-- 			separator = "  ",
+	-- 		},
+	-- 		ui = {
+	-- 			progress = {
+	-- 				enable = false,
+	-- 			},
+	-- 			title = true,
+	-- 			border = "rounded",
+	-- 			actionfix = "",
+	-- 			expand = "",
+	-- 			collapse = "",
+	-- 			-- kind = require("catppuccin.groups.integrations.lsp_saga").custom_kind(),
+	-- 			code_action = "💡",
+	-- 			diagnostic = "🐞",
+	-- 			-- colors = {
+	-- 			-- 	normal_bg = "#022746",
+	-- 			-- },
+	-- 		},
+	-- 		lightbulb = {
+	-- 			enable = false,
+	-- 			sign = true,
+	-- 			virtual_text = true,
+	-- 			jump_num_shortcut = true,
+	-- 			show_soruce = true,
+	-- 		},
+	-- 		hover = {
+	-- 			enable = true,
+	-- 			open_link = "gx",
+	-- 			-- open_cmd = "tabedit",
+	-- 			open_browser = "default", -- or "firefox" etc.
+	-- 			-- render = "markdown_oxide", -- Ensure markdown rendering is enabled
+	-- 			border = "rounded",
+	-- 			keys = {
+	-- 				scroll_down = "<C-f>",
+	-- 				scroll_up = "<C-b>",
+	-- 				-- open_cmd = "vsplit",
+	-- 				-- open_cmd = "edit",
+	-- 			},
+	-- 		},
+	-- 		diagnostic = {
+	-- 			show_code_action = true,
+	-- 			show_source = true,
+	-- 			jump_num_shortcut = true,
+	-- 			keys = {
+	-- 				exec_action = "o",
+	-- 				quit = "q",
+	-- 			},
+	-- 		},
+	-- 		project = {
+	-- 			enable = true,
+	-- 			detection_method = function()
+	-- 				local project_util = require("project_nvim.utils.path")
+	-- 				return project_util.get_project_root()
+	-- 			end,
+	-- 		},
+	-- 	},
+	-- 	dependencies = {
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 		"ahmedkhalf/project.nvim",
+	-- 		"MeanderingProgrammer/render-markdown.nvim",
+	-- 	},
+	-- },
 	{
 		"Fildo7525/pretty_hover",
 		event = "LspAttach",

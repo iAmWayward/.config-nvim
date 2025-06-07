@@ -25,7 +25,7 @@ M.items = {
 	{ mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
 	{
 		mode = "n",
-		"<leader>th",
+		"<leader>uh",
 		function()
 			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 		end,
@@ -378,16 +378,6 @@ M.lsp_mappings = function(bufnr)
 					"gh",
 					"<cmd>Lspsaga finder<CR>",
 					description = "LSP Finder",
-					buffer = bufnr,
-				},
-				{
-					mode = "n",
-					"<leader>K",
-					-- function()
-					-- 	require("pretty_hover").hover()
-					-- end,
-					"<cmd>Lspsaga hover_doc<CR>",
-					description = "Hover Documentation",
 					buffer = bufnr,
 				},
 				{
