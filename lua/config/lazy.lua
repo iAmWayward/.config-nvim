@@ -20,6 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.opt.updatetime = 200 --300
 vim.o.winborder = "rounded"
 vim.opt.confirm = true -- Ask if save is desired if :q from an unsaved buffer
 -- vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
@@ -124,5 +125,5 @@ require("lazy").setup({
 	install = { colorscheme = { "tokyonight" } },
 	-- install = { colorscheme = { "habamax" } },
 	-- automatically check for plugin updates
-  checker = { enabled = true },
+	checker = { enabled = true },
 })

@@ -17,6 +17,13 @@
 return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
+	{
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		-- install jsregexp (optional!).
+		build = "make install_jsregexp",
+	},
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
 	{
 		"neovim/nvim-lspconfig",
@@ -1000,87 +1007,45 @@ return {
 			})
 		end,
 	},
-	--
-	--
-	--
-	-- {
-	-- 	"williamboman/mason-lspconfig.nvim",
-	-- 	lazy = false,
-	-- 	dependencies = {
-	-- 		"williamboman/mason.nvim", -- mason core
-	-- 		"neovim/nvim-lspconfig", -- native LSP configurations
-	-- 	},
-	-- 	config = function()
-	-- 		require("mason").setup()
-	--
-	-- 		require("mason-lspconfig").setup({
-	-- 			ensure_installed = {},
-	-- 			automatic_enable = true, -- new in v2.0 :contentReference[oaicite:4]{index=4}
-	-- 			file_watcher = {
-	-- 				enable = true,
-	-- 				debounce = 100, -- Debounce time in ms (optional)
-	-- 			},
-	-- 		})
-	--
-	-- 		-- 4) Set up LSP‐capabilities and formatting autocmd
-	-- 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-	--
-	-- 		local on_attach = function(client, bufnr)
-	-- 			-- only format non‑C/H files
-	-- 			if client.supports_method("textDocument/formatting") then
-	-- 				local ft = vim.bo[bufnr].filetype
-	-- 				if ft ~= "c" and ft ~= "h" then
-	-- 					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-	-- 					vim.api.nvim_create_autocmd("BufWritePre", {
-	-- 						group = augroup,
-	-- 						buffer = bufnr,
-	-- 						callback = function()
-	-- 							vim.lsp.buf.format({ bufnr = bufnr })
-	-- 						end,
-	-- 					})
-	-- 				end
-	-- 			end
-	-- 		end
-	--
-	-- 		-- local lspconfig = require("lspconfig")
-	-- 		local lspconfig = vim.lsp.config -- new in 0.11 :contentReference[oaicite:6]{index=6}
-	-- 		local util = require("lspconfig.util")
-	-- 		local capabilities = vim.lsp.protocol.make_client_capabilities()
-	-- 		capabilities.textDocument.completion.completionItem.snippetSupport = true
-	-- 		capabilities.textDocument.completion.completionItem.resolveSupport = {
-	-- 			properties = { "documentation", "detail", "additionalTextEdits" },
-	-- 		}
-	-- 		-- default setup for most servers
-	-- 		local servers = { "pyright", "lua_ls", "ts_ls", "bashls", "html", "cssls", "eslint" }
-	-- 		for _, name in ipairs(servers) do
-	-- 			lspconfig(name, {
-	-- 				capabilities = capabilities,
-	-- 				on_attach = on_attach,
-	-- 			})
-	-- 		end
-	--
-	--      		require("mason-lspconfig").setup_handlers({
-	-- 		-- Default handler for all servers
-	-- 		function(server_name)
-	-- 			require("lspconfig")[server_name].setup({
-	-- 				capabilities = capabilities,
-	-- 				on_attach = on_attach,
-	-- 			})
-	-- 		end,
-	--
-	-- 		lspconfig("clangd", {
-	-- 			capabilities = capabilities,
-	-- 			on_attach = on_attach,
-	-- 			settings = {
-	-- 				clangd = {
-	-- 					Format = {
-	-- 						Enable = false, -- Disable clangd's built-in formatter
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
+			sources = {
+				-- add lazydev to your completion providers
+				default = { "lazydev" },
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						score_offset = 100, -- show at a higher priority than lsp
+					},
+				},
+			},
+		},
+	},
+	{ -- optional blink completion source for require statements and module annotations
+		"saghen/blink.cmp",
+		opts = {
+			sources = {
+				-- add lazydev to your completion providers
+				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+				providers = {
+					lazydev = {
+						name = "LazyDev",
+						module = "lazydev.integrations.blink",
+						-- make lazydev completions top priority (see `:h blink.cmp`)
+						score_offset = 100,
+					},
+				},
+			},
+		},
+	},
 
 	-- None-LS (null-ls) for formatting
 	{
