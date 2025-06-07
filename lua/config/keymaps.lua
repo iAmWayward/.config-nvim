@@ -22,12 +22,14 @@ M.items = {
 	{ mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
-	{ mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
+	-- { mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
 	{
 		mode = "n",
 		"<leader>uh",
 		function()
-			vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+			local bufnr = vim.api.nvim_get_current_buf()
+			local current_setting = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
+			vim.lsp.inlay_hint.enable(not current_setting, { bufnr = bufnr })
 		end,
 		description = "Toggle Inlay Hints",
 	},
