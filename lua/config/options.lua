@@ -32,12 +32,12 @@ vim.opt.splitright = false
 vim.diagnostic.config({
 	virtual_text = {
 		true,
-		-- { suffix = " ■" }
+		-- 	-- { suffix = " ■" }
 	},
-	virtual_lines = {
-		false,
-		-- current_line = true,
-	},
+	-- virtual_lines = {
+	-- 	false,
+	-- 	-- current_line = true,
+	-- },
 	underline = true,
 	signs = true,
 	update_in_insert = false,

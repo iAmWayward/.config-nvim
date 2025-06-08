@@ -271,12 +271,12 @@ return {
 				transparent.toggle()
 				local is_transparent = transparent.is_transparent()
 
-				local kitty_cmd = is_transparent
-						and "kitty @ --to=unix:/tmp/kitty set-background-opacity 0.85; " .. "kitty @ --to=unix:/tmp/kitty set-config background_blur 20"
-					or "kitty @ --to=unix:/tmp/kitty set-background-opacity 1.0; "
-						.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 0"
-
-				async_execute(kitty_cmd)
+				-- local kitty_cmd = is_transparent
+				-- 		and "kitty @ --to=unix:/tmp/kitty set-background-opacity 0.85; " .. "kitty @ --to=unix:/tmp/kitty set-config background_blur 20"
+				-- 	or "kitty @ --to=unix:/tmp/kitty set-background-opacity 1.0; "
+				-- 		.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 0"
+				--
+				-- async_execute(kitty_cmd)
 			end
 		end,
 		init = function()
@@ -320,17 +320,16 @@ return {
 						require("transparent").clear_prefix("WinSeparator")
 
 						-- Re-apply Kitty transparency after theme change
-						if vim.g.transparent_enabled then
-							async_execute(
-								"kitty @ --to=unix:/tmp/kitty set-background-opacity 0.69; "
-									.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 10"
-							)
-						end
+						-- if vim.g.transparent_enabled then
+						-- async_execute(
+						-- 	"kitty @ --to=unix:/tmp/kitty set-background-opacity 0.69; "
+						-- 		.. "kitty @ --to=unix:/tmp/kitty set-config background_blur 10"
+						-- )
+						-- end
 						local bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
 						vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
-
-						vim.api.nvim_set_hl(0, "lualine_c", { bg = "none" })
-					end, 2)
+						vim.api.nvim_set_hl(0, "lualine_c", { bg = "NONE" })
+					end, 0)
 				end,
 			})
 		end,

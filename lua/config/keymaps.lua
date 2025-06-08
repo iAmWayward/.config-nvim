@@ -24,7 +24,7 @@ M.items = {
 		mode = "n",
 		"<leader>td",
 		function()
-			require("config.toggle-diagnostics").cycle()
+			require("functions.toggle-diagnostics").cycle()
 		end,
 		description = "Cycle Diagnostics Display",
 	},
@@ -137,56 +137,56 @@ M.items = {
 			{
 				"<leader>xx",
 				function()
-					require("config.toggle-trouble").toggle_below()
+					require("functions.toggle-trouble").toggle_below()
 				end,
 				desc = "鈴 Diagnostics below code (Trouble)",
 			},
 			{
 				"<leader>xX",
 				function()
-					require("config.toggle-trouble").toggle_buffer_diagnostics()
+					require("functions.toggle-trouble").toggle_buffer_diagnostics()
 				end,
 				desc = "󰒡 Buffer Diagnostics (Trouble)",
 			},
 			{
 				"<leader>cs",
 				function()
-					require("config.toggle-trouble").toggle_symbols()
+					require("functions.toggle-trouble").toggle_symbols()
 				end,
 				desc = "󰒡 Symbols (Trouble)",
 			},
 			{
 				"<leader>xr",
 				function()
-					require("config.toggle-trouble").toggle_lsp()
+					require("functions.toggle-trouble").toggle_lsp()
 				end,
 				desc = "󰒡 LSP Definitions / References (Trouble)",
 			},
 			{
 				"<leader>xL",
 				function()
-					require("config.toggle-trouble").toggle_loclist()
+					require("functions.toggle-trouble").toggle_loclist()
 				end,
 				desc = "󰒡 Location List (Trouble)",
 			},
 			{
 				"<leader>xQ",
 				function()
-					require("config.toggle-trouble").toggle_qflist()
+					require("functions.toggle-trouble").toggle_qflist()
 				end,
 				desc = "󰒡 Quickfix List (Trouble)",
 			},
 			{
 				"<leader>xi",
 				function()
-					require("config.toggle-trouble").toggle_implement()
+					require("functions.toggle-trouble").toggle_implement()
 				end,
 				desc = "󰒡 Symbols (Trouble)",
 			},
 			{
 				"<leader>xtd",
 				function()
-					require("config.toggle-trouble").toggle_typedef()
+					require("functions.toggle-trouble").toggle_typedef()
 				end,
 				desc = "󰒡 LSP Definitions / References (Trouble)",
 			},

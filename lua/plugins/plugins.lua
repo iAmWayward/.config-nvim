@@ -7,6 +7,7 @@ return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
 	{
+
 		"Shatur/neovim-cmake",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -22,13 +23,13 @@ return {
 	},
 	{
 		"L3MON4D3/LuaSnip",
-		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		version = "v2.*",
 		build = "make install_jsregexp",
 		dependencies = { "rafamadriz/friendly-snippets" },
 		config = function()
 			require("luasnip.loaders.from_vscode").lazy_load() -- load VSCode-style snippets (friendly-snippets)
 			require("luasnip.loaders.from_lua").lazy_load() -- load any custom LuaSnip snippet files
-			-- Optionally, extend filetypes to include doc-comment snippets from friendly-snippets:
+			-- Extend filetypes to include doc-comment snippets from friendly-snippets:
 			require("luasnip").filetype_extend("cpp", { "cppdoc" }) -- Doxygen for C++
 			require("luasnip").filetype_extend("c", { "cdoc" }) -- Doxygen for C
 			require("luasnip").filetype_extend("sh", { "shelldoc" }) -- Shell script docs
@@ -181,9 +182,18 @@ return {
 		},
 	},
 	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		lazy = true,
-		build = "make",
+		"Bekaboo/dropbar.nvim",
+		-- optional, but required for fuzzy finder support
+		dependencies = {
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
+		},
+		config = function()
+			local dropbar_api = require("dropbar.api")
+			vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+			vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
+			vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
+		end,
 	},
 	{
 		"ahmedkhalf/project.nvim",
@@ -501,41 +511,6 @@ return {
 		},
 	},
 	{
-		"rcarriga/nvim-notify",
-		event = "VeryLazy",
-		-- Use default renderer with custom window settings
-		opts = {
-			render = "default",
-			stages = "fade_in_slide_out",
-			timeout = 3000,
-			background_colour = "#000000", -- TODO theme this
-			fps = 60,
-			icons = {
-				ERROR = "",
-				WARN = "",
-				INFO = "",
-				DEBUG = "",
-				TRACE = "",
-			},
-			minimum_width = 50,
-			max_width = 100,
-			max_height = 20,
-			top_down = true,
-
-			-- Custom window parameters for rounded borders and transparency
-			on_open = function(win)
-				vim.api.nvim_win_set_config(win, {
-					border = "rounded",
-					style = "minimal",
-					-- winblend = 5
-				})
-				vim.wo[win].conceallevel = 2
-				vim.wo[win].wrap = true
-				-- vim.lsp.handlers["$/progress"] = vim.notify
-			end,
-		},
-	},
-	{
 		"folke/noice.nvim",
 		opts = {
 			lsp = {
@@ -575,13 +550,45 @@ return {
 				},
 			},
 			documentation = {
-				-- view = "lspsaga",
 				opts = {},
 			},
 		},
 		dependencies = {
+			{
+				"rcarriga/nvim-notify",
+				-- Use default renderer with custom window settings
+				opts = {
+					render = "default",
+					stages = "fade_in_slide_out",
+					timeout = 3000,
+					background_colour = "#000000", -- TODO theme this
+					fps = 60,
+					icons = {
+						ERROR = "",
+						WARN = "",
+						INFO = "",
+						DEBUG = "",
+						TRACE = "",
+					},
+					minimum_width = 50,
+					max_width = 100,
+					max_height = 20,
+					top_down = true,
+
+					-- Custom window parameters for rounded borders and transparency
+					on_open = function(win)
+						vim.api.nvim_win_set_config(win, {
+							border = "rounded",
+							style = "minimal",
+							-- winblend = 5
+						})
+						vim.wo[win].conceallevel = 2
+						vim.wo[win].wrap = true
+						-- vim.lsp.handlers["$/progress"] = vim.notify
+					end,
+				},
+			},
 			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
 		},
 	},
 	{
@@ -591,9 +598,7 @@ return {
 			multi_server = true,
 			border = "rounded",
 		},
-		dependencies = {
-			"nvimdev/lspsaga.nvim", -- Ensure LspSaga loads first
-		},
+		dependencies = {},
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -872,7 +877,8 @@ return {
 
 	{
 		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
+		-- lazy = false,
+		event = "VeryLazy",
 		dependencies = {
 			{
 				"williamboman/mason.nvim",
