@@ -1,19 +1,8 @@
--- # Structure:
---- - Core UI: Visual elements like themes, statuslines, notifications
---- - Editor Enhancement: Features that improve basic editing
---- - Project Management: Tools for moving around code and projects
---- - LSP & Completion: Language server and completion configurations
---- - CMP:
---- - :
---- PERF
---- - Extras: Fun stuff
---- - AI Tools: AI-assisted coding and writing features
 --- TODO:
 --- HACK:
 --- NOTE:
 --- FIX:
 --- WARNING:
-
 return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
@@ -23,6 +12,7 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 	},
+
 	{
 		"jmbuhr/otter.nvim",
 		dependencies = {
@@ -32,9 +22,7 @@ return {
 	},
 	{
 		"L3MON4D3/LuaSnip",
-		-- follow latest release.
 		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-		-- install jsregexp (optional!).
 		build = "make install_jsregexp",
 		dependencies = { "rafamadriz/friendly-snippets" },
 	},

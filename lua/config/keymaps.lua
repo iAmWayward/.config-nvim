@@ -358,14 +358,14 @@ M.items = {
 			{ mode = "n", "<leader>fh", require("telescope.builtin").help_tags, description = "Help Tags" },
 		},
 	},
-	{
-		mode = { "n", "v" }, -- Add relevant modes here
-		"<leader>gp",
-		function()
-			require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
-		end,
-		description = "Page Down (Neoscroll)",
-	},
+	-- {
+	-- 	mode = { "n", "v" }, -- Add relevant modes here
+	-- 	"<leader>gp",
+	-- 	function()
+	-- 		require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
+	-- 	end,
+	-- 	description = "Page Down (Neoscroll)",
+	-- },
 	{
 		mode = "n",
 		"<leader>gp",
@@ -374,7 +374,7 @@ M.items = {
 				vim.notify(result.stdout)
 			end)
 		end,
-		desc = "Git Pull",
+		description = "Git Pull",
 	},
 }
 
@@ -545,20 +545,20 @@ M.dap_mappings = function(dap)
 			description = "Project management and navigation",
 			icon = "󰉋",
 			keymaps = {
-				{ "<leader>fp", "<cmd>Telescope projects<CR>", desc = "Find projects" },
+				{ "<leader>fp", "<cmd>Telescope projects<CR>", description = "Find projects" },
 				{
 					"<leader>hp",
 					function()
 						require("harpoon"):list():add()
 					end,
-					desc = "Harpoon file",
+					description = "Harpoon file",
 				},
 				{
 					"<leader>hq",
 					function()
 						require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
 					end,
-					desc = "Harpoon menu",
+					description = "Harpoon menu",
 				},
 			},
 		},
@@ -569,9 +569,9 @@ M.dap_mappings = function(dap)
 			description = "Obsidian note management",
 			icon = "󰈙",
 			keymaps = {
-				{ "<leader>no", "<cmd>ObsidianSearch<CR>", desc = "Search notes" },
-				{ "<leader>nn", "<cmd>ObsidianNew<CR>", desc = "New note" },
-				{ "<leader>nl", "<cmd>ObsidianLink<CR>", desc = "Link note" },
+				{ "<leader>ns", "<cmd>ObsidianSearch<CR>", description = "Search notes" },
+				{ "<leader>nN", "<cmd>ObsidianNew<CR>", description = "New note" },
+				{ "<leader>nl", "<cmd>ObsidianLink<CR>", description = "Link note" },
 			},
 		},
 	}
