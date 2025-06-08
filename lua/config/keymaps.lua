@@ -20,10 +20,19 @@ M.items = {
 	},
 	{ mode = "n", "<leader>tT", "<cmd>Themery<cr>", description = "Change theme" },
 	{ mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
+	{
+		mode = "n",
+		"<leader>td",
+		function()
+			require("lua.config.toggle-diagnostics").cycle()
+		end,
+		description = "Cycle Diagnostics Display",
+	},
+
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
-	{ mode = { "n" }, "<Esc>", '<cmd>nohlsearch<CR>', description = "Esc to clear search" },
-  -- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+	{ mode = { "n" }, "<Esc>", "<cmd>nohlsearch<CR>", description = "Esc to clear search" },
+	-- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 	-- { mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
 	{
 		mode = "n",
@@ -386,28 +395,36 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"gd",
-					function() require('telescope.builtin').lsp_definitions() end,
+					function()
+						require("telescope.builtin").lsp_definitions()
+					end,
 					description = "Peek Definition",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"gD",
-					function() vim.lsp.buf.definition() end,
+					function()
+						vim.lsp.buf.definition()
+					end,
 					description = "Go to Definition",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"<leader>ca",
-					function() vim.lsp.buf.code_action() end,
+					function()
+						vim.lsp.buf.code_action()
+					end,
 					description = "Code Action",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"<leader>rn",
-					function() vim.lsp.buf.rename() end,
+					function()
+						vim.lsp.buf.rename()
+					end,
 					description = "Rename Symbol",
 					buffer = bufnr,
 				},
@@ -441,28 +458,36 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"<leader>sh",
-					function() vim.lsp.buf.signature_help() end,
+					function()
+						vim.lsp.buf.signature_help()
+					end,
 					description = "Signature Help",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"[d",
-					function() vim.diagnostic.goto_prev() end,
+					function()
+						vim.diagnostic.goto_prev()
+					end,
 					description = "Previous Diagnostic",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"]d",
-					function() vim.diagnostic.goto_next() end,
+					function()
+						vim.diagnostic.goto_next()
+					end,
 					description = "Next Diagnostic",
 					buffer = bufnr,
 				},
 				{
 					mode = "n",
 					"<leader>e",
-					function() vim.diagnostic.open_float() end,
+					function()
+						vim.diagnostic.open_float()
+					end,
 					description = "Next Diagnostic",
 					buffer = bufnr,
 				},
@@ -478,7 +503,9 @@ M.lsp_mappings = function(bufnr)
 				{
 					mode = "n",
 					"<leader>ws",
-					function() vim.lsp.buf.workspace_symbol() end,
+					function()
+						vim.lsp.buf.workspace_symbol()
+					end,
 					description = "Workspace Symbol",
 					buffer = bufnr,
 				},

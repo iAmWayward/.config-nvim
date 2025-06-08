@@ -18,6 +18,12 @@ return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
 	{
+		"Shatur/neovim-cmake",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+	},
+	{
 		"jmbuhr/otter.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
@@ -33,11 +39,6 @@ return {
 		dependencies = { "rafamadriz/friendly-snippets" },
 	},
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
-	{
-		"neovim/nvim-lspconfig",
-		lazy = false,
-	},
-	{ "nvim-lua/plenary.nvim" },
 	{
 		"folke/todo-comments.nvim",
 		opts = {
@@ -501,7 +502,6 @@ return {
 	},
 	{
 		"rcarriga/nvim-notify",
-		-- lazy = false,
 		event = "VeryLazy",
 		-- Use default renderer with custom window settings
 		opts = {
@@ -537,7 +537,6 @@ return {
 	},
 	{
 		"folke/noice.nvim",
-		-- lazy = false,
 		opts = {
 			lsp = {
 				progress = {
@@ -870,17 +869,15 @@ return {
 	},
 
 	--=============================== LSP Ecosystem ================================--
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		opts = {},
-	},
 
 	{
 		"williamboman/mason-lspconfig.nvim",
 		lazy = false,
 		dependencies = {
-			"williamboman/mason.nvim",
+			{
+				"williamboman/mason.nvim",
+				opts = {},
+			},
 			"neovim/nvim-lspconfig",
 		},
 		config = function()
@@ -891,6 +888,48 @@ return {
 			capabilities.textDocument.completion.completionItem.resolveSupport = {
 				properties = { "documentation", "detail", "additionalTextEdits" },
 			}
+
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"lua_ls",
+					"pyright",
+					"docker_compose_language_service",
+					"dockerls",
+					"ts_ls",
+					"vimls",
+					"lemminx",
+					"yamlls",
+					"markdown_oxide",
+					"css_variables",
+					"clangd",
+					-- "cpptools", -- INFO: MANUALLY INSTALL TIHS
+				},
+				automatic_installation = true,
+				handlers = {
+					-- Default handler: check for nvim/lsp/<server>.lua and use it if present
+					function(server_name)
+						local opts = { capabilities = capabilities }
+						local has_custom, custom = pcall(require, "lsp." .. server_name)
+						if has_custom then
+							opts = vim.tbl_deep_extend("force", opts, custom)
+						end
+						require("lspconfig")[server_name].setup(opts)
+					end,
+					-- Example custom handler for lua_ls (can add others similarly)
+					["lua_ls"] = function()
+						local opts = {
+							capabilities = capabilities,
+							settings = {
+								Lua = {
+									diagnostics = { globals = { "vim" } },
+									telemetry = { enable = false },
+								},
+							},
+						}
+						require("lspconfig").lua_ls.setup(opts)
+					end,
+				},
+			})
 
 			-- Autoformat on save for all but C/C headers
 			vim.api.nvim_create_autocmd("LspAttach", {
@@ -923,35 +962,6 @@ return {
 						})
 					end
 				end,
-			})
-
-			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "pyright" },
-				automatic_installation = true,
-				handlers = {
-					-- Default handler: check for nvim/lsp/<server>.lua and use it if present
-					function(server_name)
-						local opts = { capabilities = capabilities }
-						local has_custom, custom = pcall(require, "lsp." .. server_name)
-						if has_custom then
-							opts = vim.tbl_deep_extend("force", opts, custom)
-						end
-						require("lspconfig")[server_name].setup(opts)
-					end,
-					-- Example custom handler for lua_ls (can add others similarly)
-					["lua_ls"] = function()
-						local opts = {
-							capabilities = capabilities,
-							settings = {
-								Lua = {
-									diagnostics = { globals = { "vim" } },
-									telemetry = { enable = false },
-								},
-							},
-						}
-						require("lspconfig").lua_ls.setup(opts)
-					end,
-				},
 			})
 		end,
 	},
@@ -1007,7 +1017,6 @@ return {
 				ensure_installed = {
 					"prettierd",
 					"stylua",
-					-- "ruff",
 					"shfmt",
 					"fixjson",
 					"mdformat",
@@ -1015,6 +1024,7 @@ return {
 					"yamlfix",
 					"cmakelang",
 					"cmakelint",
+					"commitlint",
 					"cmake_format",
 					"nginx_config_formatter",
 					"gitlint",
@@ -1032,7 +1042,6 @@ return {
 					null_ls.builtins.formatting.prettierd,
 					-- null_ls.builtins.formatting.dprint,
 
-					-- null_ls.builtins.formatting.ruff, -- Python
 					null_ls.builtins.formatting.stylua, -- Lua
 					null_ls.builtins.formatting.shfmt, -- Shell scripts
 					-- null_ls.builtins.formatting.fixjson, -- JSON
@@ -1042,6 +1051,7 @@ return {
 					null_ls.builtins.diagnostics.markdownlint,
 
 					null_ls.builtins.formatting.yamlfix, -- YAML
+					-- null_ls.builtins.formatting.yamllint, -- YAML
 
 					-- CMake
 					null_ls.builtins.formatting.cmake_format.with({
@@ -1136,8 +1146,7 @@ return {
 					"xml",
 					"yaml",
 					"http",
-					"jsdoc",
-					"regex",
+					-- "regex",
 				},
 				ignore_install = {},
 				modules = {},
