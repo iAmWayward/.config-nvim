@@ -25,6 +25,18 @@ return {
 		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
 		build = "make install_jsregexp",
 		dependencies = { "rafamadriz/friendly-snippets" },
+		config = function()
+			require("luasnip.loaders.from_vscode").lazy_load() -- load VSCode-style snippets (friendly-snippets)
+			require("luasnip.loaders.from_lua").lazy_load() -- load any custom LuaSnip snippet files
+			-- Optionally, extend filetypes to include doc-comment snippets from friendly-snippets:
+			require("luasnip").filetype_extend("cpp", { "cppdoc" }) -- Doxygen for C++
+			require("luasnip").filetype_extend("c", { "cdoc" }) -- Doxygen for C
+			require("luasnip").filetype_extend("sh", { "shelldoc" }) -- Shell script docs
+			require("luasnip").filetype_extend("python", { "pydoc" }) -- Google-style pydoc
+			require("luasnip").filetype_extend("javascript", { "jsdoc" }) -- JSDoc for JS
+			require("luasnip").filetype_extend("typescript", { "tsdoc" }) -- TSDoc for TS
+			-- (Add others as needed; friendly-snippets supports many:contentReference[oaicite:2]{index=2})
+		end,
 	},
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
 	{
@@ -979,6 +991,11 @@ return {
 	{ -- optional blink completion source for require statements and module annotations
 		"saghen/blink.cmp",
 		opts = {
+			keymap = {
+				["<CR>"] = { "select_and_accept", "fallback" },
+				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+			},
 			sources = {
 				-- add lazydev to your completion providers
 				default = { "lazydev", "lsp", "path", "snippets", "buffer" },

@@ -49,26 +49,7 @@ for type, icon in pairs(signs) do
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-vim.o.completeopt = "menu,menuone,noinsert,fuzzy"
+-- vim.o.completeopt = "menu,menuone,noinsert,fuzzy"
 vim.g.copilot_no_tab_map = true
-
--- vim.o.cmdheight = 0
--- vim.opt.foldmethod = "expr"
--- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
--- vim.opt.foldlevel = 99
---
--- vim.o.signcolumn = "yes"
--- vim.o.number = true
--- vim.opt.statuscolumn = [[%=%l %s]]
--- vim.cmd.set = "termguicolors"
--- vim.o.shell = "/usr/bin/fish"
---
--- vim.opt.expandtab = true -- Convert tabs to spaces
--- vim.opt.tabstop = 2      -- Number of spaces a TAB displays as
--- vim.opt.shiftwidth = 2   -- Number of spaces for auto-indent and >>/<< operations
--- vim.opt.softtabstop = 2  -- Number of spaces for <Tab> key in insert mode
 --
 -- vim.opt.linebreak = true
---
--- vim.opt.splitbelow = true -- New splits open below
--- vim.opt.splitright = false

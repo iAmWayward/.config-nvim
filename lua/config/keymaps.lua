@@ -24,7 +24,7 @@ M.items = {
 		mode = "n",
 		"<leader>td",
 		function()
-			require("lua.config.toggle-diagnostics").cycle()
+			require("config.toggle-diagnostics").cycle()
 		end,
 		description = "Cycle Diagnostics Display",
 	},
