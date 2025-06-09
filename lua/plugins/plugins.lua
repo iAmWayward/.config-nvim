@@ -996,6 +996,7 @@ return {
 	},
 	{ -- optional blink completion source for require statements and module annotations
 		"saghen/blink.cmp",
+		version = "1.*",
 		opts = {
 			keymap = {
 				["<CR>"] = { "select_and_accept", "fallback" },
