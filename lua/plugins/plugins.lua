@@ -349,24 +349,24 @@ return {
 		},
 		dependencies = "nvim-treesitter/nvim-treesitter",
 	},
-	{
-		"hat0uma/doxygen-previewer.nvim",
-		keys = { -- Lazy-load on these keymaps
-			"<leader>dd",
-			"<leader>du",
-		},
-		lazy = true,
-		opts = {},
-		dependencies = { "hat0uma/prelive.nvim" },
-		update_on_save = true,
-		cmd = {
-			"DoxygenOpen",
-			"DoxygenUpdate",
-			"DoxygenStop",
-			"DoxygenLog",
-			"DoxygenTempDoxyfileOpen",
-		},
-	},
+	-- {
+	-- 	"hat0uma/doxygen-previewer.nvim",
+	-- 	keys = { -- Lazy-load on these keymaps
+	-- 		"<leader>dd",
+	-- 		"<leader>du",
+	-- 	},
+	-- 	lazy = true,
+	-- 	opts = {},
+	-- 	dependencies = { "hat0uma/prelive.nvim" },
+	-- 	update_on_save = true,
+	-- 	cmd = {
+	-- 		"DoxygenOpen",
+	-- 		"DoxygenUpdate",
+	-- 		"DoxygenStop",
+	-- 		"DoxygenLog",
+	-- 		"DoxygenTempDoxyfileOpen",
+	-- 	},
+	-- },
 	{
 		"shortcuts/no-neck-pain.nvim",
 		event = "VeryLazy",
@@ -595,6 +595,9 @@ return {
 		"Fildo7525/pretty_hover",
 		event = "LspAttach",
 		opts = {
+			wrap = true,
+			max_width = nil,
+			max_height = nil,
 			multi_server = true,
 			border = "rounded",
 		},

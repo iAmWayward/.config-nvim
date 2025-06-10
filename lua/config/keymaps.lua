@@ -86,6 +86,14 @@ M.items = {
 			},
 		},
 	},
+	{
+		mode = "n",
+		"<leader>K",
+		function()
+			require("pretty_hover").hover()
+		end,
+		description = "pretty_hover",
+	},
 	-- Doxygen
 	{
 		itemgroup = "+Documentation",
