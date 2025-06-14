@@ -13,7 +13,6 @@ return {
 			"nvim-lua/plenary.nvim",
 		},
 	},
-
 	{
 		"jmbuhr/otter.nvim",
 		dependencies = {
@@ -36,7 +35,6 @@ return {
 			require("luasnip").filetype_extend("python", { "pydoc" }) -- Google-style pydoc
 			require("luasnip").filetype_extend("javascript", { "jsdoc" }) -- JSDoc for JS
 			require("luasnip").filetype_extend("typescript", { "tsdoc" }) -- TSDoc for TS
-			-- (Add others as needed; friendly-snippets supports many:contentReference[oaicite:2]{index=2})
 		end,
 	},
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
@@ -1008,13 +1006,20 @@ return {
 			},
 			sources = {
 				-- add lazydev to your completion providers
-				default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+				default = { "avante", "lazydev", "lsp", "path", "snippets", "buffer" },
 				providers = {
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
 						-- make lazydev completions top priority (see `:h blink.cmp`)
 						score_offset = 100,
+					},
+					avante = {
+						module = "blink-cmp-avante",
+						name = "Avante",
+						opts = {
+							-- options for blink-cmp-avante
+						},
 					},
 				},
 			},
