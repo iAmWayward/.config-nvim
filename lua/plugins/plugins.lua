@@ -20,23 +20,6 @@ return {
 		},
 		opts = {},
 	},
-	{
-		"L3MON4D3/LuaSnip",
-		version = "v2.*",
-		build = "make install_jsregexp",
-		dependencies = { "rafamadriz/friendly-snippets" },
-		config = function()
-			require("luasnip.loaders.from_vscode").lazy_load() -- load VSCode-style snippets (friendly-snippets)
-			require("luasnip.loaders.from_lua").lazy_load() -- load any custom LuaSnip snippet files
-			-- Extend filetypes to include doc-comment snippets from friendly-snippets:
-			require("luasnip").filetype_extend("cpp", { "cppdoc" }) -- Doxygen for C++
-			require("luasnip").filetype_extend("c", { "cdoc" }) -- Doxygen for C
-			require("luasnip").filetype_extend("sh", { "shelldoc" }) -- Shell script docs
-			require("luasnip").filetype_extend("python", { "pydoc" }) -- Google-style pydoc
-			require("luasnip").filetype_extend("javascript", { "jsdoc" }) -- JSDoc for JS
-			require("luasnip").filetype_extend("typescript", { "tsdoc" }) -- TSDoc for TS
-		end,
-	},
 	{ "andweeb/presence.nvim", event = "VeryLazy" },
 	{
 		"folke/todo-comments.nvim",
@@ -994,19 +977,48 @@ return {
 				},
 			},
 		},
-	},
+	-- },
+	-- {
+	-- 	"saghen/blink.compat",
+	-- 	-- use v2.* for blink.cmp v1.*
+	-- 	version = "2.*",
+	-- 	-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+	-- 	lazy = true,
+	-- 	-- make sure to set opts so that lazy.nvim calls blink.compat's setup
+	-- 	opts = {},
+	-- },
 	{ -- optional blink completion source for require statements and module annotations
 		"saghen/blink.cmp",
 		version = "1.*",
+		dependencies = {
+			{
+				"L3MON4D3/LuaSnip",
+				version = "v2.*",
+				build = "make install_jsregexp",
+				dependencies = { "rafamadriz/friendly-snippets" },
+				config = function()
+					require("luasnip.loaders.from_vscode").lazy_load() -- load VSCode-style snippets (friendly-snippets)
+					require("luasnip.loaders.from_lua").lazy_load() -- load any custom LuaSnip snippet files
+					-- Extend filetypes to include doc-comment snippets from friendly-snippets:
+					require("luasnip").filetype_extend("cpp", { "cppdoc" }) -- Doxygen for C++
+					require("luasnip").filetype_extend("c", { "cdoc" }) -- Doxygen for C
+					require("luasnip").filetype_extend("sh", { "shelldoc" }) -- Shell script docs
+					require("luasnip").filetype_extend("python", { "pydoc" }) -- Google-style pydoc
+					require("luasnip").filetype_extend("javascript", { "jsdoc" }) -- JSDoc for JS
+					require("luasnip").filetype_extend("typescript", { "tsdoc" }) -- TSDoc for TS
+				end,
+			},
+		},
 		opts = {
 			keymap = {
 				["<CR>"] = { "select_and_accept", "fallback" },
 				["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
 				["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 			},
+			snippets = { preset = "luasnip" },
 			sources = {
 				-- add lazydev to your completion providers
-				default = { "avante", "lazydev", "lsp", "path", "snippets", "buffer" },
+				default = { "lazydev", "lsp", "path", "snippets", "buffer" }, --avante
 				providers = {
 					lazydev = {
 						name = "LazyDev",
@@ -1014,13 +1026,13 @@ return {
 						-- make lazydev completions top priority (see `:h blink.cmp`)
 						score_offset = 100,
 					},
-					avante = {
-						module = "blink-cmp-avante",
-						name = "Avante",
-						opts = {
-							-- options for blink-cmp-avante
-						},
-					},
+					-- avante = {
+					-- 	module = "blink-cmp-avante",
+					-- 	name = "Avante",
+					-- 	opts = {
+					-- 		-- options for blink-cmp-avante
+					-- 	},
+					-- },
 				},
 			},
 		},
@@ -1117,10 +1129,10 @@ return {
 			},
 			{
 				"JoosepAlviste/nvim-ts-context-commentstring",
-				config = function()
-					require("ts_context_commentstring").setup({})
-					vim.g.skip_ts_context_commentstring_module = true --TODO: evaluate
-				end,
+				-- config = function()
+				-- 	require("ts_context_commentstring").setup({})
+				-- 	vim.g.skip_ts_context_commentstring_module = true --TODO: evaluate
+				-- end,
 			},
 			{
 				"windwp/nvim-ts-autotag",
