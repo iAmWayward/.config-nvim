@@ -992,6 +992,8 @@ return {
 		version = "1.*",
 		dependencies = {
 			{ "dmitmel/cmp-digraphs" },
+			{ "Kaiser-Yang/blink-cmp-avante" },
+			{ "alexandre-abrioux/blink-cmp-npm.nvim" },
 			{
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
@@ -1019,8 +1021,21 @@ return {
 			snippets = { preset = "luasnip" },
 			sources = {
 				-- add lazydev to your completion providers
-				default = { "lazydev", "lsp", "path", "snippets", "buffer", "digraphs", "avante" }, --avante
+				default = { "lazydev", "lsp", "path", "snippets", "buffer", "digraphs", "avante", "npm" }, --avante
 				providers = {
+					npm = {
+						name = "npm",
+						module = "blink-cmp-npm",
+						async = true,
+						-- optional - make blink-cmp-npm completions top priority (see `:h blink.cmp`)
+						score_offset = 100,
+						-- optional - blink-cmp-npm config
+						opts = {
+							ignore = {},
+							only_semantic_versions = true,
+							only_latest_version = false,
+						},
+					},
 					digraphs = {
 						-- IMPORTANT: use the same name as you would for nvim-cmp
 						name = "digraphs",

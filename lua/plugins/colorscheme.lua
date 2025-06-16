@@ -425,9 +425,13 @@ return {
 					-- },
 				},
 				livePreview = true,
-				globalBefore = [[ ]],
+				globalBefore = [[
+						vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
+						vim.api.nvim_set_hl(0, "lualine_c", { bg = "NONE" })
+        ]],
 				globalAfter = [[
 				      require('config.kitty-colors').set_kitty_colors()
+              vim.api.nvim_set_hl(0, "lualine_c", { bg = "NONE" })
 				    ]],
 			})
 		end,
