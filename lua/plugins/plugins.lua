@@ -978,19 +978,20 @@ return {
 			},
 		},
 	},
-	-- {
-	-- 	"saghen/blink.compat",
-	-- 	-- use v2.* for blink.cmp v1.*
-	-- 	version = "2.*",
-	-- 	-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
-	-- 	lazy = true,
-	-- 	-- make sure to set opts so that lazy.nvim calls blink.compat's setup
-	-- 	opts = {},
-	-- },
+	{
+		"saghen/blink.compat",
+		-- use v2.* for blink.cmp v1.*
+		version = "2.*",
+		-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
+		lazy = true,
+		-- make sure to set opts so that lazy.nvim calls blink.compat's setup
+		opts = {},
+	},
 	{ -- optional blink completion source for require statements and module annotations
 		"saghen/blink.cmp",
 		version = "1.*",
 		dependencies = {
+			{ "dmitmel/cmp-digraphs" },
 			{
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
@@ -1018,21 +1019,35 @@ return {
 			snippets = { preset = "luasnip" },
 			sources = {
 				-- add lazydev to your completion providers
-				default = { "lazydev", "lsp", "path", "snippets", "buffer" }, --avante
+				default = { "lazydev", "lsp", "path", "snippets", "buffer", "digraphs", "avante" }, --avante
 				providers = {
+					digraphs = {
+						-- IMPORTANT: use the same name as you would for nvim-cmp
+						name = "digraphs",
+						module = "blink.compat.source",
+						-- this table is passed directly to the proxied completion source
+						-- as the `option` field in nvim-cmp's source config
+						-- this is NOT the same as the opts in a plugin's lazy.nvim spec
+						opts = {
+							-- this is an option from cmp-digraphs
+							cache_digraphs_on_start = true,
+						},
+						-- all blink.cmp source config options work as normal:
+						score_offset = -3,
+					},
 					lazydev = {
 						name = "LazyDev",
 						module = "lazydev.integrations.blink",
 						-- make lazydev completions top priority (see `:h blink.cmp`)
 						score_offset = 100,
 					},
-					-- avante = {
-					-- 	module = "blink-cmp-avante",
-					-- 	name = "Avante",
-					-- 	opts = {
-					-- 		-- options for blink-cmp-avante
-					-- 	},
-					-- },
+					avante = {
+						module = "blink-cmp-avante",
+						name = "Avante",
+						opts = {
+							-- options for blink-cmp-avante
+						},
+					},
 				},
 			},
 		},
