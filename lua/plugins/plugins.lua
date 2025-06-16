@@ -994,6 +994,8 @@ return {
 			{ "dmitmel/cmp-digraphs" },
 			{ "Kaiser-Yang/blink-cmp-avante" },
 			{ "alexandre-abrioux/blink-cmp-npm.nvim" },
+			{ "disrupted/blink-cmp-conventional-commits" },
+			{ "Kaiser-Yang/blink-cmp-git" },
 			{
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
@@ -1021,7 +1023,18 @@ return {
 			snippets = { preset = "luasnip" },
 			sources = {
 				-- add lazydev to your completion providers
-				default = { "lazydev", "lsp", "path", "snippets", "buffer", "digraphs", "avante", "npm" }, --avante
+				default = {
+					"lazydev",
+					"lsp",
+					"path",
+					"snippets",
+					"buffer",
+					"digraphs",
+					"avante",
+					"npm",
+					"conventional_commits",
+					"git",
+				}, --avante
 				providers = {
 					npm = {
 						name = "npm",
@@ -1034,6 +1047,13 @@ return {
 							ignore = {},
 							only_semantic_versions = true,
 							only_latest_version = false,
+						},
+					},
+					git = {
+						module = "blink-cmp-git",
+						name = "Git",
+						opts = {
+							-- options for the blink-cmp-git
 						},
 					},
 					digraphs = {
@@ -1062,6 +1082,14 @@ return {
 						opts = {
 							-- options for blink-cmp-avante
 						},
+					},
+					conventional_commits = {
+						name = "Conventional Commits",
+						module = "blink-cmp-conventional-commits",
+						enabled = function()
+							return vim.bo.filetype == "gitcommit"
+						end,
+						opts = {}, -- none so far
 					},
 				},
 			},
