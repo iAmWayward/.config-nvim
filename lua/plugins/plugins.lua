@@ -928,7 +928,7 @@ return {
 					local bufnr = args.buf
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					local ft = vim.bo[bufnr].filetype
-					if ft == "c" or ft == "h" then
+					if ft == "c" or ft == "h" or ft == "cpp" then
 						return
 					end
 					if client.supports_method("textDocument/formatting") then
