@@ -3,6 +3,10 @@
 --- NOTE:
 --- FIX:
 --- WARNING:
+_G.__cached_neo_tree_selector = nil
+_G.__get_selector = function()
+	return _G.__cached_neo_tree_selector
+end
 return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
@@ -214,7 +218,7 @@ return {
 			end
 
 			return {
-				theme = "hyper",
+				theme = "hyper", --doom
 				disable_at_vimenter = true,
 				change_to_vcs_root = true,
 				config = {
@@ -223,7 +227,7 @@ return {
 						enable = true,
 						concat = " - Let's Code!",
 					},
-					disable_move = false,
+					-- disable_move = false,
 					shortcut = {
 						{
 							desc = " Find File",
@@ -586,6 +590,7 @@ return {
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		-- lazy = false, -- neo-tree will lazily load itself
 		-- event = "VeryLazy",
 		branch = "v3.x",
 		dependencies = {
@@ -631,13 +636,29 @@ return {
 				},
 			})
 			require("neo-tree").setup({
+				-- Integrate with bufferline
+				-- event_handlers = {
+				-- {
+				-- 	event = "after_render",
+				-- 	handler = function(state)
+				-- 		if state.current_position == "left" or state.current_position == "right" then
+				-- 			vim.api.nvim_win_call(state.winid, function()
+				-- 				local str = require("neo-tree.ui.selector").get()
+				-- 				if str then
+				-- 					_G.__cached_neo_tree_selector = str
+				-- 				end
+				-- 			end)
+				-- 		end
+				-- 	end,
+				-- },
+				-- },
 				close_if_last_window = true,
 				popup_border_style = "rounded",
 				enable_git_status = true,
 				enable_diagnostics = true,
 				shared_tree_across_tabs = true,
 				enable_cursor_hijack = true,
-				tabs_layout = "focus", -- start, end, active, center, equal, focus
+				tabs_layout = "active", -- start, end, active, center, equal, focus
 				open_files_do_not_replace_types = {
 					"terminal",
 					"telescope",
@@ -700,10 +721,42 @@ return {
 					},
 				},
 				filesystem = {
+					-- components = {
+					-- 	harpoon_index = function(config, node, _)
+					-- 		local harpoon_list = require("harpoon"):list()
+					-- 		local path = node:get_id()
+					-- 		local harpoon_key = vim.uv.cwd()
+					--
+					-- 		for i, item in ipairs(harpoon_list.items) do
+					-- 			local value = item.value
+					-- 			if string.sub(item.value, 1, 1) ~= "/" then
+					-- 				value = harpoon_key .. "/" .. item.value
+					-- 			end
+					--
+					-- 			if value == path then
+					-- 				vim.print(path)
+					-- 				return {
+					-- 					text = string.format(" ⥤ %d", i), -- <-- Add your favorite harpoon like arrow here
+					-- 					highlight = config.highlight or "NeoTreeDirectoryIcon",
+					-- 				}
+					-- 			end
+					-- 		end
+					-- 		return {}
+					-- 	end,
+					-- },
 					follow_current_file = {
 						enabled = true,
 						leave_dirs_open = true,
 						group_empty_dirs = true,
+					},
+					renderers = {
+						file = {
+							{ "icon" },
+							{ "name", use_git_status_colors = true },
+							-- { "harpoon_index" }, --> This is what actually adds the component in where you want it
+							{ "diagnostics" },
+							{ "git_status", highlight = "NeoTreeDimText" },
+						},
 					},
 					hijack_netrw_behavior = "open_default",
 				},
@@ -712,6 +765,7 @@ return {
 						enabled = true,
 					},
 				},
+
 				commands = {
 					open_tab_stay = function()
 						require("neo-tree.sources.filesystem.commands").open_tabnew()
@@ -719,26 +773,42 @@ return {
 					end,
 
 					-- Add files to avante buffer
+					-- avante_add_files = function(state)
+					-- 	local node = state.tree:get_node()
+					-- 	local filepath = node:get_id()
+					-- 	local relative_path = require("avante.utils").relative_path(filepath)
+					--
+					-- 	local sidebar = require("avante").get()
+					--
+					-- 	local open = sidebar:is_open()
+					-- 	-- ensure avante sidebar is open
+					-- 	if not open then
+					-- 		require("avante.api").ask()
+					-- 		sidebar = require("avante").get()
+					-- 	end
+
+					-- sidebar.file_selector:add_selected_file(relative_path)
+
+					-- remove neo tree buffer
+					-- if not open then
+					-- sidebar.file_selector:remove_selected_file("neo-tree filesystem [1]")
+					-- end
+					-- end,
+
 					avante_add_files = function(state)
 						local node = state.tree:get_node()
 						local filepath = node:get_id()
 						local relative_path = require("avante.utils").relative_path(filepath)
 
-						local sidebar = require("avante").get()
-
-						local open = sidebar:is_open()
-						-- ensure avante sidebar is open
-						if not open then
-							require("avante.api").ask()
-							sidebar = require("avante").get()
+						-- Add safe access to avante
+						local ok, avante = pcall(require, "avante")
+						if not ok then
+							vim.notify("Avante not loaded yet", vim.log.levels.WARN)
+							return
 						end
 
-						sidebar.file_selector:add_selected_file(relative_path)
-
-						-- remove neo tree buffer
-						if not open then
-							sidebar.file_selector:remove_selected_file("neo-tree filesystem [1]")
-						end
+						local sidebar = avante.get()
+						-- ... rest of your code ...
 					end,
 				},
 			})
@@ -829,6 +899,8 @@ return {
 						filetype = "neo-tree",
 						text = "File Explorer",
 						text_align = "center",
+						-- raw = " %{%v:lua.__get_selector()%} ",
+						highlight = { sep = { link = "WinSeparator" } },
 						separator = true,
 					},
 				},
@@ -980,11 +1052,8 @@ return {
 	},
 	{
 		"saghen/blink.compat",
-		-- use v2.* for blink.cmp v1.*
 		version = "2.*",
-		-- lazy.nvim will automatically load the plugin when it's required by blink.cmp
 		lazy = true,
-		-- make sure to set opts so that lazy.nvim calls blink.compat's setup
 		opts = {},
 	},
 	{ -- optional blink completion source for require statements and module annotations
