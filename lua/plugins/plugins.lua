@@ -11,7 +11,6 @@ return {
 	--============================== Core Plugins ==============================--
 	-- { "pandasoli/nekovim" },
 	{
-
 		"Shatur/neovim-cmake",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -545,8 +544,8 @@ return {
 				"rcarriga/nvim-notify",
 				-- Use default renderer with custom window settings
 				opts = {
-					render = "default",
-					stages = "fade_in_slide_out",
+					render = "compact", -- default, simple, compact, wrapped-compact
+					stages = "fade_in_slide_out", --fade
 					timeout = 3000,
 					background_colour = "#000000", -- TODO theme this
 					fps = 60,
@@ -1138,6 +1137,23 @@ return {
 		},
 	},
 	{
+		"kristijanhusak/vim-dadbod-ui",
+		dependencies = {
+			{ "tpope/vim-dadbod", lazy = true },
+			{ "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+		},
+		cmd = {
+			"DBUI",
+			"DBUIToggle",
+			"DBUIAddConnection",
+			"DBUIFindBuffer",
+		},
+		init = function()
+			-- Your DBUI configuration
+			vim.g.db_ui_use_nerd_fonts = 1
+		end,
+	},
+	{
 		"saghen/blink.compat",
 		version = "2.*",
 		lazy = true,
@@ -1152,6 +1168,9 @@ return {
 			{ "alexandre-abrioux/blink-cmp-npm.nvim" },
 			{ "disrupted/blink-cmp-conventional-commits" },
 			{ "Kaiser-Yang/blink-cmp-git" },
+			{ "jdrupal-dev/css-vars.nvim" },
+			{ "mikavilpas/blink-ripgrep.nvim" },
+			{ "bydlw98/blink-cmp-env" },
 			{
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
@@ -1178,10 +1197,11 @@ return {
 			},
 			snippets = { preset = "luasnip" },
 			sources = {
-				-- add lazydev to your completion providers
 				default = {
 					"lazydev",
+					"ripgrep",
 					"lsp",
+					"env",
 					"path",
 					"snippets",
 					"buffer",
@@ -1190,7 +1210,12 @@ return {
 					"npm",
 					"conventional_commits",
 					"git",
-				}, --avante
+					"css_vars",
+					"dadbod",
+				},
+				-- per_filetype = {
+				-- 	sql = { "snippets", "dadbod", "buffer", "avante" },
+				-- },
 				providers = {
 					npm = {
 						name = "npm",
@@ -1203,8 +1228,19 @@ return {
 							ignore = {},
 							only_semantic_versions = true,
 							only_latest_version = false,
+							prefix_min_len = 3,
 						},
 					},
+					env = {
+						name = "Env",
+						module = "blink-cmp-env",
+						opts = {
+							-- item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
+							show_braces = false,
+							show_documentation_window = true,
+						},
+					},
+					dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
 					git = {
 						module = "blink-cmp-git",
 						name = "Git",
@@ -1220,6 +1256,7 @@ return {
 						-- as the `option` field in nvim-cmp's source config
 						-- this is NOT the same as the opts in a plugin's lazy.nvim spec
 						opts = {
+
 							-- this is an option from cmp-digraphs
 							cache_digraphs_on_start = true,
 						},
@@ -1236,7 +1273,8 @@ return {
 						module = "blink-cmp-avante",
 						name = "Avante",
 						opts = {
-							-- options for blink-cmp-avante
+
+							prefix_min_len = 3,
 						},
 					},
 					conventional_commits = {
@@ -1245,7 +1283,38 @@ return {
 						enabled = function()
 							return vim.bo.filetype == "gitcommit"
 						end,
-						opts = {}, -- none so far
+						opts = {},
+					},
+					css_vars = {
+						name = "css-vars",
+						module = "css-vars.blink",
+						opts = {
+							-- NOTE: The search is not optimized to look for variables in JS files.
+							-- changing the search_extensions might get false positives and weird completion results.
+							search_extensions = { ".js", ".ts", ".jsx", ".tsx" },
+						},
+					},
+					ripgrep = {
+						module = "blink-ripgrep",
+						name = "Ripgrep",
+						opts = {
+							prefix_min_len = 3,
+							context_size = 5, -- preview size
+							max_filesize = "1G",
+							additional_paths = {}, -- dictionary, framework documentation, other sources
+							-- toggles = {
+							-- 	on_off = "<leader>tg", -- The keymap to toggle the plugin on and off from blink
+							-- },
+							transform_items = function(_, items)
+								for _, item in ipairs(items) do
+									-- example: append a description to easily distinguish rg results
+									item.labelDetails = {
+										description = "(rg)",
+									}
+								end
+								return items
+							end,
+						},
 					},
 				},
 			},
