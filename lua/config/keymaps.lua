@@ -267,6 +267,12 @@ M.items = {
 				"<cmd>Neotree toggle<cr>",
 				description = "Toggle Neo-tree",
 			},
+			{
+				mode = "n",
+				"<leader>O",
+				"<cmd>Neotree show<cr>",
+				description = "Toggle Neo-tree",
+			},
 		},
 		condition = function()
 			return vim.bo.filetype == "neo-tree"
@@ -460,7 +466,7 @@ M.lsp_mappings = function(bufnr)
 				},
 				{
 					mode = "n",
-					"<leader>O",
+					"<leader>E",
 					"<cmd>Trouble symbols toggle<CR>",
 					description = "Toggle Outline",
 					buffer = bufnr,
@@ -518,7 +524,7 @@ M.lsp_mappings = function(bufnr)
 					function()
 						vim.diagnostic.open_float()
 					end,
-					description = "Next Diagnostic",
+					description = "Show Diagnostic Under Cursor",
 					buffer = bufnr,
 				},
 				{
