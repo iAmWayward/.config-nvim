@@ -13,68 +13,56 @@ return {
 	},
 	{
 		"projekt0n/github-nvim-theme",
-		lazy = false,
-		-- event = "VeryLazy",
+		-- lazy = false,
+		event = "VeryLazy",
 	},
 	{
 		"datsfilipe/vesper.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"Mofiqul/dracula.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	------------
 	{
 		"sainnhe/everforest",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"scottmckendry/cyberdream.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"datsfilipe/vesper.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"arcticicestudio/nord-vim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"mofiqul/vscode.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"rebelot/kanagawa.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"rose-pine/neovim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"fynnfluegge/monet.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"olimorris/onedarkpro.nvim",
-		lazy = true,
 		event = "VeryLazy",
 	},
 	{
 		"daschw/leaf.nvim",
-		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("leaf").setup({
@@ -86,7 +74,6 @@ return {
 	},
 	{
 		"Tsuzat/NeoSolarized.nvim",
-		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("NeoSolarized").setup({
@@ -104,7 +91,6 @@ return {
 	},
 	{
 		"EdenEast/nightfox.nvim",
-		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("nightfox").setup({
@@ -116,7 +102,6 @@ return {
 	},
 	{
 		"sainnhe/edge",
-		lazy = true,
 		event = "VeryLazy",
 		init = function()
 			vim.g.edge_transparent_background = vim.g.transparent_enabled or 0
@@ -127,7 +112,6 @@ return {
 	-- },
 	{
 		"folke/tokyonight.nvim",
-		-- lazy = false,
 		event = "VeryLazy",
 		config = function()
 			require("tokyonight").setup({
@@ -142,7 +126,6 @@ return {
 	},
 	{
 		"Shatur/neovim-ayu",
-		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("ayu").setup({
@@ -168,7 +151,6 @@ return {
 	},
 	{
 		"ellisonleao/gruvbox.nvim",
-		lazy = true,
 		event = "VeryLazy",
 		config = function()
 			require("gruvbox").setup({
@@ -182,7 +164,6 @@ return {
 	},
 	{
 		"catppuccin/nvim",
-		lazy = true,
 		event = "VeryLazy",
 		name = "catppuccin",
 		opts = {

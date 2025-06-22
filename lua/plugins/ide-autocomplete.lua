@@ -1,5 +1,12 @@
 return {
 	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = true,
+		opts = {},
+		-- this is equivalent to setup({}) function
+	},
+	{
 		"folke/lazydev.nvim",
 		ft = "lua", -- only load on lua files
 		opts = {
