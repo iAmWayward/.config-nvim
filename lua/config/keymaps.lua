@@ -71,29 +71,63 @@ M.items = {
 			{ mode = "n", "zM", require("ufo").closeAllFolds, description = "Close all folds" },
 			{ mode = "n", "zr", require("ufo").openFoldsExceptKinds, description = "Open folds except kind" },
 			{ mode = "n", "zm", require("ufo").closeFoldsWith, description = "Close folds with..." },
+			-- {
+			-- 	mode = "n",
+			-- 	"K",
+			-- 	function()
+			-- 		local ufo = require("ufo")
+			-- 		-- If ufo.peekFoldedLinesUnderCursor exists and returns true (meaning it showed a fold)
+			-- 		if ufo and ufo.peekFoldedLinesUnderCursor and ufo.peekFoldedLinesUnderCursor() then
+			-- 			return -- UFO handled it, so we're done.
+			-- 		end
+			--
+			-- 		require("hover").hover()
+			-- 		-- require("pretty_hover").hover()
+			-- 	end,
+			-- 	description = "Peek fold (UFO) or pretty_hover",
+			-- },
+			-- {
+			-- 	mode = "n",
+			-- 	"K",
+			-- 	function()
+			-- 		local ufo = require("ufo")
+			-- 		if ufo and ufo.peekFoldedLinesUnderCursor and ufo.peekFoldedLinesUnderCursor() then
+			-- 			return
+			-- 		end
+			-- 		vim.lsp.buf.hover() -- This will now use pretty_hover automatically
+			-- 	end,
+			-- 	description = "Peek fold (UFO) or pretty_hover",
+			-- },
 			{
 				mode = "n",
 				"K",
 				function()
 					local ufo = require("ufo")
-					-- If ufo.peekFoldedLinesUnderCursor exists and returns true (meaning it showed a fold)
 					if ufo and ufo.peekFoldedLinesUnderCursor and ufo.peekFoldedLinesUnderCursor() then
-						return -- UFO handled it, so we're done.
+						return
 					end
-					require("pretty_hover").hover()
+					require("pretty_hover").hover() -- Call pretty_hover directly
 				end,
 				description = "Peek fold (UFO) or pretty_hover",
 			},
 		},
 	},
-	{
-		mode = "n",
-		"<leader>K",
-		function()
-			require("pretty_hover").hover()
-		end,
-		description = "pretty_hover",
-	},
+	-- {
+	-- 	mode = "n",
+	-- 	"<leader>K",
+	-- 	function()
+	-- 		require("hover").hover()
+	-- 	end,
+	-- 	description = "pretty_hover",
+	-- },
+	-- {
+	-- 	mode = "n",
+	-- 	"<leader>K",
+	-- 	function()
+	-- 		require("pretty_hover").hover()
+	-- 	end,
+	-- 	description = "pretty_hover",
+	-- },
 	-- Doxygen
 	{
 		itemgroup = "+Documentation",

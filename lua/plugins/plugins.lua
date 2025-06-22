@@ -92,6 +92,7 @@ return {
 			},
 		},
 	},
+	-- aha
 	{
 		"kevinhwang91/nvim-ufo",
 		event = "VeryLazy",
@@ -190,6 +191,7 @@ return {
 		},
 		config = function()
 			require("telescope").load_extension("projects")
+			-- require("telescope").extensions.projects.projects({})
 			require("telescope").load_extension("fzf")
 		end,
 	},
@@ -576,6 +578,18 @@ return {
 			"MunifTanjim/nui.nvim",
 		},
 	},
+	-- {
+	-- 	"Fildo7525/pretty_hover",
+	-- 	event = "LspAttach",
+	-- 	opts = {
+	-- 		wrap = true,
+	-- 		max_width = nil,
+	-- 		max_height = nil,
+	-- 		multi_server = true,
+	-- 		border = "rounded",
+	-- 	},
+	-- 	dependencies = {},
+	-- },
 	{
 		"Fildo7525/pretty_hover",
 		event = "LspAttach",
@@ -588,6 +602,98 @@ return {
 		},
 		dependencies = {},
 	},
+	{
+		"lewis6991/hover.nvim",
+		lazy = false,
+		dependencies = { "neovim/nvim-lspconfig" },
+		config = function()
+			require("hover").setup({
+				init = function()
+					-- Load the LSP provider first
+					require("hover.providers.lsp")
+
+					-- Then override vim.lsp.handlers to use pretty_hover
+					local pretty_hover = require("pretty_hover")
+					local original_handler = vim.lsp.handlers["textDocument/hover"]
+
+					vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
+						if err or not result or not result.contents then
+							return original_handler(err, result, ctx, config)
+						end
+
+						-- Use pretty_hover to display the hover content
+						local contents = result.contents
+						if type(contents) == "string" then
+							contents = { contents }
+						elseif contents.kind == "markdown" then
+							contents = { contents.value }
+						elseif contents.kind == "plaintext" then
+							contents = { contents.value }
+						end
+
+						pretty_hover.open(contents, {
+							wrap = true,
+							max_width = nil,
+							max_height = nil,
+							border = "rounded",
+						})
+					end
+
+					-- Load other providers
+					require("hover.providers.gh")
+					require("hover.providers.gh_user")
+					require("hover.providers.jira")
+					require("hover.providers.dap")
+					require("hover.providers.fold_preview")
+					require("hover.providers.diagnostic")
+					require("hover.providers.man")
+					require("hover.providers.dictionary")
+				end,
+				preview_opts = {
+					border = "rounded",
+				},
+				preview_window = false,
+				title = true,
+			})
+		end,
+	},
+	-- {
+	-- 	"lewis6991/hover.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = { "neovim/nvim-lspconfig" },
+	-- 	config = function()
+	-- 		local pretty_hover = require("pretty_hover")
+	-- 		require("hover").setup({
+	-- 			init = function(client, bufnr) -- Add parameters here
+	-- 				-- require("hover.providers.lsp")
+	-- 				local lsp_provider = require("hover.providers.lsp")
+	-- 				lsp_provider.handler = function(contents, opts)
+	-- 					-- Use pretty_hover to render LSP hover contents
+	-- 					pretty_hover.open(contents, opts)
+	-- 				end
+	-- 				-- Uncomment any additional providers you want to use:
+	-- 				require("hover.providers.gh")
+	-- 				require("hover.providers.gh_user")
+	-- 				require("hover.providers.jira")
+	-- 				require("hover.providers.dap")
+	-- 				require("hover.providers.fold_preview")
+	-- 				require("hover.providers.diagnostic")
+	-- 				require("hover.providers.man")
+	-- 				require("hover.providers.dictionary")
+	-- 				-- require('hover.providers.highlight')
+	-- 			end,
+	-- 			preview_opts = {
+	-- 				border = "rounded",
+	-- 			},
+	-- 			preview_window = false,
+	-- 			title = true,
+	-- 			-- mouse_providers = {
+	-- 			-- 	"LSP",
+	-- 			-- },
+	-- 			--[[ mouse_delay = 1000, ]]
+	-- 		})
+	-- 	end,
+	-- },
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		-- lazy = false, -- neo-tree will lazily load itself
@@ -607,7 +713,7 @@ return {
 		opts = {
 			close_if_last_window = true,
 			popup_border_style = "rounded",
-			enable_git_status = true,
+			-- enable_git_status = true,
 			enable_diagnostics = true,
 			shared_tree_across_tabs = true,
 			enable_cursor_hijack = true,
