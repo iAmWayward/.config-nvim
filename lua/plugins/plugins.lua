@@ -732,6 +732,9 @@ return {
 				"AvanteInput",
 			},
 			default_component_configs = {
+				container = {
+					enable_character_fade = true,
+				},
 				icon = {
 					-- folder_closed = "",
 					-- folder_open = "",
@@ -765,15 +768,26 @@ return {
 				mappings = {
 					["<CR>"] = "open",
 					["p"] = "paste_from_clipboard",
-					["<leader><space>"] = "toggle_preview",
-					["l"] = "open",
+					["<leader><space>"] = { "toggle_preview", config = { use_float = true } },
+					["l"] = "focus_preview",
 					["C"] = "close_node",
+					["w"] = "open_with_window_picker",
 					["t"] = "open_tab_drop",
 					["T"] = "open_tabnew",
 					["<leader>af"] = "avante_add_files",
 					["S"] = "split_with_window_picker", -- or comment for default split
 					["s"] = "vsplit_with_window_picker", -- or comment for default split
 					["Z"] = "expand_all_nodes",
+					["i"] = "show_file_details",
+					["<c-x>"] = "clear_filter",
+					["[g"] = "prev_git_modified",
+					["]g"] = "next_git_modified",
+					["o"] = {
+						"show_help",
+						nowait = false,
+						config = { title = "Order by", prefix_key = "o" },
+					},
+					-- ['C'] = 'close_all_subnodes',
 					-- 	mappings = require("config.keymaps").get_tree_mappings(),
 				},
 			},
@@ -799,6 +813,12 @@ return {
 						end
 						return {}
 					end,
+				},
+				hide_by_name = {
+					"node_modules",
+				},
+				always_show_by_pattern = { -- uses glob style patterns
+					".env*",
 				},
 				follow_current_file = {
 					enabled = true,
@@ -1514,9 +1534,35 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-neo-tree/neo-tree.nvim",
 		},
-		opts = {},
+		config = function()
+			require("lsp-file-operations").setup()
+		end,
 	},
-
+	{
+		"simonmclean/triptych.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim", -- required
+			"nvim-tree/nvim-web-devicons", -- optional for icons
+			"antosha417/nvim-lsp-file-operations", -- optional LSP integration
+		},
+		opts = {
+			opts = {
+				extension_mappings = {
+					["<c-f>"] = {
+						mode = "n",
+						fn = function(target, _)
+							require("telescope.builtin").live_grep({
+								search_dirs = { target.path },
+							})
+						end,
+					},
+				},
+			},
+		}, -- config options here
+		keys = {
+			{ "<leader>-", ":Triptych<CR>" },
+		},
+	},
 	--=============================== DAP Debugger Ecosystem ================================--
 	{
 		"mfussenegger/nvim-dap",
