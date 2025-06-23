@@ -22,7 +22,7 @@
 -- 	},
 -- }
 --
-
+-- Heres a comment
 -- Helper function to detect project type and toolchain
 local function detect_project_config()
 	local cwd = vim.fn.getcwd()
