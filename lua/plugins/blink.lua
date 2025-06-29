@@ -101,7 +101,7 @@ return {
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
-            prefix_min_len = 3,
+            -- prefix_min_len = 3,
           },
           avante = {
             score_offset = 75,
