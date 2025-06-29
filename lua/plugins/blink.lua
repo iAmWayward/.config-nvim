@@ -28,7 +28,7 @@ return {
           "env",
           "path",
           "snippets",
-          "buffer",
+          -- "buffer",
           "digraphs",
           "avante",
           "npm",
@@ -46,30 +46,40 @@ return {
             module = "blink-cmp-npm",
             async = true,
             -- optional - make blink-cmp-npm completions top priority (see `:h blink.cmp`)
-            score_offset = 100,
+            score_offset = 50,
             -- optional - blink-cmp-npm config
             opts = {
               ignore = {},
               only_semantic_versions = true,
               only_latest_version = false,
-              prefix_min_len = 3,
+              prefix_min_len = 4,
             },
           },
           env = {
             name = "Env",
             module = "blink-cmp-env",
+            score_offset = 25,
             opts = {
               -- item_kind = require("blink.cmp.types").CompletionItemKind.Variable,
               show_braces = false,
               show_documentation_window = true,
+              prefix_min_len = 3,
             },
           },
-          dadbod = { name = "Dadbod", module = "vim_dadbod_completion.blink" },
+          dadbod = {
+            name = "Dadbod",
+            module = "vim_dadbod_completion.blink",
+            score_offset = 25,
+            opts = {
+              prefix_min_len = 3,
+            },
+          },
           git = {
             module = "blink-cmp-git",
             name = "Git",
+            score_offset = 50,
             opts = {
-              -- options for the blink-cmp-git
+              prefix_min_len = 3,
             },
           },
           digraphs = {
@@ -78,9 +88,8 @@ return {
             module = "blink.compat.source",
             -- this table is passed directly to the proxied completion source
             -- as the `option` field in nvim-cmp's source config
-            -- this is NOT the same as the opts in a plugin's lazy.nvim spec
             opts = {
-
+              prefix_min_len = 3,
               -- this is an option from cmp-digraphs
               cache_digraphs_on_start = true,
             },
@@ -92,12 +101,13 @@ return {
             module = "lazydev.integrations.blink",
             -- make lazydev completions top priority (see `:h blink.cmp`)
             score_offset = 100,
+            prefix_min_len = 3,
           },
           avante = {
+            score_offset = 75,
             module = "blink-cmp-avante",
             name = "Avante",
             opts = {
-
               prefix_min_len = 3,
             },
           },
@@ -107,14 +117,18 @@ return {
             enabled = function()
               return vim.bo.filetype == "gitcommit"
             end,
-            opts = {},
+            opts = {
+              prefix_min_len = 3,
+            },
           },
           css_vars = {
             name = "css-vars",
             module = "css-vars.blink",
+            score_offset = 25,
             opts = {
               -- NOTE: The search is not optimized to look for variables in JS files.
               -- changing the search_extensions might get false positives and weird completion results.
+              prefix_min_len = 3,
               search_extensions = { ".js", ".ts", ".jsx", ".tsx" },
             },
           },
