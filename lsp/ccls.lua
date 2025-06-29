@@ -1,28 +1,3 @@
--- return {
--- 	init_options = {
--- 		compilationDatabaseDirectory = "build", -- Look for compile_commands.json in the "build" dir (if present)
--- 		cache = { directory = ".ccls-cache" }, -- Enable on-disk caching of indexed symbols
--- 		highlight = { lsRanges = true }, -- Enable semantic highlighting (if your colorscheme supports it)
--- 		clang = {
--- 			excludeArgs = { "-frounding-math" },
--- 		},
---
--- 		index = {
--- 			threads = 0, -- Auto-detect CPU cores
--- 			comments = 2, -- Index comments for better search
--- 			trackDependency = 1, -- Track header dependencies
--- 			multiVersion = 0, -- Don't index multiple versions of same file
--- 			multiVersionBlacklist = { "^/usr/include/" },
--- 			initialBlacklist = { "^/usr/include/" }, -- Skip system headers initially
--- 			initialWhitelist = {},
--- 			onChange = true, -- Re-index on file changes
--- 			onSave = true, -- Re-index on file save
--- 			maxInitializerLines = 30, -- Limit initializer indexing
--- 		},
--- 	},
--- }
---
--- Heres a comment
 -- Helper function to detect project type and toolchain
 local function detect_project_config()
 	local cwd = vim.fn.getcwd()
