@@ -87,7 +87,7 @@ return {
 				border = "rounded",
 				title = "Preview",
 				title_pos = "center",
-				position = { 0, -2 },
+				position = { 0, 4 }, -- -2
 				size = { width = 0.4, height = 0.4 },
 				zindex = 100,
 			},

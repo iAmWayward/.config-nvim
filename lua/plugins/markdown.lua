@@ -21,13 +21,37 @@ return {
 		event = "VeryLazy",
 		dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
 		opts = {
-			file_types = { "checkhealth", "markdown", "Avante", "hover", "lspsaga", "pretty_hover", "pretty-hover" },
+			preset = "obsidian",
+			file_types = {
+				"checkhealth",
+				"Avante",
+				"hover",
+				"lspsaga",
+				"pretty_hover",
+				"pretty-hover",
+				"markdown",
+				"help",
+				"gitcommit",
+			}, -- markdown
 		},
-		ft = { "markdown", "Avante", "hover", "lspsaga", "pretty_hover", "pretty-hover" },
+		ft = {
+			"Avante",
+			"hover",
+			"lspsaga",
+			"pretty_hover",
+			"pretty-hover",
+			"help",
+			"FzfPreview",
+			"gitcommit",
+			"markdown",
+		},
 		config = function()
 			require("render-markdown").setup({
-				completions = { lsp = { enabled = true } },
+				-- completions = { lsp = { enabled = true } },
+				completions = { blink = { enabled = true } },
 				heading = {
+					right_pad = 1,
+					left_pad = 1,
 					width = { "block" },
 					border = true,
 					position = "inline",
@@ -39,11 +63,52 @@ return {
 
 					border_virtual = true,
 
-					above = "", -- "▄",
-					below = "", --"▀",
+					above = "▄",
+					below = "▀",
+				},
+				pipe_table = {
+					render_modes = "round",
 				},
 				code_blocks = {
 					languages = { c = "doxygen", cpp = "doxygen" },
+				},
+				checkbox = {
+					enabled = true,
+					right_pad = 6,
+					custom = {
+						followup = {
+							raw = "[>]",
+							rendered = "",
+							highlight = "RenderMarkdownFollowup",
+							scope_highlight = nil,
+						},
+						cancel = {
+							raw = "[~]",
+							rendered = "󰰱",
+							highlight = "RenderMarkdownCancel",
+							scope_highlight = nil,
+						},
+						important = {
+							raw = "[!]",
+							rendered = "",
+							highlight = "RenderMarkdownImportant",
+							scope_highlight = nil,
+						},
+					},
+				},
+				html = {
+					enabled = true,
+				},
+				win_options = {
+					-- Window options to use that change between rendered and raw view.
+
+					-- @see :h 'conceallevel'
+					conceallevel = {
+						-- Used when not being rendered, get user setting.
+						default = vim.o.conceallevel,
+						-- Used when being rendered, concealed text is completely hidden.
+						rendered = 3,
+					},
 				},
 			})
 		end,

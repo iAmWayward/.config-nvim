@@ -4,15 +4,22 @@ This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 
 ## Quick Start
 
+Change line 1
+Change line 2
+
 - You can view keybindings within neovim by pressing Ctrl+p.
+
 - All the normal vim keybindings have been preserved.
 
   - Note: Vim uses "Motions" to accomplish most actions, which are
     described using certain symbols:
 
 - `C` = Ctrl
+
 - `M` = Alt (Meta key)
+
 - `<CR>` = carriage return
+
 - `<leader>` = Special key for user-defined motions. It is unbound in vim by default.
 
 So `C-r` means "Press Ctrl and r at the same time"
@@ -118,7 +125,4 @@ CodeCompanion is configured in `lua/config/code-companion`
 - Some keymaps are still floating around in the plugin files.
   That being said, most are defined in /config/keymaps.lua..
 
-
-
-
-\https://github.com/ravitemer/mcphub.nvim#avante-integration
+\\<https://github.com/ravitemer/mcphub.nvim#avante-integration>

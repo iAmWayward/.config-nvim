@@ -11,6 +11,8 @@ vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 -- vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()" -- Updated for 0.11
 
+vim.opt_local.conceallevel = 1
+
 vim.o.signcolumn = "yes"
 vim.o.number = true
 vim.opt.statuscolumn = [[%=%l %s]]

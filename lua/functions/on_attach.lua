@@ -6,6 +6,7 @@ return function(client, bufnr)
 	if
 		vim.bo[bufnr].filetype ~= "c"
 		and vim.bo[bufnr].filetype ~= "h"
+		and vim.bo[bufnr].filetype ~= "md"
 		and client.supports_method("textDocument/formatting")
 	then
 		local group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = false })
