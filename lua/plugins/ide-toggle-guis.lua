@@ -1,5 +1,6 @@
 return {
 	-- Bufferline and Dropbar are the tabs and breadcrumbs at the top of the editor
+	{ "lewis6991/satellite.nvim" },
 
 	{
 		"akinsho/bufferline.nvim",
@@ -256,6 +257,14 @@ return {
 				preview_window = false,
 				title = true,
 			})
+		end,
+	},
+	{
+		"gorbit99/codewindow.nvim",
+		config = function()
+			local codewindow = require("codewindow")
+			codewindow.setup()
+			codewindow.apply_default_keybinds()
 		end,
 	},
 }

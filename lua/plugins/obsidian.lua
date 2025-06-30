@@ -13,6 +13,8 @@ return {
 	-- },
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+		"ibhagwan/fzf-lua",
+		"nvim-treesitter/nvim-treesitter",
 	},
 	ui = {
 		enable = false,
