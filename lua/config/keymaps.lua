@@ -4,6 +4,14 @@ local M = {}
 -- fold markers
 -- }}}
 --
+local function toggle_satellite()
+	local sat_view = require("satellite.view") -- gives us .enabled()
+	if sat_view.enabled() then -- currently showing? :contentReference[oaicite:0]{index=0}
+		vim.cmd("SatelliteDisable") -- hide it
+	else
+		vim.cmd("SatelliteEnable") -- show it
+	end
+end
 
 M.items = {
 	-- Base keymaps
@@ -28,7 +36,12 @@ M.items = {
 		end,
 		description = "Cycle Diagnostics Display",
 	},
-
+	{
+		mode = "n",
+		"<leader>tsc",
+		toggle_satellite,
+		description = "Cycle scrollbar",
+	},
 	{ mode = { "n", "x" }, "<leader>cp", '"+y', description = "Copy to system clipboard" },
 	{ mode = { "n", "x" }, "<leader>cv", '"+p', description = "Paste from system clipboard" },
 	{ mode = { "n" }, "<Esc>", "<cmd>nohlsearch<CR>", description = "Esc to clear search" },
