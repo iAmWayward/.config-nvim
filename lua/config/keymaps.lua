@@ -451,14 +451,14 @@ M.items = {
 				mode = "n",
 				"<leader>gid",
 				"<cmd>Gitsigns toggle_word_diff<CR>",
-				description = "Stage git hunk",
+				description = "Toggle inline diff",
 			},
 			-- git toggles
 			{
 				mode = "n",
 				"<leader>gtn",
 				"<cmd>Gitsigns toggle_numhl<CR>",
-				description = "Toggle git signs",
+				description = "Toggle git numline highlight",
 			},
 			{
 				mode = "n",
@@ -470,7 +470,19 @@ M.items = {
 				mode = "n",
 				"<leader>gts",
 				"<cmd>Gitsigns toggle_signs<CR>",
-				description = "Toggle git number column highlights",
+				description = "Toggle git signs column highlights",
+			},
+			{
+				mode = "n",
+				"<leader>gl",
+				"<cmd>Gitsigns setloclist<CR>",
+				description = "Toggle git signs column highlights",
+			},
+			{
+				mode = "n",
+				"<leader>gf",
+				"<cmd>Gitsigns setqflist<CR>",
+				description = "Toggle git signs column highlights",
 			},
 		},
 	},
