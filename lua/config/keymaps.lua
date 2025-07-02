@@ -407,23 +407,97 @@ M.items = {
 			{ mode = "n", "<leader>fh", require("telescope.builtin").help_tags, description = "Help Tags" },
 		},
 	},
-	-- {
-	-- 	mode = { "n", "v" }, -- Add relevant modes here
-	-- 	"<leader>gp",
-	-- 	function()
-	-- 		require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
-	-- 	end,
-	-- 	description = "Page Down (Neoscroll)",
-	-- },
+
 	{
-		mode = "n",
-		"<leader>gp",
-		function()
-			vim.system({ "git", "pull" }, { text = true }, function(result)
-				vim.notify(result.stdout)
-			end)
-		end,
-		description = "Git Pull",
+		itemgroup = "+Git",
+		description = "Version Control Integration",
+		icon = "",
+		keymaps = {
+			{
+				mode = "n",
+				"<leader>gp",
+				function()
+					vim.system({ "git", "pull" }, { text = true }, function(result)
+						vim.notify(result.stdout)
+					end)
+				end,
+				description = "Git Pull",
+			},
+			{
+				mode = "n",
+				"<leader>gb",
+				"<cmd>Gitsigns toggle_current_line_blame<CR>",
+				description = "Toggle git blame inline",
+			},
+			{
+				mode = "n",
+				"<leader>gB",
+				"<cmd>Gitsigns blame_line<CR>",
+				description = "Toggle git blame for entire buffer",
+			},
+			{
+				mode = "n",
+				"<leader>ghp",
+				"<cmd>Gitsigns preview_hunk_inline<CR>",
+				description = "Preview git hunk inline",
+			},
+			{
+				mode = "n",
+				"<leader>ghP",
+				"<cmd>Gitsigns preview_hunk<CR>",
+				description = "Preview git hunk buffer-wide",
+			},
+			{
+				mode = "n",
+				"<leader>ghr",
+				"<cmd>Gitsigns reset_hunk<CR>",
+				description = "Reset git hunk",
+			},
+
+			{
+				mode = "n",
+				"<leader>ghs",
+				"<cmd>Gitsigns stage_hunk<CR>",
+				description = "Stage git hunk",
+			},
+			{
+				mode = "n",
+				"<leader>gid",
+				"<cmd>Gitsigns toggle_word_diff<CR>",
+				description = "Toggle inline diff",
+			},
+			-- git toggles
+			{
+				mode = "n",
+				"<leader>gtn",
+				"<cmd>Gitsigns toggle_numhl<CR>",
+				description = "Toggle git numline highlight",
+			},
+			{
+				mode = "n",
+				"<leader>gth",
+				"<cmd>Gitsigns toggle_linehl<CR>",
+				description = "Toggle git line highlights",
+			},
+			{
+				mode = "n",
+				"<leader>gts",
+				"<cmd>Gitsigns toggle_signs<CR>",
+				description = "Toggle git signs column highlights",
+			},
+			{
+				mode = "n",
+				"<leader>gl",
+				"<cmd>Gitsigns setloclist<CR>",
+				description = "Toggle git signs column highlights",
+			},
+			{
+				mode = "n",
+				"<leader>gf",
+				"<cmd>Gitsigns setqflist<CR>",
+				description = "Toggle git signs column highlights",
+			},
+		},
 	},
 }
 
