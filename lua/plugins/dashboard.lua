@@ -33,19 +33,19 @@ return {
             key = "f",
           },
           {
-            desc = " Recent Files",
+            desc = "  Recent Files",
             group = "DashboardShortCut",
             action = "Telescope oldfiles",
             key = "r",
           },
           {
-            desc = " Config",
+            desc = "  Config",
             group = "DashboardShortCut",
             action = "edit ~/.config/nvim/",
             key = "c",
           },
           {
-            desc = " Notes",
+            desc = "  Notes",
             group = "DashboardShortCut",
             action = "edit ~/Documents/Notes/",
             key = "n",
