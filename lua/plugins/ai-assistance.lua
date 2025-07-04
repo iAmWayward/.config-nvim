@@ -32,9 +32,14 @@ return {
 			-- 	proxy = nil,     -- proxy support, e.g., http://127.0.0.1:7890
 			-- },
 		},
-		-- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-		build = "make",
-		-- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+		build = function()
+			-- conditionally use the correct build system for the current OS
+			if vim.fn.has("win32") == 1 then
+				return "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+			else
+				return "make"
+			end
+		end,
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"stevearc/dressing.nvim",
@@ -42,9 +47,36 @@ return {
 			"MunifTanjim/nui.nvim",
 			--- The below dependencies are optional,
 			"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-			"ibhagwan/fzf-lua", -- for file_selector provider fzf
+			-- "ibhagwan/fzf-lua", -- for file_selector provider fzf
 			"nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+			"MeanderingProgrammer/render-markdown.nvim",
 			-- "zbirenbaum/copilot.lua", -- for providers='copilot'
 		},
+		config = function()
+			require("avante").setup({
+				-- system_prompt as function ensures LLM always has latest MCP server state
+				-- This is evaluated for every message, even in existing chats
+				system_prompt = function()
+					local hub = require("mcphub").get_hub_instance()
+					return hub and hub:get_active_servers_prompt() or ""
+				end,
+				-- Using function prevents requiring mcphub before it's loaded
+				custom_tools = function()
+					return {
+						require("mcphub.extensions.avante").mcp_tool(),
+					}
+				end,
+			})
+		end,
+	},
+	{
+		"ravitemer/mcphub.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		build = "npm install -g mcp-hub@latest", -- Installs `mcp-hub` node binary globally
+		config = function()
+			require("mcphub").setup()
+		end,
 	},
 }

@@ -25,7 +25,6 @@ return {
 					case_mode = "smart_case",
 				},
 				conflicts = {},
-				dap = {},
 			},
 		},
 	},
@@ -38,6 +37,7 @@ return {
 		},
 		config = function()
 			require("neoclip").setup()
+			require("telescope").load_extension("dap")
 		end,
 	},
 	{
@@ -77,5 +77,25 @@ return {
 				desc = "LSP: [F]ind [O]utgoing Calls",
 			},
 		},
+	},
+	{
+		"rachartier/tiny-code-action.nvim",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+
+			-- optional picker via telescope
+			{ "nvim-telescope/telescope.nvim" },
+			-- optional picker via fzf-lua
+			-- { "ibhagwan/fzf-lua" },
+			-- -- .. or via snacks
+			-- {
+			-- 	"folke/snacks.nvim",
+			-- 	opts = {
+			-- 		terminal = {},
+			-- 	},
+			-- },
+		},
+		event = "LspAttach",
+		opts = {},
 	},
 }

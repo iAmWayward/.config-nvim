@@ -461,9 +461,40 @@ M.items = {
 				require("telescope.builtin").git_bcommits,
 				description = "Commits in buffer",
 			},
+			-- -- Debugger
+			-- {
+			-- 	mode = "n",
+			-- 	"<leader>fdc",
+			-- 	require("telescope'.extensions").dap.commands,
+			-- 	description = "Debugger Commands",
+			-- },
+			-- {
+			-- 	mode = "n",
+			-- 	"<leader>fdC",
+			-- 	require("telescope").extensions.dap.configurations({}),
+			-- 	description = "Debugger Configurations",
+			-- },
+			-- {
+			-- 	mode = "n",
+			-- 	"<leader>fdb",
+			-- 	require("telescope").extensions.dap.list_breakpoints({}),
+			-- 	description = "Debugger Breakpoints",
+			-- },
+			-- {
+			-- 	mode = "n",
+			-- 	"<leader>fdv",
+			-- 	require("telescope").extensions.dap.variables({}),
+			-- 	description = "Debugger Variables",
+			-- },
+			-- {
+			-- 	mode = "n",
+			-- 	"<leader>fdf",
+			-- 	require("telescope").extensions.dap.frames({}),
+			-- 	description = "Debugger Frames",
+			-- },
+			--
 		},
 	},
-
 	{
 		itemgroup = "+Git",
 		description = "Version Control Integration",
@@ -593,10 +624,13 @@ M.lsp_mappings = function(bufnr)
 					mode = "n",
 					"<leader>ca",
 					function()
-						vim.lsp.buf.code_action()
+						require("tiny-code-action").code_action()
+						-- vim.lsp.buf.code_action()
 					end,
 					description = "Code Action",
 					buffer = bufnr,
+					noremap = true,
+					silent = true,
 				},
 				{
 					mode = "n",
