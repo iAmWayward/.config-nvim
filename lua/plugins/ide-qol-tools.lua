@@ -7,29 +7,6 @@ return {
 		skipEnteringNoNeckPainBuffer = true,
 	},
 	{
-		"ThePrimeagen/harpoon",
-		event = "VeryLazy",
-		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {},
-	},
-	{
-		"nvim-telescope/telescope.nvim",
-		lazy = true,
-		-- event = "VeryLazy",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {
-			extensions = {
-				fzf = {
-					fuzzy = true,
-					override_generic_sorter = true,
-					override_file_sorter = true,
-					case_mode = "smart_case",
-				},
-			},
-		},
-	},
-	{
 		"kevinhwang91/nvim-ufo",
 		event = "VeryLazy",
 		dependencies = {

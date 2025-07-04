@@ -16,16 +16,6 @@ end
 M.items = {
 	-- Base keymaps
 	{ mode = { "n", "x" }, "<leader>n", group = "+NoNeckPain" },
-
-	{
-		mode = "n",
-		"<leader>hd",
-		function()
-			local cursor_highlight = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
-			print("Highlight group under cursor: " .. cursor_highlight)
-		end,
-		description = "Show highlight group under cursor",
-	},
 	{ mode = "n", "<leader>tT", "<cmd>Themery<cr>", description = "Change theme" },
 	{ mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
 	{
@@ -121,14 +111,6 @@ M.items = {
 			},
 		},
 	},
-	-- {
-	-- 	mode = "n",
-	-- 	"<leader>K",
-	-- 	function()
-	-- 		require("pretty_hover").hover()
-	-- 	end,
-	-- 	description = "pretty_hover",
-	-- },
 	-- Doxygen
 	{
 		itemgroup = "+Documentation",
@@ -401,17 +383,91 @@ M.items = {
 		description = "Find files and strings using telescope",
 		icon = "",
 		keymaps = {
-			{ mode = "n", "<leader>ff", require("telescope.builtin").find_files, description = "Find Files" },
-			{ mode = "n", "<leader>fg", require("telescope.builtin").live_grep, description = "Live Grep" },
-			{ mode = "n", "<leader>fb", require("telescope.builtin").buffers, description = "Find Buffers" },
-			{ mode = "n", "<leader>fh", require("telescope.builtin").help_tags, description = "Help Tags" },
+			{
+				mode = "n",
+				"<leader>f",
+				"",
+				description = "Telescope (finder)",
+			},
+			-- General
+			{
+				mode = "n",
+				"<leader>ff",
+				require("telescope.builtin").find_files,
+				description = "Find Files",
+			},
+			{
+				mode = "n",
+				"<leader>fa",
+				require("telescope.builtin").live_grep,
+				description = "Live Grep",
+			},
+			{
+				mode = "n",
+				"<leader>fb",
+				require("telescope.builtin").buffers,
+				description = "Find Buffers",
+			},
+			{
+				mode = "n",
+				"<leader>fh",
+				require("telescope.builtin").help_tags,
+				description = "Help Tags",
+			},
+			{ "<leader>fp", "<cmd>Telescope projects<CR>", description = "Find projects" },
+
+			-- Git-specific
+			{
+				mode = "n",
+				"<leader>fg",
+				"",
+				description = "Git finder",
+			},
+			{
+				mode = "n",
+				"<leader>fgb",
+				"<cmd>Telescope git_branches<CR>",
+				description = "Git branches",
+			},
+			{
+				mode = "n",
+				"<leader>fgB",
+				function()
+					require("git_branch").files()
+				end,
+				description = "Git branches",
+			},
+			{
+				mode = "n",
+				"<leader>fgc",
+				"<cmd>Telescope git_commits<CR>",
+				description = "Git commits",
+			},
+			{
+				mode = "n",
+				"<leader>fgs",
+				"<cmd>Telescope git_stash<CR>",
+				description = "Git stash",
+			},
+			{
+				mode = "n",
+				"<leader>fgS",
+				"<cmd>Telescope git_status<CR>",
+				description = "Git status",
+			},
+			{
+				mode = "n",
+				"<leader>fcb",
+				require("telescope.builtin").git_bcommits,
+				description = "Commits in buffer",
+			},
 		},
 	},
 
 	{
 		itemgroup = "+Git",
 		description = "Version Control Integration",
-		icon = "",
+		icon = "",
 		keymaps = {
 			{
 				mode = "n",
@@ -662,13 +718,16 @@ M.dap_mappings = function(dap)
 			},
 		},
 
-		-- Project Navigation
 		{
-			itemgroup = "+Projects",
-			description = "Project management and navigation",
-			icon = "󰉋",
+			itemgroup = "+Harpoon",
+			description = "Pin files",
+			icon = "󰒥",
 			keymaps = {
-				{ "<leader>fp", "<cmd>Telescope projects<CR>", description = "Find projects" },
+				{
+					"<leader>h",
+					icon = "󰒥",
+					description = "Harpoon files",
+				},
 				{
 					"<leader>hp",
 					function()
@@ -682,6 +741,16 @@ M.dap_mappings = function(dap)
 						require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
 					end,
 					description = "Harpoon menu",
+				},
+				{
+					mode = "n",
+					"<leader>hd",
+					function()
+						local cursor_highlight =
+							vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
+						print("Highlight group under cursor: " .. cursor_highlight)
+					end,
+					description = "Show highlight group under cursor",
 				},
 			},
 		},

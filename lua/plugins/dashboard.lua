@@ -111,23 +111,28 @@ return {
 				},
 				center = {
 					{
-						icon = " ",
-						icon_hl = "Title",
-						desc = "Find File           ",
-						desc_hl = "String",
-						key = "b",
-						keymap = "SPC f f",
-						key_hl = "Number",
-						key_format = " %s", -- remove default surrounding `[]`
-						action = "lua print(2)",
+						desc = " Find File",
+						group = "DashboardShortCut",
+						action = "Telescope find_files",
+						key = "f",
 					},
 					{
-						icon = " ",
-						desc = "Find Dotfiles",
-						key = "f",
-						keymap = "SPC f d",
-						key_format = " %s", -- remove default surrounding `[]`
-						action = "lua print(3)",
+						desc = " Recent Files",
+						group = "DashboardShortCut",
+						action = "Telescope oldfiles",
+						key = "r",
+					},
+					{
+						desc = " Config",
+						group = "DashboardShortCut",
+						action = "edit ~/.config/nvim/init.lua",
+						key = "c",
+					},
+					{
+						desc = " Notes",
+						group = "DashboardShortCut",
+						action = "edit ~/Documents/Notes/",
+						key = "n",
 					},
 				},
 				footer = footerLines,

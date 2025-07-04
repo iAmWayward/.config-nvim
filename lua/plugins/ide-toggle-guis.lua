@@ -1,7 +1,10 @@
 return {
 	-- Bufferline and Dropbar are the tabs and breadcrumbs at the top of the editor
-	{ "lewis6991/satellite.nvim" },
-
+	-- { "lewis6991/satellite.nvim", enabled = "false" },
+	-- {
+	-- 	"petertriho/nvim-scrollbar",
+	-- 	require("scrollbar").setup(),
+	-- },
 	{
 		"akinsho/bufferline.nvim",
 		-- lazy = false,

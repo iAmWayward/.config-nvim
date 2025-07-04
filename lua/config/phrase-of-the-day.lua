@@ -94,7 +94,7 @@ local quotes = {
 }
 
 -- Helper function to get a random quote from either tradition
-function getRandomQuote(tradition)
+function GetRandomQuote(tradition)
 	if tradition == "taoist" or tradition == "buddhist" then
 		local quoteList = quotes[tradition]
 		local randomIndex = math.random(1, #quoteList)
