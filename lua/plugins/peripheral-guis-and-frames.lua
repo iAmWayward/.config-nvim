@@ -1,6 +1,5 @@
 return {
 	-- Bufferline and Dropbar are the tabs and breadcrumbs at the top of the editor
-	-- { "lewis6991/satellite.nvim", enabled = "false" },
 	{
 		"petertriho/nvim-scrollbar",
 		opts = {},
@@ -65,6 +64,7 @@ return {
 			"nvim-telescope/telescope-fzf-native.nvim",
 			build = "make",
 		},
+
 		config = function()
 			local dropbar_api = require("dropbar.api")
 			vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })

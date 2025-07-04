@@ -1,0 +1,2 @@
+-- Completion
+-- vim.lsp.completion.enable(nil, args.data.client_id, bufnr, { autotrigger = true })

@@ -2,7 +2,6 @@ return {
 	-- {
 	--   "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
 	-- },
-
 	{
 		"williamboman/mason-lspconfig.nvim",
 		-- lazy = false,
@@ -66,30 +65,59 @@ return {
 			})
 
 			-- Autoformat on save for all but C/C headers
+			-- vim.api.nvim_create_autocmd("LspAttach", {
+			-- 	group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
+			-- 	callback = function(args)
+			-- 		local bufnr = args.buf
+			-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
+			-- 		local ft = vim.bo[bufnr].filetype
+			-- 		if ft == "c" or ft == "h" or ft == "cpp" or ft == "markdown" then
+			-- 			return
+			-- 		end
+			-- 		if client.supports_method("textDocument/formatting") then
+			-- 			vim.api.nvim_clear_autocmds({ group = "LspAutoFormat", buffer = bufnr })
+			-- 			vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 				group = "LspAutoFormat",
+			-- 				buffer = bufnr,
+			-- 				callback = function()
+			-- 					vim.lsp.buf.format({
+			-- 						bufnr = bufnr,
+			-- 						filter = function(lsp_client)
+			-- 							-- Prefer null-ls if available
+			-- 							if package.loaded["null-ls"] and lsp_client.name == "null-ls" then
+			-- 								return true
+			-- 							end
+			-- 							-- Fallback to any other
+			-- 							return lsp_client.name ~= "null-ls"
+			-- 						end,
+			-- 					})
+			-- 				end,
+			-- 			})
+			-- 		end
+			-- 	end,
+			-- })
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
 				callback = function(args)
 					local bufnr = args.buf
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					local ft = vim.bo[bufnr].filetype
-					if ft == "c" or ft == "h" or ft == "cpp" or ft == "markdown" then
+
+					-- Skip formatting for certain filetypes
+					if vim.tbl_contains({ "c", "h", "cpp", "markdown" }, ft) then
 						return
 					end
+
 					if client.supports_method("textDocument/formatting") then
-						vim.api.nvim_clear_autocmds({ group = "LspAutoFormat", buffer = bufnr })
 						vim.api.nvim_create_autocmd("BufWritePre", {
-							group = "LspAutoFormat",
+							group = vim.api.nvim_create_augroup("LspAutoFormat_" .. bufnr, { clear = true }),
 							buffer = bufnr,
 							callback = function()
 								vim.lsp.buf.format({
-									bufnr = bufnr,
+									async = false,
 									filter = function(lsp_client)
-										-- Prefer null-ls if available
-										if package.loaded["null-ls"] and lsp_client.name == "null-ls" then
-											return true
-										end
-										-- Fallback to any other
-										return lsp_client.name ~= "null-ls"
+										-- Prefer null-ls/none-ls if available
+										return lsp_client.name ~= "null-ls" or not package.loaded["null-ls"]
 									end,
 								})
 							end,

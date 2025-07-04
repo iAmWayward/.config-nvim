@@ -4,15 +4,41 @@ This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 
 ## Quick Start
 
-Change line 1
-Change line 2
+```bash
+cd ~/.config
+git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
+```
+
+### Setup MCP for AI Assistant
+
+```bash
+
+npm install -g mcp-hub@latest"
+```
+
+
+## Keybindings
+
+- The <leader> key is spacebar by default
 
 - You can view keybindings within neovim by pressing Ctrl+p.
 
 - All the normal vim keybindings have been preserved.
 
-  - Note: Vim uses "Motions" to accomplish most actions, which are
-    described using certain symbols:
+### Basic Movement
+In vim, movement should be done with hjkl. These four keys are in your "home row" and
+should be right beneath your fingers on your right hand when your hands are neutral on
+the keyboard. Thus, movement left/up/down/right can be done with aboslutely minimal movement.
+
+### Intermediate Movement
+
+
+Vim uses "Motions" to accomplish most actions. You can understand most of them with memonic devices.
+For example, `a` is for "after." Therefore, pressing `a` in `normal` mode will put the editor into 
+`Insert` mode in the space **after** where the cursor is. `A` will put you in `Insert` mode
+**after** the current line.
+
+- `i` = Insert (before) 
 
 - `C` = Ctrl
 

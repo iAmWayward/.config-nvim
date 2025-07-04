@@ -30,7 +30,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
 		-- Completion
-		vim.lsp.completion.enable(nil, args.data.client_id, bufnr, { autotrigger = true })
+		-- vim.lsp.completion.enable(nil, args.data.client_id, bufnr, { autotrigger = true })
+		vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
 
 		-- Highlight under cursor (only if the client supports it)
 		if client.server_capabilities.documentHighlightProvider then
@@ -63,10 +64,7 @@ require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
 	},
-	-- Configure any other settings here. See the documentation for more details.
-	-- colorscheme that will be used when installing plugins.
-	install = { colorscheme = { "tokyonight" } },
-	-- install = { colorscheme = { "habamax" } },
-	-- automatically check for plugin updates
-	checker = { enabled = true },
+
+	install = { colorscheme = { "tokyonight" } }, -- colorscheme that will be used when installing plugins.
+	checker = { enabled = true }, -- automatically check for plugin updates
 })
