@@ -14,7 +14,7 @@ return {
     end
 
     -- Get today's quote
-    local footerLines = require("quotes.functions.commands").QuoteOfTheDay()
+    local footerLines = require("quotes.commands").QuoteOfTheDay()
     require("dashboard").setup({
 
       change_to_vcs_root = true,
