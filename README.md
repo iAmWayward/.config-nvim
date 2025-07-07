@@ -13,7 +13,7 @@ git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
 
 ```bash
 
-npm install -g mcp-hub@latest"
+sudo npm install -g mcp-hub@latest
 ```
 
 
