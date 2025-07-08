@@ -64,38 +64,7 @@ return {
         },
       })
 
-      -- Autoformat on save for all but C/C headers
-      -- vim.api.nvim_create_autocmd("LspAttach", {
-      -- 	group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
-      -- 	callback = function(args)
-      -- 		local bufnr = args.buf
-      -- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
-      -- 		local ft = vim.bo[bufnr].filetype
-      -- 		if ft == "c" or ft == "h" or ft == "cpp" or ft == "markdown" then
-      -- 			return
-      -- 		end
-      -- 		if client.supports_method("textDocument/formatting") then
-      -- 			vim.api.nvim_clear_autocmds({ group = "LspAutoFormat", buffer = bufnr })
-      -- 			vim.api.nvim_create_autocmd("BufWritePre", {
-      -- 				group = "LspAutoFormat",
-      -- 				buffer = bufnr,
-      -- 				callback = function()
-      -- 					vim.lsp.buf.format({
-      -- 						bufnr = bufnr,
-      -- 						filter = function(lsp_client)
-      -- 							-- Prefer null-ls if available
-      -- 							if package.loaded["null-ls"] and lsp_client.name == "null-ls" then
-      -- 								return true
-      -- 							end
-      -- 							-- Fallback to any other
-      -- 							return lsp_client.name ~= "null-ls"
-      -- 						end,
-      -- 					})
-      -- 				end,
-      -- 			})
-      -- 		end
-      -- 	end,
-      -- })
+      -- on attach
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
         callback = function(args)
@@ -165,7 +134,7 @@ return {
           -- null_ls.builtins.formatting.dprint,
 
           null_ls.builtins.formatting.stylua, -- Lua
-          null_ls.builtins.formatting.shfmt, -- Shell scripts
+          null_ls.builtins.formatting.shfmt,  -- Shell scripts
           -- null_ls.builtins.formatting.fixjson, -- JSON
 
           -- Markdown
@@ -178,8 +147,8 @@ return {
           -- 	extra_args = { "--disable", "MD022" }, -- <- add this line
           -- }),
           --
-          null_ls.builtins.formatting.yamlfix, -- YAML
-          -- null_ls.builtins.formatting.yamllint, -- YAML
+          null_ls.builtins.formatting.yamlfix,  -- YAML
+          null_ls.builtins.formatting.yamllint, -- YAML
 
           -- CMake
           null_ls.builtins.formatting.cmake_format.with({
