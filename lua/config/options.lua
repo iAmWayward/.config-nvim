@@ -1,6 +1,6 @@
 vim.opt.updatetime = 200 --300
 vim.o.winborder = "rounded"
-vim.opt.confirm = true -- Ask if save is desired if :q from an unsaved buffer
+vim.opt.confirm = true   -- Ask if save is desired if :q from an unsaved buffer
 -- vim.api.nvim_set_hl(0, "LspReferenceText", { underline = true })
 -- vim.api.nvim_set_hl(0, "LspReferenceRead", { underline = true })
 -- vim.api.nvim_set_hl(0, "LspReferenceWrite", { underline = true })
@@ -21,9 +21,9 @@ vim.opt.termguicolors = true
 vim.o.shell = "fish"
 
 vim.opt.expandtab = true -- Convert tabs to spaces
-vim.opt.tabstop = 2 -- Number of spaces a TAB displays as
-vim.opt.shiftwidth = 2 -- Number of spaces for auto-indent and >>/<< operations
-vim.opt.softtabstop = 2 -- Number of spaces for <Tab> key in insert mode
+vim.opt.tabstop = 2      -- Number of spaces a TAB displays as
+vim.opt.shiftwidth = 2   -- Number of spaces for auto-indent and >>/<< operations
+vim.opt.softtabstop = 2  -- Number of spaces for <Tab> key in insert mode
 
 vim.opt.linebreak = true
 --
@@ -32,32 +32,32 @@ vim.opt.splitright = false
 -- vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 
 vim.diagnostic.config({
-	virtual_text = {
-		true,
-		-- 	-- { suffix = " ■" }
-	},
-	-- virtual_lines = {
-	-- 	false,
-	-- 	-- current_line = true,
-	-- },
-	underline = true,
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = "",
-			[vim.diagnostic.severity.WARN] = "",
-			[vim.diagnostic.severity.INFO] = "",
-			[vim.diagnostic.severity.HINT] = "󰌵",
-		},
-	},
+  virtual_text = {
+    -- true,
+    -- 	-- { suffix = " ■" }
+  },
+  -- virtual_lines = {
+  -- 	false,
+  -- 	-- current_line = true,
+  -- },
+  underline = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "󰌵",
+    },
+  },
 
-	-- signs = true,
-	update_in_insert = false,
-	severity_sort = true,
+  -- signs = true,
+  update_in_insert = false,
+  severity_sort = true,
 })
 local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
 for type, icon in pairs(signs) do
-	local hl = "DiagnosticSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
 -- vim.o.completeopt = "menu,menuone,noinsert,fuzzy"

@@ -15,7 +15,7 @@ return {
       -- highlights = get_bufferline_highlights(),
       options = {
         themable = true,
-        numbers = "none",     -- | "ordinal" | "buffer_id" | "both" |
+        numbers = "none",         -- | "ordinal" | "buffer_id" | "both" |
         separator_style = "thin", -- slant, padded_slant, slope, thick, thin
         diagnostics = "nvim_lsp",
         indicator = {
@@ -72,45 +72,6 @@ return {
       vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
     end,
   },
-  -- Diagnostics and Outline panels
-  {
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      position = "bottom",
-      pinned = false,
-      auto_close = true,
-      auto_preview = true, -- auto open a window when hovering an item
-      use_diagnostic_signs = true,
-      use_lsp_diagnostic_signs = true,
-      -- mode = "workspace_diagnostics",
-      multiline = true,
-      padding = true,
-      preview = {
-        type = "float",
-        relative = "editor",
-        border = "rounded",
-        title = "Preview",
-        title_pos = "center",
-        position = { 0, 4 }, -- -2
-        size = { width = 0.4, height = 0.4 },
-        zindex = 100,
-      },
-      auto_jump = { "lsp_definitions" },
-      modes = {
-        diagnostics = {
-          -- use a split, relative to the window:
-          win = {
-            type = "split",
-            relative = "win",
-            position = "bottom",
-            -- 30% of the window height; can be <1.0 for % or >1 for fixed lines
-            size = 0.3,
-          },
-        },
-      },
-    },
-  },
   {
     "shortcuts/no-neck-pain.nvim",
     event = "VeryLazy",
@@ -152,10 +113,10 @@ return {
     version = "*",
     event = "VeryLazy",
     opts = {
-      direction = "float",   --horizontal", -- Opens at the bottom
+      direction = "float",      --horizontal", -- Opens at the bottom
       open_mapping = [[<c-\>]], -- Toggle with Ctrl+\ (default)
       autochdir = true,
-      size = 15,             -- Height of the terminal split
+      size = 15,                -- Height of the terminal split
       persist_size = true,
       shade_terminals = false,
       insert_mappings = false, -- Disable default insert mode mappings

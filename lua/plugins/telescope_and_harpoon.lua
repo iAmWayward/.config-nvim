@@ -3,13 +3,12 @@ return {
     "ahmedkhalf/project.nvim",
     opts = {
       manual_mode = false,
-      detection_methods = { "pattern", "lsp" },
+      detection_methods = { "lsp", "pattern" },
       patterns = { ".git", "Makefile", "package.json", ".svn", ".cproj", "csproj" },
       show_hidden = false,
     },
     config = function()
       require("telescope").load_extension("projects")
-      -- require("telescope").extensions.projects.projects({})
       require("telescope").load_extension("fzf")
     end,
   },

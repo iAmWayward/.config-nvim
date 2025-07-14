@@ -120,7 +120,7 @@ return {
           "nginx_config_formatter",
           "gitlint",
           "gitleak",
-          "yamllint",
+          -- "yamllint",
         },
         automatic_installation = true,
         handlers = {},
@@ -147,8 +147,8 @@ return {
           -- 	extra_args = { "--disable", "MD022" }, -- <- add this line
           -- }),
           --
-          null_ls.builtins.formatting.yamlfix,  -- YAML
-          null_ls.builtins.formatting.yamllint, -- YAML
+          null_ls.builtins.formatting.yamlfix, -- YAML
+          -- null_ls.builtins.formatting.yamllint, -- YAML
 
           -- CMake
           null_ls.builtins.formatting.cmake_format.with({

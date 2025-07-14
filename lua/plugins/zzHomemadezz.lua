@@ -2,6 +2,11 @@ return {
   {
     "iAmWayward/quotes.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      collections = {
+        "science",
+        "engineering",
+      },
+    },
   }
 }
