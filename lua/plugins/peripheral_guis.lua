@@ -1,16 +1,17 @@
 return {
   -- Bufferline and Dropbar are the tabs and breadcrumbs at the top of the editor
-  {
-    "petertriho/nvim-scrollbar",
-    opts = {},
-    -- require("scrollbar").setup({}),
-  },
+  -- {
+  --   "petertriho/nvim-scrollbar",
+  -- },
   {
     "akinsho/bufferline.nvim",
     -- lazy = false,
     -- event = "VeryLazy",
     version = "*",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+
+    },
     opts = {
       -- highlights = get_bufferline_highlights(),
       options = {
@@ -43,9 +44,6 @@ return {
           local icon = level:match("error") and " " or " "
           return " " .. icon .. count
         end,
-        -- diagnostics_indicator = function(count, level, diagnostics_dict, context)
-        -- 	return "(" .. count .. ")"
-        -- end,
         -- name_formatter = function(buf)  -- buf contains:
         -- name               -- | str        | the basename of the active file
         -- path               -- | str        | the full path of the active file
@@ -134,6 +132,7 @@ return {
     opts = {
       options = {
         diagnostics = "nvim_lsp",
+        extensions = { "avante", "neo-tree", "trouble", "toggleterm" },
         indicator = {
           icon = "▎",
           style = "icon",
