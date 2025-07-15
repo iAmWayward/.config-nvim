@@ -22,6 +22,18 @@ return {
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
       },
       snippets = { preset = "luasnip" },
+      completion = {
+        documentation = {
+          draw = function(opts)
+            if opts.item and opts.item.documentation then
+              local out = require("pretty_hover.parser").parse(opts.item.documentation.value)
+              opts.item.documentation.value = out:string()
+            end
+
+            opts.default_implementation(opts)
+          end,
+        }
+      },
       sources = {
         default = {
           "lazydev", "ripgrep", "lsp", "env", "path", "snippets",

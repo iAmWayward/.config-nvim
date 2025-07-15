@@ -1,3 +1,4 @@
+vim.g.material_style = "deep ocean"
 vim.opt.updatetime = 200 --300
 vim.o.winborder = "rounded"
 vim.opt.confirm = true   -- Ask if save is desired if :q from an unsaved buffer

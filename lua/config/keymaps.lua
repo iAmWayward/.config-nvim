@@ -8,8 +8,10 @@ local M = {}
 M.items = {
   -- Base keymaps
   { mode = { "n", "x" }, "<leader>n",  group = "+NoNeckPain" },
-  { mode = "n",          "<leader>tT", "<cmd>Themery<cr>",           description = "Change theme" },
-  { mode = "n",          "<leader>tt", "<cmd>TransparentToggle<cr>", description = "Toggle Transparency" },
+  { mode = "n",          "<leader>tT", "<cmd>Themery<cr>",            description = "Change theme" },
+  { mode = "n",          "<leader>tt", "<cmd>TransparentToggle<cr>",  description = "Toggle Transparency" },
+  { mode = "n",          "<leader>tw", "<cmd>Twilight<cr>",           description = "Toggle Twilight" },
+  { mode = "n",          "<leader>ts", "<cmd>TabsVsSpacesToggle<cr>", description = "Tabs vs Spaces" },
   {
     mode = "n",
     "<leader>td",
@@ -45,6 +47,7 @@ M.items = {
     "<cmd>:set relativenumber!<cr>",
     description = "Toggle relative numbers",
   },
+
   -- NoNeckPain
   {
     itemgroup = "+NoNeckPain",
@@ -55,6 +58,26 @@ M.items = {
       { mode = "n", "<leader>nwu", "<cmd>NoNeckPainWidthUp<cr>",    description = "Increase width" },
       { mode = "n", "<leader>nwd", "<cmd>NoNeckPainWidthDown<cr>",  description = "Decrease width" },
       { mode = "n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", description = "Toggle scratchpad" },
+    },
+  },
+  {
+    itemgroup = "+Games",
+    description = "Play Games",
+    icon = "󰡺",
+    keymaps = {
+      { mode = "n", "<leader>pbg", "<cmd>VimBeGood<cr>",                      description = "Vim Be Good" },
+      { mode = "n", "<leader>pt",  "<cmd>tetris<cr>",                         description = "Tetris" },
+      { mode = "n", "<leader>ps",  "<cmd>solitaire<cr>",                      description = "Solitaire" },
+      { mode = "n", "<leader>pm",  "<cmd>minesweeper<cr>",                    description = "Minesweeper" },
+      { mode = "n", "<leader>pk",  "<cmd>KillKillKill<cr>",                   description = "Killer Sheep" },
+      { mode = "n", "<leader>pa",  "<cmd>CellularAutomaton make_it_rain<cr>", description = "die code" },
+      { mode = "n", "<leader>pA",  "<cmd>CellularAutomaton game_of_life<cr>", description = "game of life" },
+      {
+        mode = "n",
+        "<leader>pt",
+        "<cmd>:tetris<cr>",
+        description = "Play tetris",
+      },
     },
   },
   {

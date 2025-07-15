@@ -284,4 +284,19 @@ return {
       })
     end,
   },
+  {
+    "jmbuhr/otter.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    opts = {},
+  },
+
+  {
+    "samiulsami/fFtT-highlights.nvim",
+    config = function()
+      require("fFtT-highlights"):setup({
+      })
+    end,
+  },
 }

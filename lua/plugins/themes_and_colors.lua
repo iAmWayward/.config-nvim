@@ -65,6 +65,17 @@ return {
     "olimorris/onedarkpro.nvim",
     event = "VeryLazy",
   },
+  -- {
+  --   "rafamadriz/neon",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     neon_style = "dark",
+  --   },
+  -- },
+  {
+    'marko-cerovac/material.nvim',
+
+  },
   {
     "daschw/leaf.nvim",
     event = "VeryLazy",

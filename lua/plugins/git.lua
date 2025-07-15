@@ -26,4 +26,9 @@ return {
       --	require("scrollbar.handlers.gitsigns").setup()
     end,
   },
+  {
+    "moyiz/git-dev.nvim",
+    event = "VeryLazy",
+    opts = {},
+  },
 }

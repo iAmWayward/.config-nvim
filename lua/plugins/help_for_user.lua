@@ -54,13 +54,16 @@ return {
     end,
   },
   {
-    "samiulsami/fFtT-highlights.nvim",
-    config = function()
-      ---@module "fFtT-highlights"
-      ---@type fFtT_highlights.opts
-      require("fFtT-highlights"):setup({
-        ---See below for default configuration options
-      })
-    end,
+    "m4xshen/hardtime.nvim",
+
+    dependencies = { "MunifTanjim/nui.nvim" },
+    opts = {
+
+      lazy = false,
+      enabled = false,
+      restriction_mode = "hint",
+    },
   },
+  { "mong8se/actually.nvim" },
+  { "tenxsoydev/tabs-vs-spaces.nvim", config = true },
 }
