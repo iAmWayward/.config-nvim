@@ -7,6 +7,7 @@ return {
         "science",
         "engineering",
       },
+      column_limit = 160,
     },
   }
 }

@@ -4,12 +4,12 @@ return {
     version = "1.*",
     dependencies = {
       "MahanRahmati/blink-nerdfont.nvim",
-      "dmitmel/cmp-digraphs",
+      -- "dmitmel/cmp-digraphs",
       "Kaiser-Yang/blink-cmp-avante",
       "alexandre-abrioux/blink-cmp-npm.nvim",
       "disrupted/blink-cmp-conventional-commits",
       "Kaiser-Yang/blink-cmp-git",
-      "jdrupal-dev/css-vars.nvim",
+      -- "jdrupal-dev/css-vars.nvim",
       "mikavilpas/blink-ripgrep.nvim",
       "bydlw98/blink-cmp-env",
       "L3MON4D3/LuaSnip",
@@ -17,7 +17,7 @@ return {
     opts = {
 
       keymap = {
-        ["<CR>"]    = { "select_and_accept", "fallback" },
+        ["<CR>"]    = { "accept", "fallback" }, -- select_and_accept
         ["<Tab>"]   = { "select_next", "snippet_forward", "fallback" },
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
       },
@@ -36,11 +36,17 @@ return {
       },
       sources = {
         default = {
-          "lazydev", "ripgrep", "lsp", "env", "path", "snippets",
-          "digraphs", "avante", "npm", "conventional_commits",
-          "git", "css_vars", "dadbod", "nerdfont",
-        },
+          "lazydev", "lsp", "env", "path", "snippets",
+          "avante", "npm", "conventional_commits",
+          "git", "dadbod", "nerdfont",
+        }, --digraphs css_vars ripgrep
         providers = {
+          snippets = {
+            name = "LuaSnip",
+            module = "blink.compat.source",
+            opts = { prefix_min_len = 2 }, -- prevents triggering on single characters
+            -- score_offset = -10, -- lower snippet priority slightly to avoid dominance
+          },
           nerdfont = {
             module = "blink-nerdfont", name = "Nerd Fonts", score_offset = 15, opts = { insert = true }
           },
@@ -100,22 +106,22 @@ return {
             score_offset = 25,
             opts = { prefix_min_len = 3, search_extensions = { ".js", ".ts", ".jsx", ".tsx" } }
           },
-          ripgrep = {
-            module = "blink-ripgrep",
-            name = "Ripgrep",
-            opts = {
-              prefix_min_len = 5,
-              context_size = 5,
-              max_filesize = "1G",
-              additional_paths = {},
-              transform_items = function(_, items)
-                for _, item in ipairs(items) do
-                  item.labelDetails = { description = "(rg)" }
-                end
-                return items
-              end,
-            },
-          },
+          -- ripgrep = {
+          --   module = "blink-ripgrep",
+          --   name = "Ripgrep",
+          --   opts = {
+          --     prefix_min_len = 5,
+          --     context_size = 5,
+          --     max_filesize = "1G",
+          --     additional_paths = {},
+          --     transform_items = function(_, items)
+          --       for _, item in ipairs(items) do
+          --         item.labelDetails = { description = "(rg)" }
+          --       end
+          --       return items
+          --     end,
+          --   },
+          -- },
         },
       },
     },

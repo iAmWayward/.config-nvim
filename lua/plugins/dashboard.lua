@@ -39,6 +39,12 @@ return {
             key = "r",
           },
           {
+            desc = " Code",
+            group = "DashboardShortCut",
+            action = "edit ~/Code",
+            key = "C",
+          },
+          {
             desc = "  Config",
             group = "DashboardShortCut",
             action = "edit ~/.config/nvim/",
@@ -46,10 +52,17 @@ return {
           },
           {
             desc = "  Notes",
-            group = "DashboardShortCut",
-            action = "edit ~/Documents/Notes/",
+            group = "Obsidian",
+            action = "edit ~/Documents/Obsidian Vault/",
             key = "n",
           },
+          {
+            desc = "󱓧 Today's Note",
+            group = "Obsidian",
+            action = "ObsidianDailies",
+            key = "m",
+          },
+
         },
         footer = footerLines,
         vertical_center = false, -- Center the Dashboard on the vertical (from top to bottom)

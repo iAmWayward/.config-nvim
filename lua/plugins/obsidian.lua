@@ -2,7 +2,7 @@ return {
   "epwalsh/obsidian.nvim",
   version = "*", -- recommended, use latest release instead of latest commit
   lazy = true,
-  ft = "markdown",
+  ft = { "markdown", "dashboard" },
   -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
   -- event = {
   --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
@@ -19,9 +19,9 @@ return {
     "Saghen/blink.cmp",
   },
   ui = {
-    enable = false,
+    enable = true,
     -- turn off elements already covered by render-markdown
-    checkboxes = false,
+    -- checkboxes = false,
     -- bullets = false,
     -- headings = false,
     -- tags = false,
@@ -55,9 +55,11 @@ return {
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
     completion = {
       -- Set to false to disable completion.
-      nvim_cmp = true,
+      nvim_cmp = false,
+      blink = true,
       -- Trigger completion at 2 chars.
       min_chars = 2,
+      create_new = true,
     },
   },
 }
