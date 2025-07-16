@@ -31,4 +31,8 @@ return {
     event = "VeryLazy",
     opts = {},
   },
+  {
+    "sindrets/diffview.nvim",
+    event = "VeryLazy",
+  },
 }

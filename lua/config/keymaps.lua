@@ -8,17 +8,26 @@ local M = {}
 M.items = {
   -- Base keymaps
   { mode = { "n", "x" }, "<leader>n",  group = "+NoNeckPain" },
-  { mode = "n",          "<leader>tT", "<cmd>Themery<cr>",            description = "Change theme" },
-  { mode = "n",          "<leader>tt", "<cmd>TransparentToggle<cr>",  description = "Toggle Transparency" },
-  { mode = "n",          "<leader>tw", "<cmd>Twilight<cr>",           description = "Toggle Twilight" },
-  { mode = "n",          "<leader>ts", "<cmd>TabsVsSpacesToggle<cr>", description = "Tabs vs Spaces" },
+
   {
-    mode = "n",
-    "<leader>td",
-    function()
-      require("functions.toggle-diagnostics").cycle()
-    end,
-    description = "Cycle Diagnostics Display",
+    itemgroup = "+Toggle",
+    description = "Toggle Settings for themes and preferences",
+    icon = "",
+    keymaps = {
+
+      { mode = "n", "<leader>tT", "<cmd>Themery<cr>",            description = "Change theme" },
+      { mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>",  description = "Toggle Transparency" },
+      { mode = "n", "<leader>tw", "<cmd>Twilight<cr>",           description = "Toggle Twilight" },
+      { mode = "n", "<leader>ts", "<cmd>TabsVsSpacesToggle<cr>", description = "Tabs vs Spaces" },
+      {
+        mode = "n",
+        "<leader>td",
+        function()
+          require("functions.toggle-diagnostics").cycle()
+        end,
+        description = "Cycle Diagnostics Display",
+      },
+    }
   },
   -- {
   --   mode = "n",

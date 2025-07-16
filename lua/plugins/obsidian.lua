@@ -39,6 +39,11 @@ return {
       -- path = "~/vaults/work",
       -- },
     },
+    templates = {
+      folder = "templates",
+      date_format = "%m-%d-%Y-%a",
+      time_format = "%H:%M",
+    },
     daily_notes = {
       -- Optional, if you keep daily notes in a separate directory.
       folder = "Daily Log",
@@ -49,7 +54,7 @@ return {
       -- Optional, default tags to add to each new daily note created.
       default_tags = { "time-summary" },
       -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
-      template = { "{Daily Work Log}" },
+      template = "{Daily Work Log}",
     },
 
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
