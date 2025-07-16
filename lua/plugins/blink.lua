@@ -23,6 +23,14 @@ return {
       },
       snippets = { preset = "luasnip" },
       completion = {
+        -- trigger = {
+        --   -- When true, will show the completion window after typing any of alphanumerics, `-` or `_`
+        --   show_on_keyword = false,
+        --
+        --   -- When true, will show the completion window after typing a trigger character
+        --   show_on_trigger_character = false,
+        --
+        -- },
         documentation = {
           draw = function(opts)
             if opts.item and opts.item.documentation then
@@ -36,16 +44,26 @@ return {
       },
       sources = {
         default = {
-          "lazydev", "lsp", "env", "path", "snippets",
+          "lazydev",
+          "lsp", "env", "path", "snippets",
           "avante", "npm", "conventional_commits",
-          "git", "dadbod", "nerdfont",
+          "git", "dadbod", "nerdfont", "buffer"
         }, --digraphs css_vars ripgrep
         providers = {
           snippets = {
             name = "LuaSnip",
             module = "blink.compat.source",
-            opts = { prefix_min_len = 2 }, -- prevents triggering on single characters
-            -- score_offset = -10, -- lower snippet priority slightly to avoid dominance
+            opts = { prefix_min_len = 2 },
+            --             should_show_items = function(ctx)
+            --   return ctx.trigger.initial_kind ~= 'trigger_character' and not require('blink.cmp').snippet_active()
+            -- end,
+            score_offset = -10, -- lower snippet priority slightly to avoid dominance
+          },
+          buffer = {
+            name = "buffer",
+            module = "blink.compat.source",
+            opts = { prefix_min_len = 3 },
+            score_offset = -1, -- if desired lower than LSP/snippets
           },
           nerdfont = {
             module = "blink-nerdfont", name = "Nerd Fonts", score_offset = 15, opts = { insert = true }
@@ -106,22 +124,22 @@ return {
             score_offset = 25,
             opts = { prefix_min_len = 3, search_extensions = { ".js", ".ts", ".jsx", ".tsx" } }
           },
-          -- ripgrep = {
-          --   module = "blink-ripgrep",
-          --   name = "Ripgrep",
-          --   opts = {
-          --     prefix_min_len = 5,
-          --     context_size = 5,
-          --     max_filesize = "1G",
-          --     additional_paths = {},
-          --     transform_items = function(_, items)
-          --       for _, item in ipairs(items) do
-          --         item.labelDetails = { description = "(rg)" }
-          --       end
-          --       return items
-          --     end,
-          --   },
-          -- },
+          ripgrep = {
+            module = "blink-ripgrep",
+            name = "Ripgrep",
+            opts = {
+              prefix_min_len = 5,
+              context_size = 5,
+              max_filesize = "1G",
+              additional_paths = {},
+              transform_items = function(_, items)
+                for _, item in ipairs(items) do
+                  item.labelDetails = { description = "(rg)" }
+                end
+                return items
+              end,
+            },
+          },
         },
       },
     },
