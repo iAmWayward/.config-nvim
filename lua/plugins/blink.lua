@@ -4,12 +4,12 @@ return {
     version = "1.*",
     dependencies = {
       "MahanRahmati/blink-nerdfont.nvim",
-      -- "dmitmel/cmp-digraphs",
+      "dmitmel/cmp-digraphs",
       "Kaiser-Yang/blink-cmp-avante",
       "alexandre-abrioux/blink-cmp-npm.nvim",
       "disrupted/blink-cmp-conventional-commits",
       "Kaiser-Yang/blink-cmp-git",
-      -- "jdrupal-dev/css-vars.nvim",
+      "jdrupal-dev/css-vars.nvim",
       "mikavilpas/blink-ripgrep.nvim",
       "bydlw98/blink-cmp-env",
       "L3MON4D3/LuaSnip",
@@ -22,11 +22,13 @@ return {
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
       },
       snippets = { preset = "luasnip" },
+
       completion = {
-        -- trigger = {
-        --   -- When true, will show the completion window after typing any of alphanumerics, `-` or `_`
-        --   show_on_keyword = false,
-        --
+        trigger = {
+          -- When true, will show the completion window after typing any of alphanumerics, `-` or `_`
+          show_on_keyword = false,
+        },
+
         --   -- When true, will show the completion window after typing a trigger character
         --   show_on_trigger_character = false,
         --
@@ -47,8 +49,8 @@ return {
           "lazydev",
           "lsp", "env", "path", "snippets",
           "avante", "npm", "conventional_commits",
-          "git", "dadbod", "nerdfont", "buffer"
-        }, --digraphs css_vars ripgrep
+          "git", "dadbod", "nerdfont", "buffer", "digraphs", "css_vars", "ripgrep",
+        }, --
         providers = {
           snippets = {
             name = "LuaSnip",
@@ -157,7 +159,7 @@ return {
           lazydev = {
             name = "LazyDev",
             module = "lazydev.integrations.blink",
-            score_offset = 100,
+            score_offset = 80,
           },
         },
       },
