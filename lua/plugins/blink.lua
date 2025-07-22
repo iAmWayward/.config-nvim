@@ -8,7 +8,7 @@ return {
       "Kaiser-Yang/blink-cmp-avante",
       "alexandre-abrioux/blink-cmp-npm.nvim",
       "disrupted/blink-cmp-conventional-commits",
-      "Kaiser-Yang/blink-cmp-git",
+      -- "Kaiser-Yang/blink-cmp-git",
       "jdrupal-dev/css-vars.nvim",
       "mikavilpas/blink-ripgrep.nvim",
       "bydlw98/blink-cmp-env",
@@ -49,8 +49,8 @@ return {
           "lazydev",
           "lsp", "env", "path", "snippets",
           "avante", "npm", "conventional_commits",
-          "git", "dadbod", "nerdfont", "buffer", "digraphs", "css_vars", "ripgrep",
-        }, --
+          "dadbod", "nerdfont", "buffer", "digraphs", "css_vars", "ripgrep",  --git
+        },                                                                    --
         providers = {
           snippets = {
             name = "LuaSnip",
@@ -89,16 +89,23 @@ return {
             score_offset = 25,
             opts = { prefix_min_len = 3 }
           },
-          git = {
-            module = "blink-cmp-git",
-            name = "Git",
-            score_offset = 50,
-            enabled = function()
-              local ft = vim.bo.filetype
-              return ft == "gitcommit" or ft == "gitrebase" or ft == "gitconfig"
-            end,
-            opts = { prefix_min_len = 3 }
+          conventional_commits = {
+            name = "Conventional Commits",
+            module = "blink-cmp-conventional-commits",
+            enabled = function() return vim.bo.filetype == "gitcommit" end,
+            opts = { prefix_min_len = 3 },
           },
+          -- git = {
+          --   module = "blink-cmp-git",
+          --   name = "Git",
+          --   score_offset = 50,
+          --   enabled = function()
+          --     return vim.bo.filetype == "gitcommit"
+          --         or vim.bo.filetype == "gitrebase"
+          --         or vim.bo.filetype == "gitconfig"
+          --   end,
+          --   opts = { prefix_min_len = 3 }
+          -- },
           digraphs = {
             name = "digraphs",
             module = "blink.compat.source",
@@ -114,12 +121,7 @@ return {
             name = "Avante",
             opts = { prefix_min_len = 3 }
           },
-          conventional_commits = {
-            name = "Conventional Commits",
-            module = "blink-cmp-conventional-commits",
-            enabled = function() return vim.bo.filetype == "gitcommit" end,
-            opts = { prefix_min_len = 3 },
-          },
+
           css_vars = {
             name = "css-vars",
             module = "css-vars.blink",

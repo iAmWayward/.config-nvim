@@ -1,5 +1,18 @@
 return {
   {
+    "alex-popov-tech/store.nvim",
+    dependencies = {
+      "OXY2DEV/markview.nvim", -- optional, for pretty readme preview / help window
+    },
+    cmd = "Store",
+    keys = {
+      { "<leader>s", "<cmd>Store<cr>", desc = "Open Plugin Store" },
+    },
+    opts = {
+      -- optional configuration here
+    },
+  },
+  {
     "folke/which-key.nvim",
     init = function()
       vim.o.timeout = true
@@ -66,4 +79,16 @@ return {
   },
   { "mong8se/actually.nvim" },
   { "tenxsoydev/tabs-vs-spaces.nvim", config = true },
+  {
+    'TrevorS/uuid-nvim',
+    lazy = true,
+    config = function()
+      -- optional configuration
+      require('uuid').setup {
+        case = 'upper',
+      }
+      vim.keymap.set('n', '<leader>ut', uuidnvim.toggle_highlighting)
+      vim.keymap.set('i', '<C-u>', uuid.insert_v4)
+    end,
+  }
 }

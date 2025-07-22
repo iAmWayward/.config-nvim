@@ -14,7 +14,7 @@ return {
     end
 
     -- Get today's quote
-    local footerLines = require("quotes.commands").QuoteOfTheDay()
+    local footerLines = require("Neoquotes.commands").QuoteOfTheDay()
     require("dashboard").setup({
 
       change_to_vcs_root = true,
@@ -69,7 +69,9 @@ return {
       },
     })
   end,
-  dependencies = { { "nvim-tree/nvim-web-devicons" } },
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+  },
 }
 
 -- return {

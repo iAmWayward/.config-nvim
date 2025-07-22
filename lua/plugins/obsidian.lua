@@ -22,6 +22,7 @@ return {
     enable = true,
     -- turn off elements already covered by render-markdown
     -- checkboxes = false,
+    bullets = { char = "• ", hl_group = "ObsidianBullet" },
     -- bullets = false,
     -- headings = false,
     -- tags = false,
