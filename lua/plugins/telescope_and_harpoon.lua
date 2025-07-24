@@ -1,18 +1,32 @@
 return {
   {
-    "ahmedkhalf/project.nvim",
+    "coffebar/neovim-project",
     opts = {
-      manual_mode = false,
-      detection_methods = { "lsp", "pattern" },
-      patterns = { ".git", "Makefile", "package.json", ".svn", ".cproj", "csproj" },
-      show_hidden = false,
+      projects = { -- define project roots
+        "~/projects/*",
+        "~/.config/*",
+      },
+      picker = {
+        type = "telescope", -- one of "telescope", "fzf-lua", or "snacks"
+      }
     },
-    config = function()
-      require("telescope").load_extension("projects")
-      require("telescope").load_extension("fzf")
+    init = function()
+      -- enable saving the state of plugins in the session
+      vim.opt.sessionoptions:append("globals") -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
     end,
+    dependencies = {
+      { "nvim-lua/plenary.nvim" },
+      -- optional picker
+      { "nvim-telescope/telescope.nvim" },
+      -- optional picker
+      -- { "ibhagwan/fzf-lua" },
+      -- optional picker
+      -- { "folke/snacks.nvim" },
+      { "Shatur/neovim-session-manager" },
+    },
+    lazy = false,
+    priority = 100,
   },
-
   {
     "ThePrimeagen/harpoon",
     event = "VeryLazy",

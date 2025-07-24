@@ -1,4 +1,5 @@
 return {
+  { "timwmillard/uuid.nvim" },
   {
     "alex-popov-tech/store.nvim",
     dependencies = {
