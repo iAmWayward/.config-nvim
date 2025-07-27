@@ -34,10 +34,10 @@ vim.opt.splitright = false
 -- vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 
 vim.diagnostic.config({
-  virtual_text = {
-    -- true,
-    -- 	-- { suffix = " ■" }
-  },
+  -- virtual_text = {
+  -- true,
+  -- 	-- { suffix = " ■" }
+  -- },
   -- virtual_lines = {
   -- 	false,
   -- 	-- current_line = true,

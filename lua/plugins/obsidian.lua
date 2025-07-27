@@ -16,7 +16,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "MeanderingProgrammer/render-markdown.nvim",
     "nvim-telescope/telescope.nvim",
-    "Saghen/blink.cmp",
+    -- "Saghen/blink.cmp",
   },
   ui = {
     enable = true,
