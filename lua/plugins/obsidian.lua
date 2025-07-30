@@ -40,6 +40,7 @@ return {
       -- path = "~/vaults/work",
       -- },
     },
+
     templates = {
       folder = "templates",
       date_format = "%m-%d-%Y-%a",
@@ -56,7 +57,9 @@ return {
       default_tags = { "time-summary" },
       -- Optional, if you want to automatically insert a template from your template directory like 'daily.md'
       template = "{Daily Work Log}",
+      workdays_only = true,
     },
+    disable_frontmatter = true,
 
     -- Optional, completion of wiki links, local markdown links, and tags using nvim-cmp.
     completion = {
@@ -66,6 +69,17 @@ return {
       -- Trigger completion at 2 chars.
       min_chars = 3,
       create_new = true,
+    },
+    ui = {
+      enabled = false,
+      bullets = { char = "• ", hl_group = "ObsidianBullet" },
+    },
+    checkbox = {
+      order = { " ", "x", "~", "!", ">", },
+    },
+    open = {
+      use_advanced_uri = true,
+      func = vim.ui.open,
     },
   },
 }

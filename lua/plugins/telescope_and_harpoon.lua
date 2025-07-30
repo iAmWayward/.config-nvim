@@ -5,10 +5,19 @@ return {
       projects = { -- define project roots
         "~/projects/*",
         "~/.config/*",
+        -- "~/Code/*",
+        -- "~/Code/MadeInLyh*",
+        "~/Code/*/*",
+      },
+      auto_discover = {
+        enabled = true,
+        patterns = { ".git" }, -- Look for .git folders
       },
       picker = {
         type = "telescope", -- one of "telescope", "fzf-lua", or "snacks"
-      }
+      },
+      last_session_on_startup = true,
+      dashboard_mode = true,
     },
     init = function()
       -- enable saving the state of plugins in the session
@@ -16,16 +25,12 @@ return {
     end,
     dependencies = {
       { "nvim-lua/plenary.nvim" },
-      -- optional picker
       { "nvim-telescope/telescope.nvim" },
-      -- optional picker
-      -- { "ibhagwan/fzf-lua" },
-      -- optional picker
-      -- { "folke/snacks.nvim" },
       { "Shatur/neovim-session-manager" },
     },
     lazy = false,
     priority = 100,
+
   },
   {
     "ThePrimeagen/harpoon",

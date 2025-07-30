@@ -32,7 +32,7 @@ return {
         "markdown",
         "help",
         "gitcommit",
-      }, -- markdown
+      },
     },
     ft = {
       "Avante",
@@ -48,7 +48,7 @@ return {
     config = function()
       require("render-markdown").setup({
         -- completions = { lsp = { enabled = true } },
-        completions = { blink = { enabled = true } },
+        -- completions = { blink = { enabled = true } },
         heading = {
           right_pad = 1,
           left_pad = 1,
@@ -106,7 +106,6 @@ return {
           conceallevel = {
             -- Used when not being rendered, get user setting.
             default = vim.o.conceallevel,
-            -- Used when being rendered, concealed text is completely hidden.
             rendered = 3,
           },
         },

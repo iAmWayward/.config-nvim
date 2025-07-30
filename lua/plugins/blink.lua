@@ -49,8 +49,8 @@ return {
           "lazydev",
           "lsp", "env", "path", "snippets",
           "avante", "npm", "conventional_commits",
-          "dadbod", "nerdfont", "buffer", "digraphs", "css_vars", "ripgrep",  --git
-        },                                                                    --
+          "dadbod", "nerdfont", "buffer", "digraphs", "css_vars", "ripgrep", --git
+        },                                                                   --
         providers = {
           snippets = {
             name = "LuaSnip",
@@ -132,10 +132,14 @@ return {
             module = "blink-ripgrep",
             name = "Ripgrep",
             opts = {
+              backend = {
+                additional_paths = {},
+                context_size = 5,
+                ripgrep = {
+                  max_filesize = "1G",
+                },
+              },
               prefix_min_len = 5,
-              context_size = 5,
-              max_filesize = "1G",
-              additional_paths = {},
               transform_items = function(_, items)
                 for _, item in ipairs(items) do
                   item.labelDetails = { description = "(rg)" }

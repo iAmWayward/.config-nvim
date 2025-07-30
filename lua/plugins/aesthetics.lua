@@ -55,19 +55,19 @@ return {
 
       -- How fast the smear's head moves towards the target.
       -- 0: no movement, 1: instantaneous
-      stiffness = 0.70,
+      stiffness = 0.85,
 
       -- How fast the smear's tail moves towards the target.
       -- 0: no movement, 1: instantaneous
-      trailing_stiffness = 0.65, -- 49 0.3,
+      trailing_stiffness = 0.75, -- 49 0.3,
 
       -- Controls if middle points are closer to the head or the tail.
       -- < 1: closer to the tail, > 1: closer to the head
-      trailing_exponent = 2, -- default 2
+      trailing_exponent = 3, -- default 2
 
       -- How much the smear slows down when getting close to the target.
       -- < 0: less slowdown, > 0: more slowdown. Keep small, e.g. [-0.2, 0.2]
-      slowdown_exponent = 0,
+      slowdown_exponent = -.20,
 
       -- Stop animating when the smear's tail is within this distance (in characters) from the target.
       distance_stop_animating = 0.15,
@@ -85,7 +85,7 @@ return {
       -- color_levels = 16,                   -- Minimum 1, don't set manually if using cterm_cursor_colors
       gamma = 2.2,                               -- For color blending
       max_shade_no_matrix = 0.75,                -- 0: more overhangs, 1: more matrices
-      matrix_pixel_threshold = 0.7,              -- 0: all pixels, 1: no pixel
+      matrix_pixel_threshold = 0.8,              -- 0: all pixels, 1: no pixel
       matrix_pixel_threshold_vertical_bar = 0.3, -- 0: all pixels, 1: no pixel
       matrix_pixel_min_factor = 0.5,             -- 0: all pixels, 1: no pixel
       volume_reduction_exponent = 0.3,           -- 0: no reduction, 1: full reduction

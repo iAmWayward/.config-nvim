@@ -7,7 +7,11 @@ return {
       validate = false,
       completion = true,
       keyOrdering = false,
-      format = { enabled = true },
+      printWidth = 120,
+      format = {
+        enabled = true,
+        -- printWidth = 120,
+      },
       redhat = {
         telemetry = { enabled = false },
       },
