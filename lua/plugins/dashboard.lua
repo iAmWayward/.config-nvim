@@ -62,7 +62,12 @@ return {
             action = "ObsidianDailies",
             key = "m",
           },
-
+          {
+            desc = "󱓧 Projects",
+            group = "Projects",
+            action = "NeovimProjectHistory",
+            key = "p",
+          },
         },
         footer = footerLines,
         vertical_center = false, -- Center the Dashboard on the vertical (from top to bottom)

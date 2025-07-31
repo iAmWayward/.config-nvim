@@ -38,10 +38,10 @@ vim.diagnostic.config({
     -- true,
     -- 	-- { suffix = " ■" }
   },
-  -- virtual_lines = {
-  -- 	false,
-  -- 	-- current_line = true,
-  -- },
+  virtual_lines = {
+    false,
+    current_line = true,
+  },
   underline = true,
   signs = {
     text = {

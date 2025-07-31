@@ -38,34 +38,34 @@ return {
       },
     },
   },
-  {
-    "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy", -- Or `LspAttach`
-    priority = 1000,    -- needs to be loaded in first
-    config = function()
-      require('tiny-inline-diagnostic').setup({
-        -- Style preset for diagnostic messages
-        -- Available options:
-        -- "modern", "classic", "minimal", "powerline",
-        -- "ghost", "simple", "nonerdfont", "amongus"
-        preset = "powerline",
-
-        transparent_bg = false,         -- Set the background of the diagnostic to transparent
-        transparent_cursorline = false, -- Set the background of the cursorline to transparent (only one the first diagnostic)
-        options = {
-          -- Display the source of the diagnostic (e.g., basedpyright, vsserver, lua_ls etc.)
-          show_source = {
-            enabled = false,
-            if_many = false,
-          },
-
-          -- Use icons defined in the diagnostic configuration
-          use_icons_from_diagnostic = true,
-        }
-      })
-      vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-    end
-  },
+  -- {
+  --   "rachartier/tiny-inline-diagnostic.nvim",
+  --   event = "VeryLazy", -- Or `LspAttach`
+  --   priority = 1000,    -- needs to be loaded in first
+  --   config = function()
+  --     require('tiny-inline-diagnostic').setup({
+  --       -- Style preset for diagnostic messages
+  --       -- Available options:
+  --       -- "modern", "classic", "minimal", "powerline",
+  --       -- "ghost", "simple", "nonerdfont", "amongus"
+  --       preset = "powerline",
+  --
+  --       transparent_bg = false,         -- Set the background of the diagnostic to transparent
+  --       transparent_cursorline = false, -- Set the background of the cursorline to transparent (only one the first diagnostic)
+  --       options = {
+  --         -- Display the source of the diagnostic (e.g., basedpyright, vsserver, lua_ls etc.)
+  --         show_source = {
+  --           enabled = false,
+  --           if_many = false,
+  --         },
+  --
+  --         -- Use icons defined in the diagnostic configuration
+  --         use_icons_from_diagnostic = true,
+  --       }
+  --     })
+  --     vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
+  --   end
+  -- },
 
 
 }
