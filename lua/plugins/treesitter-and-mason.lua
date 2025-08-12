@@ -13,6 +13,35 @@ return {
       },
       "neovim/nvim-lspconfig",
     },
+    -- opts = {
+    --   automatic_enable = true,
+    --   ensure_installed = {
+    --     -- "bitbake_ls",
+    --     "lua_ls",
+    --     "pyright",
+    --     "docker_compose_language_service",
+    --     "dockerls",
+    --     "ts_ls",
+    --     "vimls",
+    --     "lemminx",
+    --     "yamlls",
+    --     -- "markdown_oxide",
+    --     "css_variables",
+    --     "clangd",
+    --   },
+    --   automatic_installation = true,
+    --   handlers = {
+    --     -- Default handler: check for nvim/lsp/<server>.lua and use it if present
+    --     function(server_name)
+    --       local opts = { capabilities = capabilities }
+    --       local has_custom, custom = pcall(require, "lsp." .. server_name)
+    --       if has_custom then
+    --         opts = vim.tbl_deep_extend("force", opts, custom)
+    --       end
+    --       require("lspconfig")[server_name].setup(opts)
+    --     end,
+    --   },
+    -- },
     config = function()
       require("mason").setup()
 
@@ -21,8 +50,8 @@ return {
       capabilities.textDocument.completion.completionItem.resolveSupport = {
         properties = { "documentation", "detail", "additionalTextEdits" },
       }
-
       require("mason-lspconfig").setup({
+        automatic_enable = true,
         ensure_installed = {
           "lua_ls",
           "pyright",
@@ -61,9 +90,20 @@ return {
             }
             require("lspconfig").lua_ls.setup(opts)
           end,
+                 -- BitBake handler - manually configured since it's not in mason-lspconfig
+          ["bitbake_language_server"] = function()
+            require("lspconfig").bitbake_language_server.setup({
+              capabilities = capabilities,
+            })
+          end,
         },
       })
-
+      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+        pattern = "README",
+        callback = function()
+          vim.bo.filetype = "markdown"
+        end,
+      })
       -- on attach
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
