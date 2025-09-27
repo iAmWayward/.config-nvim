@@ -40,7 +40,7 @@ vim.diagnostic.config({
   },
   virtual_lines = {
     false,
-    current_line = true,
+    -- current_line = true,
   },
   underline = true,
   signs = {

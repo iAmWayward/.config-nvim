@@ -1,5 +1,7 @@
 return {
   {
+    'https://codeberg.org/esensar/nvim-dev-container', },
+  {
     'jedrzejboczar/possession.nvim',
     config = function()
       require('possession').setup {

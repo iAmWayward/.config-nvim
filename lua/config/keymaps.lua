@@ -141,8 +141,12 @@ M.items = {
     description = "Code documentation tools",
     icon = "󰏫",
     keymaps = {
-      { "<leader>dd", "<cmd>DoxygenOpen<CR>",   desc = "Open Doxygen" },
-      { "<leader>du", "<cmd>DoxygenUpdate<CR>", desc = "Update Doxygen" },
+      { "<leader>dd",  "<cmd>DoxygenOpen<CR>",                   desc = "Open Doxygen" },
+      { "<leader>du",  "<cmd>DoxygenUpdate<CR>",                 desc = "Update Doxygen" },
+      { "<leader>dcs", "<cmd>DevcontainerStart<CR>",             desc = "Start Dev Container" },
+      { "<leader>dcS", "<cmd>DevcontainerStop<CR>",              desc = "Stop Dev Container" },
+      { "<leader>dcl", "<cmd>DevcontainerLogs<CR>",              desc = "Stop Dev Container" },
+      { "<leader>dce", "<cmd>DevcontainerEditNearestConfig<CR>", desc = "Stop Dev Container" },
     },
   },
 
