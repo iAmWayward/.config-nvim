@@ -72,6 +72,9 @@ return {
         code_blocks = {
           languages = { c = "doxygen", cpp = "doxygen" },
         },
+        bullet = {
+          right_pad = 1
+        },
         checkbox = {
           enabled = true,
           right_pad = 6,

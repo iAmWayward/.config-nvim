@@ -90,7 +90,7 @@ return {
             }
             require("lspconfig").lua_ls.setup(opts)
           end,
-                 -- BitBake handler - manually configured since it's not in mason-lspconfig
+          -- BitBake handler - manually configured since it's not in mason-lspconfig
           ["bitbake_language_server"] = function()
             require("lspconfig").bitbake_language_server.setup({
               capabilities = capabilities,
@@ -261,6 +261,8 @@ return {
           "gitignore",
           "git_rebase",
           "gitattributes",
+          "json",
+          "jsonc",
           "cpp",
           "c",
           "make",

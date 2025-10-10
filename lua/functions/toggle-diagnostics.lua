@@ -2,9 +2,9 @@ local M = {}
 
 -- States: 1 = virtual_text, 2 = virtual_lines, 3 = neither
 local states = {
-  { virtual_text = true,  { virtual_lines = false, current_line = false }, desc = "Diagnostics: Inline" },
-  { virtual_text = false, { virtual_lines = false, current_line = true }, desc = "Diagnostics: Virtual Lines" },
-  { virtual_text = false, { virtual_lines = false, current_line = false }, desc = "Diagnostics: Off" },
+  { virtual_text = true,  virtual_lines = false, desc = "Diagnostics: Inline" },
+  { virtual_text = false, virtual_lines = true,  desc = "Diagnostics: Virtual Lines" },
+  { virtual_text = false, virtual_lines = false, desc = "Diagnostics: Off" }, --current_line=
 }
 
 local current = 1
