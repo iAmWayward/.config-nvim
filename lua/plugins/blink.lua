@@ -14,12 +14,19 @@ return {
       "bydlw98/blink-cmp-env",
       "L3MON4D3/LuaSnip",
     },
+
     opts = {
+      vim.keymap.set({ "i", "s" }, "<C-E>", function()
+        if require("luasnip").choice_active() then
+          require("luasnip").change_choice(1)
+        end
+      end, { desc = "Cycle snippet choices" }),
 
       keymap = {
         ["<CR>"]    = { "accept", "fallback" }, -- select_and_accept
         ["<Tab>"]   = { "select_next", "snippet_forward", "fallback" },
         ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+
       },
       snippets = { preset = "luasnip" },
 

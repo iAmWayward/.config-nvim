@@ -34,14 +34,6 @@ vim.opt.splitright = false
 -- vim.lsp.inlay_hint.enable(true, { bufnr = 0 })
 
 vim.diagnostic.config({
-  virtual_text = {
-    -- true,
-    -- 	-- { suffix = " ■" }
-  },
-  virtual_lines = {
-    false,
-    -- current_line = true,
-  },
   underline = true,
   signs = {
     text = {
@@ -53,7 +45,7 @@ vim.diagnostic.config({
   },
 
   -- signs = true,
-  update_in_insert = false,
+  update_in_insert = true,
   severity_sort = true,
 })
 local signs = { Error = " ", Warn = " ", Hint = "󰌵 ", Info = " " }
