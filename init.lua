@@ -11,3 +11,6 @@ for _, file in ipairs(vim.fn.readdir(lsp_dir, [[v:val =~ '\.lua$']])) do
     vim.notify("Error loading LSP config " .. mod .. ": " .. err, vim.log.levels.ERROR)
   end
 end
+
+
+require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/lua/snippets" })

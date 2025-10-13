@@ -1,10 +1,11 @@
 return {
+
   {
     "saghen/blink.cmp",
     version = "1.*",
     dependencies = {
-      "MahanRahmati/blink-nerdfont.nvim",
-      "dmitmel/cmp-digraphs",
+      -- "MahanRahmati/blink-nerdfont.nvim",
+      -- "dmitmel/cmp-digraphs",
       "Kaiser-Yang/blink-cmp-avante",
       "alexandre-abrioux/blink-cmp-npm.nvim",
       "disrupted/blink-cmp-conventional-commits",
@@ -12,7 +13,29 @@ return {
       "jdrupal-dev/css-vars.nvim",
       "mikavilpas/blink-ripgrep.nvim",
       "bydlw98/blink-cmp-env",
-      "L3MON4D3/LuaSnip",
+      {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = "make install_jsregexp",
+        dependencies = {
+          "rafamadriz/friendly-snippets",
+          event = "InsertEnter",
+          config = function()
+            require("luasnip.loaders.from_vscode").lazy_load()
+          end,
+        },
+        config = function()
+          require("luasnip.loaders.from_vscode").lazy_load()            -- load VSCode-style snippets (friendly-snippets)
+          require("luasnip.loaders.from_lua").lazy_load()               -- load any custom LuaSnip snippet files
+          -- Extend filetypes to include doc-comment snippets from friendly-snippets:
+          require("luasnip").filetype_extend("cpp", { "cppdoc" })       -- Doxygen for C++
+          require("luasnip").filetype_extend("c", { "cdoc" })           -- Doxygen for C
+          require("luasnip").filetype_extend("sh", { "shelldoc" })      -- Shell script docs
+          require("luasnip").filetype_extend("python", { "pydoc" })     -- Google-style pydoc
+          require("luasnip").filetype_extend("javascript", { "jsdoc" }) -- JSDoc for JS
+          require("luasnip").filetype_extend("typescript", { "tsdoc" }) -- TSDoc for TS
+        end,
+      },
     },
 
     opts = {
@@ -56,8 +79,8 @@ return {
           "lazydev",
           "lsp", "env", "path", "snippets",
           "avante", "npm", "conventional_commits",
-          "dadbod", "nerdfont", "buffer", "digraphs", "css_vars", "ripgrep", --git
-        },                                                                   --
+          "dadbod", "buffer", "css_vars", "ripgrep", --git
+        },                                           --
         providers = {
           snippets = {
             name = "LuaSnip",
@@ -74,9 +97,9 @@ return {
             opts = { prefix_min_len = 3 },
             score_offset = -1, -- if desired lower than LSP/snippets
           },
-          nerdfont = {
-            module = "blink-nerdfont", name = "Nerd Fonts", score_offset = 15, opts = { insert = true }
-          },
+          -- nerdfont = {
+          --   module = "blink-nerdfont", name = "Nerd Fonts", score_offset = 15, opts = { insert = true }
+          -- },
           npm = {
             name = "npm",
             module = "blink-cmp-npm",
@@ -113,12 +136,12 @@ return {
           --   end,
           --   opts = { prefix_min_len = 3 }
           -- },
-          digraphs = {
-            name = "digraphs",
-            module = "blink.compat.source",
-            opts = { prefix_min_len = 3, cache_digraphs_on_start = true },
-            score_offset = -3,
-          },
+          -- digraphs = {
+          --   name = "digraphs",
+          --   module = "blink.compat.source",
+          --   opts = { prefix_min_len = 3, cache_digraphs_on_start = true },
+          --   score_offset = -3,
+          -- },
           lazydev = {
             name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100,
           },
