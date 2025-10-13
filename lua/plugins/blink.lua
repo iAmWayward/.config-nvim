@@ -2,6 +2,7 @@ return {
 
   {
     "saghen/blink.cmp",
+    event = { "InsertEnter", "CmdlineEnter" },
     version = "1.*",
     dependencies = {
       -- "MahanRahmati/blink-nerdfont.nvim",
@@ -21,6 +22,12 @@ return {
           "rafamadriz/friendly-snippets",
           event = "InsertEnter",
           config = function()
+            vim.keymap.set({ "i", "s" }, "<C-E>", function()
+              if require("luasnip").choice_active() then
+                require("luasnip").change_choice(1)
+              end
+            end, { desc = "Cycle snippet choices" })
+
             require("luasnip.loaders.from_vscode").lazy_load()
           end,
         },
@@ -39,11 +46,6 @@ return {
     },
 
     opts = {
-      vim.keymap.set({ "i", "s" }, "<C-E>", function()
-        if require("luasnip").choice_active() then
-          require("luasnip").change_choice(1)
-        end
-      end, { desc = "Cycle snippet choices" }),
 
       keymap = {
         ["<CR>"]    = { "accept", "fallback" }, -- select_and_accept
