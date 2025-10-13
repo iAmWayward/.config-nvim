@@ -54,7 +54,9 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
+vim.opt.completeopt = { "menu", "menuone", "noselect", "preview" }
 -- vim.o.completeopt = "menu,menuone,noinsert,fuzzy"
+
 vim.g.copilot_no_tab_map = true
 --
 -- vim.opt.linebreak = true
