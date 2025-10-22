@@ -25,9 +25,10 @@ return {
           zindex = 100,   -- Ensure proper layering
           merge = false,  -- Show all notifications individually
           replace = true,
-          win_options = {
-            focusable = false,
-          }
+          focusable = false,
+          -- win_options = {
+          --   focusable = false,
+          -- }
           -- render = ""
         },
         -- Optionally configure LSP progress position if needed
