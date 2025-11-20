@@ -1,33 +1,5 @@
 return {
   {
-    'https://codeberg.org/esensar/nvim-dev-container',
-    config = function()
-      require("devcontainer").setup {
-        autocommands = {
-          init = true,
-          clean = true,
-          update = true,
-        },
-        attach_mounts = {
-          neovim_config = {
-            enabled = true,
-            options = { "readonly" }
-          },
-          neovim_data = {
-            enabled = false,
-            options = {}
-          },
-          -- Only useful if using neovim 0.8.0+
-          neovim_state = {
-            enabled = false,
-            options = {}
-          },
-        },
-
-      }
-    end,
-  },
-  {
     'jedrzejboczar/possession.nvim',
     config = function()
       require('possession').setup {

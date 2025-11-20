@@ -1,344 +1,188 @@
+
+-- return {
+--   -- Mason + LSP
+-- {
+--     "mason-org/mason-lspconfig.nvim",
+--     opts = {},
+--     dependencies = {
+--         { "mason-org/mason.nvim", opts = {} },
+--         "neovim/nvim-lspconfig",
+--     },
+-- },
+--   -- Null-LS + Mason
+--   {
+--     "jay-babu/mason-null-ls.nvim",
+--     event = "VeryLazy",
+--     dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
+--     config = function()
+--       require("mason-null-ls").setup({
+--         ensure_installed = { "prettierd", "stylua", "shfmt", "fixjson", "yamlfix" },
+--         automatic_installation = true,
+--       })
+--     end,
+--   },
+--
+--   -- Devcontainer
+--   {
+--     'esensar/nvim-dev-container',
+--     cond = not vim.loop.fs_stat("/.dockerenv"),
+--     dependencies = {
+--       {
+--         "nvim-treesitter/nvim-treesitter",
+--         build = ":TSUpdate",
+--         dependencies = {
+--           "nvim-treesitter/nvim-treesitter-textobjects",
+--           "rrethy/nvim-treesitter-endwise",
+--           "HiPhish/rainbow-delimiters.nvim",
+--           "windwp/nvim-autopairs",
+--           "numToStr/Comment.nvim",
+--           "JoosepAlviste/nvim-ts-context-commentstring",
+--           "windwp/nvim-ts-autotag",
+--         },
+--         config = function()
+--           require("nvim-treesitter.configs").setup({
+--             ensure_installed = {
+--               "c", "cpp", "lua", "python", "json", "jsonc", "html", "css",
+--               "rust", "bash", "markdown", "typescript", "javascript", "cmake", "make",
+--             },
+--             highlight = { enable = true },
+--             indent = { enable = true },
+--             fold = { enable = true },
+--             incremental_selection = {
+--               enable = true,
+--               keymaps = { init_selection = "<M-w>", scope_incremental = "<CR>", node_incremental = "grn", node_decremental = "grm" },
+--             },
+--             textobjects = {
+--               select = {
+--                 enable = true,
+--                 lookahead = true,
+--                 keymaps = { ["af"] = "@function.outer", ["if"] = "@function.inner", ["ac"] = "@class.outer" },
+--               },
+--             },
+--           })
+--         end,
+--       },
+--     },
+--     config = function()
+--       require("devcontainer").setup {
+--         cache_images = false,
+--         autocommands = { init = true, clean = true, update = true },
+--         attach_mounts = {
+--           neovim_config = { enabled = true, options = { "readonly" } },
+--           neovim_data   = { enabled = true, options = {} },
+--           neovim_state  = { enabled = true, options = {} },
+--         },
+--         nvim_install_as_root = true,
+--         container_runtime = "devcontainer-cli",
+--         backup_runtime = "docker",
+--       }
+--     end,
+--   },
+--
+--   -- Misc
+--   { "jmbuhr/otter.nvim", dependencies = { "nvim-treesitter/nvim-treesitter" }, opts = {} },
+-- }
+
+-- Devcontainer
 return {
-  -- {
-  --   "tpope/vim-sleuth", -- Automatically detects which indents should be used in the current buffer
-  -- },
-  {
-    "williamboman/mason-lspconfig.nvim",
-    -- lazy = false,
-    event = "VeryLazy",
+{
+    "mason-org/mason-lspconfig.nvim",
+    opts = {},
     dependencies = {
-      {
-        "williamboman/mason.nvim",
-        opts = {},
-      },
-      "neovim/nvim-lspconfig",
+        { "mason-org/mason.nvim", opts = {} },
+        "neovim/nvim-lspconfig",
     },
-    -- opts = {
-    --   automatic_enable = true,
-    --   ensure_installed = {
-    --     -- "bitbake_ls",
-    --     "lua_ls",
-    --     "pyright",
-    --     "docker_compose_language_service",
-    --     "dockerls",
-    --     "ts_ls",
-    --     "vimls",
-    --     "lemminx",
-    --     "yamlls",
-    --     -- "markdown_oxide",
-    --     "css_variables",
-    --     "clangd",
-    --   },
-    --   automatic_installation = true,
-    --   handlers = {
-    --     -- Default handler: check for nvim/lsp/<server>.lua and use it if present
-    --     function(server_name)
-    --       local opts = { capabilities = capabilities }
-    --       local has_custom, custom = pcall(require, "lsp." .. server_name)
-    --       if has_custom then
-    --         opts = vim.tbl_deep_extend("force", opts, custom)
-    --       end
-    --       require("lspconfig")[server_name].setup(opts)
-    --     end,
-    --   },
-    -- },
-    config = function()
-      require("mason").setup()
-
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = { "documentation", "detail", "additionalTextEdits" },
-      }
-      require("mason-lspconfig").setup({
-        automatic_enable = true,
-        ensure_installed = {
-          "lua_ls",
-          "pyright",
-          "docker_compose_language_service",
-          "dockerls",
-          "ts_ls",
-          "vimls",
-          "lemminx",
-          "yamlls",
-          -- "markdown_oxide",
-          "css_variables",
-          "clangd",
-          -- "cpptools", -- INFO: MANUALLY INSTALL TIHS
-        },
-        automatic_installation = true,
-        handlers = {
-          -- Default handler: check for nvim/lsp/<server>.lua and use it if present
-          function(server_name)
-            local opts = { capabilities = capabilities }
-            local has_custom, custom = pcall(require, "lsp." .. server_name)
-            if has_custom then
-              opts = vim.tbl_deep_extend("force", opts, custom)
-            end
-            require("lspconfig")[server_name].setup(opts)
-          end,
-          -- Example custom handler for lua_ls (can add others similarly)
-          ["lua_ls"] = function()
-            local opts = {
-              capabilities = capabilities,
-              settings = {
-                Lua = {
-                  diagnostics = { globals = { "vim" } },
-                  telemetry = { enable = false },
-                },
-              },
-            }
-            require("lspconfig").lua_ls.setup(opts)
-          end,
-          -- BitBake handler - manually configured since it's not in mason-lspconfig
-          ["bitbake_language_server"] = function()
-            require("lspconfig").bitbake_language_server.setup({
-              capabilities = capabilities,
-            })
-          end,
-        },
-      })
-      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-        pattern = "README",
-        callback = function()
-          vim.bo.filetype = "markdown"
-        end,
-      })
-      -- on attach
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = true }),
-        callback = function(args)
-          local bufnr = args.buf
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          local ft = vim.bo[bufnr].filetype
-
-          -- Skip formatting for certain filetypes
-          if vim.tbl_contains({ "c", "h", "cpp", "markdown" }, ft) then
-            return
-          end
-
-          if client.supports_method("textDocument/formatting") then
-            vim.api.nvim_create_autocmd("BufWritePre", {
-              group = vim.api.nvim_create_augroup("LspAutoFormat_" .. bufnr, { clear = true }),
-              buffer = bufnr,
-              callback = function()
-                vim.lsp.buf.format({
-                  async = false,
-                  filter = function(lsp_client)
-                    -- Prefer null-ls/none-ls if available
-                    return lsp_client.name ~= "null-ls" or not package.loaded["null-ls"]
-                  end,
-                })
-              end,
-            })
-          end
-        end,
-      })
-    end,
-  },
-
-  -- None-LS (null-ls) for formatting
+},
+  -- Null-LS + Mason
   {
     "jay-babu/mason-null-ls.nvim",
-    -- lazy = false,
     event = "VeryLazy",
     dependencies = { "williamboman/mason.nvim", "nvimtools/none-ls.nvim" },
     config = function()
       require("mason-null-ls").setup({
-        ensure_installed = {
-          "prettierd",
-          "stylua",
-          "shfmt",
-          "fixjson",
-          -- "mdformat",
-          -- "markdownlint",
-          "yamlfix",
-          "cmakelang",
-          "cmakelint",
-          "commitlint",
-          "cmake_format",
-          "nginx_config_formatter",
-          "gitlint",
-          "gitleak",
-          -- "yamllint",
-        },
+        ensure_installed = { "prettierd", "stylua", "shfmt", "fixjson", "yamlfix" },
         automatic_installation = true,
-        handlers = {},
-      })
-
-      local null_ls = require("null-ls")
-      null_ls.setup({
-        sources = {
-          -- Web
-          null_ls.builtins.formatting.prettierd,
-          -- null_ls.builtins.formatting.dprint,
-
-          null_ls.builtins.formatting.stylua, -- Lua
-          null_ls.builtins.formatting.shfmt,  -- Shell scripts
-          -- null_ls.builtins.formatting.fixjson, -- JSON
-
-          -- Markdown
-          -- null_ls.builtins.formatting.mdformat.with({
-          -- 	extra_args = { "--disable", "MD022" }, -- <- add this line
-          -- }),
-
-          -- -- null_ls.builtins.diagnostics.markdownlint,
-          -- null_ls.builtins.diagnostics.markdownlint.with({
-          -- 	extra_args = { "--disable", "MD022" }, -- <- add this line
-          -- }),
-          --
-          null_ls.builtins.formatting.yamlfix, -- YAML
-          -- null_ls.builtins.formatting.yamllint, -- YAML
-
-          -- CMake
-          null_ls.builtins.formatting.cmake_format.with({
-            command = "cmake_format",
-          }),
-        },
-        -- Make sure there aren't multiple encodings.
-        -- on_init = function(new_client, _)
-        -- 	new_client.offset_encoding = "utf-16"
-        -- end,
       })
     end,
   },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    dependencies = {
-      {
-        "HiPhish/rainbow-delimiters.nvim",
-        config = function()
-          local rainbow_delimiters = require("rainbow-delimiters")
-          require("rainbow-delimiters.setup")({
-            strategy = { [""] = rainbow_delimiters.strategy.global },
-            query = { [""] = "rainbow-delimiters" },
-          })
-        end,
-      },
-      "nvim-treesitter/nvim-treesitter-textobjects",
-      "rrethy/nvim-treesitter-endwise",
-      {
-        "windwp/nvim-autopairs",
-        event = "InsertEnter",
-        config = true,
-        opts = {},
-        -- this is equivalent to setup({}) function
-      },
-      -- "abecodes/tabout.nvim",
-      {
-        "numToStr/Comment.nvim",
-        config = function()
-          -- Local definition ensures the `pre_hook` is scoped to this block
-          local pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
 
-          require("Comment").setup({
-            pre_hook = pre_hook, -- Use the locally defined hook
-          })
-        end,
-      },
-      {
+  {
+  "erichlf/devcontainer-cli.nvim",
+  cond = not vim.loop.fs_stat("/.dockerenv"),
+  dependencies = {
+    "akinsho/toggleterm.nvim",
+    {
+      "nvim-treesitter/nvim-treesitter",
+      build = ":TSUpdate",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        "rrethy/nvim-treesitter-endwise",
+        "HiPhish/rainbow-delimiters.nvim",
+        "windwp/nvim-autopairs",
+        "numToStr/Comment.nvim",
         "JoosepAlviste/nvim-ts-context-commentstring",
-        config = function()
-          require("ts_context_commentstring").setup({
-            enable_autocmd = false,
-          })
-          -- vim.g.skip_ts_context_commentstring_module = true --TODO: evaluate
-        end,
-      },
-      {
         "windwp/nvim-ts-autotag",
-        config = function()
-          require("nvim-ts-autotag").setup()
-        end,
       },
-    },
-    config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "git_config",
-          "gitcommit",
-          "gitignore",
-          "git_rebase",
-          "gitattributes",
-          "json",
-          "jsonc",
-          "cpp",
-          "c",
-          "make",
-          "cmake",
-          "python",
-          "lua",
-          "luadoc",
-          "html",
-          "css",
-          "rust",
-          "bash",
-          "comment",
-          "csv",
-          "desktop",
-          "dockerfile",
-          "doxygen",
-          "fish",
-          "editorconfig",
-          "markdown",
-          "markdown_inline",
-          "ssh_config",
-          "tsx",
-          "typescript",
-          "javascript",
-          "ini",
-          "vim",
-          "xml",
-          "yaml",
-          "http",
-          -- "regex",
-        },
-        ignore_install = {},
-        modules = {},
-        sync_install = false,
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { enable = true },
-        fold = { enable = true },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = "<M-w>",
-            scope_incremental = "<CR>",
-            node_incremental = "grn",
-            node_decremental = "grm",
+      config = function()
+        require("nvim-treesitter.configs").setup({
+          ensure_installed = {
+            "c", "cpp", "lua", "python", "json", "jsonc", "html", "css",
+            "rust", "bash", "markdown", "typescript", "javascript", "cmake", "make",
           },
-        },
-        matchup = { enable = true },
-        endwise = { enable = true },
-        textobjects = {
-          select = {
+          highlight = { enable = true },
+          indent = { enable = true },
+          fold = { enable = true },
+          incremental_selection = {
             enable = true,
-            lookahead = true,
             keymaps = {
-              ["af"] = "@function.outer",
-              ["if"] = "@function.inner",
-              ["ac"] = "@class.outer",
+              init_selection = "<M-w>",
+              scope_incremental = "<CR>",
+              node_incremental = "grn",
+              node_decremental = "grm",
             },
           },
-        },
-      })
-    end,
-  },
-  {
-    "jmbuhr/otter.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+          textobjects = {
+            select = {
+              enable = true,
+              lookahead = true,
+              keymaps = {
+                ["af"] = "@function.outer",
+                ["if"] = "@function.inner",
+                ["ac"] = "@class.outer",
+              },
+            },
+          },
+        })
+      end,
     },
-    opts = {},
   },
-
-  {
-    "samiulsami/fFtT-highlights.nvim",
-    config = function()
-      require("fFtT-highlights"):setup({
-      })
-    end,
-  },
+  init = function()
+    require("devcontainer-cli").setup({
+      interactive = false,
+      toplevel = true,
+      remove_existing_container = true,
+      dotfiles_repository = "https://github.com/iAmWayward/.config-nvim",
+      dotfiles_branch = "Exodus",
+      -- dotfiles_targetPath = "~/dotfiles",
+      -- dotfiles_installCommand = "install.sh",
+      shell = "bash",
+      nvim_binary = "nvim",
+      log_level = "debug",
+      console_level = "info",
+      keys = {
+          {
+            "<leader>cdu",
+            ":DevcontainerUp<cr>",
+            desc = "Up the DevContainer",
+          },
+          {
+            "<leader>cdc",
+            ":DevcontainerConnect<cr>",
+            desc = "Connect to DevContainer",
+          },
+        },
+    })
+  end,
+  }
 }
+

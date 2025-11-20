@@ -20,7 +20,7 @@ vim.o.number = true
 vim.opt.statuscolumn = [[%=%l %s]]
 -- vim.cmd.set = "termguicolors"
 vim.opt.termguicolors = true
-vim.o.shell = "fish"
+vim.o.shell = "bash"
 
 vim.opt.expandtab = true -- Convert tabs to spaces
 vim.opt.tabstop = 2      -- Number of spaces a TAB displays as

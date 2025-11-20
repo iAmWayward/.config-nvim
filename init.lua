@@ -1,16 +1,10 @@
-vim.deprecate = function() end -- Shut up about deprecations
+-- init.lua
+vim.deprecate = function() end
+
 require("config.lazy")
+require("config.lsp")
 
--- Load all LSP configs from lua/lsp/
-local lsp_dir = vim.fn.stdpath("config") .. "/lua/lsp"
-
-for _, file in ipairs(vim.fn.readdir(lsp_dir, [[v:val =~ '\.lua$']])) do
-  local mod = file:gsub("%.lua$", "")
-  local ok, err = pcall(require, "lsp." .. mod)
-  if not ok then
-    vim.notify("Error loading LSP config " .. mod .. ": " .. err, vim.log.levels.ERROR)
-  end
-end
-
+-- Load LSP configs dynamically
 
 require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/lua/snippets" })
+

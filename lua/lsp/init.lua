@@ -1,9 +1,0 @@
--- local servers = {
---   "bitbake",
---   "pyright",
---   "clangd",
--- }
---
--- for _, server in ipairs(servers) do
---   require("lsp." .. server)
--- end
