@@ -1,5 +1,4 @@
 -- init.lua
-vim.deprecate = function() end
 
 require("config.lazy")
 require("config.lsp")
