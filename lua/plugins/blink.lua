@@ -47,9 +47,6 @@ return {
     },
 
     opts = {
-      ghost_text = {
-        enabled = true,
-      },
       keymap = {
         ["<A-Enter>"] = { "accept" }, -- select_and_accept
         ["<Tab>"] = { "snippet_forward", "fallback" },
@@ -59,14 +56,14 @@ return {
 
       completion = {
         trigger = {
-          -- When true, will show the completion window after typing any of alphanumerics, `-` or `_`
           show_on_keyword = true,
+        --   show_on_trigger_character = false,
+        },
+        ghost_text = {
+          enabled = true,
+          show_with_menu = false
         },
 
-        --   -- When true, will show the completion window after typing a trigger character
-        --   show_on_trigger_character = false,
-        --
-        -- },
         documentation = {
           draw = function(opts)
             if opts.item and opts.item.documentation then
@@ -95,17 +92,25 @@ return {
         providers = {
           snippets = {
             name = "LuaSnip",
-            module = "blink.compat.source",
-            opts = { prefix_min_len = 2 },
+            module = "blink.cmp.sources.snippets",
+            opts = { 
+              -- friendly_snippets = true,
+              -- search_paths = { vim.fn.stdpath('config') .. '/snippets' },
+              -- global_snippets = { 'all' },
+              -- Set to '+' to use the system clipboard, or '"' to use the unnamed register
+              clipboard_register = nil,
+              -- Whether to put the snippet description in the label description
+              use_label_description = false,
+            },
             --             should_show_items = function(ctx)
             --   return ctx.trigger.initial_kind ~= 'trigger_character' and not require('blink.cmp').snippet_active()
             -- end,
             score_offset = 0,
           },
-          buffer = {
-            name = "buffer",
-            module = "blink.compat.source",
-            opts = { prefix_min_len = 3 },
+          lsp = {
+            name = "LSP",
+            module = "blink.cmp.sources.lsp",
+            fallbacks = { "buffer" },
             score_offset = -3, -- if desired lower than LSP/snippets
           },
           env = {
@@ -131,7 +136,38 @@ return {
             name = "Avante",
             opts = { prefix_min_len = 3 },
           },
-
+          buffer = {
+            module = 'blink.cmp.sources.buffer',
+            score_offset = -10,
+            opts = {
+              -- default to all visible buffers
+              get_bufnrs = function()
+                return vim
+                  .iter(vim.api.nvim_list_wins())
+                  :map(function(win) return vim.api.nvim_win_get_buf(win) end)
+                  :filter(function(buf) return vim.bo[buf].buftype ~= 'nofile' end)
+                  :totable()
+              end,
+              -- buffers when searching with `/` or `?`
+              get_search_bufnrs = function() return { vim.api.nvim_get_current_buf() } end,
+              -- Maximum total number of characters (in an individual buffer) for which buffer completion runs synchronously. Above this, asynchronous processing is used.
+              max_sync_buffer_size = 20000,
+              -- Maximum total number of characters (in an individual buffer) for which buffer completion runs asynchronously. Above this, the buffer will be skipped.
+              max_async_buffer_size = 200000,
+              -- Maximum text size across all buffers (default: 500KB)
+              max_total_buffer_size = 500000,
+              -- Order in which buffers are retained for completion, up to the max total size limit (see above)
+              retention_order = { 'focused', 'visible', 'recency', 'largest' },
+              -- Cache words for each buffer which increases memory usage but drastically reduces cpu usage. Memory usage depends on the size of the buffers from `get_bufnrs`. For 100k items, it will use ~20MBs of memory. Invalidated and refreshed whenever the buffer content is modified.
+              use_cache = true,
+              -- Whether to enable buffer source in substitute (:s), global (:g) and grep commands (:grep, :vimgrep, etc.).
+              -- Note: Enabling this option will temporarily disable Neovim's 'inccommand' feature
+              -- while editing Ex commands, due to a known redraw issue (see neovim/neovim#9783).
+              -- This means you will lose live substitution previews when using :s, :smagic, or :snomagic
+              -- while buffer completions are active.
+              enable_in_ex_commands = false,
+            }
+          },
           -- css_vars = {
           -- 	name = "css-vars",
           -- 	module = "css-vars.blink",
@@ -158,7 +194,21 @@ return {
               end,
             },
           },
-
+          path = {
+            module = 'blink.cmp.sources.path',
+            score_offset = 3,
+            fallbacks = { 'buffer' },
+            opts = {
+              trailing_slash = true,
+              label_trailing_slash = true,
+              get_cwd = function(context) return vim.fn.expand(('#%d:p:h'):format(context.bufnr)) end,
+              show_hidden_files_by_default = false,
+              -- Treat `/path` as starting from the current working directory (cwd) instead of the root of your filesystem
+              ignore_root_slash = false,
+              -- Maximum number of files/directories to return. This limits memory use and responsiveness for very large folders.
+              max_entries = 10000,
+            }
+          },
           -- nerdfont = {
           --   module = "blink-nerdfont", name = "Nerd Fonts", score_offset = 15, opts = { insert = true }
           -- },

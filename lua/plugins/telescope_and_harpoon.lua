@@ -2,13 +2,13 @@ return {
   {
     "coffebar/neovim-project",
     opts = {
-      projects = { -- define project roots
-        "~/projects/*",
-        "~/.config/*",
-        -- "~/Code/*",
-        -- "~/Code/MadeInLyh*",
-        "~/Code/*/*",
-      },
+      -- projects = { -- define project roots
+      --   "~/projects/*",
+      --   "~/.config/*",
+      --   -- "~/Code/*",
+      --   -- "~/Code/MadeInLyh*",
+      --   "~/Code/*/*",
+      -- },
       auto_discover = {
         enabled = true,
         patterns = { ".git" }, -- Look for .git folders
