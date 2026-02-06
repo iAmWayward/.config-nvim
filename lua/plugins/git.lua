@@ -31,10 +31,10 @@ return {
     event = "VeryLazy",
     opts = {},
   },
-  {
-    "sindrets/diffview.nvim",
-    event = "VeryLazy",
-  },
+  -- {
+  --   "sindrets/diffview.nvim",
+  --   event = "VeryLazy",
+  -- },
   {
     "akinsho/git-conflict.nvim",
     version = "*",
@@ -49,4 +49,14 @@ return {
       }
     end
   },
+  {
+    "lionyxml/gitlineage.nvim",
+    dependencies = {
+        "sindrets/diffview.nvim", -- optional, for open_diff feature
+    },
+    config = function()
+        require("gitlineage").setup()
+    end
+}
+
 }
