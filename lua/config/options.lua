@@ -18,7 +18,6 @@ vim.o.conceallevel = 2
 vim.o.signcolumn = "yes"
 vim.o.number = true
 vim.opt.statuscolumn = [[%=%l %s]]
--- vim.cmd.set = "termguicolors"
 vim.opt.termguicolors = true
 vim.o.shell = "bash"
 

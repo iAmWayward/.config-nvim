@@ -47,18 +47,20 @@ return {
     },
 
     opts = {
-
+      ghost_text = {
+        enabled = true,
+      },
       keymap = {
-        ["<CR>"] = { "accept", "fallback" }, -- select_and_accept
-        ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
-        ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+        ["<A-Enter>"] = { "accept" }, -- select_and_accept
+        ["<Tab>"] = { "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "fallback" },
       },
       snippets = { preset = "luasnip" },
 
       completion = {
         trigger = {
           -- When true, will show the completion window after typing any of alphanumerics, `-` or `_`
-          show_on_keyword = false,
+          show_on_keyword = true,
         },
 
         --   -- When true, will show the completion window after typing a trigger character
