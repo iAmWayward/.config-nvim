@@ -9,6 +9,14 @@ cd ~/.config
 git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
 ```
 
+### Fedora 43:
+```bash
+sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/home:justkidding/Fedora_40/home:justkidding.repo
+```
+```bash
+sudo dnf install ueberzugpp
+```
+
 ### Setup MCP for AI Assistant
 
 ```bash
