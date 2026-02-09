@@ -1,11 +1,15 @@
+-- lua/config/lsp.lua
 vim.lsp.config.clangd = {
   cmd = {
     "clangd",
     "--background-index",
-    -- "--path-mappings=/workspace=" .. vim.fn.getcwd(),
   },
   root_markers = { "compile_commands.json", "compile_flags.txt", ".git" },
   filetypes = { "c", "cpp", "objc", "objcpp" },
+  -- any other options, e.g., capabilities, settings
+  -- root_dir = function()
+  --   return "/workspace"
+  -- end,
 }
 
 vim.lsp.enable("clangd")
