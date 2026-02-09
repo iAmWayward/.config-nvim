@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     -- Completion
     -- vim.lsp.completion.enable(nil, args.data.client_id, bufnr, { autotrigger = true })
-    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = false })
+    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
 
     -- Highlight under cursor (only if the client supports it)
     if client.server_capabilities.documentHighlightProvider then

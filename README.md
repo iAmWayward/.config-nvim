@@ -13,7 +13,11 @@ git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
 
 ```bash
 
-sudo npm install -g mcp-hub@latest
+sudo npm install -g mcp-hub@latest # MCP hub for AI
+
+sudo dnf config-manager addrepo --from-repofile=https://download.opensuse.org/repositories/home:justkidding/Fedora_Rawhide/home:justkidding.repo
+
+sudo dnf install ueberzugpp ImageMagick-devel
 ```
 
 

@@ -1,6 +1,13 @@
 return {
   -- Show neovim file editing as discord activity
   -- { "andweeb/presence.nvim" },
+  {
+    "samiulsami/fFtT-highlights.nvim",
+    config = function()
+      require("fFtT-highlights"):setup({
+      })
+    end,
+  },
   { "vyfor/cord.nvim" },
   {
     "karb94/neoscroll.nvim",

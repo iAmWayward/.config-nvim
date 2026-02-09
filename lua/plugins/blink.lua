@@ -281,5 +281,5 @@ return {
     version = "2.*",
     lazy = true,
     opts = {},
-  },
+  }
 }
