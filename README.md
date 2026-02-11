@@ -12,8 +12,24 @@ git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
 ```bash
 sudo snap install nvim
 
-sudo apt install ueberzug python3.12-venv nodejs npm
+sudo apt install ueberzug python3.12-venv nodejs npm build-essential libreadline-dev unzip lua rustup podman-compose lua5.1 ripgrep lua-file-system pip
+
 ```
+Get [Luarocks latest build](https://luarocks.github.io/luarocks/releases/)
+then,
+
+```bash
+tar -xvf luarocks.tar.gz
+cd luarocks-folder
+./configure --with-lua-include=/usr/local/include # or /usr/include
+make
+sudo make install
+```
+
+```bash
+sudo luarocks --lua-version 5.1 install jsregexp
+```
+
 ### Fedora 43:
 ```bash
 sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/home:justkidding/Fedora_40/home:justkidding.repo
