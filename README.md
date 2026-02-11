@@ -8,7 +8,12 @@ This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 cd ~/.config
 git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
 ```
+### Ubuntu 24.04
+```bash
+sudo snap install nvim
 
+sudo apt install ueberzug python3.12-venv nodejs npm
+```
 ### Fedora 43:
 ```bash
 sudo dnf config-manager --add-repo https://download.opensuse.org/repositories/home:justkidding/Fedora_40/home:justkidding.repo
