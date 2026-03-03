@@ -21,6 +21,7 @@ vim.opt.statuscolumn = [[%=%l %s]]
 vim.opt.termguicolors = true
 vim.o.shell = "bash"
 
+vim.o.laststatus = 0
 vim.opt.expandtab = true -- Convert tabs to spaces
 vim.opt.tabstop = 2      -- Number of spaces a TAB displays as
 vim.opt.shiftwidth = 2   -- Number of spaces for auto-indent and >>/<< operations

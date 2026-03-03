@@ -19,7 +19,6 @@ return {
       })
     end,
   },
-
   {
   "https://codeberg.org/esensar/nvim-dev-container",
     config = function()
@@ -134,12 +133,7 @@ return {
         "JoosepAlviste/nvim-ts-context-commentstring",
         "windwp/nvim-ts-autotag",
       },
-      config = function()
-        require("nvim-treesitter.configs").setup({
-          ensure_installed = {
-            "c", "cpp", "lua", "python", "json", "jsonc", "html", "css",
-            "rust", "bash", "markdown", "typescript", "javascript", "cmake", "make",
-          },
+      opts = {
           highlight = { enable = true },
           indent = { enable = true },
           fold = { enable = true },
@@ -163,37 +157,9 @@ return {
               },
             },
           },
-        })
-      end,
+        },
+      }, 
     },
   },
-  -- init = function()
-  --   require("devcontainer-cli").setup({
-  --     interactive = false,
-  --     toplevel = true,
-  --     remove_existing_container = true,
-  --     dotfiles_repository = "https://github.com/iAmWayward/.config-nvim",
-  --     dotfiles_branch = "Exodus",
-  --     -- dotfiles_targetPath = "~/dotfiles",
-  --     -- dotfiles_installCommand = "install.sh",
-  --     shell = "bash",
-  --     nvim_binary = "nvim",
-  --     log_level = "debug",
-  --     console_level = "info",
-  --     keys = {
-  --         {
-  --           "<leader>cdu",
-  --           ":DevcontainerUp<cr>",
-  --           desc = "Up the DevContainer",
-  --         },
-  --         {
-  --           "<leader>cdc",
-  --           ":DevcontainerConnect<cr>",
-  --           desc = "Connect to DevContainer",
-  --         },
-  --       },
-  --   })
-  -- end,
   }
-}
 

@@ -1,5 +1,4 @@
 return {
-  -- Bufferline and Dropbar are the tabs and breadcrumbs at the top of the editor
   -- {
   --   "petertriho/nvim-scrollbar",
   -- },
@@ -10,7 +9,6 @@ return {
     version = "*",
     dependencies = {
       "nvim-tree/nvim-web-devicons",
-
     },
     opts = {
       -- highlights = get_bufferline_highlights(),
@@ -223,12 +221,12 @@ return {
       })
     end,
   },
-  {
-    "gorbit99/codewindow.nvim",
-    config = function()
-      local codewindow = require("codewindow")
-      codewindow.setup()
-      codewindow.apply_default_keybinds()
-    end,
-  },
+  -- {
+  --   "gorbit99/codewindow.nvim",
+  --   config = function()
+  --     local codewindow = require("codewindow")
+  --     codewindow.setup()
+  --     codewindow.apply_default_keybinds()
+  --   end,
+  -- },
 }

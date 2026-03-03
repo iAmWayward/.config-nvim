@@ -4,7 +4,7 @@ return {
     event = { "InsertEnter", "CmdlineEnter" },
     build = "cargo build --release",
     lazy = true,
-    version = "2.*",
+    version = "*",
     dependencies = {
       -- "MahanRahmati/blink-nerdfont.nvim",
       -- "dmitmel/cmp-digraphs",

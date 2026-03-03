@@ -8,13 +8,15 @@ This README assumes almost no knowledge of (neo)vi(m) on the part of the reader.
 cd ~/.config
 git clone https://github.com/AlphaNumericPencil/.config-nvim nvim
 ```
+
 ### Ubuntu 24.04
 ```bash
 sudo snap install nvim
 
-sudo apt install ueberzug python3.12-venv nodejs npm build-essential libreadline-dev unzip lua rustup podman-compose lua5.1 ripgrep lua-file-system pip
+sudo apt install ueberzug python3.12-venv nodejs npm build-essential libreadline-dev unzip lua rustup podman-compose lua5.1 ripgrep lua-file-system pip fd-find
 
 ```
+
 Get [Luarocks latest build](https://luarocks.github.io/luarocks/releases/)
 then,
 
@@ -29,6 +31,15 @@ sudo make install
 ```bash
 sudo luarocks --lua-version 5.1 install jsregexp
 ```
+```bash
+sudo npm -g neovim
+```
+
+In editor:
+```
+:TSInstall vim
+```
+
 
 ### Fedora 43:
 ```bash
