@@ -34,7 +34,9 @@ return {
         },
         config = function()
           require("luasnip.loaders.from_vscode").lazy_load()       -- load VSCode-style snippets (friendly-snippets)
-          require("luasnip.loaders.from_lua").lazy_load()          -- load any custom LuaSnip snippet files
+          require("luasnip.loaders.from_lua").lazy_load({           -- load any custom LuaSnip snippet files
+            paths = vim.fn.stdpath("config") .. "/lua/snippets",
+          })
           -- Extend filetypes to include doc-comment snippets from friendly-snippets:
           require("luasnip").filetype_extend("cpp", { "cppdoc" })  -- Doxygen for C++
           require("luasnip").filetype_extend("c", { "cdoc" })      -- Doxygen for C

@@ -1,834 +1,282 @@
--- config/keymaps.lua
+-- lua/config/keymaps.lua
 local M = {}
--- {{{ Section Name
--- fold markers
--- }}}
---
 
-M.items = {
-  -- Base keymaps
-  { mode = { "n", "x" }, "<leader>n",  group = "+NoNeckPain" },
+local function map(mode, lhs, rhs, desc, extra)
+	vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", { silent = true, desc = desc }, extra or {}))
+end
 
-  {
-    itemgroup = "+Toggle",
-    description = "Toggle Settings for themes and preferences",
-    icon = "",
-    keymaps = {
+-- Register all global keymaps. Called from the which-key plugin config.
+M.setup = function()
+	-- Misc
+	map({ "n", "x" }, "<leader>cp", '"+y', "Copy to system clipboard")
+	map({ "n", "x" }, "<leader>cv", '"+p', "Paste from system clipboard")
+	map("n", "<Esc>", "<cmd>nohlsearch<CR>", "Clear search highlight")
+	map("n", "<leader>tn", "<cmd>set relativenumber!<cr>", "Toggle relative numbers")
+	map("n", "<leader>uh", function()
+		local bufnr = vim.api.nvim_get_current_buf()
+		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+	end, "Toggle Inlay Hints")
 
-      { mode = "n", "<leader>tT", "<cmd>Themery<cr>",            description = "Change theme" },
-      { mode = "n", "<leader>tt", "<cmd>TransparentToggle<cr>",  description = "Toggle Transparency" },
-      { mode = "n", "<leader>tw", "<cmd>Twilight<cr>",           description = "Toggle Twilight" },
-      { mode = "n", "<leader>ts", "<cmd>TabsVsSpacesToggle<cr>", description = "Tabs vs Spaces" },
-      {
-        mode = "n",
-        "<leader>td",
-        function()
-          require("functions.toggle-diagnostics").cycle()
-        end,
-        description = "Cycle Diagnostics Display",
-      },
-    }
-  },
-  -- {
-  --   mode = "n",
-  --   "<leader>tsc",
-  --   CycleScrollbar(),
-  --   description = "Cycle scrollbar",
-  -- },
-  { mode = { "n", "x" }, "<leader>cp", '"+y',                 description = "Copy to system clipboard" },
-  { mode = { "n", "x" }, "<leader>cv", '"+p',                 description = "Paste from system clipboard" },
-  { mode = { "n" },      "<Esc>",      "<cmd>nohlsearch<CR>", description = "Esc to clear search" },
-  -- vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-  -- { mode = { "n", "x" }, "C-<tab>", 'copilot#Accept("<CR>")', description = "accept from Copilot" },
-  {
-    mode = "n",
-    "<leader>uh",
-    function()
-      local bufnr = vim.api.nvim_get_current_buf()
-      local current_setting = vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr })
-      vim.lsp.inlay_hint.enable(not current_setting, { bufnr = bufnr })
-    end,
-    description = "Toggle Inlay Hints",
-  },
-  {
-    mode = "n",
-    "<leader>tn",
-    "<cmd>:set relativenumber!<cr>",
-    description = "Toggle relative numbers",
-  },
+	-- Toggle
+	map("n", "<leader>tT", "<cmd>Themery<cr>", "Change theme")
+	map("n", "<leader>tt", "<cmd>TransparentToggle<cr>", "Toggle Transparency")
+	map("n", "<leader>tw", "<cmd>Twilight<cr>", "Toggle Twilight")
+	map("n", "<leader>ts", "<cmd>TabsVsSpacesToggle<cr>", "Tabs vs Spaces")
+	map("n", "<leader>td", function()
+		require("functions.toggle-diagnostics").cycle()
+	end, "Cycle Diagnostics Display")
 
-  -- NoNeckPain
-  {
-    itemgroup = "+NoNeckPain",
-    description = "Center code in the terminal to reduce neck strain and increase ergonomics",
-    icon = "",
-    keymaps = {
-      { mode = "n", "<leader>nnp", "<cmd>NoNeckPain<cr>",           description = "Toggle No Neck Pain" },
-      { mode = "n", "<leader>nwu", "<cmd>NoNeckPainWidthUp<cr>",    description = "Increase width" },
-      { mode = "n", "<leader>nwd", "<cmd>NoNeckPainWidthDown<cr>",  description = "Decrease width" },
-      { mode = "n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", description = "Toggle scratchpad" },
-    },
-  },
-  {
-    itemgroup = "+Games",
-    description = "Play Games",
-    icon = "󰡺",
-    keymaps = {
-      { mode = "n", "<leader>pbg", "<cmd>VimBeGood<cr>",                      description = "Vim Be Good" },
-      { mode = "n", "<leader>pt",  "<cmd>tetris<cr>",                         description = "Tetris" },
-      { mode = "n", "<leader>ps",  "<cmd>solitaire<cr>",                      description = "Solitaire" },
-      { mode = "n", "<leader>pm",  "<cmd>minesweeper<cr>",                    description = "Minesweeper" },
-      { mode = "n", "<leader>pk",  "<cmd>KillKillKill<cr>",                   description = "Killer Sheep" },
-      { mode = "n", "<leader>pa",  "<cmd>CellularAutomaton make_it_rain<cr>", description = "die code" },
-      { mode = "n", "<leader>pA",  "<cmd>CellularAutomaton game_of_life<cr>", description = "game of life" },
-      {
-        mode = "n",
-        "<leader>pt",
-        "<cmd>:tetris<cr>",
-        description = "Play tetris",
-      },
-    },
-  },
-  {
-    itemgroup = "+UFO",
-    description = "Center code in the terminal to reduce neck strain and increase ergonomics",
-    icon = "",
-    keymaps = {
-      { mode = "n", "zR", require("ufo").openAllFolds,         description = "Open all folds" },
-      { mode = "n", "zM", require("ufo").closeAllFolds,        description = "Close all folds" },
-      { mode = "n", "zr", require("ufo").openFoldsExceptKinds, description = "Open folds except kind" },
-      { mode = "n", "zm", require("ufo").closeFoldsWith,       description = "Close folds with..." },
-    },
-  },
-  {
-    itemgroup = "+Hover",
-    description = "View documentation in a tooltip",
-    icon = "",
-    keymaps = {
-      {
-        mode = "n",
-        "K",
-        function()
-          local ufo = require("ufo")
-          if ufo and ufo.peekFoldedLinesUnderCursor and ufo.peekFoldedLinesUnderCursor() then
-            return
-          end
-          require("pretty_hover").hover() -- Call pretty_hover directly
-        end,
-        description = "Peek fold (UFO) or pretty_hover",
-      },
-      {
-        mode = "n",
-        "<C-n>",
-        function()
-          require("hover").hover_switch("next")
-        end,
-        description = "Next hover",
-      },
-      {
-        mode = "n",
-        "<C-p>",
-        function()
-          require("hover").hover_switch("previous")
-        end,
-        description = "Previous hover",
-      },
-    },
-  },
-  -- Doxygen
-  {
-    itemgroup = "+Documentation",
-    description = "Code documentation tools",
-    icon = "󰏫",
-    keymaps = {
-      { "<leader>dd",  "<cmd>DoxygenOpen<CR>",                   desc = "Open Doxygen" },
-      { "<leader>du",  "<cmd>DoxygenUpdate<CR>",                 desc = "Update Doxygen" },
-      -- { "<leader>dcs", "<cmd>DevcontainerStart<CR>",             desc = "Start Dev Container" },
-      -- { "<leader>dcS", "<cmd>DevcontainerStop<CR>",              desc = "Stop Dev Container" },
-      -- { "<leader>dcl", "<cmd>DevcontainerLogs<CR>",              desc = "Stop Dev Container" },
-      -- { "<leader>dce", "<cmd>DevcontainerEditNearestConfig<CR>", desc = "Stop Dev Container" },
-    },
-  },
+	-- NoNeckPain
+	map("n", "<leader>nnp", "<cmd>NoNeckPain<cr>", "Toggle No Neck Pain")
+	map("n", "<leader>nwu", "<cmd>NoNeckPainWidthUp<cr>", "Increase width")
+	map("n", "<leader>nwd", "<cmd>NoNeckPainWidthDown<cr>", "Decrease width")
+	map("n", "<leader>nns", "<cmd>NoNeckPainScratchPad<cr>", "Toggle scratchpad")
 
-  -- Neogen
-  {
-    itemgroup = "+Neogen",
-    description = "Quickly generate header comments for a variety of languages using various format specifications.",
-    icon = "",
-    keymaps = {
-      {
-        mode = "n",
-        "<leader>ng",
-        function()
-          require("neogen").generate()
-        end,
-        description = "Generate docs",
-      },
-      {
-        mode = "n",
-        "<leader>nf",
-        function()
-          require("neogen").generate({ type = "func" })
-        end,
-        description = "Function doc",
-      },
-      {
-        mode = "n",
-        "<leader>nc",
-        function()
-          require("neogen").generate({ type = "class" })
-        end,
-        description = "Class doc",
-      },
-    },
-  },
-  {
-    itemgroup = "+Diagnostics",
-    description = "Index errors, warnings, and info dialouges and diagnostics.",
-    icon = "",
-    keymaps = {
-      {
-        "<leader>xx",
-        function()
-          require("functions.toggle-trouble").toggle_below()
-        end,
-        desc = "鈴 Diagnostics below code (Trouble)",
-      },
-      {
-        "<leader>xX",
-        function()
-          require("functions.toggle-trouble").toggle_buffer_diagnostics()
-        end,
-        desc = "󰒡 Buffer Diagnostics (Trouble)",
-      },
-      {
-        "<leader>cs",
-        function()
-          require("functions.toggle-trouble").toggle_symbols()
-        end,
-        desc = "󰒡 Symbols (Trouble)",
-      },
-      {
-        "<leader>xr",
-        function()
-          require("functions.toggle-trouble").toggle_lsp()
-        end,
-        desc = "󰒡 LSP Definitions / References (Trouble)",
-      },
-      {
-        "<leader>xL",
-        function()
-          require("functions.toggle-trouble").toggle_loclist()
-        end,
-        desc = "󰒡 Location List (Trouble)",
-      },
-      {
-        "<leader>xQ",
-        function()
-          require("functions.toggle-trouble").toggle_qflist()
-        end,
-        desc = "󰒡 Quickfix List (Trouble)",
-      },
-      {
-        "<leader>xi",
-        function()
-          require("functions.toggle-trouble").toggle_implement()
-        end,
-        desc = "󰒡 Symbols (Trouble)",
-      },
-      {
-        "<leader>xtd",
-        function()
-          require("functions.toggle-trouble").toggle_typedef()
-        end,
-        desc = "󰒡 LSP Definitions / References (Trouble)",
-      },
-    },
-  },
+	-- Games
+	map("n", "<leader>pbg", "<cmd>VimBeGood<cr>", "Vim Be Good")
+	map("n", "<leader>pt", "<cmd>tetris<cr>", "Tetris")
+	map("n", "<leader>ps", "<cmd>solitaire<cr>", "Solitaire")
+	map("n", "<leader>pm", "<cmd>minesweeper<cr>", "Minesweeper")
+	map("n", "<leader>pk", "<cmd>KillKillKill<cr>", "Killer Sheep")
+	map("n", "<leader>pa", "<cmd>CellularAutomaton make_it_rain<cr>", "Make It Rain")
+	map("n", "<leader>pA", "<cmd>CellularAutomaton game_of_life<cr>", "Game of Life")
 
-  -- Neo-tree
-  {
-    itemgroup = "+File Tree",
-    description = "File tree navigation",
-    icon = "",
-    keymaps = {
-      {
-        mode = "n",
-        "<Bar>",
-        "<cmd>Neotree reveal<cr>",
-        description = "Reveal file in Neo-tree",
-      },
-      {
-        mode = "n",
-        "rf",
-        function()
-          vim.cmd("Neotree float reveal_file=" .. vim.fn.expand("<cfile>") .. " reveal_force_cwd")
-        end,
-        description = "Reveal in float",
-      },
-      {
-        mode = "n",
-        "<leader>B",
-        "<cmd>Neotree buffers toggle position=right<cr>",
-        description = "Buffer list",
-      },
-      {
-        mode = "n",
-        "<leader>s",
-        "<cmd>Neotree float git_status<cr>",
-        description = "Git status",
-      },
-      {
-        mode = "n",
-        "<leader><space>",
-        "<cmd>Neotree filesystem show<cr>",
-        description = "Show filesystem",
-      },
-      {
-        mode = "n",
-        "<leader>o",
-        "<cmd>Neotree toggle<cr>",
-        description = "Toggle Neo-tree",
-      },
-      {
-        mode = "n",
-        "<leader>O",
-        "<cmd>Neotree show<cr>",
-        description = "Toggle Neo-tree",
-      },
-    },
-    condition = function()
-      return vim.bo.filetype == "neo-tree"
-    end,
-    opts = {
-      buffer = 0, -- 0 means current buffer
-      show_keys = true,
-    },
-  },
+	-- Folds (UFO)
+	map("n", "zR", function()
+		require("ufo").openAllFolds()
+	end, "Open all folds")
+	map("n", "zM", function()
+		require("ufo").closeAllFolds()
+	end, "Close all folds")
+	map("n", "zr", function()
+		require("ufo").openFoldsExceptKinds()
+	end, "Open folds except kind")
+	map("n", "zm", function()
+		require("ufo").closeFoldsWith()
+	end, "Close folds with...")
 
-  -- Bufferline
-  {
-    itemgroup = "+Bufferline",
-    description = "Use buffers as tabs to allow one terminal tab to encapsulate a project",
-    icon = "",
-    keymaps = {
-      { mode = { "n", "i" }, "<M-PageUp>",   "<cmd>BufferLineCyclePrev<CR>", description = "Previous buffer" },
-      { mode = { "n", "i" }, "<M-PageDown>", "<cmd>BufferLineCycleNext<CR>", description = "Next buffer" },
-      { mode = "n",          "<leader>q",    "<cmd>bp|bd #<CR>",             description = "Close buffer" },
-    },
-  },
+	-- Hover
+	map("n", "K", function()
+		local ufo = require("ufo")
+		if ufo and ufo.peekFoldedLinesUnderCursor and ufo.peekFoldedLinesUnderCursor() then
+			return
+		end
+		require("pretty_hover").hover()
+	end, "Peek fold or hover docs")
+	map("n", "<C-n>", function()
+		require("hover").hover_switch("next")
+	end, "Next hover provider")
+	map("n", "<C-p>", function()
+		require("hover").hover_switch("previous")
+	end, "Previous hover provider")
 
-  {
-    itemgroup = "+Scrolling",
-    description = "Smooth scrolling with neoscroll",
-    icon = "󰅟",
-    keymaps = {
-      {
-        mode = { "n", "v", "x" },
-        "<C-k>",
-        function()
-          require("neoscroll").ctrl_u({ duration = 250 })
-        end,
-      },
-      {
-        mode = { "n", "v", "x" },
-        "<C-j>",
-        function()
-          require("neoscroll").ctrl_d({ duration = 250 })
-        end,
-      },
-      {
-        mode = { "n", "v", "x" },
-        "<C-b>",
-        function()
-          require("neoscroll").ctrl_b({ duration = 450 })
-        end,
-      },
-      {
-        mode = { "n", "v", "x" },
-        "<C-f>",
-        function()
-          require("neoscroll").ctrl_f({ duration = 450 })
-        end,
-      },
-      {
-        mode = { "n", "v", "x" },
-        "<C-y>",
-        function()
-          require("neoscroll").scroll(-0.1, { move_cursor = false, duration = 100 })
-        end,
-      },
-      {
-        mode = { "n", "v", "x" },
-        "<C-e>",
-        function()
-          require("neoscroll").scroll(0.1, { move_cursor = false, duration = 100 })
-        end,
-      },
-      {
-        mode = "n",
-        "zt",
-        function()
-          require("neoscroll").zt({ half_win_duration = 250 })
-        end,
-      },
-      {
-        mode = "n",
-        "zz",
-        function()
-          require("neoscroll").zz({ half_win_duration = 250 })
-        end,
-      },
-      {
-        mode = "n",
-        "zb",
-        function()
-          require("neoscroll").zb({ half_win_duration = 250 })
-        end,
-      },
-      {
-        mode = { "n", "v", "x", "i" }, -- Add relevant modes here
-        "<PageUp>",
-        function()
-          require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, { duration = 250 })
-        end,
-        description = "Page Up (Neoscroll)",
-      },
-      {
-        mode = { "n", "v", "x", "i" }, -- Add relevant modes here
-        "<PageDown>",
-        function()
-          require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
-        end,
-        description = "Page Down (Neoscroll)",
-      },
-    },
-  },
+	-- Documentation
+	map("n", "<leader>dd", "<cmd>DoxygenOpen<CR>", "Open Doxygen")
+	map("n", "<leader>du", "<cmd>DoxygenUpdate<CR>", "Update Doxygen")
 
-  -- Telescope
-  {
-    itemgroup = "+Telescope",
-    description = "Find files and strings using telescope",
-    icon = "",
-    keymaps = {
-      {
-        mode = "n",
-        "<leader>f",
-        "",
-        description = "Telescope (finder)",
-      },
-      -- General
-      {
-        mode = "n",
-        "<leader>ff",
-        require("telescope.builtin").find_files,
-        description = "Find Files",
-      },
-      {
-        mode = "n",
-        "<leader>fa",
-        require("telescope.builtin").live_grep,
-        description = "Live Grep",
-      },
-      {
-        mode = "n",
-        "<leader>fb",
-        require("telescope.builtin").buffers,
-        description = "Find Buffers",
-      },
-      {
-        mode = "n",
-        "<leader>fh",
-        require("telescope.builtin").help_tags,
-        description = "Help Tags",
-      },
-      { "<leader>fp", "<cmd>Telescope projects<CR>", description = "Find projects" },
+	-- Neogen
+	map("n", "<leader>ng", function()
+		require("neogen").generate()
+	end, "Generate docs")
+	map("n", "<leader>nf", function()
+		require("neogen").generate({ type = "func" })
+	end, "Function doc")
+	map("n", "<leader>nc", function()
+		require("neogen").generate({ type = "class" })
+	end, "Class doc")
 
-      -- Git-specific
-      {
-        mode = "n",
-        "<leader>fg",
-        "",
-        description = "Git finder",
-      },
-      {
-        mode = "n",
-        "<leader>fgb",
-        "<cmd>Telescope git_branches<CR>",
-        description = "Git branches",
-      },
-      {
-        mode = "n",
-        "<leader>fgB",
-        function()
-          require("git_branch").files()
-        end,
-        description = "Git branches",
-      },
-      {
-        mode = "n",
-        "<leader>fgc",
-        "<cmd>Telescope git_commits<CR>",
-        description = "Git commits",
-      },
-      {
-        mode = "n",
-        "<leader>fgs",
-        "<cmd>Telescope git_stash<CR>",
-        description = "Git stash",
-      },
-      {
-        mode = "n",
-        "<leader>fgS",
-        "<cmd>Telescope git_status<CR>",
-        description = "Git status",
-      },
-      {
-        mode = "n",
-        "<leader>fcb",
-        require("telescope.builtin").git_bcommits,
-        description = "Commits in buffer",
-      },
-      -- -- Debugger
-      -- {
-      -- 	mode = "n",
-      -- 	"<leader>fdc",
-      -- 	require("telescope'.extensions").dap.commands,
-      -- 	description = "Debugger Commands",
-      -- },
-      -- {
-      -- 	mode = "n",
-      -- 	"<leader>fdC",
-      -- 	require("telescope").extensions.dap.configurations({}),
-      -- 	description = "Debugger Configurations",
-      -- },
-      -- {
-      -- 	mode = "n",
-      -- 	"<leader>fdb",
-      -- 	require("telescope").extensions.dap.list_breakpoints({}),
-      -- 	description = "Debugger Breakpoints",
-      -- },
-      -- {
-      -- 	mode = "n",
-      -- 	"<leader>fdv",
-      -- 	require("telescope").extensions.dap.variables({}),
-      -- 	description = "Debugger Variables",
-      -- },
-      -- {
-      -- 	mode = "n",
-      -- 	"<leader>fdf",
-      -- 	require("telescope").extensions.dap.frames({}),
-      -- 	description = "Debugger Frames",
-      -- },
-      --
-    },
-  },
-  {
-    itemgroup = "+Git",
-    description = "Version Control Integration",
-    icon = "",
-    keymaps = {
-      {
-        mode = "n",
-        "<leader>gp",
-        function()
-          vim.system({ "git", "pull" }, { text = true }, function(result)
-            vim.notify(result.stdout)
-          end)
-        end,
-        description = "Git Pull",
-      },
-      {
-        mode = "n",
-        "<leader>gb",
-        "<cmd>Gitsigns toggle_current_line_blame<CR>",
-        description = "Toggle git blame inline",
-      },
-      {
-        mode = "n",
-        "<leader>gB",
-        "<cmd>Gitsigns blame_line<CR>",
-        description = "Toggle git blame for entire buffer",
-      },
-      {
-        mode = "n",
-        "<leader>ghp",
-        "<cmd>Gitsigns preview_hunk_inline<CR>",
-        description = "Preview git hunk inline",
-      },
-      {
-        mode = "n",
-        "<leader>ghP",
-        "<cmd>Gitsigns preview_hunk<CR>",
-        description = "Preview git hunk buffer-wide",
-      },
-      {
-        mode = "n",
-        "<leader>ghr",
-        "<cmd>Gitsigns reset_hunk<CR>",
-        description = "Reset git hunk",
-      },
+	-- Diagnostics / Trouble
+	map("n", "<leader>xx", function()
+		require("functions.toggle-trouble").toggle_below()
+	end, "Diagnostics below code (Trouble)")
+	map("n", "<leader>xX", function()
+		require("functions.toggle-trouble").toggle_buffer_diagnostics()
+	end, "Buffer Diagnostics (Trouble)")
+	map("n", "<leader>cs", function()
+		require("functions.toggle-trouble").toggle_symbols()
+	end, "Symbols (Trouble)")
+	map("n", "<leader>xr", function()
+		require("functions.toggle-trouble").toggle_lsp()
+	end, "LSP Definitions / References (Trouble)")
+	map("n", "<leader>xL", function()
+		require("functions.toggle-trouble").toggle_loclist()
+	end, "Location List (Trouble)")
+	map("n", "<leader>xQ", function()
+		require("functions.toggle-trouble").toggle_qflist()
+	end, "Quickfix List (Trouble)")
+	map("n", "<leader>xi", function()
+		require("functions.toggle-trouble").toggle_implement()
+	end, "Implementations (Trouble)")
+	map("n", "<leader>xtd", function()
+		require("functions.toggle-trouble").toggle_typedef()
+	end, "Type Definitions (Trouble)")
 
-      {
-        mode = "n",
-        "<leader>ghs",
-        "<cmd>Gitsigns stage_hunk<CR>",
-        description = "Stage git hunk",
-      },
-      {
-        mode = "n",
-        "<leader>gid",
-        "<cmd>Gitsigns toggle_word_diff<CR>",
-        description = "Toggle inline diff",
-      },
-      -- git toggles
-      {
-        mode = "n",
-        "<leader>gtn",
-        "<cmd>Gitsigns toggle_numhl<CR>",
-        description = "Toggle git numline highlight",
-      },
-      {
-        mode = "n",
-        "<leader>gth",
-        "<cmd>Gitsigns toggle_linehl<CR>",
-        description = "Toggle git line highlights",
-      },
-      {
-        mode = "n",
-        "<leader>gts",
-        "<cmd>Gitsigns toggle_signs<CR>",
-        description = "Toggle git signs column highlights",
-      },
-      {
-        mode = "n",
-        "<leader>gl",
-        "<cmd>Gitsigns setloclist<CR>",
-        description = "Toggle git signs column highlights",
-      },
-      {
-        mode = "n",
-        "<leader>gf",
-        "<cmd>Gitsigns setqflist<CR>",
-        description = "Toggle git signs column highlights",
-      },
-    },
-  },
-}
+	-- File Tree (Neo-tree)
+	map("n", "<Bar>", "<cmd>Neotree reveal<cr>", "Reveal file in Neo-tree")
+	map("n", "rf", function()
+		vim.cmd("Neotree float reveal_file=" .. vim.fn.expand("<cfile>") .. " reveal_force_cwd")
+	end, "Reveal in float")
+	map("n", "<leader>B", "<cmd>Neotree buffers toggle position=right<cr>", "Buffer list")
+	map("n", "<leader>s", "<cmd>Neotree float git_status<cr>", "Git status (Neotree)")
+	map("n", "<leader><space>", "<cmd>Neotree filesystem show<cr>", "Show filesystem")
+	map("n", "<leader>o", "<cmd>Neotree toggle<cr>", "Toggle Neo-tree")
+	map("n", "<leader>O", "<cmd>Neotree show<cr>", "Show Neo-tree")
+
+	-- Bufferline
+	map({ "n", "i" }, "<M-PageUp>", "<cmd>BufferLineCyclePrev<CR>", "Previous buffer")
+	map({ "n", "i" }, "<M-PageDown>", "<cmd>BufferLineCycleNext<CR>", "Next buffer")
+	map("n", "<leader>q", "<cmd>bp|bd #<CR>", "Close buffer")
+
+	-- Smooth scrolling (neoscroll)
+	map({ "n", "v", "x" }, "<C-k>", function()
+		require("neoscroll").ctrl_u({ duration = 250 })
+	end)
+	map({ "n", "v", "x" }, "<C-j>", function()
+		require("neoscroll").ctrl_d({ duration = 250 })
+	end)
+	map({ "n", "v", "x" }, "<C-b>", function()
+		require("neoscroll").ctrl_b({ duration = 450 })
+	end)
+	map({ "n", "v", "x" }, "<C-f>", function()
+		require("neoscroll").ctrl_f({ duration = 450 })
+	end)
+	map({ "n", "v", "x" }, "<C-y>", function()
+		require("neoscroll").scroll(-0.1, { move_cursor = false, duration = 100 })
+	end)
+	map({ "n", "v", "x" }, "<C-e>", function()
+		require("neoscroll").scroll(0.1, { move_cursor = false, duration = 100 })
+	end)
+	map("n", "zt", function()
+		require("neoscroll").zt({ half_win_duration = 250 })
+	end)
+	map("n", "zz", function()
+		require("neoscroll").zz({ half_win_duration = 250 })
+	end)
+	map("n", "zb", function()
+		require("neoscroll").zb({ half_win_duration = 250 })
+	end)
+	map({ "n", "v", "x", "i" }, "<PageUp>", function()
+		require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, { duration = 250 })
+	end, "Page Up")
+	map({ "n", "v", "x", "i" }, "<PageDown>", function()
+		require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
+	end, "Page Down")
+
+	-- Telescope
+	map("n", "<leader>ff", function()
+		require("telescope.builtin").find_files()
+	end, "Find Files")
+	map("n", "<leader>fa", function()
+		require("telescope.builtin").live_grep()
+	end, "Live Grep")
+	map("n", "<leader>fb", function()
+		require("telescope.builtin").buffers()
+	end, "Find Buffers")
+	map("n", "<leader>fh", function()
+		require("telescope.builtin").help_tags()
+	end, "Help Tags")
+	map("n", "<leader>fp", "<cmd>Telescope projects<CR>", "Find projects")
+	map("n", "<leader>fgb", "<cmd>Telescope git_branches<CR>", "Git branches")
+	map("n", "<leader>fgB", function()
+		require("git_branch").files()
+	end, "Git branch files")
+	map("n", "<leader>fgc", "<cmd>Telescope git_commits<CR>", "Git commits")
+	map("n", "<leader>fgs", "<cmd>Telescope git_stash<CR>", "Git stash")
+	map("n", "<leader>fgS", "<cmd>Telescope git_status<CR>", "Git status")
+	map("n", "<leader>fcb", function()
+		require("telescope.builtin").git_bcommits()
+	end, "Commits in buffer")
+	map("n", "<C-l>", "<cmd>Telescope keymaps<CR>", "Keymap palette")
+
+	-- Git
+	map("n", "<leader>gp", function()
+		vim.system({ "git", "pull" }, { text = true }, function(result)
+			vim.notify(result.stdout)
+		end)
+	end, "Git Pull")
+	map("n", "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<CR>", "Toggle git blame inline")
+	map("n", "<leader>gB", "<cmd>Gitsigns blame_line<CR>", "Git blame for buffer")
+	map("n", "<leader>ghp", "<cmd>Gitsigns preview_hunk_inline<CR>", "Preview hunk inline")
+	map("n", "<leader>ghP", "<cmd>Gitsigns preview_hunk<CR>", "Preview hunk")
+	map("n", "<leader>ghr", "<cmd>Gitsigns reset_hunk<CR>", "Reset hunk")
+	map("n", "<leader>ghs", "<cmd>Gitsigns stage_hunk<CR>", "Stage hunk")
+	map("n", "<leader>gid", "<cmd>Gitsigns toggle_word_diff<CR>", "Toggle inline diff")
+	map("n", "<leader>gtn", "<cmd>Gitsigns toggle_numhl<CR>", "Toggle git num highlight")
+	map("n", "<leader>gth", "<cmd>Gitsigns toggle_linehl<CR>", "Toggle git line highlights")
+	map("n", "<leader>gts", "<cmd>Gitsigns toggle_signs<CR>", "Toggle git signs")
+	map("n", "<leader>gl", "<cmd>Gitsigns setloclist<CR>", "Git to location list")
+	map("n", "<leader>gf", "<cmd>Gitsigns setqflist<CR>", "Git to quickfix list")
+end
 
 M.lsp_mappings = function(bufnr)
-  return {
-    {
-      itemgroup = "+LSP",
-      description = "Quick operations based on code project context.",
-      icon = "",
-      keymaps = {
-        {
-          mode = "n",
-          "fr",
-          "<cmd>Telescope lsp_references<CR>",
-          description = "LSP Finder",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "gd",
-          function()
-            require("telescope.builtin").lsp_definitions()
-          end,
-          description = "Peek Definition",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "gD",
-          function()
-            vim.lsp.buf.definition()
-          end,
-          description = "Go to Definition",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>ca",
-          function()
-            require("tiny-code-action").code_action()
-            -- vim.lsp.buf.code_action()
-          end,
-          description = "Code Action",
-          buffer = bufnr,
-          noremap = true,
-          silent = true,
-        },
-        {
-          mode = "n",
-          "<leader>rn",
-          function()
-            vim.lsp.buf.rename()
-          end,
-          description = "Rename Symbol",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>E",
-          "<cmd>Trouble symbols toggle<CR>",
-          description = "Toggle Outline",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "gi",
-          function()
-            require("telescope.builtin").lsp_implementations()
-          end,
-          -- require("telescope.builtin").lsp_implementations(),
-          -- vim.lsp.buf.implementation,
-          description = "Go to Implementation",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>gR",
-          function()
-            require("telescope.builtin").lsp_references()
-          end,
-          description = "Find References",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>sh",
-          function()
-            vim.lsp.buf.signature_help()
-          end,
-          description = "Signature Help",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "[d",
-          function()
-            vim.diagnostic.goto_prev()
-          end,
-          description = "Previous Diagnostic",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "]d",
-          function()
-            vim.diagnostic.goto_next()
-          end,
-          description = "Next Diagnostic",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>e",
-          function()
-            vim.diagnostic.open_float()
-          end,
-          description = "Show Diagnostic Under Cursor",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>F",
-          function()
-            vim.lsp.buf.format({ async = true })
-          end,
-          description = "Format Code",
-          buffer = bufnr,
-        },
-        {
-          mode = "n",
-          "<leader>ws",
-          function()
-            vim.lsp.buf.workspace_symbol()
-          end,
-          description = "Workspace Symbol",
-          buffer = bufnr,
-        },
-      },
-    },
-  }
+	local o = { buffer = bufnr, silent = true }
+	local function lmap(mode, lhs, rhs, desc)
+		vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", o, { desc = desc }))
+	end
+
+	lmap("n", "fr", "<cmd>Telescope lsp_references<CR>", "Find References")
+	lmap("n", "gd", function()
+		require("telescope.builtin").lsp_definitions()
+	end, "Peek Definition")
+	lmap("n", "gD", function()
+		vim.lsp.buf.definition()
+	end, "Go to Definition")
+	lmap("n", "<leader>ca", function()
+		require("tiny-code-action").code_action()
+	end, "Code Action")
+	lmap("n", "<leader>rn", function()
+		vim.lsp.buf.rename()
+	end, "Rename Symbol")
+	lmap("n", "<leader>E", "<cmd>Trouble symbols toggle<CR>", "Toggle Outline")
+	lmap("n", "gi", function()
+		require("telescope.builtin").lsp_implementations()
+	end, "Go to Implementation")
+	lmap("n", "<leader>gR", function()
+		require("telescope.builtin").lsp_references()
+	end, "Find References")
+	lmap("n", "<leader>sh", function()
+		vim.lsp.buf.signature_help()
+	end, "Signature Help")
+	lmap("n", "[d", function()
+		vim.diagnostic.jump({ count = -1, float = true })
+	end, "Previous Diagnostic")
+	lmap("n", "]d", function()
+		vim.diagnostic.jump({ count = 1, float = true })
+	end, "Next Diagnostic")
+	lmap("n", "<leader>e", function()
+		vim.diagnostic.open_float()
+	end, "Show Diagnostic")
+	lmap("n", "<leader>F", function()
+		vim.lsp.buf.format({ async = true })
+	end, "Format Code")
+	lmap("n", "<leader>ws", function()
+		vim.lsp.buf.workspace_symbol("")
+	end, "Workspace Symbol")
 end
 
 M.dap_mappings = function(dap)
-  return {
-    {
-      itemgroup = "+Debugger",
-      description = "Comprehensive debugging",
-      icon = "",
-      keymaps = {
-        { mode = "n", "<F5>",      dap.continue,          description = "Start/Continue Debugging" },
-        { mode = "n", "<F10>",     dap.step_over,         description = "Step Over" },
-        { mode = "n", "<F11>",     dap.step_into,         description = "Step Into" },
-        { mode = "n", "<F12>",     dap.step_out,          description = "Step Out" },
-        { mode = "n", "<Leader>b", dap.toggle_breakpoint, description = "Toggle Breakpoint" },
-        {
-          mode = "n",
-          "<Leader>cb",
-          function()
-            dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-          end,
-          description = "Conditional Breakpoint",
-        },
-        { mode = "n", "<Leader>dr", dap.repl.open, description = "Open REPL" },
-        { mode = "n", "<Leader>dl", dap.run_last,  description = "Run Last Session" },
-      },
-    },
+	map("n", "<F5>", dap.continue, "Start/Continue Debugging")
+	map("n", "<F10>", dap.step_over, "Step Over")
+	map("n", "<F11>", dap.step_into, "Step Into")
+	map("n", "<F12>", dap.step_out, "Step Out")
+	map("n", "<Leader>b", dap.toggle_breakpoint, "Toggle Breakpoint")
+	map("n", "<Leader>cb", function()
+		dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+	end, "Conditional Breakpoint")
+	map("n", "<Leader>dr", dap.repl.open, "Open REPL")
+	map("n", "<Leader>dl", dap.run_last, "Run Last Session")
 
-    {
-      itemgroup = "+Harpoon",
-      description = "Pin files",
-      icon = "󰒥",
-      keymaps = {
-        {
-          "<leader>h",
-          icon = "󰒥",
-          description = "Harpoon files",
-        },
-        {
-          "<leader>hp",
-          function()
-            require("harpoon"):list():add()
-          end,
-          description = "Harpoon file",
-        },
-        {
-          "<leader>hq",
-          function()
-            require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
-          end,
-          description = "Harpoon menu",
-        },
-        {
-          mode = "n",
-          "<leader>hd",
-          function()
-            local cursor_highlight =
-                vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
-            print("Highlight group under cursor: " .. cursor_highlight)
-          end,
-          description = "Show highlight group under cursor",
-        },
-      },
-    },
-
-    -- Obsidian
-    {
-      itemgroup = "+Notes",
-      description = "Obsidian note management",
-      icon = "󰈙",
-      keymaps = {
-        { "<leader>ns", "<cmd>ObsidianSearch<CR>", description = "Search notes" },
-        { "<leader>nN", "<cmd>ObsidianNew<CR>",    description = "New note" },
-        { "<leader>nl", "<cmd>ObsidianLink<CR>",   description = "Link note" },
-      },
-    },
-  }
+	-- Harpoon
+	map("n", "<leader>hp", function()
+		require("harpoon"):list():add()
+	end, "Harpoon file")
+	map("n", "<leader>hq", function()
+		require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+	end, "Harpoon menu")
+	map("n", "<leader>hd", function()
+		local hl = vim.fn.synIDattr(vim.fn.synID(vim.fn.line("."), vim.fn.col("."), 1), "name")
+		print("Highlight group under cursor: " .. hl)
+	end, "Show highlight group")
 end
 
 return M

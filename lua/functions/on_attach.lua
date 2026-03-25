@@ -1,30 +1,31 @@
--- lua/config/lsp/on_attach.lua
+-- lua/functions/on_attach.lua
+-- Called from LspAttach autocmd for every attaching client.
+-- Registers format-on-save for supported filetypes (skips C/C++ and Markdown).
 return function(client, bufnr)
-	-- Buffer-local mappings here, eg. require("config.keymaps").lsp_mappings(bufnr)
-	-- Inlay hints, etc.
-
-	if
-		vim.bo[bufnr].filetype ~= "c"
-		and vim.bo[bufnr].filetype ~= "h"
-		and vim.bo[bufnr].filetype ~= "md"
-		and client.supports_method("textDocument/formatting")
-	then
-		local group = vim.api.nvim_create_augroup("LspAutoFormat", { clear = false })
-		vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = group,
-			buffer = bufnr,
-			callback = function()
-				vim.lsp.buf.format({
-					bufnr = bufnr,
-					filter = function(lsp_client)
-						if package.loaded["null-ls"] and lsp_client.name == "null-ls" then
-							return true
-						end
-						return lsp_client.name ~= "null-ls"
-					end,
-				})
-			end,
-		})
+	local ft = vim.bo[bufnr].filetype
+	-- if ft == "c" or ft == "h" or ft == "md" then
+	-- return
+	-- end
+	if not client.supports_method("textDocument/formatting") then
+		return
 	end
+
+	local group = vim.api.nvim_create_augroup("LspAutoFormat_" .. bufnr, { clear = true })
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		group = group,
+		buffer = bufnr,
+		callback = function()
+			vim.lsp.buf.format({
+				bufnr = bufnr,
+				filter = function(lsp_client)
+					-- Prefer none-ls (null-ls) when it is attached to this buffer
+					local null_ls_clients = vim.lsp.get_clients({ name = "null-ls", bufnr = bufnr })
+					if #null_ls_clients > 0 then
+						return lsp_client.name == "null-ls"
+					end
+					return true
+				end,
+			})
+		end,
+	})
 end

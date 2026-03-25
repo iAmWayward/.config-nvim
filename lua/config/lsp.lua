@@ -12,6 +12,22 @@ vim.lsp.config.clangd = {
   -- end,
 }
 
+vim.lsp.config.lua_ls = {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
+  settings = {
+    Lua = {
+      runtime = { version = "LuaJIT" },
+      workspace = {
+        checkThirdParty = false,
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      diagnostics = { globals = { "vim" } },
+      telemetry = { enable = false },
+    },
+  },
+}
+
 vim.lsp.enable("clangd")
 vim.lsp.enable("lua_ls")
--- vim.lsp.completion.enable(nil, args.data.client_id, bufnr, { autotrigger = true })

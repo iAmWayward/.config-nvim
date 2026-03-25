@@ -1,8 +1,7 @@
 -- init.lua
+vim.g.mapleader = " "
+vim.g.maplocalleader = "\\"
 
 require("config.lazy")
+require("config.autocmds")
 require("config.lsp")
--- Load LSP configs dynamically
-
-require("luasnip.loaders.from_lua").lazy_load({ paths = "~/.config/nvim/lua/snippets" })
-

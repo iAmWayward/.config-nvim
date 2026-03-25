@@ -5,7 +5,6 @@ return {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",
     dependencies = {
-      "mrjones2014/legendary.nvim",
       {
         "rcarriga/nvim-dap-ui",
         dependencies = {
@@ -43,8 +42,7 @@ return {
     },
     config = function()
       local dap = require("dap")
-      local keymaps = require("config.keymaps")
-      require("legendary").keymaps(keymaps.dap_mappings(dap))
+      require("config.keymaps").dap_mappings(dap)
 
       -- Example Adapter for gdb (adjust for embedded development)
       dap.adapters.gdb = {

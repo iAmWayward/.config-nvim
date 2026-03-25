@@ -3,76 +3,56 @@ return {
   {
     "alex-popov-tech/store.nvim",
     dependencies = {
-      "OXY2DEV/markview.nvim", -- optional, for pretty readme preview / help window
+      "OXY2DEV/markview.nvim",
     },
     cmd = "Store",
     keys = {
-      { "<leader>s", "<cmd>Store<cr>", desc = "Open Plugin Store" },
+      { "<leader>S", "<cmd>Store<cr>", desc = "Open Plugin Store" },
     },
-    opts = {
-      -- optional configuration here
-    },
+    opts = {},
   },
   {
     "folke/which-key.nvim",
-    init = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-    end,
     opts = {
       win = {
         border = "rounded",
       },
     },
-  },
-  {
-    "mrjones2014/legendary.nvim",
-    keys = {
-      { "<C-l>", "<cmd>Legendary<cr>", desc = "Open Command Palette" },
-    },
-    dependencies = {
-      "kkharji/sqlite.lua",
-      "folke/which-key.nvim",
-    },
-    config = function()
-      require("legendary").setup({
-        include_builtin = true,
-        include_legendary_cmds = true,
-        extensions = {
-          which_key = {
-            -- auto_register = {
-            -- 	neotree = true,
-            -- 	neo_tree = true,
-            -- 	["neo-tree"] = true,
-            -- },
-            auto_register = true,
-            do_binding = false,
-            use_groups = true,
-          },
-        },
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
+
+      -- Group labels shown in the which-key popup
+      wk.add({
+        { "<leader>t",   group = "Toggle" },
+        { "<leader>n",   group = "NoNeckPain / Notes / Neogen" },
+        { "<leader>nn",  group = "NoNeckPain" },
+        { "<leader>ng",  desc  = "Generate docs (Neogen)" },
+        { "<leader>p",   group = "Games" },
+        { "<leader>f",   group = "Find (Telescope)" },
+        { "<leader>fg",  group = "Git Finder" },
+        { "<leader>g",   group = "Git" },
+        { "<leader>gh",  group = "Git Hunks" },
+        { "<leader>gt",  group = "Git Toggles" },
+        { "<leader>x",   group = "Diagnostics/Trouble" },
+        { "<leader>xt",  group = "Trouble types" },
+        { "<leader>d",   group = "Documentation" },
+        { "<leader>h",   group = "Harpoon" },
+        { "<leader>u",   group = "UI/Hints" },
+        { "<leader>c",   group = "Code" },
+        { "<leader>r",   group = "Refactor" },
+        { "<leader>w",   group = "Workspace" },
+        { "z",           group = "Folds" },
       })
 
-      -- Load all regular keymaps
-      local keymaps = require("config.keymaps")
-      require("legendary").keymaps(keymaps.items)
-
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "neo-tree",
-        callback = function()
-          require("legendary").keymaps(require("config.keymaps").items, {
-            buffer = true,
-            filetype = "neo-tree",
-          })
-        end,
-      })
+      -- Register all global keymaps
+      require("config.keymaps").setup()
     end,
   },
   {
     "m4xshen/hardtime.nvim",
-
     dependencies = { "MunifTanjim/nui.nvim" },
     opts = {
-
       lazy = false,
       enabled = false,
       restriction_mode = "hint",
@@ -81,15 +61,11 @@ return {
   { "mong8se/actually.nvim" },
   { "tenxsoydev/tabs-vs-spaces.nvim", config = true },
   {
-    'TrevorS/uuid-nvim',
+    "TrevorS/uuid-nvim",
     lazy = true,
     config = function()
-      -- optional configuration
-      require('uuid').setup {
-        case = 'upper',
-      }
-      vim.keymap.set('n', '<leader>ut', uuidnvim.toggle_highlighting)
-      vim.keymap.set('i', '<C-u>', uuid.insert_v4)
+      require("uuid").setup({ case = "upper" })
+      vim.keymap.set("i", "<C-u>", require("uuid").insert_v4, { desc = "Insert UUID" })
     end,
-  }
+  },
 }
