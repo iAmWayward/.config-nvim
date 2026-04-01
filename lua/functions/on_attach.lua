@@ -2,10 +2,6 @@
 -- Called from LspAttach autocmd for every attaching client.
 -- Registers format-on-save for supported filetypes (skips C/C++ and Markdown).
 return function(client, bufnr)
-	local ft = vim.bo[bufnr].filetype
-	-- if ft == "c" or ft == "h" or ft == "md" then
-	-- return
-	-- end
 	if not client.supports_method("textDocument/formatting") then
 		return
 	end
@@ -15,6 +11,9 @@ return function(client, bufnr)
 		group = group,
 		buffer = bufnr,
 		callback = function()
+			if not require("functions.toggle-format").is_enabled() then
+				return
+			end
 			vim.lsp.buf.format({
 				bufnr = bufnr,
 				filter = function(lsp_client)

@@ -18,6 +18,13 @@ M.setup = function()
 	end, "Toggle Inlay Hints")
 
 	-- Toggle
+	map("n", "<leader>th", function()
+		local bufnr = vim.api.nvim_get_current_buf()
+		vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+	end, "Toggle Inlay Hints")
+	map("n", "<leader>tf", function()
+		require("functions.toggle-format").toggle()
+	end, "Toggle Format on Save")
 	map("n", "<leader>tT", "<cmd>Themery<cr>", "Change theme")
 	map("n", "<leader>tt", "<cmd>TransparentToggle<cr>", "Toggle Transparency")
 	map("n", "<leader>tw", "<cmd>Twilight<cr>", "Toggle Twilight")
