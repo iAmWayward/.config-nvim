@@ -29,7 +29,17 @@ return {
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
       "rrethy/nvim-treesitter-endwise",
-      "HiPhish/rainbow-delimiters.nvim",
+      {
+        "HiPhish/rainbow-delimiters.nvim",
+        config = function()
+          require("rainbow-delimiters.setup").setup({
+            condition = function(buf)
+              local ok, parser = pcall(vim.treesitter.get_parser, buf)
+              return ok and parser ~= nil
+            end,
+          })
+        end,
+      },
       "windwp/nvim-autopairs",
       {
         "JoosepAlviste/nvim-ts-context-commentstring",
