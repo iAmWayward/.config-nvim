@@ -29,5 +29,33 @@ vim.lsp.config.lua_ls = {
   },
 }
 
+local ignored_py_codes = { E501 = true, W293 = true }
+
+vim.lsp.config.basedpyright = {
+  cmd = { "basedpyright-langserver", "--stdio" },
+  filetypes = { "python" },
+  root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", ".git" },
+  settings = {
+    basedpyright = {
+      analysis = {
+        typeCheckingMode = "standard",
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+      },
+    },
+  },
+  handlers = {
+    ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+      if result and result.diagnostics then
+        result.diagnostics = vim.tbl_filter(function(d)
+          return not ignored_py_codes[d.code]
+        end, result.diagnostics)
+      end
+      vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
+    end,
+  },
+}
+
 vim.lsp.enable("clangd")
 vim.lsp.enable("lua_ls")
+vim.lsp.enable("basedpyright")

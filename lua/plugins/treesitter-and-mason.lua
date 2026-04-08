@@ -2,7 +2,9 @@ return {
   -- Mason LSP bridge
   {
     "mason-org/mason-lspconfig.nvim",
-    opts = {},
+    opts = {
+      ensure_installed = { "basedpyright" },
+    },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",

@@ -2,7 +2,7 @@
 -- Tracks whether format-on-save is enabled globally.
 local M = {}
 
-M._enabled = true
+M._enabled = false
 
 function M.is_enabled()
 	return M._enabled
