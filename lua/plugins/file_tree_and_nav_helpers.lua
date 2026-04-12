@@ -119,6 +119,7 @@ return {
         },
       },
       window = {
+        width = 35,
         mappings = {
           ["<CR>"] = "open",
           ["p"] = "paste_from_clipboard",

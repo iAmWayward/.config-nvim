@@ -3,6 +3,7 @@ return {
     "iAmWayward/Scratchview",
     main = "scratchview",
     lazy = false,
+    branch = "volt-up",
     priority = 100,
     opts = {
       priority = { "readme", "git_log", "directory" },

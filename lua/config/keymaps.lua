@@ -47,6 +47,7 @@ M.setup = function()
 	map("n", "<leader>pk", "<cmd>KillKillKill<cr>", "Killer Sheep")
 	map("n", "<leader>pa", "<cmd>CellularAutomaton make_it_rain<cr>", "Make It Rain")
 	map("n", "<leader>pA", "<cmd>CellularAutomaton game_of_life<cr>", "Game of Life")
+	map("n", "<leader>pT", "<cmd>Typr<cr>", "Type test")
 
 	-- Folds (UFO)
 	map("n", "zR", function()
