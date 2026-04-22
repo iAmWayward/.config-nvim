@@ -282,10 +282,6 @@ return {
       vim.api.nvim_create_autocmd("ColorScheme", {
         pattern = "*",
         callback = function()
-          -- Small delay to ensure theme is fully applied
-          -- vim.defer_fn(function()
-          -- 	require("config.kitty-colors").set_kitty_colors()
-          -- end, 100)
           vim.defer_fn(function()
             require("transparent").clear_prefix("DropBar")
             require("transparent").clear_prefix("lualine_c")
@@ -607,9 +603,8 @@ return {
 						vim.api.nvim_set_hl(0, "lualine_c", { bg = "NONE" })
         ]],
         globalAfter = [[
-				      require('config.kitty-colors').set_kitty_colors()
               vim.api.nvim_set_hl(0, "lualine_c", { bg = "NONE" })
-				    ]],
+            ]],
       })
     end,
   },
