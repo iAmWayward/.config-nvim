@@ -2,7 +2,7 @@
 -- Called from LspAttach autocmd for every attaching client.
 -- Registers format-on-save for supported filetypes (skips C/C++ and Markdown).
 return function(client, bufnr)
-	if not client.supports_method("textDocument/formatting") then
+	if not client:supports_method("textDocument/formatting") then
 		return
 	end
 
