@@ -8,7 +8,7 @@ return {
       })
     end,
   },
-  { "vyfor/cord.nvim" },
+  { "vyfor/cord.nvim", event = "VeryLazy", opts = {} },
   {
     "karb94/neoscroll.nvim",
     event = "VeryLazy",

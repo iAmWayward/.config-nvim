@@ -3,7 +3,7 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     opts = {
-      ensure_installed = { "basedpyright" },
+      ensure_installed = { "basedpyright", "clangd" },
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
@@ -36,7 +36,7 @@ return {
       local ensure_installed = {
         "bash", "c", "cpp", "cmake", "comment", "css", "diff", "dockerfile",
         "fish", "go", "html", "http", "ini", "java", "javascript", "jsdoc",
-        "json", "jsonc", "lua", "luadoc", "make", "markdown", "markdown_inline",
+        "json", "lua", "luadoc", "make", "markdown", "markdown_inline",
         "python", "query", "regex", "ruby", "rust", "toml", "tsx", "typescript",
         "vim", "vimdoc", "xml", "yaml",
       }
