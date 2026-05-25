@@ -28,6 +28,7 @@ M.setup = function()
 	map("n", "<leader>tT", "<cmd>Themery<cr>", "Change theme")
 	map("n", "<leader>tt", "<cmd>TransparentToggle<cr>", "Toggle Transparency")
 	map("n", "<leader>tw", "<cmd>Twilight<cr>", "Toggle Twilight")
+	map("n", "<leader>tp", "<cmd>PrismGroups<cr>", "Toggle Prism groups")
 	map("n", "<leader>ts", "<cmd>TabsVsSpacesToggle<cr>", "Tabs vs Spaces")
 	map("n", "<leader>td", function()
 		require("functions.toggle-diagnostics").cycle()
@@ -164,10 +165,16 @@ M.setup = function()
 		require("neoscroll").zb({ half_win_duration = 250 })
 	end)
 	map({ "n", "v", "x", "i" }, "<PageUp>", function()
-		require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, { duration = 250 })
+		require("neoscroll").scroll(-vim.api.nvim_win_get_height(0) + 10, {
+			duration = 250,
+			info = { center = true },
+		})
 	end, "Page Up")
 	map({ "n", "v", "x", "i" }, "<PageDown>", function()
-		require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, { duration = 250 })
+		require("neoscroll").scroll(vim.api.nvim_win_get_height(0) - 10, {
+			duration = 250,
+			info = { center = true },
+		})
 	end, "Page Down")
 
 	-- Telescope

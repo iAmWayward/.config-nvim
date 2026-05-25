@@ -20,7 +20,11 @@ return {
       duration_multiplier = 1.2,
       easing = "linear", -- quadratic, linear,
       pre_hook = nil,
-      post_hook = nil,
+      post_hook = function(info)
+        if info and info.center then
+          vim.cmd("normal! zz")
+        end
+      end,
       performance_mode = false,
       ignored_events = {
         "WinScrolled",
