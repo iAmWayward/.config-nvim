@@ -221,6 +221,17 @@ M.setup = function()
 	map("n", "<leader>gts", "<cmd>Gitsigns toggle_signs<CR>", "Toggle git signs")
 	map("n", "<leader>gl", "<cmd>Gitsigns setloclist<CR>", "Git to location list")
 	map("n", "<leader>gf", "<cmd>Gitsigns setqflist<CR>", "Git to quickfix list")
+
+	-- Devcontainer. Passing `bash` is required: with no arg, attach defaults to
+	-- `nvim` and hits the broken Neovim-0.12 socket path (host :connect to a
+	-- container-only socket), which exits the host nvim on compose projects.
+	map("n", "<leader>Ds", "<cmd>DevcontainerStart<CR>", "Devcontainer: Start")
+	map("n", "<leader>Da", "<cmd>DevcontainerAttach bash<CR>", "Devcontainer: Attach shell")
+	map("n", "<leader>De", "<cmd>DevcontainerExec bash<CR>", "Devcontainer: Exec shell")
+	map("n", "<leader>Dx", "<cmd>DevcontainerStop<CR>", "Devcontainer: Stop")
+	map("n", "<leader>DX", "<cmd>DevcontainerStopAll<CR>", "Devcontainer: Stop all")
+	map("n", "<leader>Dl", "<cmd>DevcontainerLogs<CR>", "Devcontainer: Logs")
+	map("n", "<leader>Dc", "<cmd>DevcontainerEditNearestConfig<CR>", "Devcontainer: Edit config")
 end
 
 M.lsp_mappings = function(bufnr)

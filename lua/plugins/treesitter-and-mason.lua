@@ -150,7 +150,7 @@ return {
         nvim_install_as_root = false,
         generate_commands = true,
         autocommands = { init = false, clean = false, update = false },
-        log_level = "info",
+        log_level = "trace",
         disable_recursive_config_search = false,
         cache_images = true,
         attach_mounts = {
