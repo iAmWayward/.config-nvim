@@ -159,9 +159,12 @@ return {
           neovim_state   = { enabled = false, options = {} },
         },
         always_mount = {},
-        container_runtime = nil,
-        compose_command = nil,
-        backup_compose_command = nil,
+        -- Pin to docker. Auto-detect picks podman-compose first when both are
+        -- installed, but podman-compose 1.x rejects the --format flag the
+        -- plugin uses to query container IDs, breaking :DevcontainerAttach.
+        container_runtime = "docker",
+        compose_command = "docker compose",
+        backup_compose_command = "docker compose",
       })
     end,
   },
